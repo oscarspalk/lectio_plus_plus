@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/widgets.dart';
-import 'package:notify_app/model/lectio_model.dart';
+import 'package:lpp/model/lectio_model.dart';
+import 'package:lpp/screens/error.dart';
+import 'package:lpp/screens/loading.dart';
 import 'package:provider/provider.dart';
 
 class HomeworkScreen extends StatelessWidget {
@@ -12,13 +11,30 @@ class HomeworkScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LectioModel>(
       builder: (context, value, child) {
-        return ListView.builder(
-          itemCount: value.homework.length,
-          itemBuilder: (context, index) {
-            var homework = value.homework[index];
-            return ListTile(
-              title: Text(homework.activity),
-            );
+        return FutureBuilder(
+          future: value.student!.getHomework(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const ErrorScreen();
+            }
+            if (snapshot.hasData) {
+              if (snapshot.data!.isEmpty) {
+                return const Center(
+                  child: Text("Der ikke er nogle lektier til dig. 😘"),
+                );
+              }
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  var homework = snapshot.data![index];
+                  return ListTile(
+                    title: Text(homework.activity),
+                  );
+                },
+              );
+            } else {
+              return const LoadingScreen();
+            }
           },
         );
       },
