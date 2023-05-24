@@ -1,16 +1,8 @@
-# notify_app
+# LectioPlusPlus
+A unofficial app for Lectio, which is free for everyone (hopefully forever).
 
-A new Flutter project.
+## Idea
+It is an oligopol that there are only 2 Lectio apps on Appstore and Google Play, which both cost money. This is unreasonable as Lectio itself is free. Hence is this app a free alternative.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Installation
+LectioPlusPlus will become available for download on Google Play and maybe on Appstore.
