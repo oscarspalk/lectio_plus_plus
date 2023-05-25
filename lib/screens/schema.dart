@@ -17,36 +17,9 @@ class _SchemaScreenState extends State<SchemaScreen> {
   DateTime selectedTime = DateTime.now();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     int week = weekFromDateTime(selectedTime);
-    return /*Column(children: [
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  selectedTime = selectedTime.subtract(const Duration(days: 7));
-                });
-              },
-              icon: const Icon(EvaIcons.arrowBack)),
-          Text("Uge $week"),
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  selectedTime = selectedTime.add(const Duration(days: 7));
-                });
-              },
-              icon: const Icon(EvaIcons.arrowForward))
-        ],
-      ),*/
-        Consumer<LectioModel>(
+    return Consumer<LectioModel>(
       builder: (context, value, child) {
         return FutureBuilder(
           future: value.student!.getCalendar(selectedTime.year, week),
@@ -64,7 +37,6 @@ class _SchemaScreenState extends State<SchemaScreen> {
           },
         );
       },
-    ); /*
-    ]);*/
+    );
   }
 }
