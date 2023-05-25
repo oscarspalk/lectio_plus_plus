@@ -8,7 +8,7 @@ class WeekView extends StatefulWidget {
   const WeekView({super.key, required this.week});
 
   @override
-  _WeekViewState createState() => _WeekViewState();
+  State<WeekView> createState() => _WeekViewState();
 }
 
 class _WeekViewState extends State<WeekView> {
