@@ -25,7 +25,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
   @override
   Widget build(BuildContext context) {
     int week = weekFromDateTime(selectedTime);
-    return Column(children: [
+    return /*Column(children: [
       Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,26 +46,26 @@ class _SchemaScreenState extends State<SchemaScreen> {
               },
               icon: const Icon(EvaIcons.arrowForward))
         ],
-      ),
-      Consumer<LectioModel>(
-        builder: (context, value, child) {
-          return FutureBuilder(
-            future: value.student!.getCalendar(selectedTime.year, week),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return const ErrorScreen();
-              }
-              if (snapshot.hasData) {
-                return WeekView(
-                  week: snapshot.data!,
-                );
-              } else {
-                return const LoadingScreen();
-              }
-            },
-          );
-        },
-      )
-    ]);
+      ),*/
+        Consumer<LectioModel>(
+      builder: (context, value, child) {
+        return FutureBuilder(
+          future: value.student!.getCalendar(selectedTime.year, week),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const ErrorScreen();
+            }
+            if (snapshot.hasData) {
+              return WeekView(
+                week: snapshot.data!,
+              );
+            } else {
+              return const LoadingScreen();
+            }
+          },
+        );
+      },
+    ); /*
+    ]);*/
   }
 }

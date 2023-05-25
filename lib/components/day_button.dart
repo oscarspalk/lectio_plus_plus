@@ -23,7 +23,6 @@ class DayButton extends StatelessWidget {
             minHeight: boxSize,
             minWidth: boxSize),
         onPressed: onTap,
-        child: Text(day.date
-            .substring(day.date.indexOf("("), day.date.indexOf(")") + 1)));
+        child: Text(day.date.toString()));
   }
 }

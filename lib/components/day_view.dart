@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_week_view/flutter_week_view.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 
 class DayView extends StatelessWidget {
@@ -8,6 +9,6 @@ class DayView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return WeekView(dates: []);
   }
 }
