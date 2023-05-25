@@ -1,4 +1,3 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lpp/components/week_view.dart';
 import 'package:lpp/helpers.dart';
