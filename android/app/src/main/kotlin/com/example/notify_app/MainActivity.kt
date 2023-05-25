@@ -1,4 +1,4 @@
-package com.example.notify_app
+package com.oscarspalk.lpp
 
 import io.flutter.embedding.android.FlutterActivity
 
