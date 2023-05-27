@@ -46,7 +46,11 @@ class _HomeState extends State<Home> {
             ],
           ),
           body: <Widget>[
-            const SchemaScreen(),
+            Consumer<LectioModel>(
+              builder: (context, value, child) {
+                return SchemaScreen(student: value.student);
+              },
+            ),
             const HomeworkScreen()
           ][_selectedIndex]);
     });
