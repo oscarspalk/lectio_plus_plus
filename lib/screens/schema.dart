@@ -17,11 +17,9 @@ class _SchemaScreenState extends State<SchemaScreen> {
   late PageController _pageController;
   List<Week> weeks = [];
   final int startIndex = 200;
-  int _currentDayIndex = 0;
   @override
   void initState() {
     super.initState();
-    _currentDayIndex = startIndex;
     _pageController = PageController(initialPage: startIndex);
   }
 
@@ -59,11 +57,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
     return PageView.builder(
       controller: _pageController,
       scrollDirection: Axis.horizontal,
-      onPageChanged: (value) {
-        setState(() {
-          _currentDayIndex = value;
-        });
-      },
+      onPageChanged: (value) {},
       itemBuilder: (context, index) {
         var actualIndex = index - startIndex;
         return FutureBuilder(
