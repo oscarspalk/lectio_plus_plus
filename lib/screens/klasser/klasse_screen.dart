@@ -21,7 +21,7 @@ class KlasseScreen extends StatelessWidget {
               return const ErrorScreen();
             }
             if (snapshot.hasData && snapshot.data != null) {
-              List<Class> classes = snapshot.data!;
+              List<ClassRef> classes = snapshot.data!;
               return ListView.builder(
                 itemCount: classes.length,
                 itemBuilder: (context, index) {
@@ -32,7 +32,7 @@ class KlasseScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return KlasseMembersScreen(klasse: klasse);
+                          return KlasseMembersScreen(klasseRef: klasse);
                         },
                       ));
                     },
