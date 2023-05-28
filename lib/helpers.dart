@@ -23,6 +23,10 @@ int weekFromDateTime(DateTime dateTime) {
   return (restMillis / millisPerWeek).floor() + 1;
 }
 
+String formatDateReadable(DateTime input) {
+  return "${weekDays[input.weekday - 1]} ${input.day}. ${months[input.month - 1]}";
+}
+
 final List<String> months = [
   "Januar",
   "Februar",

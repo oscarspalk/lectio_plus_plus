@@ -6,26 +6,19 @@ import 'package:lpp/screens/homework.dart';
 import 'package:lpp/screens/schema.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Forside extends StatefulWidget {
+  const Forside({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Forside> createState() => _ForsideState();
 }
 
-class _HomeState extends State<Home> {
+class _ForsideState extends State<Forside> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Consumer<LectioModel>(builder: (context, value, child) {
       return Scaffold(
-          drawer: LppDrawer(),
-          appBar: AppBar(
-            title: const Text(
-              "Lectio++",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
           bottomNavigationBar: NavigationBar(
             selectedIndex: _selectedIndex,
             onDestinationSelected: (value) {

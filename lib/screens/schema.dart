@@ -34,11 +34,9 @@ class _SchemaScreenState extends State<SchemaScreen> {
       if (maybeWeek.isNotEmpty) {
         tmpWeek = maybeWeek.elementAt(0);
       } else {
-        debugPrint("fetching again");
         tmpWeek = await widget.student!.getCalendar(pageKey.year, week);
         weeks.add(tmpWeek);
       }
-      debugPrint(tmpWeek.weekNum.toString());
       final items =
           tmpWeek.days.where((element) => element.date.day == pageKey.day);
       if (items.isNotEmpty) {

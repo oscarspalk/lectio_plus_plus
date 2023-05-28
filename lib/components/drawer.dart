@@ -1,24 +1,30 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
 class Destination {
-  Destination(this.icon, this.name);
+  Destination(this.icon, this.name, this.screen);
   IconData icon;
   String name;
+  Widget screen;
 }
 
 class LppDrawer extends StatelessWidget {
-  LppDrawer({super.key});
-
-  final List<Destination> destinations = [
-    Destination(EvaIcons.homeOutline, "Forside"),
-    Destination(EvaIcons.archive, "Opgaver")
-  ];
+  const LppDrawer(
+      {super.key,
+      required this.destinations,
+      required this.onChange,
+      required this.index});
+  final List<Destination> destinations;
+  final Function(int index) onChange;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     return NavigationDrawer(
-      selectedIndex: 3,
+      selectedIndex: index,
+      onDestinationSelected: (int x) {
+        onChange(x);
+        Navigator.pop(context);
+      },
       children: [
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 13.0),
