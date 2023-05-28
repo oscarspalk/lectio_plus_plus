@@ -1,4 +1,3 @@
-import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
 import 'package:lpp/helpers.dart';

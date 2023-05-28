@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lpp/color_schemes.dart';
 import 'package:lpp/controller/root_controller.dart';
 import 'package:lpp/model/lectio_model.dart';
-import 'package:lpp/screens/forside.dart';
 import 'package:lpp/start_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:calendar_view/calendar_view.dart';
@@ -36,7 +35,7 @@ class MyApp extends StatelessWidget {
                 );
               }
               if (value.loggedIn) {
-                return RootController();
+                return const RootController();
               } else {
                 return const StartScreen();
               }

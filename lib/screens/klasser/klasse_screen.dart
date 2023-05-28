@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lectio_wrapper/types/assignment.dart';
 import 'package:lectio_wrapper/types/class.dart';
-import 'package:lpp/helpers.dart';
 import 'package:lpp/model/lectio_model.dart';
 import 'package:lpp/screens/error.dart';
 import 'package:lpp/screens/klasser/klasse_members_screen.dart';

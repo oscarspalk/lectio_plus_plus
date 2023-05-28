@@ -6,6 +6,8 @@ import 'package:lpp/screens/klasser/klasse_screen.dart';
 import 'package:lpp/screens/opgaver/opgave_screen.dart';
 
 class RootController extends StatefulWidget {
+  const RootController({super.key});
+
   @override
   State<RootController> createState() => _RootControllerState();
 }
@@ -15,7 +17,7 @@ class _RootControllerState extends State<RootController> {
   final List<Destination> destinations = [
     Destination(EvaIcons.homeOutline, "Forside", const Forside()),
     Destination(EvaIcons.archiveOutline, "Opgaver", const OpgaveScreen()),
-    Destination(EvaIcons.people, "Klasser", KlasseScreen())
+    Destination(EvaIcons.people, "Klasser", const KlasseScreen())
   ];
 
   void setScreen(int n) {

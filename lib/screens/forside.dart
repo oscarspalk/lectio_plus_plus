@@ -1,6 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:lpp/components/drawer.dart';
 import 'package:lpp/model/lectio_model.dart';
 import 'package:lpp/screens/homework.dart';
 import 'package:lpp/screens/schema.dart';
