@@ -10,7 +10,7 @@ class Destination {
 class LppDrawer extends StatelessWidget {
   LppDrawer({super.key});
 
-  List<Destination> destinations = [
+  final List<Destination> destinations = [
     Destination(EvaIcons.homeOutline, "Forside"),
     Destination(EvaIcons.archive, "Opgaver")
   ];

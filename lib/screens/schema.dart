@@ -56,8 +56,6 @@ class _SchemaScreenState extends State<SchemaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime selectedTime =
-        start.add(Duration(days: _currentDayIndex - startIndex));
     return PageView.builder(
       controller: _pageController,
       scrollDirection: Axis.horizontal,
