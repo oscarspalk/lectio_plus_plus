@@ -23,15 +23,39 @@ class KlasseMembersScreen extends StatelessWidget {
               return ListView.builder(
                 itemCount: klasse.students.length,
                 itemBuilder: (context, index) {
-                  return FutureBuilder(
-                    future: klasse.students[index].getBasicInfo(),
-                    builder: (context, snapshot) {
-                      return ListTile(
-                        title: snapshot.hasData
-                            ? Text(snapshot.data!.name)
-                            : const CircularProgressIndicator(),
+                  var student = snapshot.data!.students[index];
+                  return ListTile(
+                    onLongPress: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            insetPadding: null,
+                            child: FutureBuilder(
+                              future: student.getImage(student.imageId),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Image.memory(snapshot.data!);
+                                }
+                                return const CircularProgressIndicator();
+                              },
+                            ),
+                          );
+                        },
                       );
                     },
+                    leading: FutureBuilder(
+                      future: student.getImage(student.imageId),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return CircleAvatar(
+                            foregroundImage: MemoryImage(snapshot.data!),
+                          );
+                        }
+                        return const CircularProgressIndicator();
+                      },
+                    ),
+                    title: Text(student.name),
                   );
                 },
               );
