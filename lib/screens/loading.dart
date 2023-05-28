@@ -5,8 +5,11 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: const Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

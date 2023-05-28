@@ -1,5 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:lpp/components/drawer.dart';
 import 'package:lpp/model/lectio_model.dart';
 import 'package:lpp/screens/homework.dart';
 import 'package:lpp/screens/schema.dart';
@@ -18,6 +19,13 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Consumer<LectioModel>(builder: (context, value, child) {
       return Scaffold(
+          drawer: LppDrawer(),
+          appBar: AppBar(
+            title: const Text(
+              "Lectio++",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
           bottomNavigationBar: NavigationBar(
             selectedIndex: _selectedIndex,
             onDestinationSelected: (value) {
@@ -30,19 +38,6 @@ class _HomeState extends State<Home> {
                   icon: Icon(EvaIcons.calendar), label: "Skema"),
               NavigationDestination(
                   icon: Icon(EvaIcons.bookOpenOutline), label: "Lektier")
-            ],
-          ),
-          appBar: AppBar(
-            title: const Text(
-              "Lectio++",
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-            actions: [
-              IconButton(
-                  onPressed: () async {
-                    await value.signOut();
-                  },
-                  icon: const Icon(EvaIcons.logOut))
             ],
           ),
           body: <Widget>[

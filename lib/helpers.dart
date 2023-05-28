@@ -22,3 +22,27 @@ int weekFromDateTime(DateTime dateTime) {
   int restMillis = dateTime.millisecondsSinceEpoch - millisToYear;
   return (restMillis / millisPerWeek).floor() + 1;
 }
+
+final List<String> months = [
+  "Januar",
+  "Februar",
+  "Marts",
+  "April",
+  "Maj",
+  "Juni",
+  "Juli",
+  "August",
+  "September",
+  "Oktober",
+  "November",
+  "December"
+];
+final List<String> weekDays = [
+  "Mandag",
+  "Tirsdag",
+  "Onsdag",
+  "Torsdag",
+  "Fredag",
+  "Lørdag",
+  "Søndag"
+];
