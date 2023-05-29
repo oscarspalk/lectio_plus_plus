@@ -70,7 +70,8 @@ class _SchemaScreenState extends State<SchemaScreen> {
             int signedDiff =
                 startIndex + (maybeDate.isBefore(start) ? -1 : 1) * dayDiff;
             debugPrint(signedDiff.toString());
-            _pageController.jumpToPage(signedDiff);
+            _pageController.animateToPage(signedDiff,
+                duration: const Duration(seconds: 1), curve: Curves.easeIn);
           }
         },
         child: const Icon(EvaIcons.calendar),

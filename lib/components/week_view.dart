@@ -9,51 +9,39 @@ class WeekView extends StatelessWidget {
   const WeekView({super.key, required this.day});
   @override
   Widget build(BuildContext context) {
+    if (!context.mounted) {
+      return const SizedBox.shrink();
+    }
     var theme = Theme.of(context);
 
     var firstEventStart = day.events.isNotEmpty ? day.events.first.start : null;
     var lastEventEnd = day.events.isNotEmpty ? day.events.last.end : null;
     return Container(
-      color: Theme.of(context).colorScheme.onBackground,
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: wv.WeekView(
-        inScrollableWidget: false,
-        userZoomable: false,
-        minimumTime: firstEventStart != null && firstEventStart.hour < 8
-            ? wv.HourMinute(
-                hour: firstEventStart.hour - 1, minute: firstEventStart.minute)
-            : const wv.HourMinute(hour: 7, minute: 30),
-        maximumTime: lastEventEnd != null && lastEventEnd.hour > 17
-            ? wv.HourMinute(
-                hour: lastEventEnd.hour + 1, minute: lastEventEnd.minute - 20)
-            : const wv.HourMinute(hour: 17, minute: 30),
-        events: day.events.map((dayEvent) {
-          return wv.FlutterWeekViewEvent(
-              margin: const EdgeInsets.all(8.0),
-              backgroundColor: dayEvent.status == "Aflyst!"
-                  ? theme.colorScheme.error
-                  : theme.colorScheme.primaryContainer,
-              title: checkForFormat(dayEvent.team),
-              description: dayEvent.teacher,
-              start: dayEvent.start,
-              end: dayEvent.end);
-        }).toList(),
-        dates: [day.date],
-        style: const wv.WeekViewStyle(headerSize: 0.0),
-        hoursColumnStyle: wv.HoursColumnStyle(
-          width: 40.0,
-          color: theme.colorScheme.onBackground,
-          timeFormatter: (time) {
-            return "${time.hour}";
-          },
-        ),
-        dayViewStyleBuilder: (date) {
-          return wv.DayViewStyle(
-              backgroundRulesColor: theme.colorScheme.primary,
-              backgroundColor: theme.colorScheme.onBackground);
-        },
-      ),
-    );
+        color: Theme.of(context).colorScheme.onBackground,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: wv.DayView(
+          date: day.date,
+          minimumTime: firstEventStart != null && firstEventStart.hour < 8
+              ? wv.HourMinute(
+                  hour: firstEventStart.hour - 1,
+                  minute: firstEventStart.minute)
+              : const wv.HourMinute(hour: 7, minute: 30),
+          maximumTime: lastEventEnd != null && lastEventEnd.hour > 17
+              ? wv.HourMinute(
+                  hour: lastEventEnd.hour + 1, minute: lastEventEnd.minute - 20)
+              : const wv.HourMinute(hour: 17, minute: 30),
+          events: day.events.map((dayEvent) {
+            return wv.FlutterWeekViewEvent(
+                margin: const EdgeInsets.all(8.0),
+                backgroundColor: dayEvent.status == "Aflyst!"
+                    ? theme.colorScheme.error
+                    : theme.colorScheme.primaryContainer,
+                title: checkForFormat(dayEvent.team),
+                description: dayEvent.teacher,
+                start: dayEvent.start,
+                end: dayEvent.end);
+          }).toList(),
+        ));
   }
 }
