@@ -14,6 +14,8 @@ String checkForFormat(String input) {
         return "Spansk";
       case "de1":
         return "Design & arkitektur";
+      case "ke":
+        return "Kemi";
     }
   }
   return input;

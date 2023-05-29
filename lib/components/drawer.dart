@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Destination {
-  Destination(this.icon, this.name, this.screen);
+  Destination(
+      {required this.icon,
+      required this.name,
+      required this.screen,
+      required this.selectedIcon});
   IconData icon;
+  IconData selectedIcon;
   String name;
   Widget screen;
 }
@@ -35,7 +40,9 @@ class LppDrawer extends StatelessWidget {
         ),
         ...destinations.map((e) {
           return NavigationDrawerDestination(
-              icon: Icon(e.icon), label: Text(e.name));
+              selectedIcon: Icon(e.selectedIcon),
+              icon: Icon(e.icon),
+              label: Text(e.name));
         })
       ],
     );

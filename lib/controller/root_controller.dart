@@ -15,9 +15,21 @@ class RootController extends StatefulWidget {
 class _RootControllerState extends State<RootController> {
   int _selectedScreen = 0;
   final List<Destination> destinations = [
-    Destination(EvaIcons.homeOutline, "Forside", const Forside()),
-    Destination(EvaIcons.archiveOutline, "Opgaver", const OpgaveScreen()),
-    Destination(EvaIcons.people, "Klasser", const KlasseScreen())
+    Destination(
+        icon: EvaIcons.homeOutline,
+        selectedIcon: EvaIcons.home,
+        name: "Forside",
+        screen: const Forside()),
+    Destination(
+        icon: EvaIcons.archiveOutline,
+        selectedIcon: EvaIcons.archive,
+        name: "Opgaver",
+        screen: const OpgaveScreen()),
+    Destination(
+        icon: EvaIcons.peopleOutline,
+        selectedIcon: EvaIcons.people,
+        name: "Klasser",
+        screen: const KlasseScreen())
   ];
 
   void setScreen(int n) {

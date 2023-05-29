@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
           theme: ThemeData.dark(useMaterial3: true).copyWith(
             colorScheme: darkColorScheme,
           ),
-          initialRoute: '/',
           home: Consumer<LectioModel>(
             builder: (context, value, child) {
               if (value.loading) {

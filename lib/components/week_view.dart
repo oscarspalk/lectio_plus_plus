@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:flutter_week_view/flutter_week_view.dart' as wv;
 import 'package:lpp/formatters.dart';
+import 'package:lpp/screens/modul/modul_details_screen.dart';
 
 class WeekView extends StatelessWidget {
   final Day day;
@@ -9,9 +10,6 @@ class WeekView extends StatelessWidget {
   const WeekView({super.key, required this.day});
   @override
   Widget build(BuildContext context) {
-    if (!context.mounted) {
-      return const SizedBox.shrink();
-    }
     var theme = Theme.of(context);
 
     var firstEventStart = day.events.isNotEmpty ? day.events.first.start : null;
@@ -21,6 +19,10 @@ class WeekView extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: wv.DayView(
+          style: const wv.DayViewStyle(
+            headerSize: 0.0,
+          ),
+          userZoomable: false,
           date: day.date,
           minimumTime: firstEventStart != null && firstEventStart.hour < 8
               ? wv.HourMinute(
@@ -30,9 +32,16 @@ class WeekView extends StatelessWidget {
           maximumTime: lastEventEnd != null && lastEventEnd.hour > 17
               ? wv.HourMinute(
                   hour: lastEventEnd.hour + 1, minute: lastEventEnd.minute - 20)
-              : const wv.HourMinute(hour: 17, minute: 30),
+              : const wv.HourMinute(hour: 18),
           events: day.events.map((dayEvent) {
             return wv.FlutterWeekViewEvent(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return ModulDetailsScreen(event: dayEvent);
+                    },
+                  ));
+                },
                 margin: const EdgeInsets.all(8.0),
                 backgroundColor: dayEvent.status == "Aflyst!"
                     ? theme.colorScheme.error

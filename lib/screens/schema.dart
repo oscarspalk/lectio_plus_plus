@@ -54,27 +54,66 @@ class _SchemaScreenState extends State<SchemaScreen> {
     return null;
   }
 
+  Future<void> showPicker() async {
+    DateTime? maybeDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now().add(Duration(days: (index - startIndex))),
+        firstDate: DateTime.now().subtract(const Duration(days: 150)),
+        lastDate: DateTime.now().add(const Duration(days: 150)));
+    if (maybeDate != null) {
+      int dayDiff = start.getDayDifference(maybeDate);
+      int signedDiff =
+          startIndex + (maybeDate.isBefore(start) ? -1 : 1) * dayDiff;
+      debugPrint(signedDiff.toString());
+      _pageController.animateToPage(signedDiff,
+          duration: const Duration(seconds: 1), curve: Curves.easeIn);
+    }
+  }
+
+  Future<void> skipToBusyDay() async {
+    int counter = 0;
+    Day? nextDay;
+
+    while (nextDay == null || nextDay.events.isEmpty) {
+      counter++;
+      if (counter > 20) {
+        return;
+      }
+      nextDay = await _fetchDay(
+          start.add(Duration(days: index - startIndex + counter)));
+    }
+    _pageController.animateToPage(index + counter,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          DateTime? maybeDate = await showDatePicker(
-              context: context,
-              initialDate:
-                  DateTime.now().add(Duration(days: (index - startIndex))),
-              firstDate: DateTime.now().subtract(const Duration(days: 150)),
-              lastDate: DateTime.now().add(const Duration(days: 150)));
-          if (maybeDate != null) {
-            int dayDiff = start.getDayDifference(maybeDate);
-            int signedDiff =
-                startIndex + (maybeDate.isBefore(start) ? -1 : 1) * dayDiff;
-            debugPrint(signedDiff.toString());
-            _pageController.animateToPage(signedDiff,
-                duration: const Duration(seconds: 1), curve: Curves.easeIn);
-          }
-        },
-        child: const Icon(EvaIcons.calendar),
+      floatingActionButton: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton.extended(
+              heroTag: 1,
+              onPressed: null,
+              label: Text(formatDateReadable(
+                  DateTime.now().add(Duration(days: index - startIndex))))),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: FloatingActionButton(
+              heroTag: 2,
+              tooltip: "Vælg dato",
+              onPressed: showPicker,
+              child: const Icon(EvaIcons.calendar),
+            ),
+          ),
+          FloatingActionButton(
+            heroTag: 3,
+            tooltip: "Spring",
+            onPressed: skipToBusyDay,
+            child: const Icon(EvaIcons.cornerUpRight),
+          ),
+        ],
       ),
       body: PageView.builder(
         controller: _pageController,

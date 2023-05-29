@@ -25,28 +25,31 @@ class OpgaveScreen extends StatelessWidget {
                 ..sort(
                   (a, b) => a.deadline.compareTo(b.deadline),
                 );
-              return ListView.builder(
-                itemCount: assignments.length,
-                itemBuilder: (context, index) {
-                  var opgave = assignments.elementAt(index);
-                  return Card(
-                      color: opgave.status == "Afleveret"
-                          ? Colors.green.shade700
-                          : null,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                opgave.title,
-                                style: headerStyle,
-                              ),
-                              Text(formatDateReadable(opgave.deadline)),
-                              Text(opgave.status)
-                            ]),
-                      ));
-                },
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                  itemCount: assignments.length,
+                  itemBuilder: (context, index) {
+                    var opgave = assignments.elementAt(index);
+                    return Card(
+                        color: opgave.status == "Afleveret"
+                            ? Colors.green.shade700
+                            : null,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  opgave.title,
+                                  style: headerStyle,
+                                ),
+                                Text(formatDateReadable(opgave.deadline)),
+                                Text(opgave.status)
+                              ]),
+                        ));
+                  },
+                ),
               );
             }
             return const LoadingScreen();
