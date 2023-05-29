@@ -14,8 +14,12 @@ class OpgaveScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LectioModel>(
       builder: (context, value, child) {
+        var time = DateTime.now();
         return FutureBuilder(
-          future: value.student!.getAssignments(),
+          future: value.student!.getAssignments(
+              time.isBefore(DateTime(time.year, 7, 31))
+                  ? time.year - 1
+                  : time.year),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const ErrorScreen();
