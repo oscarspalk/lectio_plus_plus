@@ -23,12 +23,16 @@ class KlasseScreen extends StatelessWidget {
             if (snapshot.hasData && snapshot.data != null) {
               List<ClassRef> classes = snapshot.data!;
               return ListView.builder(
-                itemCount: classes.length,
+                itemCount: classes.length * 2,
                 itemBuilder: (context, index) {
-                  var klasse = classes.elementAt(index);
+                  if (index % 2 != 0) {
+                    return Divider(
+                      color: Theme.of(context).colorScheme.outline,
+                    );
+                  }
+
+                  var klasse = classes.elementAt((index / 2).floor());
                   return ListTile(
-                    tileColor:
-                        Theme.of(context).colorScheme.surface.withOpacity(0.5),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {

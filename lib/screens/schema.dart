@@ -1,3 +1,5 @@
+import 'package:calendar_view/calendar_view.dart' as cv;
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/components/week_view.dart';
@@ -17,10 +19,12 @@ class _SchemaScreenState extends State<SchemaScreen> {
   late PageController _pageController;
   List<Week> weeks = [];
   final int startIndex = 200;
+  late int index;
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: startIndex);
+    index = startIndex;
   }
 
   Future<Day?> _fetchDay(DateTime pageKey) async {
@@ -52,27 +56,53 @@ class _SchemaScreenState extends State<SchemaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      controller: _pageController,
-      scrollDirection: Axis.horizontal,
-      onPageChanged: (value) {},
-      itemBuilder: (context, index) {
-        var actualIndex = index - startIndex;
-        return FutureBuilder(
-          future: _fetchDay(start.add(Duration(days: actualIndex))),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const ErrorScreen();
-            }
-            if (snapshot.hasData && snapshot.data != null) {
-              Day day = snapshot.data!;
-              return WeekView(day: day);
-            } else {
-              return const LoadingScreen();
-            }
-          },
-        );
-      },
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          DateTime? maybeDate = await showDatePicker(
+              context: context,
+              initialDate:
+                  DateTime.now().add(Duration(days: (index - startIndex))),
+              firstDate: DateTime.now().subtract(const Duration(days: 150)),
+              lastDate: DateTime.now().add(const Duration(days: 150)));
+          if (maybeDate != null) {
+            int dayDiff = start.getDayDifference(maybeDate);
+            int signedDiff =
+                startIndex + (maybeDate.isBefore(start) ? -1 : 1) * dayDiff;
+            debugPrint(signedDiff.toString());
+            _pageController.jumpToPage(signedDiff);
+          }
+        },
+        child: const Icon(EvaIcons.calendar),
+      ),
+      body: PageView.builder(
+        controller: _pageController,
+        scrollDirection: Axis.horizontal,
+        onPageChanged: (value) {
+          setState(() {
+            index = value;
+          });
+        },
+        itemBuilder: (context, index) {
+          var actualIndex = index - startIndex;
+          return FutureBuilder(
+            future: _fetchDay(start.add(Duration(days: actualIndex))),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return const ErrorScreen();
+              }
+              if (snapshot.hasData && snapshot.data != null) {
+                Day day = snapshot.data!;
+                return WeekView(
+                  day: day,
+                );
+              } else {
+                return const LoadingScreen();
+              }
+            },
+          );
+        },
+      ),
     );
   }
 

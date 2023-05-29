@@ -21,21 +21,31 @@ class KlasseMembersScreen extends StatelessWidget {
             if (snapshot.hasData) {
               var klasse = snapshot.data!;
               return ListView.builder(
-                itemCount: klasse.students.length,
+                itemCount: klasse.students.length * 2,
                 itemBuilder: (context, index) {
-                  var student = snapshot.data!.students[index];
+                  if (index % 2 != 0) {
+                    return Divider(
+                      color: Theme.of(context).colorScheme.outline,
+                    );
+                  }
+
+                  var student = snapshot.data!.students[(index / 2).floor()];
+
                   return ListTile(
                     onLongPress: () {
                       showDialog(
                         context: context,
                         builder: (context) {
                           return Dialog(
-                            insetPadding: null,
+                            backgroundColor: Colors.transparent,
                             child: FutureBuilder(
                               future: student.getImage(student.imageId),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
-                                  return Image.memory(snapshot.data!);
+                                  return Image.memory(
+                                    snapshot.data!,
+                                    fit: BoxFit.fill,
+                                  );
                                 }
                                 return const CircularProgressIndicator();
                               },
