@@ -113,6 +113,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.17.3"
+  date_format:
+    dependency: "direct main"
+    description:
+      name: date_format
+      sha256: "8e5154ca363411847220c8cbc43afcf69c08e8debe40ba09d57710c25711760c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.7"
   eva_icons_flutter:
     dependency: "direct main"
     description:
@@ -260,10 +268,10 @@ packages:
     dependency: "direct main"
     description:
       name: lectio_wrapper
-      sha256: c66ec0c90bd7498f23183f9f38905c1b1fa42dc6ff77a7691e6251f3c476f1b6
+      sha256: "62b42c814d009b1b58a2a56a3a0431c2850e666acd6cd460fea8c585e45a103c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.2"
+    version: "0.1.3"
   lints:
     dependency: transitive
     description:
