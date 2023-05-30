@@ -4,8 +4,8 @@ class Destination {
   Destination(
       {required this.icon,
       required this.name,
-      required this.screen,
-      required this.selectedIcon});
+      required this.selectedIcon,
+      required this.screen});
   IconData icon;
   IconData selectedIcon;
   String name;
@@ -17,8 +17,10 @@ class LppDrawer extends StatelessWidget {
       {super.key,
       required this.destinations,
       required this.onChange,
-      required this.index});
+      required this.index,
+      required this.relatedDestinations});
   final List<Destination> destinations;
+  final List<Destination> relatedDestinations;
   final Function(int index) onChange;
   final int index;
 
@@ -31,11 +33,11 @@ class LppDrawer extends StatelessWidget {
         Navigator.pop(context);
       },
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 13.0),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
           child: Text(
-            'Lectio++',
-            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
+            'Skole',
+            style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
         ...destinations.map((e) {
@@ -43,7 +45,21 @@ class LppDrawer extends StatelessWidget {
               selectedIcon: Icon(e.selectedIcon),
               icon: Icon(e.icon),
               label: Text(e.name));
-        })
+        }),
+        const Divider(indent: 28, endIndent: 28),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
+          child: Text(
+            'Andet',
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+        ),
+        ...relatedDestinations.map((e) {
+          return NavigationDrawerDestination(
+              selectedIcon: Icon(e.selectedIcon),
+              icon: Icon(e.icon),
+              label: Text(e.name));
+        }),
       ],
     );
   }
