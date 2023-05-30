@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:flutter_week_view/flutter_week_view.dart' as wv;
 import 'package:lpp/formatters.dart';
+import 'package:lpp/helpers.dart';
 import 'package:lpp/screens/modul/modul_details_screen.dart';
 
 class WeekView extends StatelessWidget {
@@ -24,6 +25,11 @@ class WeekView extends StatelessWidget {
           ),
           userZoomable: false,
           date: day.date,
+          hoursColumnStyle: wv.HoursColumnStyle(
+              timeFormatter: (time) {
+                return time.hour.toString();
+              },
+              interval: const Duration(minutes: 60)),
           minimumTime: firstEventStart != null && firstEventStart.hour < 8
               ? wv.HourMinute(
                   hour: firstEventStart.hour - 1,
@@ -34,7 +40,29 @@ class WeekView extends StatelessWidget {
                   hour: lastEventEnd.hour + 1, minute: lastEventEnd.minute - 20)
               : const wv.HourMinute(hour: 18),
           events: day.events.map((dayEvent) {
+            var diff = dayEvent.end
+                .difference(dayEvent.start)
+                .compareTo(const Duration(minutes: 50));
             return wv.FlutterWeekViewEvent(
+                padding: null,
+                eventTextBuilder: (event, context, dayView, height, width) {
+                  return Container(
+                    decoration: const BoxDecoration(),
+                    width: width,
+                    clipBehavior: Clip.hardEdge,
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(checkForFormat(
+                                standIn(dayEvent.team, dayEvent.title))),
+                            Text(dayEvent.room)
+                          ]),
+                    ),
+                  );
+                },
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
@@ -49,7 +77,9 @@ class WeekView extends StatelessWidget {
                 title: checkForFormat(dayEvent.team),
                 description: dayEvent.teacher,
                 start: dayEvent.start,
-                end: dayEvent.end);
+                end: diff.isNegative
+                    ? dayEvent.start.add(const Duration(minutes: 50))
+                    : dayEvent.end);
           }).toList(),
         ));
   }
