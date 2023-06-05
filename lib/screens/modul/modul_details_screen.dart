@@ -6,6 +6,7 @@ import 'package:lpp/helpers.dart';
 import 'package:lpp/model/lectio_model.dart';
 import 'package:lpp/screens/error.dart';
 import 'package:lpp/screens/loading.dart';
+import 'package:lpp/screens/modul/modul_lektie_screen.dart';
 import 'package:provider/provider.dart';
 
 bool ine(String input) {
@@ -85,7 +86,17 @@ class ModulDetailsScreen extends StatelessWidget {
                         : []),
                     ...snapshot.data!.content.map((e) {
                       return ListTile(
-                        onTap: e.href != null ? () {} : null,
+                        onTap: e.href != null
+                            ? () async {
+                                if (e.href != null) {
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return ModulLektieScreen(content: e);
+                                    },
+                                  ));
+                                }
+                              }
+                            : null,
                         title: Text(e.content),
                         subtitle: e.note != null ? Text(e.note!) : null,
                       );

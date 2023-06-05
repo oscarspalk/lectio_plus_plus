@@ -65,8 +65,9 @@ class _SchemaScreenState extends State<SchemaScreen> {
       int signedDiff =
           startIndex + (maybeDate.isBefore(start) ? -1 : 1) * dayDiff;
       debugPrint(signedDiff.toString());
-      _pageController.animateToPage(signedDiff,
-          duration: const Duration(seconds: 1), curve: Curves.easeIn);
+      _pageController.jumpToPage(
+        signedDiff,
+      );
     }
   }
 
@@ -82,8 +83,9 @@ class _SchemaScreenState extends State<SchemaScreen> {
       nextDay = await _fetchDay(
           start.add(Duration(days: index - startIndex + counter)));
     }
-    _pageController.animateToPage(index + counter,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+    _pageController.jumpToPage(
+      index + counter,
+    );
   }
 
   @override

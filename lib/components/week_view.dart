@@ -56,11 +56,24 @@ class WeekView extends StatelessWidget {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              checkForFormat(
-                                  standIn(dayEvent.team, dayEvent.title)),
-                            ),
-                            Text(dayEvent.room)
+                            Flexible(
+                                fit: FlexFit.loose,
+                                child: Text(
+                                  checkForFormat(
+                                    standIn(dayEvent.team, dayEvent.title),
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                )),
+                            Flexible(
+                                fit: FlexFit.loose,
+                                child: Text(
+                                  dayEvent.room,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                ))
                           ]),
                     ),
                   );
