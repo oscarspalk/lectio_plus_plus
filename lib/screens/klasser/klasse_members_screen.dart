@@ -16,7 +16,7 @@ class KlasseMembersScreen extends StatelessWidget {
       ),
       body: Consumer<LectioModel>(builder: (ctx, value, widget) {
         return FutureBuilder(
-          future: value.student!.getClass(klasseRef),
+          future: value.student!.classes.get(klasseRef),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var klasse = snapshot.data!;

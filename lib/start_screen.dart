@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio/account.dart';
+import 'package:lectio_wrapper/topics/gyms/controller.dart';
 import 'package:lectio_wrapper/types/gym.dart';
-import 'package:lectio_wrapper/utils/scraping.dart';
 import 'package:lpp/model/lectio_model.dart';
 import 'package:lpp/screens/loading.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class _StartScreenState extends State<StartScreen> {
   }
 
   Future<void> getGyms() async {
-    List<Gym> schools = await listGyms();
+    List<Gym> schools = await GymController().list();
     setState(() {
       gyms = schools;
       _selectedGym = gyms[0];

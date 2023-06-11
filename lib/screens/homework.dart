@@ -12,7 +12,7 @@ class HomeworkScreen extends StatelessWidget {
     return Consumer<LectioModel>(
       builder: (context, value, child) {
         return FutureBuilder(
-          future: value.student!.getHomework(),
+          future: value.student!.homework.list(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const ErrorScreen();

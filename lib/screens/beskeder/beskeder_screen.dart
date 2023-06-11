@@ -12,9 +12,14 @@ class BeskederScreen extends StatelessWidget {
     return Consumer<LectioModel>(
       builder: (context, value, child) {
         return FutureBuilder(
-          future: value.student!.getMessages(),
+          future: value.student!.messages.list(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data!.isEmpty) {
+                return const Center(
+                  child: Text("Der er ikke nogle beskeder 😃"),
+                );
+              }
               return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {

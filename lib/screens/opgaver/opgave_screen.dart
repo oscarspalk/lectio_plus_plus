@@ -16,7 +16,7 @@ class OpgaveScreen extends StatelessWidget {
       builder: (context, value, child) {
         var time = DateTime.now();
         return FutureBuilder(
-          future: value.student!.getAssignments(
+          future: value.student!.assignments.list(
               time.isBefore(DateTime(time.year, 7, 31))
                   ? time.year - 1
                   : time.year),

@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lpp/components/drawer.dart';
+import 'package:lpp/screens/absence/absence_screen.dart';
 import 'package:lpp/screens/beskeder/beskeder_screen.dart';
 import 'package:lpp/screens/forside.dart';
 import 'package:lpp/screens/klasser/klasse_screen.dart';
@@ -32,6 +33,11 @@ class _RootControllerState extends State<RootController> {
         selectedIcon: EvaIcons.people,
         name: "Klasser",
         screen: const KlasseScreen()),
+    Destination(
+        icon: EvaIcons.activityOutline,
+        name: "Fravær",
+        selectedIcon: EvaIcons.activity,
+        screen: AbsenceScreen()),
     Destination(
         icon: EvaIcons.messageCircleOutline,
         name: "Beskeder",

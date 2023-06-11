@@ -34,11 +34,14 @@ class LectioModel extends ChangeNotifier {
   }
 
   Future<void> login(Account account) async {
+    loading = true;
+    notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     prefs.setString("username", account.username);
     prefs.setString("password", account.password);
     prefs.setInt("gymId", account.gymId);
     student = await account.login();
+    loading = false;
     notifyListeners();
   }
 }

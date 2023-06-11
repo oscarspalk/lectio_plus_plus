@@ -15,7 +15,7 @@ class KlasseScreen extends StatelessWidget {
     return Consumer<LectioModel>(
       builder: (context, value, child) {
         return FutureBuilder(
-          future: value.student!.getClasses(),
+          future: value.student!.classes.list(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const ErrorScreen();

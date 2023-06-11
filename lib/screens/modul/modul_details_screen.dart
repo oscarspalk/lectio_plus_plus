@@ -1,6 +1,6 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
 import 'package:lpp/formatters.dart';
 import 'package:lpp/helpers.dart';
 import 'package:lpp/model/lectio_model.dart';
@@ -16,7 +16,7 @@ bool ine(String input) {
 class ModulDetailsScreen extends StatelessWidget {
   const ModulDetailsScreen({super.key, required this.event});
 
-  final CalenderEvent event;
+  final CalendarEvent event;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ModulDetailsScreen extends StatelessWidget {
         ),
         body: Consumer<LectioModel>(builder: (context, value, child) {
           return FutureBuilder(
-            future: value.student!.getCalendarEventDetails(event),
+            future: value.student!.events.expand(event),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return const ErrorScreen();
@@ -91,7 +91,18 @@ class ModulDetailsScreen extends StatelessWidget {
                                 if (e.href != null) {
                                   Navigator.push(context, MaterialPageRoute(
                                     builder: (context) {
-                                      return ModulLektieScreen(content: e);
+                                      return FutureBuilder(
+                                        future: value.student!.getCookies(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return ModulLektieScreen(
+                                              content: e,
+                                              cookieJar: snapshot.data!,
+                                            );
+                                          }
+                                          return const LoadingScreen();
+                                        },
+                                      );
                                     },
                                   ));
                                 }
