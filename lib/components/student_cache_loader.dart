@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:lectio_wrapper/lectio/student.dart';
+import 'package:lpp/model/cache_model.dart';
 import 'package:lpp/model/lectio_model.dart';
 import 'package:lpp/screens/error.dart';
 import 'package:lpp/screens/loading.dart';
 import 'package:provider/provider.dart';
 
-class StudentLoader<T> extends StatelessWidget {
+class StudentCacheLoader<T> extends StatelessWidget {
   final Widget Function(T data) builder;
-  final Future<T> Function(Student student) selector;
-  const StudentLoader(
+  final Future<T> Function(LectioCacheModel cache) selector;
+  const StudentCacheLoader(
       {super.key, required this.selector, required this.builder});
 
   @override
@@ -16,7 +16,7 @@ class StudentLoader<T> extends StatelessWidget {
     return Consumer<LectioModel>(
       builder: (context, value, child) {
         return FutureBuilder(
-          future: selector(value.student!),
+          future: selector(value.cache!),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               return builder(snapshot.data as T);
