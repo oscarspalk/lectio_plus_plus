@@ -14,7 +14,6 @@ class WeekView extends StatelessWidget {
     var theme = Theme.of(context);
 
     var firstEventStart = day.events.isNotEmpty ? day.events.first.start : null;
-    var lastEventEnd = day.events.isNotEmpty ? day.events.last.end : null;
     return Container(
         color: Theme.of(context).colorScheme.onBackground,
         width: MediaQuery.of(context).size.width,
@@ -35,10 +34,6 @@ class WeekView extends StatelessWidget {
                   hour: firstEventStart.hour - 1,
                   minute: firstEventStart.minute)
               : const wv.HourMinute(hour: 7, minute: 30),
-          maximumTime: lastEventEnd != null && lastEventEnd.hour > 17
-              ? wv.HourMinute(
-                  hour: lastEventEnd.hour + 1, minute: lastEventEnd.minute - 20)
-              : const wv.HourMinute(hour: 18),
           events: day.events.map((dayEvent) {
             var diff = dayEvent.end
                 .difference(dayEvent.start)

@@ -39,7 +39,9 @@ dependencies:
   flutter_webview_pro: ^3.0.1+4
   fl_chart: ^0.62.0
   flutter_randomcolor: ^1.0.14
-
+  scroll_snap_list: ^0.9.1
+  flutter_swiper_plus: ^2.0.4
+  swipeable_page_route: ^0.4.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

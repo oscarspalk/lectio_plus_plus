@@ -5,12 +5,9 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/components/student_cache_loader.dart';
 import 'package:lpp/components/week_view.dart';
 import 'package:lpp/helpers.dart';
-import 'package:lpp/model/lectio_model.dart';
-import 'package:provider/provider.dart';
 
 class SchemaScreen extends StatefulWidget {
-  const SchemaScreen({super.key, required this.student});
-  final Student? student;
+  const SchemaScreen({super.key});
   @override
   State<SchemaScreen> createState() => _SchemaScreenState();
 }
@@ -48,28 +45,27 @@ class _SchemaScreenState extends State<SchemaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton.extended(
-              heroTag: 1,
-              onPressed: null,
-              label: Text(formatDateReadable(
-                  DateTime.now().add(Duration(days: index - startIndex))))),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6.0),
-            child: FloatingActionButton(
-              heroTag: 2,
-              tooltip: "Vælg dato",
-              onPressed: showPicker,
-              child: const Icon(EvaIcons.calendar),
+        floatingActionButton: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton.extended(
+                heroTag: 1,
+                onPressed: null,
+                label: Text(formatDateReadable(
+                    DateTime.now().add(Duration(days: index - startIndex))))),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6.0),
+              child: FloatingActionButton(
+                heroTag: 2,
+                tooltip: "Vælg dato",
+                onPressed: showPicker,
+                child: const Icon(EvaIcons.calendar),
+              ),
             ),
-          ),
-        ],
-      ),
-      body: Consumer<LectioModel>(builder: (context, value, child) {
-        return PageView.builder(
+          ],
+        ),
+        body: PageView.builder(
           controller: _pageController,
           scrollDirection: Axis.horizontal,
           onPageChanged: (value) {
@@ -81,16 +77,15 @@ class _SchemaScreenState extends State<SchemaScreen> {
             var actualIndex = index - startIndex;
             return StudentCacheLoader(
               selector: (cache) {
-                return cache.weeks.get(start.add(Duration(days: actualIndex)));
+                return cache.weeks
+                    .getDay(start.add(Duration(days: actualIndex)));
               },
               builder: (data) {
                 return WeekView(day: data);
               },
             );
           },
-        );
-      }),
-    );
+        ));
   }
 
   @override

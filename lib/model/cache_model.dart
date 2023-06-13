@@ -2,7 +2,9 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/model/cache/absence.dart';
 import 'package:lpp/model/cache/assignments.dart';
 import 'package:lpp/model/cache/classes.dart';
+import 'package:lpp/model/cache/gyms.dart';
 import 'package:lpp/model/cache/homework.dart';
+import 'package:lpp/model/cache/student.dart';
 import 'package:lpp/model/cache/weeks.dart';
 
 class LectioCacheModel {
@@ -12,10 +14,14 @@ class LectioCacheModel {
         homework = HomeworkCache(student),
         weeks = WeeksCache(student),
         assignments = AssignmentsCache(student),
-        classes = ClassesCache(student);
+        classes = ClassesCache(student),
+        students = StudentCache(student),
+        gyms = GymsCache(student);
   AbsenceCache absence;
   HomeworkCache homework;
   WeeksCache weeks;
   AssignmentsCache assignments;
   ClassesCache classes;
+  StudentCache students;
+  GymsCache gyms;
 }

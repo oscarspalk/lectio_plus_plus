@@ -7,18 +7,23 @@ class WeeksCache extends Cache {
 
   final CachedVariable<List<Week>> _weeks = CachedVariable(storedVariable: []);
 
-  Future<Day> get(DateTime pageKey) async {
-    int week = weekFromDateTime(pageKey);
-    Week? tmpWeek;
+  Future<Week> get(int week, int year) async {
+    late Week tmpWeek;
     var maybeWeek =
         _weeks.storedVariable.where((element) => element.weekNum == week);
     if (maybeWeek.isNotEmpty) {
       tmpWeek = maybeWeek.elementAt(0);
     } else {
-      tmpWeek = await student.weeks.get(pageKey.year, week);
+      tmpWeek = await student.weeks.get(year, week);
       _weeks.storedVariable.add(tmpWeek);
       _weeks.set(_weeks.storedVariable);
     }
+    return tmpWeek;
+  }
+
+  Future<Day> getDay(DateTime pageKey) async {
+    int week = weekFromDateTime(pageKey);
+    var tmpWeek = await get(week, pageKey.year);
     final items =
         tmpWeek.days.where((element) => element.date.day == pageKey.day);
     if (items.isNotEmpty) {
@@ -26,5 +31,16 @@ class WeeksCache extends Cache {
     } else {
       return Day([], [], pageKey);
     }
+  }
+
+  Future<List<Day>> listActiveDays(DateTime now) async {
+    int weekNum = weekFromDateTime(now);
+    var week = await get(weekNum, now.year);
+
+    var thisWeek = week.days;
+    return thisWeek
+        .where(
+            (element) => element.events.isNotEmpty && element.date.isAfter(now))
+        .toList();
   }
 }

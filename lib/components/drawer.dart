@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:lpp/components/student_cache_loader.dart';
 
 class Destination {
   Destination(
@@ -36,6 +39,35 @@ class LppDrawer extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
           child: Text(
+            'Elev',
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+        ),
+        StudentCacheLoader(
+          selector: (cache) => Future.wait([
+            cache.students.getImage(cache.student),
+            cache.gyms.get(cache.student.gymId)
+          ]),
+          studentBuilder: (data, student) {
+            return ListTile(
+              leading: CircleAvatar(
+                foregroundImage: Image.memory(data[0] as Uint8List).image,
+              ),
+              title: Text(
+                student.name,
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+              subtitle: Text(
+                "Egaa Gymnasium",
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant),
+              ),
+            );
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
+          child: Text(
             'Skole',
             style: Theme.of(context).textTheme.titleSmall,
           ),
@@ -46,7 +78,6 @@ class LppDrawer extends StatelessWidget {
               icon: Icon(e.icon),
               label: Text(e.name));
         }),
-        const Divider(indent: 28, endIndent: 28),
         Padding(
           padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
           child: Text(
