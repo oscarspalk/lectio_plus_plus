@@ -1,15 +1,24 @@
 import 'package:flutter/widgets.dart';
 import 'package:lectio_wrapper/lectio/account.dart';
 import 'package:lectio_wrapper/lectio/student.dart';
+import 'package:lpp/model/cache_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LectioModel extends ChangeNotifier {
   Student? student;
   bool get loggedIn => student != null;
   bool loading = true;
-
+  LectioCacheModel? cache;
   LectioModel() {
     checkForExistingAccount();
+  }
+
+  @override
+  void notifyListeners() {
+    if (student != null) {
+      cache = LectioCacheModel(student!);
+    }
+    super.notifyListeners();
   }
 
   void checkForExistingAccount() async {

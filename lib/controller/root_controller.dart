@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:lpp/components/drawer.dart';
 import 'package:lpp/screens/absence/absence_screen.dart';
 import 'package:lpp/screens/beskeder/beskeder_screen.dart';
-import 'package:lpp/screens/forside.dart';
+import 'package:lpp/screens/homework.dart';
 import 'package:lpp/screens/klasser/klasse_screen.dart';
 import 'package:lpp/screens/opgaver/opgave_screen.dart';
+import 'package:lpp/screens/schema.dart';
 import 'package:lpp/screens/settings/settings_screen.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class RootController extends StatefulWidget {
   const RootController({super.key});
@@ -19,10 +21,15 @@ class _RootControllerState extends State<RootController> {
   int _selectedScreen = 0;
   final List<Destination> destinations = [
     Destination(
-        icon: EvaIcons.homeOutline,
-        selectedIcon: EvaIcons.home,
-        name: "Forside",
-        screen: const Forside()),
+        icon: EvaIcons.calendarOutline,
+        selectedIcon: EvaIcons.calendar,
+        name: "Skema",
+        screen: const SchemaScreen()),
+    Destination(
+        icon: EvaIcons.bookOpenOutline,
+        name: "Lektier",
+        selectedIcon: EvaIcons.bookOpen,
+        screen: const HomeworkScreen()),
     Destination(
         icon: EvaIcons.archiveOutline,
         selectedIcon: EvaIcons.archive,
@@ -53,6 +60,8 @@ class _RootControllerState extends State<RootController> {
         selectedIcon: EvaIcons.settings2)
   ];
 
+  final List<int> excludeAppbarIndices = [];
+
   void setScreen(int n) {
     setState(() {
       _selectedScreen = n;
@@ -69,12 +78,14 @@ class _RootControllerState extends State<RootController> {
           onChange: setScreen,
           index: _selectedScreen,
           relatedDestinations: relatedDestinations),
-      appBar: AppBar(
-        title: Text(
-          combinedDestinations[_selectedScreen].name,
-          style: const TextStyle(fontWeight: FontWeight.w500),
-        ),
-      ),
+      appBar: excludeAppbarIndices.contains(_selectedScreen)
+          ? null
+          : MorphingAppBar(
+              title: Text(
+                combinedDestinations[_selectedScreen].name,
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+            ),
       body: combinedDestinations[_selectedScreen].screen,
     );
   }

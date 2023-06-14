@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/absence/entry.dart';
 import 'package:lpp/components/stat.dart';
-import 'package:lpp/components/student_loader.dart';
+import 'package:lpp/components/student_cache_loader.dart';
 import 'package:lpp/formatters.dart';
 
 class AbsenceOverview extends StatelessWidget {
@@ -10,9 +10,9 @@ class AbsenceOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StudentLoader(
-      selector: (student) {
-        return student.absence.list();
+    return StudentCacheLoader(
+      selector: (cache) {
+        return cache.absence.list();
       },
       builder: (absence) {
         double totalModules = 0.0;
