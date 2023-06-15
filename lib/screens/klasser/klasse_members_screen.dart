@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/class.dart';
+import 'package:lpp/bloc/homework/homework_cubit.dart';
+import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/components/loading/student_bloc_builder.dart';
 import 'package:lpp/components/member.dart';
-import 'package:lpp/components/student_cache_loader.dart';
 
 class KlasseMembersScreen extends StatelessWidget {
   final ClassRef klasseRef;
@@ -13,12 +15,12 @@ class KlasseMembersScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(klasseRef.name),
         ),
-        body: StudentCacheLoader(
-          selector: (cache) {
-            return cache.classes.get(klasseRef);
-          },
-          builder: (data) {
-            var klasse = data;
+        body: StudentBlocBuilder<StudentListCubit<Class>, Class?>(
+          bloc: StudentListCubit(getStudentBloc(context).state.student!,
+              (student) => student.classes.get(klasseRef))
+            ..load(),
+          builder: (context, state) {
+            var klasse = state!;
             return ListView.builder(
               itemCount: klasse.students.length * 2,
               itemBuilder: (context, index) {
@@ -27,7 +29,7 @@ class KlasseMembersScreen extends StatelessWidget {
                     color: Theme.of(context).colorScheme.outline,
                   );
                 }
-                var student = data.students[(index / 2).floor()];
+                var student = klasse.students[(index / 2).floor()];
                 return Member(student: student);
               },
             );

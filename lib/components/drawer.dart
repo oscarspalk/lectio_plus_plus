@@ -1,7 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:lpp/components/student_cache_loader.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/bloc/homework/homework_cubit.dart';
+import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/components/loading/student_bloc_builder.dart';
 
 class Destination {
   Destination(
@@ -43,18 +46,27 @@ class LppDrawer extends StatelessWidget {
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
-        StudentCacheLoader(
-          selector: (cache) => Future.wait([
-            cache.students.getImage(cache.student),
-            cache.gyms.get(cache.student.gymId)
-          ]),
-          studentBuilder: (data, student) {
+        BlocConsumer<StudentBloc, StudentState>(
+          builder: (context, state) {
             return ListTile(
-              leading: CircleAvatar(
-                foregroundImage: Image.memory(data[0] as Uint8List).image,
+              leading: SizedBox(
+                height: 40.0,
+                width: 40.0,
+                child:
+                    StudentBlocBuilder<StudentListCubit<Uint8List>, Uint8List?>(
+                        bloc: StudentListCubit(
+                            getStudentBloc(context).state.student!,
+                            (student) => student.getImage(student.imageId))
+                          ..load(),
+                        builder: (context, state) {
+                          return CircleAvatar(
+                            foregroundImage:
+                                Image.memory(state as Uint8List).image,
+                          );
+                        }),
               ),
               title: Text(
-                student.name,
+                state.basicInfo!.name,
                 style: Theme.of(context).textTheme.labelLarge,
               ),
               subtitle: Text(
@@ -64,6 +76,7 @@ class LppDrawer extends StatelessWidget {
               ),
             );
           },
+          listener: (context, state) {},
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),

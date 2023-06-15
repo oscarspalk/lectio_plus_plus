@@ -1,10 +1,13 @@
 import 'package:calendar_view/calendar_view.dart' as cv;
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lpp/components/student_cache_loader.dart';
+import 'package:lpp/bloc/schema/schema_bloc.dart';
+import 'package:lpp/bloc/student_bloc.dart';
 import 'package:lpp/components/week_view.dart';
 import 'package:lpp/helpers.dart';
+import 'package:lpp/screens/loading.dart';
 
 class SchemaScreen extends StatefulWidget {
   const SchemaScreen({super.key});
@@ -15,12 +18,15 @@ class SchemaScreen extends StatefulWidget {
 class _SchemaScreenState extends State<SchemaScreen> {
   final DateTime start = DateTime.now();
   late PageController _pageController;
+  late SchemaBloc schemaBloc;
   List<Week> weeks = [];
   final int startIndex = 200;
   late int index;
   @override
   void initState() {
     super.initState();
+    schemaBloc = SchemaBloc(context.read<StudentBloc>().state.student!);
+    schemaBloc.add(SwitchedDate(start));
     _pageController = PageController(initialPage: startIndex);
     index = startIndex;
   }
@@ -69,19 +75,17 @@ class _SchemaScreenState extends State<SchemaScreen> {
           controller: _pageController,
           scrollDirection: Axis.horizontal,
           onPageChanged: (value) {
-            setState(() {
-              index = value;
-            });
+            schemaBloc.add(
+                SwitchedDate(start.add(Duration(days: value - startIndex))));
           },
           itemBuilder: (context, index) {
-            var actualIndex = index - startIndex;
-            return StudentCacheLoader(
-              selector: (cache) {
-                return cache.weeks
-                    .getDay(start.add(Duration(days: actualIndex)));
-              },
-              builder: (data) {
-                return WeekView(day: data);
+            return BlocBuilder<SchemaBloc, Day?>(
+              bloc: schemaBloc,
+              builder: (context, state) {
+                if (state != null) {
+                  return WeekView(day: state);
+                }
+                return const LoadingScreen();
               },
             );
           },

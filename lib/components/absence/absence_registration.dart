@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
 import 'package:lpp/components/absence/absence_edit.dart';
 import 'package:lpp/components/absence/absence_percentage_circle.dart';
-import 'package:lpp/model/lectio_model.dart';
-import 'package:provider/provider.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class AbsenceRegistration extends StatelessWidget {
@@ -13,32 +11,23 @@ class AbsenceRegistration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: const EdgeInsets.all(10.0),
-      leading: AbsencePercentageCircle(percentage: absenceCause.absence),
-      title: Text(absenceCause.module.team),
-      subtitle: Text(
-          "${absenceCause.cause.name} ${absenceCause.expandedCause.isNotEmpty ? "-" : ""} ${absenceCause.expandedCause}"),
-      trailing: Consumer<LectioModel>(
-        builder: (context, value, child) {
-          return IconButton(
-              onPressed: () {
-                Navigator.push(context, SwipeablePageRoute(
-                  builder: (context) {
-                    return EditAbsence(
-                      cause: absenceCause,
-                      update: (AbsenceCauses updatedCause,
-                          String updatedNote) async {
-                        await value.student!.absence.registrations
-                            .update(absenceCause, updatedCause, updatedNote);
-                        await value.cache!.absence.updateAbsenceRegistrations();
-                      },
-                    );
-                  },
-                ));
-              },
-              icon: const Icon(EvaIcons.editOutline));
-        },
-      ),
-    );
+        contentPadding: const EdgeInsets.all(10.0),
+        leading: AbsencePercentageCircle(percentage: absenceCause.absence),
+        title: Text(absenceCause.module.team),
+        subtitle: Text(
+            "${absenceCause.cause.name} ${absenceCause.expandedCause.isNotEmpty ? "-" : ""} ${absenceCause.expandedCause}"),
+        trailing: IconButton(
+            onPressed: () {
+              Navigator.push(context, SwipeablePageRoute(
+                builder: (context) {
+                  return EditAbsence(
+                    cause: absenceCause,
+                    update: (AbsenceCauses updatedCause,
+                        String updatedNote) async {},
+                  );
+                },
+              ));
+            },
+            icon: const Icon(EvaIcons.editOutline)));
   }
 }

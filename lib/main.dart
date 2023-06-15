@@ -1,45 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:lpp/color_schemes.dart';
-import 'package:lpp/controller/root_controller.dart';
-import 'package:lpp/model/lectio_model.dart';
-import 'package:lpp/start_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:calendar_view/calendar_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/routing/router.dart';
+import 'package:lpp/style/color_schemes.dart';
 
 Future<void> main() async {
-  runApp(ChangeNotifierProvider(
-      create: ((context) => LectioModel()), child: const MyApp()));
+  runApp(const LectioApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class LectioApp extends StatelessWidget {
+  const LectioApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return CalendarControllerProvider(
-        controller: EventController(),
-        child: MaterialApp(
+    return BlocProvider(
+      create: (_) => StudentBloc()..add(LaunchedApp()),
+      child: MaterialApp(
           title: 'Lectio++',
           theme: ThemeData.dark(useMaterial3: true).copyWith(
             colorScheme: darkColorScheme,
           ),
-          home: Consumer<LectioModel>(
-            builder: (context, value, child) {
-              if (value.loading) {
-                return const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-              if (value.loggedIn) {
-                return const RootController();
-              } else {
-                return const StartScreen();
-              }
-            },
-          ),
-        ));
+          home: const AppRouter()),
+    );
   }
 }

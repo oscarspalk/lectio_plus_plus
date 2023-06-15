@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/class.dart';
-import 'package:lpp/components/student_cache_loader.dart';
+import 'package:lpp/bloc/homework/homework_cubit.dart';
+import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/components/loading/student_bloc_builder.dart';
 import 'package:lpp/screens/klasser/klasse_members_screen.dart';
-import 'package:lpp/typograhy.dart';
+import 'package:lpp/style/typograhy.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class KlasseScreen extends StatelessWidget {
   const KlasseScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return StudentCacheLoader(
-      selector: (cache) {
-        return cache.classes.list();
-      },
-      builder: (data) {
-        List<ClassRef> classes = data;
+    return StudentBlocBuilder<StudentListCubit<List<ClassRef>>,
+        List<ClassRef>?>(
+      bloc: StudentListCubit(getStudentBloc(context).state.student!,
+          (student) => student.classes.list())
+        ..load(),
+      builder: (context, state) {
+        List<ClassRef> classes = state!;
         return ListView.builder(
           itemCount: classes.length * 2,
           itemBuilder: (context, index) {
@@ -23,11 +27,10 @@ class KlasseScreen extends StatelessWidget {
                 color: Theme.of(context).colorScheme.outline,
               );
             }
-
             var klasse = classes.elementAt((index / 2).floor());
             return ListTile(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
+                Navigator.push(context, SwipeablePageRoute(
                   builder: (context) {
                     return KlasseMembersScreen(klasseRef: klasse);
                   },

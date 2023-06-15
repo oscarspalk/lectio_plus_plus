@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
-import 'package:lpp/components/student_cache_loader.dart';
+import 'package:lpp/bloc/homework/homework_cubit.dart';
+import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/components/loading/student_bloc_builder.dart';
 import 'package:lpp/helpers.dart';
-import 'package:lpp/typograhy.dart';
+import 'package:lpp/style/typograhy.dart';
 
 class OpgaveScreen extends StatelessWidget {
   const OpgaveScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return StudentCacheLoader(
-      selector: (cache) {
+    return StudentBlocBuilder<StudentListCubit<List<Assignment>>,
+        List<Assignment>?>(
+      bloc: StudentListCubit(getStudentBloc(context).state.student!, (student) {
         var time = DateTime.now();
-        return cache.assignments.list(time.isBefore(DateTime(time.year, 7, 31))
-            ? time.year - 1
-            : time.year);
-      },
-      builder: (data) {
-        List<Assignment> assignments = data
+        return student.assignments.list(
+            time.isBefore(DateTime(time.year, 7, 31))
+                ? time.year - 1
+                : time.year);
+      })
+        ..load(),
+      builder: (context, state) {
+        List<Assignment> assignments = state!
           ..sort(
             (a, b) => a.deadline.compareTo(b.deadline),
           );

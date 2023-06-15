@@ -1,32 +1,33 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lpp/components/student_cache_loader.dart';
+import 'package:lpp/bloc/homework/homework_cubit.dart';
+import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/components/loading/student_bloc_builder.dart';
 
 class Member extends StatelessWidget {
   const Member({super.key, required this.student});
   final Student student;
   @override
   Widget build(BuildContext context) {
-    return StudentCacheLoader(
-      selector: (cache) => cache.students.getImage(student),
-      builder: (data) {
-        return ListTile(
-          onLongPress: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return Dialog(
-                    backgroundColor: Colors.transparent,
-                    child: Image.memory(data));
-              },
+    return ListTile(
+      leading: SizedBox(
+        height: 40.0,
+        width: 40.0,
+        child: StudentBlocBuilder<StudentListCubit<Uint8List>, Uint8List?>(
+          bloc: StudentListCubit(getStudentBloc(context).state.student!,
+              (primaryStudent) => primaryStudent.getImage(student.imageId))
+            ..load(),
+          builder: (context, state) {
+            return CircleAvatar(
+              radius: 24.0,
+              foregroundImage: Image.memory(state!).image,
             );
           },
-          leading: CircleAvatar(
-            foregroundImage: Image.memory(data).image,
-          ),
-          title: Text(student.name),
-        );
-      },
+        ),
+      ),
+      title: Text(student.name),
     );
   }
 }
