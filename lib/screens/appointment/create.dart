@@ -1,6 +1,8 @@
-import 'package:date_format/date_format.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/bloc/time_select_bloc.dart';
+import 'package:lpp/components/control/time_select.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class CreateAppointmentScreen extends StatefulWidget {
@@ -12,8 +14,13 @@ class CreateAppointmentScreen extends StatefulWidget {
 }
 
 class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
-  DateTime startTime = DateTime.now();
-  DateTime endTime = DateTime.now().add(const Duration(minutes: 20));
+  late AppointmentBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = AppointmentBloc(getStudentBloc(context).state.student!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,40 +30,40 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            const TextField(
-              decoration: InputDecoration(label: Text("Titel")),
-            ),
-            const TextField(
-              decoration: InputDecoration(label: Text("Note (valgfri)")),
-            ),
-            InputDecorator(
-              decoration: const InputDecoration(
-                label: Text("Start tidspunkt"),
+        child: BlocBuilder<AppointmentBloc, PrivateAppointmentState>(
+          bloc: bloc,
+          builder: (context, state) {
+            return Column(children: [
+              TextField(
+                onChanged: bloc.setTitle,
+                decoration: const InputDecoration(label: Text("Titel")),
               ),
-              child: Text(formatDate(startTime, ['HH', ':', 'mm'])),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: InputDecorator(
-                    decoration: const InputDecoration(
-                      label: Text("Slut tidspunkt"),
-                    ),
-                    child: Text(formatDate(endTime, ['HH', ':', 'mm'])),
-                  ),
-                ),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      EvaIcons.swap,
-                    ))
-              ],
-            ),
-          ],
+              TextField(
+                onChanged: bloc.setNote,
+                decoration:
+                    const InputDecoration(label: Text("Note (valgfri)")),
+              ),
+              TimeSelect(
+                name: "Start tidspunkt",
+                time: state.start,
+                update: bloc.setStart,
+              ),
+              TimeSelect(
+                name: "Slut tidspunkt",
+                time: state.end,
+                update: bloc.setEnd,
+              ),
+              FilledButton(onPressed: () {}, child: const Text("Opret"))
+            ]);
+          },
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    bloc.close();
   }
 }

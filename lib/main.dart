@@ -16,6 +16,9 @@ class LectioApp extends StatelessWidget {
     return BlocProvider(
       create: (_) => StudentBloc()..add(LaunchedApp()),
       child: MaterialApp(
+          locale: const Locale(
+            'dk',
+          ),
           title: 'Lectio++',
           theme: ThemeData.dark(useMaterial3: true).copyWith(
             colorScheme: darkColorScheme,
