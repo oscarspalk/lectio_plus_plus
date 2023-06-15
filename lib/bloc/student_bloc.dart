@@ -35,7 +35,6 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         var student = await Account(gymId, username, password).login();
         if (student != null) {
           var info = await student.getBasicInfo();
-
           emit(StudentState(StudentStates.authorized,
               student: student, basicInfo: info));
         } else {

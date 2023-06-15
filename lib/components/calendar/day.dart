@@ -1,7 +1,6 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
-import 'package:lpp/components/week_view.dart';
 import 'package:lpp/formatters.dart';
 import 'package:lpp/helpers.dart';
 
@@ -12,7 +11,7 @@ class DayWidget extends StatelessWidget {
   final bool active;
   @override
   Widget build(BuildContext context) {
-    return WeekView(day: day);
+    return Container(); //WeekView(day: day);
   }
 
   final TextStyle dateNumberStyle =

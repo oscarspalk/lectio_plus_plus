@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
-import 'package:lectio_wrapper/types/weeks/calendar_event_details.dart';
+import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lpp/model/lectio_model.dart';
 
 import 'package:provider/provider.dart';

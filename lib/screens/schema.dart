@@ -8,6 +8,7 @@ import 'package:lpp/bloc/student_bloc.dart';
 import 'package:lpp/components/week_view.dart';
 import 'package:lpp/helpers.dart';
 import 'package:lpp/screens/loading.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class SchemaScreen extends StatefulWidget {
   const SchemaScreen({super.key});
@@ -20,21 +21,20 @@ class _SchemaScreenState extends State<SchemaScreen> {
   late PageController _pageController;
   late SchemaBloc schemaBloc;
   List<Week> weeks = [];
-  final int startIndex = 200;
-  late int index;
+  final int startIndex = 365;
+
   @override
   void initState() {
     super.initState();
     schemaBloc = SchemaBloc(context.read<StudentBloc>().state.student!);
     schemaBloc.add(SwitchedDate(start));
     _pageController = PageController(initialPage: startIndex);
-    index = startIndex;
   }
 
   Future<void> showPicker() async {
     DateTime? maybeDate = await showDatePicker(
         context: context,
-        initialDate: DateTime.now().add(Duration(days: (index - startIndex))),
+        initialDate: schemaBloc.state.selectedTime,
         firstDate: DateTime.now().subtract(const Duration(days: 150)),
         lastDate: DateTime.now().add(const Duration(days: 150)));
     if (maybeDate != null) {
@@ -50,46 +50,54 @@ class _SchemaScreenState extends State<SchemaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        floatingActionButton: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton.extended(
-                heroTag: 1,
-                onPressed: null,
-                label: Text(formatDateReadable(
-                    DateTime.now().add(Duration(days: index - startIndex))))),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6.0),
-              child: FloatingActionButton(
+    return BlocProvider(
+      create: (context) => schemaBloc,
+      child: BlocBuilder<SchemaBloc, SchemaState?>(
+        bloc: schemaBloc,
+        builder: (context, state) {
+          if (state == null) {
+            return const LoadingScreen();
+          }
+          return Scaffold(
+              appBar: MorphingAppBar(
+                elevation: 0.0,
+                leading: IconButton(
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    icon: const Icon(EvaIcons.menu)),
+                title: Column(
+                  children: [
+                    Text(
+                      months[state.selectedTime.month - 1],
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text("Uge ${weekFromDateTime(state.selectedTime)}",
+                        style: Theme.of(context).textTheme.labelSmall)
+                  ],
+                ),
+              ),
+              floatingActionButton: FloatingActionButton(
                 heroTag: 2,
                 tooltip: "Vælg dato",
                 onPressed: showPicker,
                 child: const Icon(EvaIcons.calendar),
               ),
-            ),
-          ],
-        ),
-        body: PageView.builder(
-          controller: _pageController,
-          scrollDirection: Axis.horizontal,
-          onPageChanged: (value) {
-            schemaBloc.add(
-                SwitchedDate(start.add(Duration(days: value - startIndex))));
-          },
-          itemBuilder: (context, index) {
-            return BlocBuilder<SchemaBloc, Day?>(
-              bloc: schemaBloc,
-              builder: (context, state) {
-                if (state != null) {
-                  return WeekView(day: state);
-                }
-                return const LoadingScreen();
-              },
-            );
-          },
-        ));
+              body: PageView.builder(
+                  controller: _pageController,
+                  scrollDirection: Axis.horizontal,
+                  onPageChanged: (value) {
+                    schemaBloc.add(SwitchedDate(
+                        start.add(Duration(days: value - startIndex))));
+                  },
+                  itemBuilder: (context, index) {
+                    return WeekView(
+                        daySelected:
+                            start.add(Duration(days: index - startIndex)));
+                  }));
+        },
+      ),
+    );
   }
 
   @override

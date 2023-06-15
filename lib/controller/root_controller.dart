@@ -60,7 +60,7 @@ class _RootControllerState extends State<RootController> {
         selectedIcon: EvaIcons.settings2)
   ];
 
-  final List<int> excludeAppbarIndices = [];
+  final List<int> excludeAppbarIndices = [0];
 
   void setScreen(int n) {
     setState(() {

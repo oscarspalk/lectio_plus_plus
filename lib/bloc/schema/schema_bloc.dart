@@ -9,31 +9,27 @@ final class SwitchedDate extends SchemaEvent {
   SwitchedDate(this.time);
 }
 
-class SchemaBloc extends Bloc<SchemaEvent, Day?> {
+class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
   final Student student;
 
   List<Week> weeks = [];
 
-  SchemaBloc(this.student) : super(null) {
+  SchemaBloc(this.student) : super(SchemaState(DateTime.now(), [])) {
     on<SwitchedDate>((event, emit) async {
       var weekNum = weekFromDateTime(event.time);
       List<Week> availableWeeks =
           weeks.where((element) => element.weekNum == weekNum).toList();
-      late Week weekHasDay;
-      if (availableWeeks.isNotEmpty) {
-        weekHasDay = availableWeeks[0];
-      } else {
-        weekHasDay = await student.weeks.get(event.time.year, weekNum);
+      List<Week> weekCopy = state.weeks;
+      if (availableWeeks.isEmpty) {
+        weekCopy.add(await student.weeks.get(event.time.year, weekNum));
       }
-
-      List<Day> availableDays = weekHasDay.days
-          .where((element) => element.date.day == event.time.day)
-          .toList();
-      if (availableDays.isNotEmpty) {
-        emit(availableDays[0]);
-      } else {
-        emit(Day([], [], event.time));
-      }
+      emit(SchemaState(event.time, weekCopy));
     });
   }
+}
+
+class SchemaState {
+  final DateTime selectedTime;
+  final List<Week> weeks;
+  SchemaState(this.selectedTime, this.weeks);
 }
