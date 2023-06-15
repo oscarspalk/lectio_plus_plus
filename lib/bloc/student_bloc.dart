@@ -33,13 +33,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       final int? gymId = prefs.getInt("gymId");
       if (username != null && password != null && gymId != null) {
         var student = await Account(gymId, username, password).login();
+        var info = await student?.getBasicInfo();
         if (student != null) {
-          var info = await student.getBasicInfo();
-          emit(StudentState(StudentStates.authorized,
+          return emit(StudentState(StudentStates.authorized,
               student: student, basicInfo: info));
-        } else {
-          emit(state..state = StudentStates.unauthorized);
         }
+        return emit(state..state = StudentStates.unauthorized);
       }
     });
 

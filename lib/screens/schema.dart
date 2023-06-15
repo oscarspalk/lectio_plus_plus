@@ -7,6 +7,7 @@ import 'package:lpp/bloc/schema/schema_bloc.dart';
 import 'package:lpp/bloc/student_bloc.dart';
 import 'package:lpp/components/week_view.dart';
 import 'package:lpp/helpers.dart';
+import 'package:lpp/screens/appointment/create.dart';
 import 'package:lpp/screens/loading.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
@@ -76,6 +77,17 @@ class _SchemaScreenState extends State<SchemaScreen> {
                         style: Theme.of(context).textTheme.labelSmall)
                   ],
                 ),
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).push(SwipeablePageRoute(
+                          builder: (context) {
+                            return const CreateAppointmentScreen();
+                          },
+                        ));
+                      },
+                      icon: const Icon(EvaIcons.plus))
+                ],
               ),
               floatingActionButton: FloatingActionButton(
                 heroTag: 2,

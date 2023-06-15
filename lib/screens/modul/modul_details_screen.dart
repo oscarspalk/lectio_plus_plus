@@ -52,16 +52,14 @@ class ModulDetailsScreen extends StatelessWidget {
                         subtitle: const Text("Lokale"),
                       )
                     : Container(),
-                !event.isTest
-                    ? ListTile(
-                        title: Text("${formatDate(event.start, [
-                              HH,
-                              ':',
-                              nn
-                            ])}-${formatDate(event.end, [HH, ':', nn])}"),
-                        subtitle: const Text("Tidspunkt"),
-                      )
-                    : Container(),
+                ListTile(
+                  title: Text("${formatDate(event.start, [
+                        HH,
+                        ':',
+                        nn
+                      ])}-${formatDate(event.end, [HH, ':', nn])}"),
+                  subtitle: const Text("Tidspunkt"),
+                ),
                 ine(event.team)
                     ? ListTile(
                         title: Text(checkForFormat(event.team)),
@@ -86,57 +84,64 @@ class ModulDetailsScreen extends StatelessWidget {
   }
 
   List<Widget> getSpecific(BuildContext context, CalendarEventDetails details) {
-    if (details is TestCalendarEventDetails) {
-      var examDetails = details;
-      return [
-        const Divider(indent: 28, endIndent: 28),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-          child: Text(
-            'Eksamen',
-            style: Theme.of(context).textTheme.titleSmall,
+    switch (event.type) {
+      case CalendarEventType.test:
+        var examDetails = details as TestCalendarEventDetails;
+        return [
+          const Divider(indent: 28, endIndent: 28),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
+            child: Text(
+              'Eksamen',
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
           ),
-        ),
-        ListTile(
-          title: Text(examDetails.room),
-          subtitle: const Text("Lokale"),
-        ),
-        ListTile(
-          title: Text(
-              """${examDetails.student.preparingStart != null ? "${formatDate(examDetails.student.preparingStart!, [
-                      HH,
-                      ':',
-                      nn
-                    ])}-" : ""}${formatDate(examDetails.student.testStart, [
-                HH,
-                ':',
-                nn
-              ])}-${formatDate(examDetails.student.testEnd, [HH, ':', nn])}"""),
-          subtitle: const Text("Tidspunkt"),
-        )
-      ];
-    } else {
-      var regDetails = details as RegularCalendarEventDetails;
-      return [
-        ...(regDetails.content.isNotEmpty
-            ? [
-                const Divider(indent: 28, endIndent: 28),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-                  child: Text(
-                    'Lektier',
-                    style: Theme.of(context).textTheme.titleSmall,
+          ListTile(
+            title: Text(examDetails.room),
+            subtitle: const Text("Lokale"),
+          ),
+          ListTile(
+            title: Text(
+                """${examDetails.student.preparingStart != null ? "${formatDate(examDetails.student.preparingStart!, [
+                        HH,
+                        ':',
+                        nn
+                      ])}-" : ""}${formatDate(examDetails.student.testStart, [
+                  HH,
+                  ':',
+                  nn
+                ])}-${formatDate(examDetails.student.testEnd, [
+                  HH,
+                  ':',
+                  nn
+                ])}"""),
+            subtitle: const Text("Tidspunkt"),
+          )
+        ];
+      case CalendarEventType.regular:
+        var regDetails = details as RegularCalendarEventDetails;
+        return [
+          ...(regDetails.content.isNotEmpty
+              ? [
+                  const Divider(indent: 28, endIndent: 28),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
+                    child: Text(
+                      'Lektier',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
                   ),
-                ),
-              ]
-            : []),
-        ...regDetails.content.map((e) {
-          return ListTile(
-            title: Text(e.content),
-            subtitle: e.note != null ? Text(e.note!) : null,
-          );
-        })
-      ];
+                ]
+              : []),
+          ...regDetails.content.map((e) {
+            return ListTile(
+              title: Text(e.content),
+              subtitle: e.note != null ? Text(e.note!) : null,
+            );
+          })
+        ];
+      case CalendarEventType.private:
+        return [];
     }
   }
 }

@@ -9,6 +9,11 @@ final class SwitchedDate extends SchemaEvent {
   SwitchedDate(this.time);
 }
 
+final class AddedAppointment extends SchemaEvent {
+  final CalendarEvent event;
+  AddedAppointment(this.event);
+}
+
 class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
   final Student student;
 
@@ -24,6 +29,19 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
         weekCopy.add(await student.weeks.get(event.time.year, weekNum));
       }
       emit(SchemaState(event.time, weekCopy));
+    });
+
+    on<AddedAppointment>((event, emit) async {
+      await student.events.private.create(event.event);
+      int weekNum = weekFromDateTime(event.event.start);
+      List<Week> availableWeeks =
+          weeks.where((element) => element.weekNum == weekNum).toList();
+      List<Week> weekCopy = state.weeks;
+      if (availableWeeks.isNotEmpty) {
+        weekCopy.remove(availableWeeks[0]);
+        weekCopy.add(await student.weeks.get(event.event.start.year, weekNum));
+      }
+      emit(SchemaState(state.selectedTime, weekCopy));
     });
   }
 }
