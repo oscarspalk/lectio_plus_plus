@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lpp/screens/state/loading.dart';
 
 import 'package:requests/requests.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ModulLektieScreen extends StatefulWidget {
   final Content content;
@@ -34,23 +34,18 @@ class _ModulLektieScreenState extends State<ModulLektieScreen> {
             if (!snapshot.hasData || snapshot.hasError) {
               return const LoadingScreen();
             }
-            return Center(
-              child: FilledButton(
-                  onPressed: () async {
-                    var cookie = snapshot.data!.values
-                        .map((e) => "${e.name}=${e.value}")
-                        .toList()
-                        .join(";");
-                    debugPrint(cookie);
-                    var url = Uri.parse(widget.content.href!.startsWith("https")
-                        ? widget.content.href!
-                        : "https://lectio.dk${widget.content.href!}");
-                    launchUrl(url,
-                        mode: LaunchMode.inAppWebView,
-                        webViewConfiguration:
-                            WebViewConfiguration(headers: {"Cookie": cookie}));
-                  },
-                  child: const Text("Gå videre")),
+            var url = (widget.content.href!.startsWith("https")
+                ? widget.content.href!
+                : "https://lectio.dk${widget.content.href!}");
+            return WebView(
+              javascriptMode: JavascriptMode.unrestricted,
+              initialUrl: url,
+              initialCookies: snapshot.data!.values.map((e) {
+                return WebViewCookie(
+                    name: e.name,
+                    value: e.value,
+                    domain: "https://www.lectio.dk/");
+              }).toList(),
             );
           },
         ));
