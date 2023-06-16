@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/routing/router.dart';
 import 'package:lpp/style/color_schemes.dart';
 

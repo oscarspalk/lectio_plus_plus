@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
-import 'package:lpp/bloc/homework/homework_cubit.dart';
-import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/bloc/student/student_cubit.dart';
+import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/absence/absence_registration.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
 
@@ -10,9 +10,9 @@ class AbsenceRegistrations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StudentBlocBuilder<StudentListCubit<List<AbsenceCauseEntry>>,
+    return StudentBlocBuilder<StudentCubit<List<AbsenceCauseEntry>>,
         List<AbsenceCauseEntry>?>(
-      bloc: StudentListCubit(getStudentBloc(context).state.student!,
+      bloc: StudentCubit(getStudentBloc(context).state.student!,
           (student) => student.absence.registrations.list())
         ..load(),
       builder: (context, data) {

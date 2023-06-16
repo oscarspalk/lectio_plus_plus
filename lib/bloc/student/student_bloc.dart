@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio/basic_info.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lectio_wrapper/topics/gyms/controller.dart';
+import 'package:lectio_wrapper/types/gym.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum StudentStates { unauthorized, loading, authorized }
@@ -10,7 +12,20 @@ class StudentState {
   Student? student;
   BasicInfo? basicInfo;
   StudentStates state;
-  StudentState(this.state, {this.student, this.basicInfo});
+  List<Gym> gyms;
+
+  StudentState copyWith(
+      {Student? student,
+      BasicInfo? basicInfo,
+      StudentStates? state,
+      List<Gym>? gyms}) {
+    return StudentState(state ?? this.state,
+        gyms: gyms ?? this.gyms,
+        basicInfo: basicInfo ?? this.basicInfo,
+        student: student ?? this.student);
+  }
+
+  StudentState(this.state, {this.student, this.basicInfo, required this.gyms});
 }
 
 sealed class StudentEvent {}
@@ -25,21 +40,25 @@ final class StudentLoggedOut extends StudentEvent {}
 final class LaunchedApp extends StudentEvent {}
 
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
-  StudentBloc() : super(StudentState(StudentStates.loading)) {
+  StudentBloc() : super(StudentState(StudentStates.loading, gyms: [])) {
     on<LaunchedApp>((event, emit) async {
+      emit(state.copyWith(gyms: await GymController().list()));
       final prefs = await SharedPreferences.getInstance();
       final String? username = prefs.getString("username");
       final String? password = prefs.getString("password");
       final int? gymId = prefs.getInt("gymId");
+      debugPrint("$username $password");
       if (username != null && password != null && gymId != null) {
         var student = await Account(gymId, username, password).login();
         var info = await student?.getBasicInfo();
         if (student != null) {
-          return emit(StudentState(StudentStates.authorized,
-              student: student, basicInfo: info));
+          return emit(state.copyWith(
+              state: StudentStates.authorized,
+              student: student,
+              basicInfo: info));
         }
-        return emit(state..state = StudentStates.unauthorized);
       }
+      return emit(state.copyWith(state: StudentStates.unauthorized));
     });
 
     on<StudentLoggedIn>((event, emit) async {
@@ -54,10 +73,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 
       if (student != null) {
         var info = await student.getBasicInfo();
-        emit(StudentState(StudentStates.authorized,
-            student: student, basicInfo: info));
+        emit(state.copyWith(
+            state: StudentStates.authorized,
+            student: student,
+            basicInfo: info));
       } else {
-        emit(state..state = StudentStates.unauthorized);
+        emit(state.copyWith(state: StudentStates.unauthorized));
       }
     });
 
@@ -67,7 +88,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       prefs.remove("username");
       prefs.remove("password");
       prefs.remove("gymId");
-      emit(StudentState(StudentStates.unauthorized));
+      emit(state.copyWith(state: StudentStates.unauthorized));
     });
   }
 }

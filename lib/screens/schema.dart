@@ -1,14 +1,13 @@
-import 'package:calendar_view/calendar_view.dart' as cv;
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/bloc/schema/schema_bloc.dart';
-import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/week_view.dart';
-import 'package:lpp/helpers.dart';
+import 'package:lpp/utils/helpers.dart';
 import 'package:lpp/screens/appointment/create.dart';
-import 'package:lpp/screens/loading.dart';
+import 'package:lpp/screens/state/loading.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class SchemaScreen extends StatefulWidget {
@@ -39,7 +38,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
         firstDate: DateTime.now().subtract(const Duration(days: 150)),
         lastDate: DateTime.now().add(const Duration(days: 150)));
     if (maybeDate != null) {
-      int dayDiff = start.getDayDifference(maybeDate);
+      int dayDiff = start.difference(maybeDate).inDays;
       int signedDiff =
           startIndex + (maybeDate.isBefore(start) ? -1 : 1) * dayDiff;
       debugPrint(signedDiff.toString());
@@ -86,7 +85,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
                           },
                         ));
                       },
-                      icon: const Icon(EvaIcons.plus))
+                      icon: const Icon(EvaIcons.plus)),
                 ],
               ),
               floatingActionButton: FloatingActionButton(
@@ -103,7 +102,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
                         start.add(Duration(days: value - startIndex))));
                   },
                   itemBuilder: (context, index) {
-                    return WeekView(
+                    return DayView(
                         daySelected:
                             start.add(Duration(days: index - startIndex)));
                   }));

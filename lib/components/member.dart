@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lpp/bloc/homework/homework_cubit.dart';
-import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/bloc/student/student_cubit.dart';
+import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
 
 class Member extends StatelessWidget {
@@ -15,8 +15,8 @@ class Member extends StatelessWidget {
       leading: SizedBox(
         height: 40.0,
         width: 40.0,
-        child: StudentBlocBuilder<StudentListCubit<Uint8List>, Uint8List?>(
-          bloc: StudentListCubit(getStudentBloc(context).state.student!,
+        child: StudentBlocBuilder<StudentCubit<Uint8List>, Uint8List?>(
+          bloc: StudentCubit(getStudentBloc(context).state.student!,
               (primaryStudent) => primaryStudent.getImage(student.imageId))
             ..load(),
           builder: (context, state) {

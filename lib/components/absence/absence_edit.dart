@@ -1,8 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
-import 'package:lpp/model/lectio_model.dart';
-import 'package:provider/provider.dart';
 
 class EditAbsence extends StatefulWidget {
   const EditAbsence({super.key, required this.cause, required this.update});
@@ -69,21 +67,16 @@ class _EditAbsenceState extends State<EditAbsence> {
                   const InputDecoration(label: Text("Forklaring (valgfri)")),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Consumer<LectioModel>(
-                builder: (context, value, child) {
-                  return FilledButton.icon(
-                      onPressed: validate()
-                          ? () async {
-                              Navigator.pop(context);
-                              widget.update(_absenceCause, _explanation);
-                            }
-                          : null,
-                      icon: const Icon(EvaIcons.save),
-                      label: const Text("Gem"));
-                },
-              ),
-            )
+                padding: const EdgeInsets.all(16.0),
+                child: FilledButton.icon(
+                    onPressed: validate()
+                        ? () async {
+                            Navigator.pop(context);
+                            widget.update(_absenceCause, _explanation);
+                          }
+                        : null,
+                    icon: const Icon(EvaIcons.save),
+                    label: const Text("Gem")))
           ],
         ),
       ),

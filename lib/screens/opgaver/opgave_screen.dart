@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
-import 'package:lpp/bloc/homework/homework_cubit.dart';
-import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/bloc/student/student_cubit.dart';
+import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
-import 'package:lpp/helpers.dart';
+import 'package:lpp/utils/helpers.dart';
 import 'package:lpp/style/typograhy.dart';
 
 class OpgaveScreen extends StatelessWidget {
@@ -11,9 +11,9 @@ class OpgaveScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StudentBlocBuilder<StudentListCubit<List<Assignment>>,
+    return StudentBlocBuilder<StudentCubit<List<Assignment>>,
         List<Assignment>?>(
-      bloc: StudentListCubit(getStudentBloc(context).state.student!, (student) {
+      bloc: StudentCubit(getStudentBloc(context).state.student!, (student) {
         var time = DateTime.now();
         return student.assignments.list(
             time.isBefore(DateTime(time.year, 7, 31))

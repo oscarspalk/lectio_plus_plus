@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lpp/bloc/homework/homework_cubit.dart';
-import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/bloc/student/student_cubit.dart';
+import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
 
 class BeskederScreen extends StatelessWidget {
@@ -9,8 +9,8 @@ class BeskederScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StudentBlocBuilder<StudentListCubit<List<Message>>, List<Message>?>(
-      bloc: StudentListCubit(
+    return StudentBlocBuilder<StudentCubit<List<Message>>, List<Message>?>(
+      bloc: StudentCubit(
         getStudentBloc(context).state.student!,
         (student) {
           return student.messages.list();

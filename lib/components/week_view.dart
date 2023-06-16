@@ -3,17 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_week_view/flutter_week_view.dart' as wv;
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/bloc/schema/schema_bloc.dart';
-import 'package:lpp/formatters.dart';
-import 'package:lpp/helpers.dart';
-import 'package:lpp/screens/loading.dart';
+import 'package:lpp/utils/formatters.dart';
+import 'package:lpp/utils/helpers.dart';
+import 'package:lpp/screens/state/loading.dart';
 import 'package:lpp/screens/modul/modul_details_screen.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 const double columnWidth = 65.0;
 
-class WeekView extends StatelessWidget {
+class DayView extends StatelessWidget {
   final DateTime daySelected;
-  const WeekView({super.key, required this.daySelected});
+  const DayView({super.key, required this.daySelected});
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SchemaBloc, SchemaState>(

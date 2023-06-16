@@ -1,8 +1,8 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
-import 'package:lpp/formatters.dart';
-import 'package:lpp/helpers.dart';
+import 'package:lpp/utils/formatters.dart';
+import 'package:lpp/utils/helpers.dart';
 
 class DayWidget extends StatelessWidget {
   const DayWidget({super.key, required this.day, this.active = false});

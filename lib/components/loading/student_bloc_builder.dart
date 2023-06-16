@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/bloc/state_pattern.dart';
-import 'package:lpp/screens/error.dart';
-import 'package:lpp/screens/loading.dart';
+import 'package:lpp/utils/state_pattern.dart';
+import 'package:lpp/screens/state/error.dart';
+import 'package:lpp/screens/state/loading.dart';
 
 class StudentBlocBuilder<T extends StateStreamable<StatePattern<V>>, V>
     extends StatelessWidget {

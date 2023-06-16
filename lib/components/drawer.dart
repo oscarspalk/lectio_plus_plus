@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/bloc/homework/homework_cubit.dart';
-import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/bloc/student/student_cubit.dart';
+import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
 
 class Destination {
@@ -52,25 +52,24 @@ class LppDrawer extends StatelessWidget {
               leading: SizedBox(
                 height: 40.0,
                 width: 40.0,
-                child:
-                    StudentBlocBuilder<StudentListCubit<Uint8List>, Uint8List?>(
-                        bloc: StudentListCubit(
-                            getStudentBloc(context).state.student!,
-                            (student) => student.getImage(student.imageId))
-                          ..load(),
-                        builder: (context, state) {
-                          return CircleAvatar(
-                            foregroundImage:
-                                Image.memory(state as Uint8List).image,
-                          );
-                        }),
+                child: StudentBlocBuilder<StudentCubit<Uint8List>, Uint8List?>(
+                    bloc: StudentCubit(getStudentBloc(context).state.student!,
+                        (student) => student.getImage(student.imageId))
+                      ..load(),
+                    builder: (context, state) {
+                      return CircleAvatar(
+                        foregroundImage: Image.memory(state as Uint8List).image,
+                      );
+                    }),
               ),
               title: Text(
                 state.basicInfo!.name,
                 style: Theme.of(context).textTheme.labelLarge,
               ),
               subtitle: Text(
-                "Egaa Gymnasium",
+                state.gyms
+                    .firstWhere((element) => element.id == state.student!.gymId)
+                    .name,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant),
               ),

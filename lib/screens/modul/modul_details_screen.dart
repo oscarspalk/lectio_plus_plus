@@ -1,12 +1,14 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
-import 'package:lpp/bloc/homework/homework_cubit.dart';
-import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/bloc/student/student_cubit.dart';
+import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
-import 'package:lpp/formatters.dart';
-import 'package:lpp/helpers.dart';
+import 'package:lpp/screens/modul/modul_lektie_screen.dart';
+import 'package:lpp/utils/formatters.dart';
+import 'package:lpp/utils/helpers.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 bool ine(String input) {
@@ -25,9 +27,9 @@ class ModulDetailsScreen extends StatelessWidget {
           elevation: 0.0,
           title: Text(standIn(checkForFormat(event.team), event.title)),
         ),
-        body: StudentBlocBuilder<StudentListCubit<CalendarEventDetails>,
+        body: StudentBlocBuilder<StudentCubit<CalendarEventDetails>,
             CalendarEventDetails?>(
-          bloc: StudentListCubit(getStudentBloc(context).state.student!,
+          bloc: StudentCubit(getStudentBloc(context).state.student!,
               (student) => student.events.expand(event))
             ..load(),
           builder: (context, data) {
@@ -136,6 +138,21 @@ class ModulDetailsScreen extends StatelessWidget {
           ...regDetails.content.map((e) {
             return ListTile(
               title: Text(e.content),
+              onTap: e.href != null
+                  ? () {
+                      Navigator.push(context, SwipeablePageRoute(
+                        builder: (context) {
+                          return ModulLektieScreen(
+                              content: e,
+                              cookieJar: context
+                                  .read<StudentBloc>()
+                                  .state
+                                  .student!
+                                  .getCookies());
+                        },
+                      ));
+                    }
+                  : null,
               subtitle: e.note != null ? Text(e.note!) : null,
             );
           })

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/class.dart';
-import 'package:lpp/bloc/homework/homework_cubit.dart';
-import 'package:lpp/bloc/student_bloc.dart';
+import 'package:lpp/bloc/student/student_cubit.dart';
+import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
 import 'package:lpp/screens/klasser/klasse_members_screen.dart';
 import 'package:lpp/style/typograhy.dart';
@@ -12,9 +12,8 @@ class KlasseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StudentBlocBuilder<StudentListCubit<List<ClassRef>>,
-        List<ClassRef>?>(
-      bloc: StudentListCubit(getStudentBloc(context).state.student!,
+    return StudentBlocBuilder<StudentCubit<List<ClassRef>>, List<ClassRef>?>(
+      bloc: StudentCubit(getStudentBloc(context).state.student!,
           (student) => student.classes.list())
         ..load(),
       builder: (context, state) {

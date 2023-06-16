@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lpp/helpers.dart';
+import 'package:lpp/utils/helpers.dart';
 
 sealed class SchemaEvent {}
 
