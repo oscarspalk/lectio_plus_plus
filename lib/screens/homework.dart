@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/homework/homework.dart';
 import 'package:lpp/bloc/student/student_cubit.dart';
-import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
 
 class HomeworkScreen extends StatelessWidget {
@@ -10,12 +9,6 @@ class HomeworkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StudentBlocBuilder<StudentCubit<List<Homework>>, List<Homework>?>(
-      bloc: StudentCubit(
-        getStudentBloc(context).state.student!,
-        (student) {
-          return student.homework.list();
-        },
-      )..load(),
       builder: (context, state) {
         if (state!.isEmpty) {
           return const Center(

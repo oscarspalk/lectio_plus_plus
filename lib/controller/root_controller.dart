@@ -1,5 +1,11 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lectio_wrapper/types/class.dart';
+import 'package:lpp/bloc/schema/schema_bloc.dart';
+import 'package:lpp/bloc/student/student_bloc.dart';
+import 'package:lpp/bloc/student/student_cubit.dart';
 import 'package:lpp/components/drawer.dart';
 import 'package:lpp/screens/absence/absence_screen.dart';
 import 'package:lpp/screens/beskeder/beskeder_screen.dart';
@@ -72,6 +78,7 @@ class _RootControllerState extends State<RootController> {
   Widget build(BuildContext context) {
     List<Destination> combinedDestinations = destinations.toList()
       ..addAll(relatedDestinations);
+    var student = getStudentBloc(context).state.student!;
     return Scaffold(
       drawer: LppDrawer(
           destinations: destinations,
@@ -86,7 +93,35 @@ class _RootControllerState extends State<RootController> {
                 style: const TextStyle(fontWeight: FontWeight.w500),
               ),
             ),
-      body: combinedDestinations[_selectedScreen].screen,
+      body: MultiBlocProvider(providers: [
+        BlocProvider(
+          create: (context) => StudentCubit<List<Homework>>(
+            getStudentBloc(context).state.student!,
+            (student) {
+              return student.homework.list();
+            },
+          )..load(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              SchemaBloc(student)..add(SwitchedDate(DateTime.now())),
+        ),
+        BlocProvider(
+          create: (context) => StudentCubit(student, (student) {
+            var time = DateTime.now();
+            return student.assignments.list(
+                time.isBefore(DateTime(time.year, 7, 31))
+                    ? time.year - 1
+                    : time.year);
+          })
+            ..load(),
+        ),
+        BlocProvider(
+          create: (context) => StudentCubit<List<ClassRef>>(
+              student, (student) => student.classes.list())
+            ..load(),
+        )
+      ], child: combinedDestinations[_selectedScreen].screen),
     );
   }
 }

@@ -21,9 +21,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-      appName = packageInfo.appName;
-      version = packageInfo.version;
-      buildNumber = packageInfo.buildNumber;
+      setState(() {
+        appName = packageInfo.appName;
+        version = packageInfo.version;
+        buildNumber = packageInfo.buildNumber;
+      });
     });
   }
 

@@ -6,9 +6,8 @@ import 'package:lpp/screens/state/loading.dart';
 
 class StudentBlocBuilder<T extends StateStreamable<StatePattern<V>>, V>
     extends StatelessWidget {
-  const StudentBlocBuilder(
-      {super.key, required this.bloc, required this.builder});
-  final T bloc;
+  const StudentBlocBuilder({super.key, this.bloc, required this.builder});
+  final T? bloc;
   final Widget Function(BuildContext context, V state) builder;
   @override
   Widget build(BuildContext context) {
