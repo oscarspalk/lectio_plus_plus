@@ -16,6 +16,7 @@ class LectioApp extends StatelessWidget {
     return BlocProvider(
       create: (_) => StudentBloc()..add(LaunchedApp()),
       child: MaterialApp(
+          navigatorObservers: [HeroController()],
           locale: const Locale(
             'dk',
           ),

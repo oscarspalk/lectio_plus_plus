@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/bloc/schema/schema_bloc.dart';
-import 'package:lpp/components/week_view.dart';
+import 'package:lpp/components/appbar.dart';
+import 'package:lpp/components/calendar/week_view.dart';
 import 'package:lpp/utils/helpers.dart';
 import 'package:lpp/screens/state/loading.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class SchemaScreen extends StatefulWidget {
   const SchemaScreen({super.key});
@@ -51,14 +51,9 @@ class _SchemaScreenState extends State<SchemaScreen> {
           return const LoadingScreen();
         }
         return Scaffold(
-            appBar: MorphingAppBar(
-              elevation: 0.0,
-              leading: IconButton(
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  icon: const Icon(EvaIcons.menu)),
-              title: Column(
+            appBar: LppAppbar(
+              oldContext: context,
+              titleWidget: Column(
                 children: [
                   Text(
                     months[state.selectedTime.month - 1],
@@ -68,6 +63,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
                       style: Theme.of(context).textTheme.labelSmall)
                 ],
               ),
+              title: "",
               actions: const [
                 /*IconButton(
                       onPressed: () {

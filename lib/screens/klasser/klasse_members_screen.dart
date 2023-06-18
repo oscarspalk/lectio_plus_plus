@@ -4,6 +4,7 @@ import 'package:lpp/bloc/student/student_cubit.dart';
 import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
 import 'package:lpp/components/member.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class KlasseMembersScreen extends StatelessWidget {
   final ClassRef klasseRef;
@@ -12,7 +13,7 @@ class KlasseMembersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        appBar: MorphingAppBar(
           title: Text(klasseRef.name),
         ),
         body: StudentBlocBuilder<StudentCubit<Class>, Class?>(

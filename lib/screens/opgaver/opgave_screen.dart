@@ -3,6 +3,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
 import 'package:lpp/bloc/student/student_cubit.dart';
+import 'package:lpp/components/appbar.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
 
 class OpgaveScreen extends StatefulWidget {
@@ -18,6 +19,7 @@ class _OpgaveScreenState extends State<OpgaveScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: LppAppbar(title: "Opgaver", oldContext: context),
       floatingActionButton: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.background,

@@ -22,8 +22,6 @@ class AbsenceRegistration extends StatelessWidget {
                 builder: (context) {
                   return EditAbsence(
                     cause: absenceCause,
-                    update: (AbsenceCauses updatedCause,
-                        String updatedNote) async {},
                   );
                 },
               ));

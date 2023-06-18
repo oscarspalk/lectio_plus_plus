@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/class.dart';
+import 'package:lpp/bloc/absence/registation.dart';
 import 'package:lpp/bloc/schema/schema_bloc.dart';
 import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/bloc/student/student_cubit.dart';
@@ -14,7 +15,6 @@ import 'package:lpp/screens/klasser/klasse_screen.dart';
 import 'package:lpp/screens/opgaver/opgave_screen.dart';
 import 'package:lpp/screens/schema.dart';
 import 'package:lpp/screens/settings/settings_screen.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class RootController extends StatefulWidget {
   const RootController({super.key});
@@ -66,8 +66,6 @@ class _RootControllerState extends State<RootController> {
         selectedIcon: EvaIcons.settings2)
   ];
 
-  final List<int> excludeAppbarIndices = [0];
-
   void setScreen(int n) {
     setState(() {
       _selectedScreen = n;
@@ -85,43 +83,51 @@ class _RootControllerState extends State<RootController> {
           onChange: setScreen,
           index: _selectedScreen,
           relatedDestinations: relatedDestinations),
-      appBar: excludeAppbarIndices.contains(_selectedScreen)
-          ? null
-          : MorphingAppBar(
-              title: Text(
-                combinedDestinations[_selectedScreen].name,
-                style: const TextStyle(fontWeight: FontWeight.w500),
-              ),
+      body: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => StudentCubit<List<Homework>>(
+                student,
+                (student) {
+                  return student.homework.list();
+                },
+              )..load(),
             ),
-      body: MultiBlocProvider(providers: [
-        BlocProvider(
-          create: (context) => StudentCubit<List<Homework>>(
-            getStudentBloc(context).state.student!,
-            (student) {
-              return student.homework.list();
-            },
-          )..load(),
-        ),
-        BlocProvider(
-          create: (context) =>
-              SchemaBloc(student)..add(SwitchedDate(DateTime.now())),
-        ),
-        BlocProvider(
-          create: (context) => StudentCubit(student, (student) {
-            var time = DateTime.now();
-            return student.assignments.list(
-                time.isBefore(DateTime(time.year, 7, 31))
-                    ? time.year - 1
-                    : time.year);
-          })
-            ..load(),
-        ),
-        BlocProvider(
-          create: (context) => StudentCubit<List<ClassRef>>(
-              student, (student) => student.classes.list())
-            ..load(),
-        )
-      ], child: combinedDestinations[_selectedScreen].screen),
+            BlocProvider(
+              create: (context) =>
+                  SchemaBloc(student)..add(SwitchedDate(DateTime.now())),
+            ),
+            BlocProvider(
+                create: (context) => StudentCubit(student, (student) {
+                      return student.absence.list();
+                    })
+                      ..load()),
+            BlocProvider(
+              create: (context) => StudentCubit(student, (student) {
+                var time = DateTime.now();
+                return student.assignments.list(
+                    time.isBefore(DateTime(time.year, 7, 31))
+                        ? time.year - 1
+                        : time.year);
+              })
+                ..load(),
+            ),
+            BlocProvider(
+              create: (context) =>
+                  AbsenceRegistrationsBloc(student)..add(RequestedLoad()),
+            ),
+            BlocProvider(
+              create: (context) => StudentCubit<List<ClassRef>>(
+                  student, (student) => student.classes.list())
+                ..load(),
+            )
+          ],
+          child: Navigator(
+            observers: [HeroController()],
+            pages: [
+              MaterialPage(child: combinedDestinations[_selectedScreen].screen)
+            ],
+          )),
     );
   }
 }

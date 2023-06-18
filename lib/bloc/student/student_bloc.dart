@@ -1,12 +1,13 @@
+import 'package:biometric_storage/biometric_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio/basic_info.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/topics/gyms/controller.dart';
 import 'package:lectio_wrapper/types/gym.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lpp/bloc/doc_parser.dart';
 
-enum StudentStates { unauthorized, loading, authorized }
+enum StudentStates { unauthorized, loading, authorized, error }
 
 class StudentState {
   Student? student;
@@ -40,35 +41,47 @@ final class StudentLoggedOut extends StudentEvent {}
 final class LaunchedApp extends StudentEvent {}
 
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
+  Future<BiometricStorageFile> getStorage() async {
+    return await BiometricStorage().getStorage("keys");
+  }
+
   StudentBloc() : super(StudentState(StudentStates.loading, gyms: [])) {
     on<LaunchedApp>((event, emit) async {
-      emit(state.copyWith(gyms: await GymController().list()));
-      final prefs = await SharedPreferences.getInstance();
-      final String? username = prefs.getString("username");
-      final String? password = prefs.getString("password");
-      final int? gymId = prefs.getInt("gymId");
-      debugPrint("$username $password");
-      if (username != null && password != null && gymId != null) {
-        var student = await Account(gymId, username, password).login();
-        var info = await student?.getBasicInfo();
-        if (student != null) {
-          return emit(state.copyWith(
-              state: StudentStates.authorized,
-              student: student,
-              basicInfo: info));
+      emit(state.copyWith(state: StudentStates.loading));
+      try {
+        emit(state.copyWith(gyms: await GymController().list()));
+        final storage = await getStorage();
+        var data = await storage.read() ?? "";
+        final map = DocParser.fromString(data);
+        if (map.containsKey("username") &&
+            map.containsKey("password") &&
+            map.containsKey("gymId")) {
+          var student = await Account(
+                  int.parse(map["gymId"]!), map["username"]!, map["password"]!)
+              .login();
+          var info = await student?.getBasicInfo();
+          if (student != null) {
+            return emit(state.copyWith(
+                state: StudentStates.authorized,
+                student: student,
+                basicInfo: info));
+          }
         }
+        return emit(state.copyWith(state: StudentStates.unauthorized));
+      } catch (e) {
+        emit(state.copyWith(state: StudentStates.error));
       }
-      return emit(state.copyWith(state: StudentStates.unauthorized));
     });
 
     on<StudentLoggedIn>((event, emit) async {
       emit(state..state = StudentStates.loading);
       var account = event.account;
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setString("username", account.username);
-      prefs.setString("password", account.password);
-      prefs.setInt("gymId", account.gymId);
-
+      final storage = await getStorage();
+      Map<String, String> data = {};
+      data.putIfAbsent("username", () => account.username);
+      data.putIfAbsent("password", () => account.password);
+      data.putIfAbsent("gymId", () => account.gymId.toString());
+      await storage.write(DocParser.fromMap(data));
       var student = await account.login();
 
       if (student != null) {
@@ -84,10 +97,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 
     on<StudentLoggedOut>((event, emit) async {
       emit(state..state = StudentStates.loading);
-      final prefs = await SharedPreferences.getInstance();
-      prefs.remove("username");
-      prefs.remove("password");
-      prefs.remove("gymId");
+      final storage = await getStorage();
+      await storage.delete();
       emit(state.copyWith(state: StudentStates.unauthorized));
     });
   }

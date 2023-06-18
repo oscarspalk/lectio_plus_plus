@@ -1,12 +1,14 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
+import 'package:lpp/bloc/absence/registation.dart';
+import 'package:lpp/components/appbar.dart';
 
 class EditAbsence extends StatefulWidget {
-  const EditAbsence({super.key, required this.cause, required this.update});
+  const EditAbsence({super.key, required this.cause});
 
   final AbsenceCauseEntry cause;
-  final void Function(AbsenceCauses updatedCause, String updatedNote) update;
   @override
   State<EditAbsence> createState() => _EditAbsenceState();
 }
@@ -36,11 +38,10 @@ class _EditAbsenceState extends State<EditAbsence> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Opdaterer årsag",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+      appBar: LppAppbar(
+        title: "Opdaterer årsag",
+        oldContext: context,
+        hideMenu: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -72,7 +73,12 @@ class _EditAbsenceState extends State<EditAbsence> {
                     onPressed: validate()
                         ? () async {
                             Navigator.pop(context);
-                            widget.update(_absenceCause, _explanation);
+                            var newEntry = widget.cause;
+                            newEntry.cause = _absenceCause;
+                            newEntry.note = _explanation;
+                            context
+                                .read<AbsenceRegistrationsBloc>()
+                                .add(UpdatedRegistration(newEntry));
                           }
                         : null,
                     icon: const Icon(EvaIcons.save),

@@ -14,32 +14,19 @@ class Statistic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  header,
-                  style: headerStyle,
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  data,
-                  style: statStyle,
-                  textAlign: TextAlign.left,
-                )
-              ],
+            Text(
+              header,
+              style: headerStyle,
+              textAlign: TextAlign.left,
             ),
-            SizedBox(
-                width: 150, height: 150, child: illustration ?? Container())
-          ],
-        ),
-      ),
-    );
+            Text(data)
+          ]),
+    ));
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/absence/entry.dart';
 import 'package:lpp/bloc/student/student_cubit.dart';
-import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
 import 'package:lpp/components/stat.dart';
 import 'package:lpp/utils/formatters.dart';
@@ -13,10 +12,6 @@ class AbsenceOverview extends StatelessWidget {
   Widget build(BuildContext context) {
     return StudentBlocBuilder<StudentCubit<List<AbsenceEntry>>,
         List<AbsenceEntry>?>(
-      bloc: StudentCubit(getStudentBloc(context).state.student!, (student) {
-        return student.absence.list();
-      })
-        ..load(),
       builder: (context, absence) {
         double totalModules = 0.0;
         double totalAbsenceModules = 0.0;
@@ -30,7 +25,10 @@ class AbsenceOverview extends StatelessWidget {
           totalAbsenceModules += row.regular.finalModules.current;
         }
 
-        return ListView(
+        return GridView(
+          padding: const EdgeInsets.all(8.0),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2),
           children: [
             Statistic(
                 header: "Opgjort fravær",
