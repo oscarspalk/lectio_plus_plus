@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/class.dart';
 import 'package:lpp/bloc/absence/registation.dart';
+import 'package:lpp/bloc/opgaver/opgaver_bloc.dart';
+import 'package:lpp/bloc/opgaver/opgaver_details_bloc.dart';
 import 'package:lpp/bloc/schema/schema_bloc.dart';
 import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/bloc/student/student_cubit.dart';
@@ -12,7 +14,7 @@ import 'package:lpp/screens/absence/absence_screen.dart';
 import 'package:lpp/screens/beskeder/beskeder_screen.dart';
 import 'package:lpp/screens/homework.dart';
 import 'package:lpp/screens/klasser/klasse_screen.dart';
-import 'package:lpp/screens/opgaver/opgave_screen.dart';
+import 'package:lpp/screens/opgaver/opgave_screen_overview.dart';
 import 'package:lpp/screens/schema.dart';
 import 'package:lpp/screens/settings/settings_screen.dart';
 
@@ -40,7 +42,7 @@ class _RootControllerState extends State<RootController> {
         icon: EvaIcons.archiveOutline,
         selectedIcon: EvaIcons.archive,
         name: "Opgaver",
-        screen: const OpgaveScreen()),
+        screen: const OpgaveScreenOverview()),
     Destination(
         icon: EvaIcons.peopleOutline,
         selectedIcon: EvaIcons.people,
@@ -86,6 +88,9 @@ class _RootControllerState extends State<RootController> {
       body: MultiBlocProvider(
           providers: [
             BlocProvider(
+              create: (context) => OpgaveDetailsBloc(student),
+            ),
+            BlocProvider(
               create: (context) => StudentCubit<List<Homework>>(
                 student,
                 (student) {
@@ -103,14 +108,8 @@ class _RootControllerState extends State<RootController> {
                     })
                       ..load()),
             BlocProvider(
-              create: (context) => StudentCubit(student, (student) {
-                var time = DateTime.now();
-                return student.assignments.list(
-                    time.isBefore(DateTime(time.year, 7, 31))
-                        ? time.year - 1
-                        : time.year);
-              })
-                ..load(),
+              create: (context) =>
+                  OpgaveBloc(student)..add(RequestedLoadAssignments()),
             ),
             BlocProvider(
               create: (context) =>
