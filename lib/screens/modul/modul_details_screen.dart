@@ -5,6 +5,7 @@ import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
 import 'package:lpp/bloc/student/student_cubit.dart';
 import 'package:lpp/bloc/student/student_bloc.dart';
+import 'package:lpp/components/appbar.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
 import 'package:lpp/screens/modul/modul_lektie_screen.dart';
 import 'package:lpp/utils/formatters.dart';
@@ -23,10 +24,10 @@ class ModulDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MorphingAppBar(
-          elevation: 0.0,
-          title: Text(standIn(checkForFormat(event.team), event.title)),
-        ),
+        appBar: LppAppbar(
+            hideMenu: true,
+            title: standIn(checkForFormat(event.team), event.title),
+            oldContext: context),
         body: StudentBlocBuilder<StudentCubit<CalendarEventDetails>,
             CalendarEventDetails?>(
           bloc: StudentCubit(getStudentBloc(context).state.student!,

@@ -122,6 +122,9 @@ class _RootControllerState extends State<RootController> {
             )
           ],
           child: Navigator(
+            onPopPage: (route, result) {
+              return route.didPop(result);
+            },
             observers: [HeroController()],
             pages: [
               MaterialPage(child: combinedDestinations[_selectedScreen].screen)

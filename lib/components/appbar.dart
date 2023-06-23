@@ -19,6 +19,7 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return MorphingAppBar(
+      centerTitle: false,
       elevation: 0.0,
       leading: !hideMenu
           ? IconButton(

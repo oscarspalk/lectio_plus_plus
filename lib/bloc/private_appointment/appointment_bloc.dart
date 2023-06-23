@@ -10,7 +10,9 @@ class AppointmentBloc extends Cubit<PrivateAppointmentState> {
             "", "", TimeOfDay.now(), TimeOfDay.now(), false));
 
   setStart(TimeOfDay? time) {
-    if (time != null) {
+    if (time != null &&
+        (time.hour < state.end.hour ||
+            (time.hour == state.end.hour && time.minute < state.end.minute))) {
       emit(state.copyWith(start: time));
     }
   }

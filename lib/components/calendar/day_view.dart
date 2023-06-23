@@ -48,12 +48,20 @@ class DayView extends StatelessWidget {
                 header(context, day),
                 Expanded(
                   child: wv.DayView(
-                    style: const wv.DayViewStyle(
+                    style: wv.DayViewStyle(
+                      backgroundRulesColor:
+                          Theme.of(context).colorScheme.outline,
+                      backgroundColor: Theme.of(context)
+                          .scaffoldBackgroundColor
+                          .withAlpha(250),
                       headerSize: 0.0,
                     ),
                     userZoomable: false,
                     date: day.date,
                     hoursColumnStyle: wv.HoursColumnStyle(
+                        textStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground),
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         width: columnWidth,
                         timeFormatter: (time) {
                           return "${time.hour}:${time.minute > 9 ? time.minute : "${time.minute}0"}";

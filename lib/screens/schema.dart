@@ -1,12 +1,13 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/bloc/schema/schema_bloc.dart';
 import 'package:lpp/components/appbar.dart';
-import 'package:lpp/components/calendar/week_view.dart';
+import 'package:lpp/components/calendar/day_view.dart';
+import 'package:lpp/screens/appointment/create.dart';
 import 'package:lpp/utils/helpers.dart';
 import 'package:lpp/screens/state/loading.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class SchemaScreen extends StatefulWidget {
   const SchemaScreen({super.key});
@@ -17,8 +18,7 @@ class SchemaScreen extends StatefulWidget {
 class _SchemaScreenState extends State<SchemaScreen> {
   final DateTime start = DateTime.now();
   late PageController _pageController;
-  List<Week> weeks = [];
-  final int startIndex = 365;
+  final int startIndex = 200;
 
   @override
   void initState() {
@@ -30,15 +30,13 @@ class _SchemaScreenState extends State<SchemaScreen> {
     DateTime? maybeDate = await showDatePicker(
         context: context,
         initialDate: context.read<SchemaBloc>().state.selectedTime,
-        firstDate: DateTime.now().subtract(const Duration(days: 150)),
-        lastDate: DateTime.now().add(const Duration(days: 150)));
+        firstDate: start.subtract(const Duration(days: 150)),
+        lastDate: start.add(const Duration(days: 150)));
     if (maybeDate != null) {
-      int dayDiff = start.difference(maybeDate).inDays;
-      int signedDiff =
-          startIndex + (maybeDate.isBefore(start) ? -1 : 1) * dayDiff;
-      debugPrint(signedDiff.toString());
+      Duration timeDiff = start.difference(maybeDate);
+      double dayDiff = timeDiff.inHours / 24;
       _pageController.jumpToPage(
-        signedDiff,
+        startIndex - dayDiff.round(),
       );
     }
   }
@@ -64,16 +62,16 @@ class _SchemaScreenState extends State<SchemaScreen> {
                 ],
               ),
               title: "",
-              actions: const [
-                /*IconButton(
-                      onPressed: () {
-                        Navigator.of(context).push(SwipeablePageRoute(
-                          builder: (context) {
-                            return const CreateAppointmentScreen();
-                          },
-                        ));
-                      },
-                      icon: const Icon(EvaIcons.plus)),*/
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(SwipeablePageRoute(
+                        builder: (context) {
+                          return const CreateAppointmentScreen();
+                        },
+                      ));
+                    },
+                    icon: const Icon(EvaIcons.plus)),
               ],
             ),
             floatingActionButton: FloatingActionButton(

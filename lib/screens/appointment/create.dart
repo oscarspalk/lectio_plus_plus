@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/bloc/private_appointment/appointment_bloc.dart';
+import 'package:lpp/components/appbar.dart';
 import 'package:lpp/components/control/time_select.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class CreateAppointmentScreen extends StatefulWidget {
   const CreateAppointmentScreen({super.key});
@@ -25,8 +25,10 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MorphingAppBar(
-        title: const Text("Ny begivenhed"),
+      appBar: LppAppbar(
+        title: "Ny begivenhed",
+        oldContext: context,
+        hideMenu: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),

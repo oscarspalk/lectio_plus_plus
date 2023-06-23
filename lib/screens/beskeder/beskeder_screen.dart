@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lpp/bloc/student/student_cubit.dart';
 import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/appbar.dart';
@@ -15,7 +15,8 @@ class BeskederScreen extends StatelessWidget {
         title: "Beskeder",
         oldContext: context,
       ),
-      body: StudentBlocBuilder<StudentCubit<List<Message>>, List<Message>?>(
+      body:
+          StudentBlocBuilder<StudentCubit<List<MessageRef>>, List<MessageRef>?>(
         bloc: StudentCubit(
           getStudentBloc(context).state.student!,
           (student) {

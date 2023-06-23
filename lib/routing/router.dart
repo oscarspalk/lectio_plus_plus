@@ -14,14 +14,14 @@ class AppRouter extends StatelessWidget {
     return BlocConsumer<StudentBloc, StudentState>(
       builder: (context, state) {
         switch (state.state) {
+          case StudentStates.loading:
+            return const LoadingScreen();
           case StudentStates.authorized:
             return const RootController();
           case StudentStates.error:
             return const ErrorScreen();
           case StudentStates.unauthorized:
             return const LoginScreen();
-          case StudentStates.loading:
-            return const LoadingScreen();
         }
       },
       listener: (context, state) {},
