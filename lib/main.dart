@@ -16,6 +16,12 @@ class LectioApp extends StatelessWidget {
     return BlocProvider(
       create: (_) => StudentBloc()..add(LaunchedApp()),
       child: MaterialApp(
+          builder: (context, child) {
+            return MediaQuery(
+                data: MediaQuery.of(context)
+                    .copyWith(alwaysUse24HourFormat: true),
+                child: child!);
+          },
           navigatorObservers: [HeroController()],
           locale: const Locale(
             'dk',

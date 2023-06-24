@@ -16,7 +16,7 @@ class SchemaScreen extends StatefulWidget {
 }
 
 class _SchemaScreenState extends State<SchemaScreen> {
-  final DateTime start = DateTime.now();
+  final DateTime start = DateTime.now().copyWith(hour: 12);
   late PageController _pageController;
   final int startIndex = 200;
 
@@ -33,7 +33,8 @@ class _SchemaScreenState extends State<SchemaScreen> {
         firstDate: start.subtract(const Duration(days: 150)),
         lastDate: start.add(const Duration(days: 150)));
     if (maybeDate != null) {
-      Duration timeDiff = start.difference(maybeDate);
+      DateTime fixedTime = maybeDate.copyWith(hour: 12);
+      Duration timeDiff = start.difference(fixedTime);
       double dayDiff = timeDiff.inHours / 24;
       _pageController.jumpToPage(
         startIndex - dayDiff.round(),

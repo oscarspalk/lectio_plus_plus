@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lpp/bloc/schema/schema_bloc.dart';
 import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/bloc/private_appointment/appointment_bloc.dart';
 import 'package:lpp/components/appbar.dart';
@@ -45,17 +47,37 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                 decoration:
                     const InputDecoration(label: Text("Note (valgfri)")),
               ),
-              TimeSelect(
+              TimeSelect<DateTime>(
+                  name: "Dato", update: bloc.setDate, time: state.date),
+              TimeSelect<TimeOfDay>(
                 name: "Start tidspunkt",
                 time: state.start,
                 update: bloc.setStart,
               ),
-              TimeSelect(
+              TimeSelect<TimeOfDay>(
                 name: "Slut tidspunkt",
                 time: state.end,
                 update: bloc.setEnd,
               ),
-              FilledButton(onPressed: () {}, child: const Text("Opret"))
+              FilledButton(
+                  onPressed: () {
+                    context.read<SchemaBloc>().add(AddedAppointment(
+                        CalendarEvent(
+                            '',
+                            state.title,
+                            '',
+                            '',
+                            '',
+                            '',
+                            state.date.copyWith(
+                                hour: state.start.hour,
+                                minute: state.start.minute),
+                            state.date.copyWith(
+                                hour: state.end.hour, minute: state.end.minute),
+                            note: state.note)));
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Opret"))
             ]);
           },
         ),

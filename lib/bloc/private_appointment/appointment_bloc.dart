@@ -7,7 +7,16 @@ class AppointmentBloc extends Cubit<PrivateAppointmentState> {
 
   AppointmentBloc(this.student)
       : super(PrivateAppointmentState(
-            "", "", TimeOfDay.now(), TimeOfDay.now(), false));
+            DateTime.now(),
+            "",
+            "",
+            TimeOfDay(hour: TimeOfDay.now().hour, minute: 0),
+            TimeOfDay(hour: TimeOfDay.now().hour, minute: 30),
+            false));
+
+  setDate(DateTime? date) {
+    emit(state.copyWith(date: date));
+  }
 
   setStart(TimeOfDay? time) {
     if (time != null &&
@@ -37,17 +46,24 @@ class PrivateAppointmentState {
   final String note;
   final TimeOfDay start;
   final TimeOfDay end;
+  final DateTime date;
   final bool valid;
   PrivateAppointmentState(
-      this.title, this.note, this.start, this.end, this.valid);
+      this.date, this.title, this.note, this.start, this.end, this.valid);
 
   PrivateAppointmentState copyWith(
-      {String? title,
+      {DateTime? date,
+      String? title,
       String? note,
       TimeOfDay? start,
       TimeOfDay? end,
       bool? valid}) {
-    return PrivateAppointmentState(title ?? this.title, note ?? this.note,
-        start ?? this.start, end ?? this.end, valid ?? this.valid);
+    return PrivateAppointmentState(
+        date ?? this.date,
+        title ?? this.title,
+        note ?? this.note,
+        start ?? this.start,
+        end ?? this.end,
+        valid ?? this.valid);
   }
 }
