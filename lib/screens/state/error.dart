@@ -12,7 +12,12 @@ class ErrorScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Der skete en fejl."),
+            Icon(Icons.error_outline,
+                size: 48.0, color: Theme.of(context).colorScheme.primary),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text("Der skete en fejl."),
+            ),
             FilledButton(
                 onPressed: () {
                   context.read<StudentBloc>().add(LaunchedApp());

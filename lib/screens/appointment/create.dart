@@ -47,18 +47,14 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                 decoration:
                     const InputDecoration(label: Text("Note (valgfri)")),
               ),
-              TimeSelect<DateTime>(
-                  name: "Dato", update: bloc.setDate, time: state.date),
-              TimeSelect<TimeOfDay>(
-                name: "Start tidspunkt",
-                time: state.start,
-                update: bloc.setStart,
-              ),
-              TimeSelect<TimeOfDay>(
-                name: "Slut tidspunkt",
-                time: state.end,
-                update: bloc.setEnd,
-              ),
+              TimeSelect(
+                  name: "Start tidspunkt",
+                  update: bloc.setDate,
+                  time: state.date),
+              TimeSelect(
+                  name: "Slut tidspunkt",
+                  update: bloc.setDate,
+                  time: state.date),
               FilledButton(
                   onPressed: () {
                     context.read<SchemaBloc>().add(AddedAppointment(

@@ -2,14 +2,14 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lpp/utils/helpers.dart';
 
-class TimeSelect<T> extends StatelessWidget {
+class TimeSelect extends StatelessWidget {
   const TimeSelect(
       {super.key,
       required this.name,
       required this.update,
       required this.time});
-  final Function(T time) update;
-  final T time;
+  final Function(DateTime time) update;
+  final DateTime time;
   final String name;
   @override
   Widget build(BuildContext context) {
@@ -20,23 +20,14 @@ class TimeSelect<T> extends StatelessWidget {
         ),
         child: FilledButton.icon(
           onPressed: () async {
-            if (time is TimeOfDay) {
-              var futureTime = await showTimePicker(
-                  context: context, initialTime: time as TimeOfDay);
-              if (futureTime != null) {
-                update(futureTime as T);
-              }
-            } else {
-              var futureTime = await showDatePicker(
-                  context: context,
-                  initialDate: time as DateTime,
-                  firstDate:
-                      (time as DateTime).subtract(const Duration(days: 200)),
-                  lastDate: (time as DateTime).add(const Duration(days: 200)));
-              if (futureTime != null) {
-                update(futureTime as T);
-              }
-            }
+            var futureDate = await showTimePicker(
+                context: context, initialTime: TimeOfDay.fromDateTime(time));
+            if (futureDate != null) {}
+            var futureTime = await showDatePicker(
+                context: context,
+                initialDate: time,
+                firstDate: time.subtract(const Duration(days: 200)),
+                lastDate: time.add(const Duration(days: 200)));
           },
           icon: Icon(time is! TimeOfDay
               ? EvaIcons.calendarOutline

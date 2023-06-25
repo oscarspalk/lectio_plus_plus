@@ -12,6 +12,33 @@ class Member extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onLongPress: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+              elevation: 0.0,
+              shadowColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
+              children: [
+                StudentBlocBuilder<StudentCubit<Uint8List>, Uint8List?>(
+                  bloc: StudentCubit(
+                      getStudentBloc(context).state.student!,
+                      (primaryStudent) =>
+                          primaryStudent.getImage(student.imageId))
+                    ..load(),
+                  builder: (context, state) {
+                    return CircleAvatar(
+                      radius: MediaQuery.of(context).size.width / 2,
+                      foregroundImage: Image.memory(state!).image,
+                    );
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
       leading: SizedBox(
         height: 40.0,
         width: 40.0,
