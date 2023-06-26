@@ -76,6 +76,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
               FilledButton(
                   onPressed: state.valid
                       ? () {
+                          Navigator.pop(context);
                           var event = CalendarEvent(
                               "",
                               state.title,
@@ -95,7 +96,6 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                                 .read<SchemaBloc>()
                                 .add(AddedAppointment(event));
                           }
-                          Navigator.pop(context);
                         }
                       : null,
                   child: Text(updating ? "Opdater" : "Opret"))

@@ -147,7 +147,10 @@ class DayView extends StatelessWidget {
   Widget header(BuildContext context, Day day) {
     return Container(
       height: columnWidth,
-      color: Theme.of(context).colorScheme.surface,
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+      ),
       child: Row(
         children: [
           SizedBox(

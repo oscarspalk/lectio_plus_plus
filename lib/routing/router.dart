@@ -4,7 +4,7 @@ import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/controller/root_controller.dart';
 import 'package:lpp/screens/state/internet_error.dart';
 import 'package:lpp/screens/state/loading.dart';
-import 'package:lpp/login_screen.dart';
+import 'package:lpp/screens/login_screen.dart';
 import 'package:lpp/screens/state/login_error.dart';
 
 class AppRouter extends StatelessWidget {
