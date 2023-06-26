@@ -1,12 +1,15 @@
 import 'package:date_format/date_format.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
+import 'package:lpp/bloc/schema/schema_bloc.dart';
 import 'package:lpp/bloc/student/student_cubit.dart';
 import 'package:lpp/bloc/student/student_bloc.dart';
 import 'package:lpp/components/appbar.dart';
 import 'package:lpp/components/loading/student_bloc_builder.dart';
+import 'package:lpp/screens/appointment/create.dart';
 import 'package:lpp/screens/modul/modul_lektie_screen.dart';
 import 'package:lpp/utils/formatters.dart';
 import 'package:lpp/utils/helpers.dart';
@@ -25,9 +28,32 @@ class ModulDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: LppAppbar(
-            hideMenu: true,
-            title: standIn(checkForFormat(event.team), event.title),
-            oldContext: context),
+          hideMenu: true,
+          title: standIn(checkForFormat(event.team), event.title),
+          oldContext: context,
+          actions: event.type == CalendarEventType.private
+              ? [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(context, SwipeablePageRoute(
+                          builder: (context) {
+                            return CreateAppointmentScreen(previous: event);
+                          },
+                        ));
+                      },
+                      icon: const Icon(EvaIcons.editOutline)),
+                  IconButton(
+                      onPressed: () {
+                        context
+                            .read<SchemaBloc>()
+                            .add(RemovedAppointment(event));
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(EvaIcons.trash2Outline)),
+                ]
+              : [Container()],
+        ),
         body: StudentBlocBuilder<StudentCubit<CalendarEventDetails>,
             CalendarEventDetails?>(
           bloc: StudentCubit(getStudentBloc(context).state.student!,
@@ -159,7 +185,14 @@ class ModulDetailsScreen extends StatelessWidget {
           })
         ];
       case CalendarEventType.private:
-        return [];
+        return [
+          ine(event.note)
+              ? ListTile(
+                  title: Text(event.note),
+                  subtitle: const Text("Note"),
+                )
+              : Container(),
+        ];
     }
   }
 }

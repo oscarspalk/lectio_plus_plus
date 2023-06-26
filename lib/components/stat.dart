@@ -25,7 +25,8 @@ class Statistic extends StatelessWidget {
               style: headerStyle,
               textAlign: TextAlign.left,
             ),
-            Text(data)
+            Text(data),
+            Expanded(child: illustration ?? Container())
           ]),
     ));
   }

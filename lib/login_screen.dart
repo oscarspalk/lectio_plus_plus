@@ -13,15 +13,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  Gym? _selectedGym;
+  int _selectedGym = 0;
+  late TextEditingController usernameController;
+  late TextEditingController passwordController;
+
   @override
   void initState() {
     super.initState();
+    usernameController = TextEditingController();
+    passwordController = TextEditingController();
   }
-
-  TextEditingController usernameController = TextEditingController();
-
-  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +38,13 @@ class _LoginScreenState extends State<LoginScreen> {
           DropdownButton<Gym>(
             isExpanded: true,
             style: const TextStyle(overflow: TextOverflow.fade),
-            value: _selectedGym ?? gyms[0],
+            value: gyms[_selectedGym],
             items: gyms.map<DropdownMenuItem<Gym>>((gym) {
               return DropdownMenuItem(value: gym, child: Text(gym.name));
             }).toList(),
             onChanged: (value) {
               setState(() {
-                _selectedGym = value;
+                _selectedGym = gyms.indexOf(value!);
               });
             },
           ),
@@ -59,11 +60,9 @@ class _LoginScreenState extends State<LoginScreen> {
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: ElevatedButton(
-                onPressed: _selectedGym != null
-                    ? () => context.read<StudentBloc>().add(StudentLoggedIn(
-                        Account(_selectedGym!.id, usernameController.text,
-                            passwordController.text)))
-                    : null,
+                onPressed: () => context.read<StudentBloc>().add(
+                    StudentLoggedIn(Account(gyms[_selectedGym].id,
+                        usernameController.text, passwordController.text))),
                 child: const Text("Log ind")),
           )
         ],

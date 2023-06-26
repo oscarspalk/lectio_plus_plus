@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/utils/helpers.dart';
@@ -9,15 +10,33 @@ final class SwitchedDate extends SchemaEvent {
   SwitchedDate(this.time);
 }
 
-final class AddedAppointment extends SchemaEvent {
+final class AppointmentEvent extends SchemaEvent {
   final CalendarEvent event;
-  AddedAppointment(this.event);
+  AppointmentEvent(this.event);
+}
+
+final class AddedAppointment extends AppointmentEvent {
+  AddedAppointment(super.event);
+}
+
+final class RemovedAppointment extends AppointmentEvent {
+  RemovedAppointment(super.event);
+}
+
+final class UpdatedAppointment extends AppointmentEvent {
+  UpdatedAppointment(super.event);
 }
 
 class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
   final Student student;
 
   List<Week> weeks = [];
+
+  Future<Week> _getWeek(int year, int num) async {
+    Week fetchedWeek = await student.weeks.get(year, num);
+    weeks.add(fetchedWeek);
+    return fetchedWeek;
+  }
 
   SchemaBloc(this.student) : super(SchemaState(DateTime.now(), [])) {
     on<SwitchedDate>((event, emit) async {
@@ -26,23 +45,56 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
           weeks.where((element) => element.weekNum == weekNum).toList();
       List<Week> weekCopy = state.weeks;
       if (availableWeeks.isEmpty) {
-        weekCopy.add(await student.weeks.get(event.time.year, weekNum));
+        weekCopy.add(await _getWeek(event.time.year, weekNum));
       }
       emit(SchemaState(event.time, weekCopy));
     });
 
     on<AddedAppointment>((event, emit) async {
+      debugPrint("Creating new");
       await student.events.private.create(event.event);
       int weekNum = weekFromDateTime(event.event.start);
-      List<Week> availableWeeks =
-          weeks.where((element) => element.weekNum == weekNum).toList();
-      List<Week> weekCopy = state.weeks;
-      if (availableWeeks.isNotEmpty) {
-        weekCopy.remove(availableWeeks[0]);
-        weekCopy.add(await student.weeks.get(event.event.start.year, weekNum));
+      int availableWeeks =
+          weeks.indexWhere((element) => element.weekNum == weekNum);
+      if (availableWeeks != -1) {
+        weeks.removeAt(availableWeeks);
+        await _getWeek(event.event.start.year, weekNum);
       }
-      emit(SchemaState(state.selectedTime, weekCopy));
+      emit(SchemaState(state.selectedTime, weeks));
     });
+
+    on<UpdatedAppointment>(
+      (event, emit) async {
+        await student.events.private.update(event.event);
+        int weekNum = weekFromDateTime(event.event.start);
+        int availableWeeks =
+            weeks.indexWhere((element) => element.weekNum == weekNum);
+        if (availableWeeks != -1) {
+          weeks.removeAt(availableWeeks);
+          await _getWeek(event.event.start.year, weekNum);
+        }
+        emit(SchemaState(state.selectedTime, weeks));
+      },
+    );
+
+    on<RemovedAppointment>(
+      (event, emit) {
+        student.events.private.delete(event.event);
+        int weekNum = weekFromDateTime(event.event.start);
+        int availableWeeks =
+            weeks.indexWhere((element) => element.weekNum == weekNum);
+        if (availableWeeks != -1) {
+          weeks
+              .elementAt(availableWeeks)
+              .days
+              .firstWhere(
+                  (element) => element.date.day == event.event.start.day)
+              .events
+              .remove(event.event);
+        }
+        emit(SchemaState(state.selectedTime, weeks));
+      },
+    );
   }
 }
 

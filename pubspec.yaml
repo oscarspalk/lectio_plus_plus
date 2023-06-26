@@ -42,6 +42,7 @@ dependencies:
   biometric_storage: ^5.0.0
   flutter_form_bloc: ^0.30.1
   flutter_secure_storage: ^8.0.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

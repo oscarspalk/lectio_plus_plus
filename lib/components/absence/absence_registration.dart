@@ -12,7 +12,13 @@ class AbsenceRegistration extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
         contentPadding: const EdgeInsets.all(10.0),
-        leading: AbsencePercentageCircle(percentage: absenceCause.absence),
+        leading: SizedBox(
+            height: 60.0,
+            width: 60.0,
+            child: AbsencePercentageCircle(
+              percentage: absenceCause.absence,
+              cause: absenceCause.cause,
+            )),
         title: Text(absenceCause.module.team),
         subtitle: Text(
             "${absenceCause.cause.name} ${absenceCause.expandedCause.isNotEmpty ? "-" : ""} ${absenceCause.expandedCause}"),

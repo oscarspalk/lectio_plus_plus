@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/utils/state_pattern.dart';
-import 'package:lpp/screens/state/error.dart';
+import 'package:lpp/screens/state/internet_error.dart';
 import 'package:lpp/screens/state/loading.dart';
 
 class StudentBlocBuilder<T extends StateStreamable<StatePattern<V>>, V>
@@ -15,7 +15,7 @@ class StudentBlocBuilder<T extends StateStreamable<StatePattern<V>>, V>
       bloc: bloc,
       builder: (context, state) {
         if (state.state == States.error) {
-          return const ErrorScreen();
+          return const InternetErrorScreen();
         }
         if (state.status == States.loading) {
           return const LoadingScreen();

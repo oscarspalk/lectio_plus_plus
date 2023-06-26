@@ -1,5 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lpp/utils/helpers.dart';
 
 class TimeSelect extends StatelessWidget {
@@ -7,34 +8,42 @@ class TimeSelect extends StatelessWidget {
       {super.key,
       required this.name,
       required this.update,
-      required this.time});
+      required this.time,
+      this.errorText});
   final Function(DateTime time) update;
   final DateTime time;
   final String name;
+  final String? errorText;
   @override
   Widget build(BuildContext context) {
     return InputDecorator(
         decoration: InputDecoration(
-          border: InputBorder.none,
-          label: Text(name),
-        ),
+            border: InputBorder.none, label: Text(name), errorText: errorText),
         child: FilledButton.icon(
           onPressed: () async {
-            var futureDate = await showTimePicker(
-                context: context, initialTime: TimeOfDay.fromDateTime(time));
-            if (futureDate != null) {}
-            var futureTime = await showDatePicker(
-                context: context,
-                initialDate: time,
-                firstDate: time.subtract(const Duration(days: 200)),
-                lastDate: time.add(const Duration(days: 200)));
+            showDatePicker(
+                    context: context,
+                    initialDate: time,
+                    firstDate: time.subtract(const Duration(days: 200)),
+                    lastDate: time.add(const Duration(days: 200)))
+                .then((date) {
+              if (date == null) {
+                return;
+              }
+              showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.fromDateTime(time))
+                  .then((timeOfDay) {
+                if (timeOfDay != null) {
+                  update(date.copyWith(
+                      hour: timeOfDay.hour, minute: timeOfDay.minute));
+                }
+              });
+            });
           },
-          icon: Icon(time is! TimeOfDay
-              ? EvaIcons.calendarOutline
-              : EvaIcons.clockOutline),
-          label: Text(time is TimeOfDay
-              ? (time as TimeOfDay).format(context)
-              : formatDateReadable(time as DateTime)),
+          icon: const Icon(EvaIcons.calendarOutline),
+          label: Text(
+              "${formatDateReadable(time)} ${DateFormat("HH:mm").format(time)}"),
         ));
   }
 }

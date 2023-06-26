@@ -31,12 +31,10 @@ class AbsenceOverview extends StatelessWidget {
               crossAxisCount: 2),
           children: [
             Statistic(
-                header: "Opgjort fravær",
-                data:
-                    "${(totalAbsenceModules / totalModules * 100).toStringAsFixed(1)}%",
-                illustration: CircularProgressIndicator(
-                  value: totalAbsenceModules / totalModules,
-                )),
+              header: "Opgjort fravær",
+              data:
+                  "${(totalAbsenceModules / totalModules * 100).toStringAsFixed(1)}%",
+            ),
             Statistic(
                 header: "Opgjort moduler",
                 data: "$totalAbsenceModules/$totalModules"),

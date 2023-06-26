@@ -6,7 +6,13 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/topics/gyms/controller.dart';
 import 'package:lectio_wrapper/types/gym.dart';
 
-enum StudentStates { unauthorized, loading, authorized, error }
+enum StudentStates {
+  unauthorized,
+  loading,
+  authorized,
+  loginError,
+  internetError
+}
 
 class StudentState {
   Student? student;
@@ -39,6 +45,8 @@ final class StudentLoggedOut extends StudentEvent {}
 
 final class LaunchedApp extends StudentEvent {}
 
+final class ResetError extends StudentEvent {}
+
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
   StudentBloc() : super(StudentState(StudentStates.loading, gyms: [])) {
     on<LaunchedApp>((event, emit) async {
@@ -64,7 +72,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         }
         return emit(state.copyWith(state: StudentStates.unauthorized));
       } catch (e) {
-        emit(state.copyWith(state: StudentStates.error));
+        emit(state.copyWith(state: StudentStates.internetError));
       }
     });
 
@@ -74,27 +82,25 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       Future func() async {
         try {
           var account = event.account;
-          const storage = FlutterSecureStorage();
-          Map<String, String> data = {};
-          data.putIfAbsent("username", () => account.username);
-          data.putIfAbsent("password", () => account.password);
-          data.putIfAbsent("gymId", () => account.gymId.toString());
-          await storage.write(key: "username", value: account.username);
-          await storage.write(key: "password", value: account.password);
-          await storage.write(key: "gymId", value: account.gymId.toString());
           var student = await account.login();
-
           if (student != null) {
+            const storage = FlutterSecureStorage();
+            Map<String, String> data = {};
+            data.putIfAbsent("username", () => account.username);
+            data.putIfAbsent("password", () => account.password);
+            data.putIfAbsent("gymId", () => account.gymId.toString());
+            await storage.write(key: "username", value: account.username);
+            await storage.write(key: "password", value: account.password);
+            await storage.write(key: "gymId", value: account.gymId.toString());
             var info = await student.getBasicInfo();
             return emit(state.copyWith(
                 state: StudentStates.authorized,
                 student: student,
                 basicInfo: info));
-          } else {
-            return emit(state.copyWith(state: StudentStates.unauthorized));
           }
+          return emit(state.copyWith(state: StudentStates.loginError));
         } catch (e) {
-          emit(state.copyWith(state: StudentStates.error));
+          emit(state.copyWith(state: StudentStates.internetError));
         }
       }
 
@@ -108,6 +114,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       await storage.deleteAll();
       emit(state.copyWith(state: StudentStates.unauthorized));
     });
+
+    on<ResetError>(
+      (event, emit) {
+        emit(state.copyWith(state: StudentStates.unauthorized));
+      },
+    );
   }
 }
 

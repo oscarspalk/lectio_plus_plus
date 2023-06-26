@@ -8,8 +8,8 @@ import 'package:lpp/components/appbar.dart';
 import 'package:lpp/components/control/time_select.dart';
 
 class CreateAppointmentScreen extends StatefulWidget {
-  const CreateAppointmentScreen({super.key});
-
+  const CreateAppointmentScreen({super.key, this.previous});
+  final CalendarEvent? previous;
   @override
   State<CreateAppointmentScreen> createState() =>
       _CreateAppointmentScreenState();
@@ -17,18 +17,31 @@ class CreateAppointmentScreen extends StatefulWidget {
 
 class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
   late AppointmentBloc bloc;
-
+  late TextEditingController titleController;
+  late TextEditingController noteController;
   @override
   void initState() {
     super.initState();
-    bloc = AppointmentBloc(getStudentBloc(context).state.student!);
+    bloc = AppointmentBloc(getStudentBloc(context).state.student!,
+        event: widget.previous);
+    titleController = TextEditingController(text: bloc.state.title)
+      ..addListener(() {
+        bloc.setTitle(titleController.text);
+      });
+    noteController = TextEditingController(text: bloc.state.note)
+      ..addListener(() {
+        bloc.setNote(noteController.text);
+      });
   }
 
   @override
   Widget build(BuildContext context) {
+    bool updating = widget.previous != null;
     return Scaffold(
       appBar: LppAppbar(
-        title: "Ny begivenhed",
+        title: widget.previous != null
+            ? "Opdater begivenhed"
+            : "Ny privat begivenhed",
         oldContext: context,
         hideMenu: true,
       ),
@@ -39,41 +52,53 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
           builder: (context, state) {
             return Column(children: [
               TextField(
-                onChanged: bloc.setTitle,
-                decoration: const InputDecoration(label: Text("Titel")),
+                controller: titleController,
+                decoration: InputDecoration(
+                    label: const Text("Titel"),
+                    errorText: titleController.text.isEmpty
+                        ? "Skal være udfyldt"
+                        : null),
               ),
               TextField(
-                onChanged: bloc.setNote,
+                controller: noteController,
                 decoration:
                     const InputDecoration(label: Text("Note (valgfri)")),
               ),
               TimeSelect(
+                  errorText: state.start.isAfter(state.end)
+                      ? "Start tidspunktet skal være før slut tidspunktet"
+                      : null,
                   name: "Start tidspunkt",
-                  update: bloc.setDate,
-                  time: state.date),
+                  update: bloc.setStart,
+                  time: state.start),
               TimeSelect(
-                  name: "Slut tidspunkt",
-                  update: bloc.setDate,
-                  time: state.date),
+                  name: "Slut tidspunkt", update: bloc.setEnd, time: state.end),
               FilledButton(
-                  onPressed: () {
-                    context.read<SchemaBloc>().add(AddedAppointment(
-                        CalendarEvent(
-                            '',
-                            state.title,
-                            '',
-                            '',
-                            '',
-                            '',
-                            state.date.copyWith(
-                                hour: state.start.hour,
-                                minute: state.start.minute),
-                            state.date.copyWith(
-                                hour: state.end.hour, minute: state.end.minute),
-                            note: state.note)));
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Opret"))
+                  onPressed: state.valid
+                      ? () {
+                          var event = CalendarEvent(
+                              "",
+                              state.title,
+                              '',
+                              '',
+                              '',
+                              updating ? widget.previous!.id : "",
+                              state.start,
+                              state.end,
+                              note: state.note);
+                          if (updating) {
+                            context
+                                .read<SchemaBloc>()
+                                .add(UpdatedAppointment(event));
+                          } else {
+                            context
+                                .read<SchemaBloc>()
+                                .add(AddedAppointment(event));
+                          }
+                          Navigator.pop(context);
+                        }
+                      : null,
+                  child: Text(updating ? "Opdater" : "Opret"))
             ]);
           },
         ),
@@ -85,5 +110,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
   void dispose() {
     super.dispose();
     bloc.close();
+    titleController.dispose();
+    noteController.dispose();
   }
 }

@@ -5,31 +5,23 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 class AppointmentBloc extends Cubit<PrivateAppointmentState> {
   final Student student;
 
-  AppointmentBloc(this.student)
-      : super(PrivateAppointmentState(
-            DateTime.now(),
-            "",
-            "",
-            TimeOfDay(hour: TimeOfDay.now().hour, minute: 0),
-            TimeOfDay(hour: TimeOfDay.now().hour, minute: 30),
-            false));
+  AppointmentBloc(this.student, {CalendarEvent? event})
+      : super(event != null
+            ? PrivateAppointmentState(
+                event.title, event.note, event.start, event.end)
+            : PrivateAppointmentState(
+                "",
+                "",
+                DateTime.now().copyWith(hour: TimeOfDay.now().hour, minute: 0),
+                DateTime.now().copyWith(hour: TimeOfDay.now().hour, minute: 30),
+              ));
 
-  setDate(DateTime? date) {
-    emit(state.copyWith(date: date));
+  setStart(DateTime start) {
+    emit(state.copyWith(start: start));
   }
 
-  setStart(TimeOfDay? time) {
-    if (time != null &&
-        (time.hour < state.end.hour ||
-            (time.hour == state.end.hour && time.minute < state.end.minute))) {
-      emit(state.copyWith(start: time));
-    }
-  }
-
-  setEnd(TimeOfDay? time) {
-    if (time != null) {
-      emit(state.copyWith(end: time));
-    }
+  setEnd(DateTime end) {
+    emit(state.copyWith(end: end));
   }
 
   setTitle(String title) {
@@ -44,26 +36,24 @@ class AppointmentBloc extends Cubit<PrivateAppointmentState> {
 class PrivateAppointmentState {
   final String title;
   final String note;
-  final TimeOfDay start;
-  final TimeOfDay end;
-  final DateTime date;
-  final bool valid;
-  PrivateAppointmentState(
-      this.date, this.title, this.note, this.start, this.end, this.valid);
+  final DateTime start;
+  final DateTime end;
+  late bool valid;
+  PrivateAppointmentState(this.title, this.note, this.start, this.end) {
+    if (title.isNotEmpty && start.isBefore(end)) {
+      valid = true;
+      return;
+    }
+    valid = false;
+  }
 
   PrivateAppointmentState copyWith(
-      {DateTime? date,
-      String? title,
+      {String? title,
       String? note,
-      TimeOfDay? start,
-      TimeOfDay? end,
+      DateTime? start,
+      DateTime? end,
       bool? valid}) {
-    return PrivateAppointmentState(
-        date ?? this.date,
-        title ?? this.title,
-        note ?? this.note,
-        start ?? this.start,
-        end ?? this.end,
-        valid ?? this.valid);
+    return PrivateAppointmentState(title ?? this.title, note ?? this.note,
+        start ?? this.start, end ?? this.end);
   }
 }
