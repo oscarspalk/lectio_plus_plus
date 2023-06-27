@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/bloc/student/student_bloc.dart';
-import 'package:lpp/controller/root_controller.dart';
-import 'package:lpp/screens/state/internet_error.dart';
-import 'package:lpp/screens/state/loading.dart';
-import 'package:lpp/screens/login_screen.dart';
-import 'package:lpp/screens/state/login_error.dart';
+import 'package:lpp/logic/bloc/student/student_bloc.dart';
+import 'package:lpp/routing/root_controller.dart';
+import 'package:lpp/ui/screens/state/internet_error.dart';
+import 'package:lpp/ui/screens/state/loading.dart';
+import 'package:lpp/ui/screens/state/login_screen.dart';
+import 'package:lpp/ui/screens/state/login_error.dart';
 
 class AppRouter extends StatelessWidget {
   const AppRouter({super.key});

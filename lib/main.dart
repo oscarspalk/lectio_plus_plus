@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/bloc/student/student_bloc.dart';
+import 'package:lpp/constants.dart';
+import 'package:lpp/logic/bloc/student/student_bloc.dart';
 import 'package:lpp/routing/router.dart';
-import 'package:lpp/style/color_schemes.dart';
 
 Future<void> main() async {
   runApp(const LectioApp());
@@ -26,10 +26,12 @@ class LectioApp extends StatelessWidget {
           locale: const Locale(
             'dk',
           ),
-          title: 'Lectio++',
-          theme: ThemeData.dark(useMaterial3: true).copyWith(
-            colorScheme: darkColorScheme,
-          ),
+          title: appName,
+          theme: ThemeData(
+              useMaterial3: true,
+              brightness: Brightness.light,
+              colorSchemeSeed: Colors.orange),
+          themeMode: ThemeMode.light,
           home: const AppRouter()),
     );
   }
