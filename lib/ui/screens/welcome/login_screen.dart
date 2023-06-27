@@ -4,6 +4,7 @@ import 'package:lectio_wrapper/lectio/account.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/logic/bloc/student/student_bloc.dart';
 import 'package:lpp/ui/style/typograhy.dart';
+import 'package:lpp/ui/widgets/welcome/illustration.dart';
 import 'package:ms_undraw/ms_undraw.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -33,9 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: const EdgeInsets.all(36.0),
         child: ListView(
           children: [
-            UnDraw(
-              height: MediaQuery.of(context).size.width / 2,
-              color: Theme.of(context).colorScheme.primary,
+            const Illustration(
               illustration: UnDrawIllustration.login,
             ),
             Text(

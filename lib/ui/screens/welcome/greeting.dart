@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lpp/ui/style/typograhy.dart';
+import 'package:lpp/ui/widgets/welcome/illustration.dart';
 import 'package:ms_undraw/ms_undraw.dart';
 
 class GreetingsScreen extends StatelessWidget {
@@ -17,9 +18,7 @@ class GreetingsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              UnDraw(
-                height: MediaQuery.of(context).size.width / 2,
-                color: Theme.of(context).colorScheme.primary,
+              const Illustration(
                 illustration: UnDrawIllustration.accept_request,
               ),
               Padding(

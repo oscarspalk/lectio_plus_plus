@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lpp/ui/screens/welcome/theming/theme_controller.dart';
 import 'package:lpp/ui/style/typograhy.dart';
+import 'package:lpp/ui/widgets/welcome/illustration.dart';
 import 'package:ms_undraw/ms_undraw.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
@@ -17,9 +18,7 @@ class ThemeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              UnDraw(
-                height: MediaQuery.of(context).size.width / 2,
-                color: Theme.of(context).colorScheme.primary,
+              const Illustration(
                 illustration: UnDrawIllustration.adjustments,
               ),
               Padding(
