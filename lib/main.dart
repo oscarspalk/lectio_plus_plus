@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lpp/constants.dart';
 import 'package:lpp/logic/bloc/app/theme.dart';
 import 'package:lpp/logic/bloc/student/student_bloc.dart';
 import 'package:lpp/routing/router.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
       create: (_) => ThemeBloc(),

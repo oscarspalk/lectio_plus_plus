@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/class.dart';
 import 'package:lpp/logic/bloc/absence/registation.dart';
@@ -26,6 +30,22 @@ class RootController extends StatefulWidget {
 }
 
 class _RootControllerState extends State<RootController> {
+  BannerAd? _bannerAd;
+
+  final String _adUnitId = kDebugMode
+      ? Platform.isAndroid
+          ? 'ca-app-pub-3940256099942544/6300978111'
+          : 'ca-app-pub-3940256099942544/2934735716'
+      : Platform.isAndroid
+          ? "ca-app-pub-4763369128964093/1205778337"
+          : "";
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAd();
+  }
+
   int _selectedScreen = 0;
   final List<Destination> destinations = [
     Destination(
@@ -68,6 +88,32 @@ class _RootControllerState extends State<RootController> {
         selectedIcon: EvaIcons.settings2)
   ];
 
+  void _loadAd() async {
+    BannerAd(
+      adUnitId: _adUnitId,
+      request: const AdRequest(),
+      size: AdSize.fluid,
+      listener: BannerAdListener(
+        // Called when an ad is successfully received.
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        // Called when an ad request failed.
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+        // Called when an ad opens an overlay that covers the screen.
+        onAdOpened: (Ad ad) {},
+        // Called when an ad removes an overlay that covers the screen.
+        onAdClosed: (Ad ad) {},
+        // Called when an impression occurs on the ad.
+        onAdImpression: (Ad ad) {},
+      ),
+    ).load();
+  }
+
   void setScreen(int n) {
     setState(() {
       _selectedScreen = n;
@@ -80,6 +126,12 @@ class _RootControllerState extends State<RootController> {
       ..addAll(relatedDestinations);
     var student = getStudentBloc(context).state.student!;
     return Scaffold(
+      bottomNavigationBar: _bannerAd != null
+          ? SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 40.0,
+              child: AdWidget(ad: _bannerAd!))
+          : null,
       drawer: LppDrawer(
           destinations: destinations,
           onChange: setScreen,
@@ -131,5 +183,11 @@ class _RootControllerState extends State<RootController> {
             ],
           )),
     );
+  }
+
+  @override
+  void dispose() {
+    _bannerAd!.dispose();
+    super.dispose();
   }
 }
