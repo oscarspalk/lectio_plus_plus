@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/constants.dart';
+import 'package:lpp/logic/bloc/app/theme.dart';
 import 'package:lpp/logic/bloc/student/student_bloc.dart';
 import 'package:lpp/routing/router.dart';
 
 Future<void> main() async {
-  runApp(const LectioApp());
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(
+      create: (_) => ThemeBloc(),
+    ),
+    BlocProvider(create: (_) => StudentBloc()..add(LaunchedApp()))
+  ], child: const LectioApp()));
 }
 
 class LectioApp extends StatelessWidget {
@@ -13,26 +19,22 @@ class LectioApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => StudentBloc()..add(LaunchedApp()),
-      child: MaterialApp(
-          builder: (context, child) {
-            return MediaQuery(
-                data: MediaQuery.of(context)
-                    .copyWith(alwaysUse24HourFormat: true),
-                child: child!);
-          },
-          navigatorObservers: [HeroController()],
-          locale: const Locale(
-            'dk',
-          ),
-          title: appName,
-          theme: ThemeData(
-              useMaterial3: true,
-              brightness: Brightness.light,
-              colorSchemeSeed: Colors.orange),
-          themeMode: ThemeMode.light,
-          home: const AppRouter()),
-    );
+    return BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
+      return MaterialApp(
+        builder: (context, child) {
+          return MediaQuery(
+              data:
+                  MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+              child: child!);
+        },
+        navigatorObservers: [HeroController()],
+        locale: const Locale(
+          'dk',
+        ),
+        title: appName,
+        theme: state.theme,
+        home: const AppRouter(),
+      );
+    });
   }
 }

@@ -4,8 +4,8 @@ import 'package:lpp/logic/bloc/student/student_bloc.dart';
 import 'package:lpp/routing/root_controller.dart';
 import 'package:lpp/ui/screens/state/internet_error.dart';
 import 'package:lpp/ui/screens/state/loading.dart';
-import 'package:lpp/ui/screens/state/login_screen.dart';
 import 'package:lpp/ui/screens/state/login_error.dart';
+import 'package:lpp/ui/screens/welcome/welcome_carousel.dart';
 
 class AppRouter extends StatelessWidget {
   const AppRouter({super.key});
@@ -24,7 +24,7 @@ class AppRouter extends StatelessWidget {
           case StudentStates.loginError:
             return const LoginErrorScreen();
           case StudentStates.unauthorized:
-            return const LoginScreen();
+            return const WelcomeCarousel();
         }
       },
       listener: (context, state) {},

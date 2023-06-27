@@ -1,0 +1,74 @@
+import 'package:flutter/material.dart';
+import 'package:lpp/ui/screens/welcome/gym.dart';
+import 'package:lpp/ui/screens/welcome/login_screen.dart';
+import 'package:lpp/ui/screens/welcome/greeting.dart';
+import 'package:lpp/ui/screens/welcome/money.dart';
+import 'package:lpp/ui/screens/welcome/theme.dart';
+import 'package:lpp/ui/screens/welcome/safety.dart';
+import 'package:lpp/ui/screens/welcome/tos.dart';
+
+class WelcomeCarousel extends StatefulWidget {
+  const WelcomeCarousel({super.key});
+
+  @override
+  State<WelcomeCarousel> createState() => _WelcomeCarouselState();
+}
+
+class _WelcomeCarouselState extends State<WelcomeCarousel> {
+  late PageController carousel;
+  int _selectedGym = 0;
+
+  final Duration animDuration = const Duration(milliseconds: 500);
+  final Curve animCurve = Curves.easeInOut;
+
+  @override
+  void initState() {
+    super.initState();
+    carousel = PageController();
+  }
+
+  void next() {
+    carousel.nextPage(duration: animDuration, curve: animCurve);
+  }
+
+  void back() {
+    carousel.previousPage(duration: animDuration, curve: animCurve);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView(
+      physics: const NeverScrollableScrollPhysics(),
+      controller: carousel,
+      children: [
+        GreetingsScreen(
+          next: next,
+        ),
+        MoneyScreen(next: next),
+        ThemeScreen(next: next),
+        Safety(next: next),
+        TermsOfService(next: next),
+        GymScreen(
+          next: next,
+          selectGym: (n) {
+            next();
+            setState(() {
+              _selectedGym = n;
+            });
+            Navigator.pop(context);
+          },
+        ),
+        LoginScreen(
+          selectedGym: _selectedGym,
+          back: back,
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    carousel.dispose();
+  }
+}

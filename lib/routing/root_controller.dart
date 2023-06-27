@@ -52,7 +52,7 @@ class _RootControllerState extends State<RootController> {
         icon: EvaIcons.activityOutline,
         name: "Fravær",
         selectedIcon: EvaIcons.activity,
-        screen: AbsenceScreen()),
+        screen: const AbsenceScreen()),
     Destination(
         icon: EvaIcons.messageCircleOutline,
         name: "Beskeder",

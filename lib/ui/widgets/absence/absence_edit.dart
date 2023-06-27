@@ -75,7 +75,7 @@ class _EditAbsenceState extends State<EditAbsence> {
                             Navigator.pop(context);
                             var newEntry = widget.cause;
                             newEntry.cause = _absenceCause;
-                            newEntry.note = _explanation;
+                            newEntry.expandedCause = _explanation;
                             context
                                 .read<AbsenceRegistrationsBloc>()
                                 .add(UpdatedRegistration(newEntry));

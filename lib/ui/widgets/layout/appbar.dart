@@ -6,6 +6,7 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Widget? titleWidget;
   final bool hideMenu;
+  final bool hideLeading;
   final List<Widget>? actions;
   final BuildContext oldContext;
   final PreferredSizeWidget? bottom;
@@ -18,7 +19,8 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
       this.actions,
       required this.oldContext,
       this.bottom,
-      this.noStyle = false});
+      this.noStyle = false,
+      this.hideLeading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
       bottom: bottom,
       centerTitle: false,
       elevation: 0.0,
+      automaticallyImplyLeading: !hideLeading,
       leading: !hideMenu
           ? IconButton(
               onPressed: () {

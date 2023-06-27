@@ -23,7 +23,7 @@ class AbsenceRegistrationsBloc
 
     on<UpdatedRegistration>((event, emit) async {
       await student.absence.registrations.update(event.absenceCauseEntry,
-          event.absenceCauseEntry.cause, event.absenceCauseEntry.note);
+          event.absenceCauseEntry.cause, event.absenceCauseEntry.expandedCause);
       var registration = event.absenceCauseEntry;
       var beforeRegistration =
           state.indexWhere((element) => element.id == registration.id);
