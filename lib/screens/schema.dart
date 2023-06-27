@@ -6,7 +6,6 @@ import 'package:lpp/components/appbar.dart';
 import 'package:lpp/components/calendar/day_view.dart';
 import 'package:lpp/screens/appointment/create.dart';
 import 'package:lpp/utils/helpers.dart';
-import 'package:lpp/screens/state/loading.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class SchemaScreen extends StatefulWidget {
@@ -46,23 +45,17 @@ class _SchemaScreenState extends State<SchemaScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<SchemaBloc, SchemaState?>(
       builder: (context, state) {
-        if (state == null) {
-          return const LoadingScreen();
-        }
         return Scaffold(
             appBar: LppAppbar(
-              oldContext: context,
-              titleWidget: Column(
-                children: [
-                  Text(
-                    months[state.selectedTime.month - 1],
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text("Uge ${weekFromDateTime(state.selectedTime)}",
-                      style: Theme.of(context).textTheme.labelSmall)
-                ],
-              ),
               title: "",
+              titleWidget: Column(children: [
+                Text(
+                  months[state!.selectedTime.month - 1],
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text("Uge ${weekFromDateTime(state.selectedTime)}",
+                    style: Theme.of(context).textTheme.labelSmall),
+              ]),
               actions: [
                 IconButton(
                     onPressed: () {
@@ -74,6 +67,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
                     },
                     icon: const Icon(EvaIcons.plus)),
               ],
+              oldContext: context,
             ),
             floatingActionButton: FloatingActionButton(
               heroTag: 2,

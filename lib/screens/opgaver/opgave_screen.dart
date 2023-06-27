@@ -23,7 +23,7 @@ class OpgaveScreen extends StatelessWidget {
           return Scaffold(
               appBar: LppAppbar(
                 hideMenu: true,
-                title: assignment.title,
+                title: ref.title,
                 oldContext: context,
               ),
               body: ListView(

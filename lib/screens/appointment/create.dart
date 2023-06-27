@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
@@ -43,6 +44,13 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
             ? "Opdater begivenhed"
             : "Ny privat begivenhed",
         oldContext: context,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(EvaIcons.activity))
+        ],
         hideMenu: true,
       ),
       body: Padding(
@@ -76,7 +84,6 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
               FilledButton(
                   onPressed: state.valid
                       ? () {
-                          Navigator.pop(context);
                           var event = CalendarEvent(
                               "",
                               state.title,
@@ -96,6 +103,7 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                                 .read<SchemaBloc>()
                                 .add(AddedAppointment(event));
                           }
+                          Navigator.of(context).pop();
                         }
                       : null,
                   child: Text(updating ? "Opdater" : "Opret"))
