@@ -3,6 +3,7 @@ import 'package:lpp/constants.dart';
 import 'package:lpp/ui/style/typograhy.dart';
 import 'package:lpp/ui/widgets/welcome/illustration.dart';
 import 'package:ms_undraw/ms_undraw.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TermsOfService extends StatelessWidget {
   const TermsOfService({super.key, required this.next});
@@ -37,7 +38,13 @@ class TermsOfService extends StatelessWidget {
                 alignment: MainAxisAlignment.center,
                 children: [
                   FilledButton.tonal(
-                      onPressed: () {},
+                      onPressed: () async {
+                        Uri uri =
+                            Uri.parse("https://lpp.oscarspalk.com/privacy");
+                        if (await canLaunchUrl(uri)) {
+                          launchUrl(uri);
+                        }
+                      },
                       child: const Text("Privatlivserklæring")),
                   FilledButton(onPressed: next, child: const Text("Videre"))
                 ],

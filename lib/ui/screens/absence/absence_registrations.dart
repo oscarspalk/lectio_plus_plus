@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
 import 'package:lpp/logic/bloc/absence/registation.dart';
+import 'package:lpp/ui/screens/state/loading.dart';
 import 'package:lpp/ui/widgets/absence/absence_registration.dart';
 
 class AbsenceRegistrations extends StatelessWidget {
@@ -9,9 +10,12 @@ class AbsenceRegistrations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AbsenceRegistrationsBloc, List<AbsenceCauseEntry>>(
+    return BlocBuilder<AbsenceRegistrationsBloc, AbsenceRegistrationsState>(
       builder: (context, state) {
-        List<AbsenceCauseEntry> causes = state
+        if (state.loading) {
+          return const LoadingScreen();
+        }
+        List<AbsenceCauseEntry> causes = state.entries
           ..sort(
             (b, a) {
               return a.module.start.compareTo(b.module.start);

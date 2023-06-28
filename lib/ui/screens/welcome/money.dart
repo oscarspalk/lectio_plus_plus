@@ -29,7 +29,7 @@ class MoneyScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const Text(
-                      "$appName er en gratis app og vil altid være det. I fremtiden kan der desværre forekomme reklamer grundet omkostninger.",
+                      "$appName er en gratis app og vil altid være det. Der vises dog reklamer grundet omkostninger.",
                       textAlign: TextAlign.center),
                 ]),
               ),

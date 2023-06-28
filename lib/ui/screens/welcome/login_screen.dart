@@ -44,12 +44,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextField(
               controller: usernameController,
-              decoration: const InputDecoration(label: Text("Username")),
+              decoration: const InputDecoration(label: Text("Brugernavn")),
             ),
             TextField(
               controller: passwordController,
               obscureText: true,
-              decoration: const InputDecoration(label: Text("Password")),
+              decoration: const InputDecoration(label: Text("Kodeord")),
             ),
             ButtonBar(
                 buttonPadding: const EdgeInsets.all(12.0),

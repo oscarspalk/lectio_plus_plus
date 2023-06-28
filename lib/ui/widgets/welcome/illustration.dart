@@ -10,6 +10,7 @@ class Illustration extends StatelessWidget {
   Widget build(BuildContext context) {
     double size = MediaQuery.of(context).size.width / 2;
     return SizedBox(
+      width: MediaQuery.of(context).size.height,
       height: size,
       child: UnDraw(
         height: size,

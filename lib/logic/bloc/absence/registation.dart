@@ -12,13 +12,14 @@ class UpdatedRegistration extends AbsenceRegistrationEvent {
 class RequestedLoad extends AbsenceRegistrationEvent {}
 
 class AbsenceRegistrationsBloc
-    extends Bloc<AbsenceRegistrationEvent, List<AbsenceCauseEntry>> {
+    extends Bloc<AbsenceRegistrationEvent, AbsenceRegistrationsState> {
   final Student student;
 
-  AbsenceRegistrationsBloc(this.student) : super([]) {
+  AbsenceRegistrationsBloc(this.student)
+      : super(AbsenceRegistrationsState([], true)) {
     on<RequestedLoad>((event, emit) async {
       var items = await student.absence.registrations.list();
-      emit(items);
+      emit(AbsenceRegistrationsState(items, false));
     });
 
     on<UpdatedRegistration>((event, emit) async {
@@ -26,13 +27,20 @@ class AbsenceRegistrationsBloc
           event.absenceCauseEntry.cause, event.absenceCauseEntry.expandedCause);
       var registration = event.absenceCauseEntry;
       var beforeRegistration =
-          state.indexWhere((element) => element.id == registration.id);
+          state.entries.indexWhere((element) => element.id == registration.id);
       if (beforeRegistration != -1) {
-        List<AbsenceCauseEntry> copy = state.take(state.length).toList();
+        List<AbsenceCauseEntry> copy =
+            state.entries.take(state.entries.length).toList();
         copy.removeAt(beforeRegistration);
         copy.add(registration);
-        emit(copy);
+        emit(AbsenceRegistrationsState(copy, false));
       }
     });
   }
+}
+
+class AbsenceRegistrationsState {
+  List<AbsenceCauseEntry> entries;
+  bool loading;
+  AbsenceRegistrationsState(this.entries, this.loading);
 }

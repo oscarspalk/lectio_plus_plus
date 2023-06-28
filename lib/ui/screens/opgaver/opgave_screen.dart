@@ -16,17 +16,17 @@ class OpgaveScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OpgaveDetailsBloc, Assignment?>(
-      builder: (context, state) {
-        if (state != null && state.id == ref.id) {
-          var assignment = state;
-          return Scaffold(
-              appBar: LppAppbar(
-                hideMenu: true,
-                title: ref.title,
-                oldContext: context,
-              ),
-              body: ListView(
+    return Scaffold(
+        appBar: LppAppbar(
+          hideMenu: true,
+          title: ref.title,
+          oldContext: context,
+        ),
+        body: BlocBuilder<OpgaveDetailsBloc, Assignment?>(
+          builder: (context, state) {
+            if (state != null && state.id == ref.id) {
+              var assignment = state;
+              return ListView(
                 children: [
                   Padding(
                     padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
@@ -68,11 +68,11 @@ class OpgaveScreen extends StatelessWidget {
                   ...getTestFiles(context, state.testFiles),
                   ...getEntries(context, state.entries)
                 ],
-              ));
-        }
-        return const LoadingScreen();
-      },
-    );
+              );
+            }
+            return const LoadingScreen();
+          },
+        ));
   }
 
   List<Widget> getTestFiles(BuildContext context, List<File> testFiles) {

@@ -14,7 +14,7 @@ class OpgaveScreenOverview extends StatefulWidget {
 }
 
 class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
-  Set<bool> filter = {true};
+  Set<String> filter = {"Venter"};
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,9 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
               });
             },
             segments: const [
-              ButtonSegment(value: true, label: Text("Aktuelle")),
-              ButtonSegment(value: false, label: Text("Alle"))
+              ButtonSegment(value: "Venter", label: Text("Aktuelle")),
+              ButtonSegment(value: "Mangler", label: Text("Mangler")),
+              ButtonSegment(value: "", label: Text("Alle"))
             ],
             selected: filter),
       ),
@@ -45,15 +46,16 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
                   return const LoadingScreen();
                 }
                 List<AssignmentRef> assignments = state.refs.where((element) {
-                  if (filter.single) {
-                    debugPrint("filter enabled");
-                    return element.status != "Afleveret";
-                  }
-                  return true;
+                  return filter.first.isEmpty || element.status == filter.first;
                 }).toList()
                   ..sort(
                     (b, a) => a.deadline.compareTo(b.deadline),
                   );
+                if (assignments.isEmpty) {
+                  return const Center(
+                    child: Text('Du ser heldig ud 😉'),
+                  );
+                }
                 return ListView.builder(
                   itemCount: assignments.length,
                   itemBuilder: (context, index) {
