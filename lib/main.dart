@@ -11,7 +11,7 @@ Future<void> main() async {
   MobileAds.instance.initialize();
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
-      create: (_) => ThemeBloc(),
+      create: (_) => ThemeBloc()..add(CheckForTheme()),
     ),
     BlocProvider(create: (_) => StudentBloc()..add(LaunchedApp()))
   ], child: const LectioApp()));

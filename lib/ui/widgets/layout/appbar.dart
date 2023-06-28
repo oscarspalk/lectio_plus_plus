@@ -25,6 +25,7 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return MorphingAppBar(
+      backgroundColor: Theme.of(context).colorScheme.primary,
       bottom: bottom,
       centerTitle: false,
       elevation: 0.0,
