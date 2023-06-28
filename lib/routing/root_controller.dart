@@ -31,7 +31,7 @@ class RootController extends StatefulWidget {
 
 class _RootControllerState extends State<RootController> {
   BannerAd? _bannerAd;
-
+  final GlobalKey<NavigatorState> _navKey = GlobalKey();
   final String _adUnitId = kDebugMode
       ? Platform.isAndroid
           ? 'ca-app-pub-3940256099942544/6300978111'
@@ -173,14 +173,28 @@ class _RootControllerState extends State<RootController> {
                 ..load(),
             )
           ],
-          child: Navigator(
-            onPopPage: (route, result) {
-              return route.didPop(result);
+          child: WillPopScope(
+            onWillPop: () async {
+              _navKey.currentState!.pop();
+              return false;
             },
-            observers: [HeroController()],
-            pages: [
-              MaterialPage(child: combinedDestinations[_selectedScreen].screen)
-            ],
+            child: Navigator(
+              key: _navKey,
+              onPopPage: (route, result) {
+                return route.didPop(result);
+              },
+              observers: [HeroController()],
+              pages: [
+                MaterialPage(child: Builder(builder: (context) {
+                  return WillPopScope(
+                      onWillPop: () async {
+                        Navigator.pop(context);
+                        return false;
+                      },
+                      child: combinedDestinations[_selectedScreen].screen);
+                }))
+              ],
+            ),
           )),
     );
   }
