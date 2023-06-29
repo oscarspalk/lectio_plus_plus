@@ -37,8 +37,8 @@ class ThreadEntryWidget extends StatelessWidget {
                           PopupMenuItem(
                               enabled: entry.files!.isNotEmpty,
                               child: const Text("Filer")),
-                          PopupMenuItem(child: Text("Rediger")),
-                          PopupMenuItem(child: Text("Slet"))
+                          const PopupMenuItem(child: Text("Rediger")),
+                          const PopupMenuItem(child: Text("Slet"))
                         ]);
                   },
                   icon: const Icon(EvaIcons.moreVerticalOutline))
