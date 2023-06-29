@@ -20,6 +20,7 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: LppAppbar(title: "Opgaver", oldContext: context),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.background,

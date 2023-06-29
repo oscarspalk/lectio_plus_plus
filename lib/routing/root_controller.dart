@@ -7,12 +7,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/class.dart';
+import 'package:lectio_wrapper/types/grades/grade.dart';
+import 'package:lectio_wrapper/types/grades/note.dart';
 import 'package:lpp/logic/bloc/absence/registation.dart';
 import 'package:lpp/logic/bloc/opgaver/opgaver_bloc.dart';
 import 'package:lpp/logic/bloc/opgaver/opgaver_details_bloc.dart';
 import 'package:lpp/logic/bloc/schema/schema_bloc.dart';
 import 'package:lpp/logic/bloc/student/student_bloc.dart';
 import 'package:lpp/logic/bloc/student/student_cubit.dart';
+import 'package:lpp/ui/screens/grades/grade.dart';
 import 'package:lpp/ui/widgets/layout/drawer.dart';
 import 'package:lpp/ui/screens/absence/absence_screen.dart';
 import 'package:lpp/ui/screens/beskeder/beskeder_screen.dart';
@@ -68,6 +71,11 @@ class _RootControllerState extends State<RootController> {
         selectedIcon: EvaIcons.people,
         name: "Klasser",
         screen: const KlasseScreen()),
+    Destination(
+        icon: EvaIcons.bookmarkOutline,
+        name: "Karakterer",
+        selectedIcon: EvaIcons.bookmark,
+        screen: const GradeScreen()),
     Destination(
         icon: EvaIcons.activityOutline,
         name: "Fravær",
@@ -166,6 +174,15 @@ class _RootControllerState extends State<RootController> {
             BlocProvider(
               create: (context) =>
                   AbsenceRegistrationsBloc(student)..add(RequestedLoad()),
+            ),
+            BlocProvider(
+                create: (context) => StudentCubit<List<GradeRow>>(
+                    student, (student) => student.grades.list())
+                  ..load()),
+            BlocProvider(
+              create: (context) => StudentCubit<List<GradeNote>>(
+                  student, (student) => student.grades.notes.list())
+                ..load(),
             ),
             BlocProvider(
               create: (context) => StudentCubit<List<ClassRef>>(

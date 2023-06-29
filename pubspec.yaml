@@ -41,6 +41,7 @@ dependencies:
   google_mobile_ads: ^3.0.0
   fl_chart: ^0.63.0
   d_chart: ^2.2.11
+  accordion: ^2.5.1
 
 dev_dependencies:
   flutter_test:
