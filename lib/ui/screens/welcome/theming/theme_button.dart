@@ -4,10 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/logic/bloc/app/theme.dart';
 
 class ThemeButton extends StatelessWidget {
-  const ThemeButton({super.key, required this.color, required this.dark});
+  const ThemeButton({super.key, required this.color});
 
   final Color color;
-  final bool dark;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
@@ -23,12 +22,11 @@ class ThemeButton extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(300),
             onTap: () {
-              context.read<ThemeBloc>().add(SwitchedTheme(
-                  color, dark ? Brightness.dark : Brightness.light));
+              context
+                  .read<ThemeBloc>()
+                  .add(SwitchedTheme(color, state.brightness));
             },
-            child: state.color == color &&
-                    state.brightness ==
-                        (dark ? Brightness.dark : Brightness.light)
+            child: state.color == color
                 ? Icon(
                     EvaIcons.checkmark,
                     color: Theme.of(context).colorScheme.onPrimary,

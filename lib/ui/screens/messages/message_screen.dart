@@ -4,9 +4,10 @@ import 'package:lpp/logic/bloc/student/student_cubit.dart';
 import 'package:lpp/logic/bloc/student/student_bloc.dart';
 import 'package:lpp/ui/widgets/layout/appbar.dart';
 import 'package:lpp/ui/widgets/loading/student_bloc_builder.dart';
+import 'package:lpp/ui/widgets/message/message_item.dart';
 
-class BeskederScreen extends StatelessWidget {
-  const BeskederScreen({super.key});
+class MessageScreen extends StatelessWidget {
+  const MessageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +33,7 @@ class BeskederScreen extends StatelessWidget {
           return ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, index) {
-              var item = data[index];
-              return ListTile(
-                title: Text(item.topic),
-              );
+              return MessageItem(ref: data[index]);
             },
           );
         },

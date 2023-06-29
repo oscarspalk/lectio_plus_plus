@@ -18,7 +18,7 @@ import 'package:lpp/logic/bloc/student/student_cubit.dart';
 import 'package:lpp/ui/screens/grades/grade.dart';
 import 'package:lpp/ui/widgets/layout/drawer.dart';
 import 'package:lpp/ui/screens/absence/absence_screen.dart';
-import 'package:lpp/ui/screens/beskeder/beskeder_screen.dart';
+import 'package:lpp/ui/screens/messages/message_screen.dart';
 import 'package:lpp/ui/screens/homework/homework.dart';
 import 'package:lpp/ui/screens/klasser/klasse_screen.dart';
 import 'package:lpp/ui/screens/opgaver/opgave_screen_overview.dart';
@@ -85,7 +85,7 @@ class _RootControllerState extends State<RootController> {
         icon: EvaIcons.messageCircleOutline,
         name: "Beskeder",
         selectedIcon: EvaIcons.messageCircle,
-        screen: const BeskederScreen())
+        screen: const MessageScreen())
   ];
 
   final List<Destination> relatedDestinations = [
