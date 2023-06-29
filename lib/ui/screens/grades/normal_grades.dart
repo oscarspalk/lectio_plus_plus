@@ -21,23 +21,19 @@ class SpecificGradeScreen extends StatelessWidget {
     }
     var entries = grades.entries.toList();
     return ListView(children: [
-      Expanded(
-        child: Column(
-          children: entries
-              .map((entry) => ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(entry.key.name),
-                        Text(entry.value != null
-                            ? entry.value!.grade.toString()
-                            : "-")
-                      ],
-                    ),
-                  ))
-              .toList(),
-        ),
-      ),
+      ...entries
+          .map((entry) => ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(entry.key.name),
+                    Text(entry.value != null
+                        ? entry.value!.grade.toString()
+                        : "-")
+                  ],
+                ),
+              ))
+          .toList(),
       ListTile(
         tileColor: Theme.of(context).colorScheme.primary,
         titleTextStyle: TextStyle(
