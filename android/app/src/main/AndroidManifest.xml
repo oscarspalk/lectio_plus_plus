@@ -9,7 +9,7 @@
   </intent>
 </queries>
    <application
-        android:label="LectioPlusPlus"
+        android:label="Lectio++"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
