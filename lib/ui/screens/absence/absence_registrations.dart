@@ -15,6 +15,11 @@ class AbsenceRegistrations extends StatelessWidget {
         if (state.loading) {
           return const LoadingScreen();
         }
+        if (state.entries.isEmpty) {
+          return const Center(
+            child: Text("Har du intet fravær?"),
+          );
+        }
         List<AbsenceCauseEntry> causes = state.entries
           ..sort(
             (b, a) {

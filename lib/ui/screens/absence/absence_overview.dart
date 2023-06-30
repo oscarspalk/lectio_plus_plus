@@ -44,7 +44,7 @@ class AbsenceOverview extends StatelessWidget {
                         Theme.of(context).colorScheme.onBackground,
                     barColor: (barData, index, id) {
                       var scheme = Theme.of(context).colorScheme;
-                      if (barData['domain'] == mostAbsence.team.name) {
+                      if (barData['domain'] == mostAbsence.team.displayName) {
                         return scheme.primaryContainer;
                       }
                       return scheme.secondary;
@@ -59,7 +59,7 @@ class AbsenceOverview extends StatelessWidget {
                             .where((element) =>
                                 element.regular.currentModules.current > 0)
                             .map((e) => {
-                                  'domain': e.team.name,
+                                  'domain': e.team.displayName,
                                   'measure': e.regular.currentModules.current
                                 })
                             .toList()

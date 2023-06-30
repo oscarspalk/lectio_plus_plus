@@ -26,7 +26,7 @@ class SpecificGradeScreen extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(entry.key.name),
+                    Text(entry.key.displayName),
                     Text(entry.value != null
                         ? entry.value!.grade.toString()
                         : "-")
