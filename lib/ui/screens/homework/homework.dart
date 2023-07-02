@@ -4,6 +4,8 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/homework/homework.dart';
 import 'package:lectio_wrapper/types/homework/link_detail.dart';
 import 'package:lpp/logic/bloc/student/student_cubit.dart';
+import 'package:lpp/ui/screens/state/not_ready.dart';
+import 'package:lpp/ui/widgets/homework/homework_item.dart';
 import 'package:lpp/ui/widgets/layout/appbar.dart';
 import 'package:lpp/ui/widgets/loading/student_bloc_builder.dart';
 
@@ -16,6 +18,9 @@ class HomeworkScreen extends StatelessWidget {
       appBar: LppAppbar(title: "Lektier", oldContext: context),
       body: StudentBlocBuilder<StudentCubit<List<Homework>>, List<Homework>?>(
         builder: (context, state) {
+          if (!kDebugMode) {
+            return const NotReadyScreen();
+          }
           List<Homework> fakeHomework = kDebugMode
               ? [
                   Homework(
@@ -35,9 +40,7 @@ class HomeworkScreen extends StatelessWidget {
             itemCount: fakeHomework.length,
             itemBuilder: (context, index) {
               var homework = fakeHomework[index];
-              return ListTile(
-                title: Text(homework.activity),
-              );
+              return HomeworkItem(homework: homework);
             },
           );
         },

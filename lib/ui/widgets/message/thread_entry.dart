@@ -1,4 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
@@ -28,20 +29,22 @@ class ThreadEntryWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              IconButton(
-                  onPressed: () {
-                    showMenu(
-                        context: context,
-                        position: RelativeRect.fill,
-                        items: [
-                          PopupMenuItem(
-                              enabled: entry.files!.isNotEmpty,
-                              child: const Text("Filer")),
-                          const PopupMenuItem(child: Text("Rediger")),
-                          const PopupMenuItem(child: Text("Slet"))
-                        ]);
-                  },
-                  icon: const Icon(EvaIcons.moreVerticalOutline))
+              kDebugMode
+                  ? IconButton(
+                      onPressed: () {
+                        showMenu(
+                            context: context,
+                            position: RelativeRect.fill,
+                            items: [
+                              PopupMenuItem(
+                                  enabled: entry.files!.isNotEmpty,
+                                  child: const Text("Filer")),
+                              const PopupMenuItem(child: Text("Rediger")),
+                              const PopupMenuItem(child: Text("Slet"))
+                            ]);
+                      },
+                      icon: const Icon(EvaIcons.moreVerticalOutline))
+                  : Container()
             ],
           ),
           Text(entry.content)

@@ -16,6 +16,7 @@ import 'package:lpp/logic/bloc/schema/schema_bloc.dart';
 import 'package:lpp/logic/bloc/student/student_bloc.dart';
 import 'package:lpp/logic/bloc/student/student_cubit.dart';
 import 'package:lpp/ui/screens/grades/grade.dart';
+import 'package:lpp/ui/screens/settings/wish_a_feature.dart';
 import 'package:lpp/ui/widgets/layout/drawer.dart';
 import 'package:lpp/ui/screens/absence/absence_screen.dart';
 import 'package:lpp/ui/screens/messages/message_screen.dart';
@@ -89,6 +90,11 @@ class _RootControllerState extends State<RootController> {
   ];
 
   final List<Destination> relatedDestinations = [
+    Destination(
+        icon: EvaIcons.bulbOutline,
+        name: "Ønsk",
+        selectedIcon: EvaIcons.bulb,
+        screen: const WishAFeatureScreen()),
     Destination(
         icon: EvaIcons.settings2Outline,
         name: "Indstillinger",
