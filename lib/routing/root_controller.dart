@@ -3,18 +3,8 @@ import 'dart:io';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lectio_wrapper/types/class.dart';
-import 'package:lectio_wrapper/types/grades/grade.dart';
-import 'package:lectio_wrapper/types/grades/note.dart';
-import 'package:lpp/logic/bloc/absence/registation.dart';
-import 'package:lpp/logic/bloc/opgaver/opgaver_bloc.dart';
-import 'package:lpp/logic/bloc/opgaver/opgaver_details_bloc.dart';
-import 'package:lpp/logic/bloc/schema/schema_bloc.dart';
-import 'package:lpp/logic/bloc/student/student_bloc.dart';
-import 'package:lpp/logic/bloc/student/student_cubit.dart';
+import 'package:lpp/routing/lectio_provider.dart';
 import 'package:lpp/ui/screens/grades/grade.dart';
 import 'package:lpp/ui/screens/settings/wish_a_feature.dart';
 import 'package:lpp/ui/widgets/layout/drawer.dart';
@@ -138,7 +128,6 @@ class _RootControllerState extends State<RootController> {
   Widget build(BuildContext context) {
     List<Destination> combinedDestinations = destinations.toList()
       ..addAll(relatedDestinations);
-    var student = getStudentBloc(context).state.student!;
     return Scaffold(
       bottomNavigationBar: _bannerAd != null
           ? SizedBox(
@@ -151,74 +140,31 @@ class _RootControllerState extends State<RootController> {
           onChange: setScreen,
           index: _selectedScreen,
           relatedDestinations: relatedDestinations),
-      body: MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) => OpgaveDetailsBloc(student),
-            ),
-            BlocProvider(
-              create: (context) => StudentCubit<List<Homework>>(
-                student,
-                (student) {
-                  return student.homework.list();
-                },
-              )..load(),
-            ),
-            BlocProvider(
-              create: (context) =>
-                  SchemaBloc(student)..add(SwitchedDate(DateTime.now())),
-            ),
-            BlocProvider(
-                create: (context) => StudentCubit(student, (student) {
-                      return student.absence.list();
-                    })
-                      ..load()),
-            BlocProvider(
-              create: (context) =>
-                  OpgaveBloc(student)..add(RequestedLoadAssignments()),
-            ),
-            BlocProvider(
-              create: (context) =>
-                  AbsenceRegistrationsBloc(student)..add(RequestedLoad()),
-            ),
-            BlocProvider(
-                create: (context) => StudentCubit<List<GradeRow>>(
-                    student, (student) => student.grades.list())
-                  ..load()),
-            BlocProvider(
-              create: (context) => StudentCubit<List<GradeNote>>(
-                  student, (student) => student.grades.notes.list())
-                ..load(),
-            ),
-            BlocProvider(
-              create: (context) => StudentCubit<List<ClassRef>>(
-                  student, (student) => student.classes.list())
-                ..load(),
-            )
-          ],
-          child: WillPopScope(
-            onWillPop: () async {
-              _navKey.currentState!.pop();
-              return false;
+      body: LectioProvider(
+        child: WillPopScope(
+          onWillPop: () async {
+            _navKey.currentState!.pop();
+            return false;
+          },
+          child: Navigator(
+            key: _navKey,
+            onPopPage: (route, result) {
+              return route.didPop(result);
             },
-            child: Navigator(
-              key: _navKey,
-              onPopPage: (route, result) {
-                return route.didPop(result);
-              },
-              observers: [HeroController()],
-              pages: [
-                MaterialPage(child: Builder(builder: (context) {
-                  return WillPopScope(
-                      onWillPop: () async {
-                        Navigator.pop(context);
-                        return false;
-                      },
-                      child: combinedDestinations[_selectedScreen].screen);
-                }))
-              ],
-            ),
-          )),
+            observers: [HeroController()],
+            pages: [
+              MaterialPage(child: Builder(builder: (context) {
+                return WillPopScope(
+                    onWillPop: () async {
+                      Navigator.pop(context);
+                      return false;
+                    },
+                    child: combinedDestinations[_selectedScreen].screen);
+              }))
+            ],
+          ),
+        ),
+      ),
     );
   }
 

@@ -26,7 +26,7 @@ class HomeworkScreen extends StatelessWidget {
                   Homework(
                       "1bx da",
                       "",
-                      "on 1/7",
+                      DateTime.now(),
                       [LinkDetail("f", "Systematic A")],
                       "Læs side 5-9 i mat bogen")
                 ]

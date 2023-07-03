@@ -31,7 +31,7 @@ class GradeNoteScreen extends StatelessWidget {
                       children: [
                         Text(note.note.trim(),
                             maxLines: 1, overflow: TextOverflow.ellipsis),
-                        Text(note.team.displayName)
+                        Text("${note.team.displayName} - ${note.gradeType}")
                       ],
                     ),
                     content: ListTile(title: Text(note.note.trim())));
