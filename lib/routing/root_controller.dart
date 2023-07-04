@@ -1,5 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:lpp/routing/lectio_provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/class.dart';
@@ -101,7 +103,6 @@ class _RootControllerState extends State<RootController> {
   Widget build(BuildContext context) {
     List<Destination> combinedDestinations = destinations.toList()
       ..addAll(relatedDestinations);
-    var student = getStudentBloc(context).state.student!;
     return Scaffold(
       bottomNavigationBar: const AdBar(),
       drawer: LppDrawer(
@@ -109,6 +110,31 @@ class _RootControllerState extends State<RootController> {
           onChange: setScreen,
           index: _selectedScreen,
           relatedDestinations: relatedDestinations),
+      body: LectioProvider(
+        child: WillPopScope(
+          onWillPop: () async {
+            _navKey.currentState!.pop();
+            return false;
+          },
+          child: Navigator(
+            key: _navKey,
+            onPopPage: (route, result) {
+              return route.didPop(result);
+            },
+            observers: [HeroController()],
+            pages: [
+              MaterialPage(child: Builder(builder: (context) {
+                return WillPopScope(
+                    onWillPop: () async {
+                      Navigator.pop(context);
+                      return false;
+                    },
+                    child: combinedDestinations[_selectedScreen].screen);
+              }))
+            ],
+          ),
+        ),
+      ),
       body: AdConsentChecker(
         child: MultiBlocProvider(
             providers: [
