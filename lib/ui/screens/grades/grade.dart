@@ -1,4 +1,3 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
@@ -8,7 +7,6 @@ import 'package:lpp/ui/screens/grades/normal_grades.dart';
 import 'package:lpp/ui/widgets/layout/appbar.dart';
 import 'package:lpp/ui/widgets/layout/tabbar.dart';
 import 'package:lpp/ui/widgets/loading/student_bloc_builder.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 final List<String> names = [
   "1. Standpunkt",
@@ -16,7 +14,8 @@ final List<String> names = [
   "Afsluttende karakter",
   "Intern prøve",
   "Årskarakter",
-  "Eksamenskarakter"
+  "Eksamenskarakter",
+  "Noter"
 ];
 
 class GradeScreen extends StatefulWidget {
@@ -42,17 +41,6 @@ class _GradeScreenState extends State<GradeScreen>
         appBar: LppAppbar(
           title: "Karakterer",
           oldContext: context,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.push(context, SwipeablePageRoute(
-                    builder: (context) {
-                      return const GradeNoteScreen();
-                    },
-                  ));
-                },
-                icon: const Icon(EvaIcons.creditCardOutline))
-          ],
           bottom: LppTabBar(
             tabs: names,
             scrollable: true,
@@ -61,8 +49,10 @@ class _GradeScreenState extends State<GradeScreen>
         ),
         body: StudentBlocBuilder<StudentCubit<List<GradeRow>>, List<GradeRow>?>(
             builder: (context, state) {
-          List<Map<Team, Grade?>> types =
-              names.map((e) => <Team, Grade?>{}).toList();
+          List<Map<Team, Grade?>> types = names
+              .take(names.length - 1)
+              .map((e) => <Team, Grade?>{})
+              .toList();
           for (var row in state!) {
             types[0].putIfAbsent(row.team, () => row.firstStandpunkt);
             types[1].putIfAbsent(row.team, () => row.secondStandpunkt);
@@ -74,10 +64,11 @@ class _GradeScreenState extends State<GradeScreen>
           return TabBarView(
               controller: _tabController,
               children: types
-                  .map((e) => SpecificGradeScreen(
+                  .map<Widget>((e) => SpecificGradeScreen(
                         grades: e,
                       ))
-                  .toList());
+                  .toList()
+                ..add(const GradeNoteScreen()));
         }));
   }
 

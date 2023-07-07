@@ -30,7 +30,7 @@ class AbsenceOverview extends StatelessWidget {
         }
 
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: ListView(
             children: [
               SizedBox(

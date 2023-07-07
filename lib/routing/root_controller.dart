@@ -1,18 +1,13 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lpp/routing/lectio_provider.dart';
-import 'package:lpp/ads/ad_bar.dart';
 import 'package:lpp/ads/ad_consent_checker.dart';
-import 'package:lpp/ui/screens/grades/grade.dart';
-import 'package:lpp/ui/screens/settings/wish_a_feature.dart';
+import 'package:lpp/routing/menu.dart';
+import 'package:lpp/ui/widgets/layout/bottombar.dart';
 import 'package:lpp/ui/widgets/layout/drawer.dart';
 import 'package:lpp/ui/screens/absence/absence_screen.dart';
-import 'package:lpp/ui/screens/messages/message_screen.dart';
 import 'package:lpp/ui/screens/homework/homework.dart';
-import 'package:lpp/ui/screens/klasser/klasse_screen.dart';
-import 'package:lpp/ui/screens/opgaver/opgave_screen_overview.dart';
 import 'package:lpp/ui/screens/calendar/schema.dart';
-import 'package:lpp/ui/screens/settings/settings_screen.dart';
 
 class RootController extends StatefulWidget {
   const RootController({super.key});
@@ -30,7 +25,8 @@ class _RootControllerState extends State<RootController> {
   }
 
   int _selectedScreen = 0;
-  final List<Destination> destinations = [
+
+  final List<Destination> bottomDestinations = [
     Destination(
         icon: EvaIcons.calendarOutline,
         selectedIcon: EvaIcons.calendar,
@@ -42,62 +38,42 @@ class _RootControllerState extends State<RootController> {
         selectedIcon: EvaIcons.bookOpen,
         screen: const HomeworkScreen()),
     Destination(
-        icon: EvaIcons.archiveOutline,
-        selectedIcon: EvaIcons.archive,
-        name: "Opgaver",
-        screen: const OpgaveScreenOverview()),
-    Destination(
-        icon: EvaIcons.peopleOutline,
-        selectedIcon: EvaIcons.people,
-        name: "Klasser",
-        screen: const KlasseScreen()),
-    Destination(
-        icon: EvaIcons.bookmarkOutline,
-        name: "Karakterer",
-        selectedIcon: EvaIcons.bookmark,
-        screen: const GradeScreen()),
-    Destination(
         icon: EvaIcons.activityOutline,
         name: "Fravær",
         selectedIcon: EvaIcons.activity,
         screen: const AbsenceScreen()),
     Destination(
-        icon: EvaIcons.messageCircleOutline,
-        name: "Beskeder",
-        selectedIcon: EvaIcons.messageCircle,
-        screen: const MessageScreen())
+        icon: EvaIcons.menu,
+        name: "Mere",
+        selectedIcon: EvaIcons.menu,
+        screen: Menu())
   ];
 
-  final List<Destination> relatedDestinations = [
-    Destination(
-        icon: EvaIcons.bulbOutline,
-        name: "Ønsk",
-        selectedIcon: EvaIcons.bulb,
-        screen: const WishAFeatureScreen()),
-    Destination(
-        icon: EvaIcons.settings2Outline,
-        name: "Indstillinger",
-        screen: const SettingsScreen(),
-        selectedIcon: EvaIcons.settings2)
-  ];
+  void reset() {
+    _navKey.currentState!.popUntil((route) => route.isFirst);
+  }
 
   void setScreen(int n) {
+    reset();
+
+    if (_selectedScreen == n) {
+      return;
+    }
     setState(() {
       _selectedScreen = n;
+
+      _navKey.currentState!
+          .pushReplacementNamed(bottomDestinations.elementAt(n).name);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Destination> combinedDestinations = destinations.toList()
-      ..addAll(relatedDestinations);
     return Scaffold(
-      bottomNavigationBar: const AdBar(),
-      drawer: LppDrawer(
-          destinations: destinations,
-          onChange: setScreen,
-          index: _selectedScreen,
-          relatedDestinations: relatedDestinations),
+      bottomNavigationBar: LppBottombar(
+          onSelected: setScreen,
+          selectedIndex: _selectedScreen,
+          destinations: bottomDestinations),
       body: AdConsentChecker(
         child: LectioProvider(
           child: WillPopScope(
@@ -113,10 +89,17 @@ class _RootControllerState extends State<RootController> {
                 return route.didPop(result);
               },
               observers: [HeroController()],
-              pages: [
-                MaterialPage(
-                    child: combinedDestinations[_selectedScreen].screen)
-              ],
+              onGenerateRoute: (settings) {
+                return MaterialPageRoute(
+                  builder: (context) {
+                    return bottomDestinations
+                        .firstWhere((element) => element.name == settings.name)
+                        .screen;
+                  },
+                );
+              },
+              initialRoute: bottomDestinations.first.name,
+              pages: const [],
             ),
           ),
         ),

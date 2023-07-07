@@ -48,20 +48,29 @@ class _SchemaScreenState extends State<SchemaScreen> {
         return Scaffold(
             appBar: LppAppbar(
               title: "",
-              titleWidget: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      months[state!.selectedTime.month - 1],
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text("Uge ${weekFromDateTime(state.selectedTime)}",
-                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                            height: 1.0)),
-                  ]),
-              actions: [
-                IconButton(
+              titleWidget:
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Text(
+                  months[state!.selectedTime.month - 1],
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  " - Uge ${weekFromDateTime(state.selectedTime)}",
+                ),
+              ]),
+              oldContext: context,
+            ),
+            floatingActionButton:
+                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              FloatingActionButton(
+                tooltip: "Vælg dato",
+                onPressed: showPicker,
+                child: const Icon(EvaIcons.calendar),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: FloatingActionButton(
+                    heroTag: 2,
                     onPressed: () {
                       Navigator.of(context).push(SwipeablePageRoute(
                         builder: (context) {
@@ -69,16 +78,9 @@ class _SchemaScreenState extends State<SchemaScreen> {
                         },
                       ));
                     },
-                    icon: const Icon(EvaIcons.plus)),
-              ],
-              oldContext: context,
-            ),
-            floatingActionButton: FloatingActionButton(
-              heroTag: 2,
-              tooltip: "Vælg dato",
-              onPressed: showPicker,
-              child: const Icon(EvaIcons.calendar),
-            ),
+                    child: const Icon(EvaIcons.plus)),
+              ),
+            ]),
             body: PageView.builder(
                 controller: _pageController,
                 scrollDirection: Axis.horizontal,

@@ -1,4 +1,3 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
@@ -30,17 +29,6 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: false,
       elevation: 0.0,
       automaticallyImplyLeading: !hideLeading,
-      leading: !hideMenu
-          ? IconButton(
-              onPressed: () {
-                if (Scaffold.of(context).hasDrawer) {
-                  Scaffold.of(context).openDrawer();
-                } else if (Scaffold.of(oldContext).hasDrawer) {
-                  Scaffold.of(oldContext).openDrawer();
-                }
-              },
-              icon: const Icon(EvaIcons.menu))
-          : null,
       iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
       title: titleWidget ??
           Text(title,

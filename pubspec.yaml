@@ -43,6 +43,7 @@ dependencies:
   d_chart: ^2.2.11
   accordion: ^2.5.1
   webview_flutter: ^4.2.2
+  salomon_bottom_bar: ^3.3.2
 
 dev_dependencies:
   flutter_test:

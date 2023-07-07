@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/logic/bloc/student/student_cubit.dart';
 import 'package:lpp/logic/bloc/student/student_bloc.dart';
 import 'package:lpp/ui/widgets/loading/student_bloc_builder.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class Destination {
   Destination(
@@ -22,21 +23,22 @@ class LppDrawer extends StatelessWidget {
   const LppDrawer(
       {super.key,
       required this.destinations,
-      required this.onChange,
-      required this.index,
       required this.relatedDestinations});
   final List<Destination> destinations;
   final List<Destination> relatedDestinations;
-  final Function(int index) onChange;
-  final int index;
 
   @override
   Widget build(BuildContext context) {
+    var combinedDestinations = destinations.take(destinations.length).toList()
+      ..addAll(relatedDestinations);
     return NavigationDrawer(
-      selectedIndex: index,
+      selectedIndex: 99,
       onDestinationSelected: (int x) {
-        onChange(x);
-        Navigator.pop(context);
+        Navigator.push(context, SwipeablePageRoute(
+          builder: (context) {
+            return combinedDestinations.elementAt(x).screen;
+          },
+        ));
       },
       children: [
         Padding(
