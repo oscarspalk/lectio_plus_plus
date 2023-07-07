@@ -15,7 +15,7 @@ class SchemaScreen extends StatefulWidget {
 }
 
 class _SchemaScreenState extends State<SchemaScreen> {
-  final DateTime start = DateTime.now().copyWith(hour: 12);
+  late DateTime start = context.read<SchemaBloc>().state.selectedTime;
   late PageController _pageController;
   final int startIndex = 200;
 

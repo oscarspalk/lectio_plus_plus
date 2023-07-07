@@ -59,7 +59,9 @@ class _AdBarState extends State<AdBar> {
             width: MediaQuery.of(context).size.width,
             height: 50.0,
             child: AdWidget(ad: _bannerAd!))
-        : Container();
+        : Container(
+            height: 50.0,
+          );
   }
 
   @override

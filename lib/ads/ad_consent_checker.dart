@@ -28,6 +28,7 @@ class AdConsentCheckerState extends State<AdConsentChecker> {
     ConsentForm.loadConsentForm(
       (ConsentForm consentForm) async {
         var status = await ConsentInformation.instance.getConsentStatus();
+        debugPrint("$status");
         if (status == ConsentStatus.required) {
           consentForm.show((formError) {
             _showForm();

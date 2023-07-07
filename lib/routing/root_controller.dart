@@ -114,9 +114,8 @@ class _RootControllerState extends State<RootController> {
               },
               observers: [HeroController()],
               pages: [
-                MaterialPage(child: Builder(builder: (context) {
-                  return combinedDestinations[_selectedScreen].screen;
-                }))
+                MaterialPage(
+                    child: combinedDestinations[_selectedScreen].screen)
               ],
             ),
           ),
