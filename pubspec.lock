@@ -161,14 +161,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.7"
-  equatable:
+  dio:
     dependency: transitive
     description:
-      name: equatable
-      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      name: dio
+      sha256: a9d76e72985d7087eb7c5e7903224ae52b337131518d127c554b9405936752b8
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.5"
+    version: "5.2.1+1"
   eva_icons_flutter:
     dependency: "direct main"
     description:
@@ -201,30 +201,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.4"
-  fl_chart:
-    dependency: "direct main"
-    description:
-      name: fl_chart
-      sha256: c1e26c7e48496be85104c16c040950b0436674cdf0737f3f6e95511b2529b592
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.63.0"
-  flex_color_scheme:
-    dependency: "direct main"
-    description:
-      name: flex_color_scheme
-      sha256: "5be124fa61821a684c0628ca5f687a8512db06738f784516278688eb727a3ef1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.1.2"
-  flex_seed_scheme:
-    dependency: transitive
-    description:
-      name: flex_seed_scheme
-      sha256: "29c12aba221eb8a368a119685371381f8035011d18de5ba277ad11d7dfb8657f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -412,10 +388,10 @@ packages:
     dependency: "direct main"
     description:
       name: lectio_wrapper
-      sha256: "43e837ca12512a96542ba9d731c9654ed4e6352a5849e870b551a682d3441334"
+      sha256: "9cbfac322f8b09cf54a9b9c784469614b9602fee301e788dfdfe4485612402dd"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.9"
+    version: "0.3.11"
   lints:
     dependency: transitive
     description:
