@@ -17,8 +17,9 @@ class MessageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(EvaIcons.edit),
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("Ny besked"),
+        icon: const Icon(EvaIcons.messageSquareOutline),
         onPressed: () {
           Navigator.push(context, SwipeablePageRoute(
             builder: (context) {
