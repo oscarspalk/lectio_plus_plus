@@ -1,7 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/logic/bloc/app/theme.dart';
+import 'package:lpp/logic/bloc/app/settings.dart';
 
 class ThemeButton extends StatelessWidget {
   const ThemeButton({super.key, required this.color});
@@ -9,7 +9,7 @@ class ThemeButton extends StatelessWidget {
   final Color color;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
+    return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
       return SizedBox(
         width: 50.0,
         height: 50.0,
@@ -23,7 +23,7 @@ class ThemeButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(300),
             onTap: () {
               context
-                  .read<ThemeBloc>()
+                  .read<SettingsBloc>()
                   .add(SwitchedTheme(color, state.brightness));
             },
             child: state.color == color

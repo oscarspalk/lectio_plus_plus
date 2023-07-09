@@ -1,7 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/logic/bloc/app/theme.dart';
+import 'package:lpp/logic/bloc/app/settings.dart';
 import 'package:lpp/ui/screens/welcome/theming/theme_button.dart';
 import 'package:lpp/ui/widgets/layout/appbar.dart';
 import 'package:lpp/ui/widgets/layout/text_divider.dart';
@@ -27,7 +27,7 @@ class ThemeController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(
+    return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
         return Scaffold(
           appBar: LppAppbar(
@@ -37,7 +37,7 @@ class ThemeController extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {
-                    context.read<ThemeBloc>().add(SwitchedTheme(
+                    context.read<SettingsBloc>().add(SwitchedTheme(
                         state.color,
                         state.brightness == Brightness.dark
                             ? Brightness.light

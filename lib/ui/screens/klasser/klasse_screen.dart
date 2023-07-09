@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/class.dart';
+import 'package:lpp/logic/bloc/app/settings.dart';
 import 'package:lpp/logic/bloc/student/student_cubit.dart';
 import 'package:lpp/ui/widgets/layout/appbar.dart';
 import 'package:lpp/ui/widgets/classes/class_list_item.dart';
@@ -17,7 +19,10 @@ class KlasseScreen extends StatelessWidget {
       ),
       body: StudentBlocBuilder<StudentCubit<List<ClassRef>>, List<ClassRef>?>(
         builder: (context, state) {
-          List<ClassRef> classes = state!;
+          var setting = context.read<SettingsBloc>().state.hideExtraClasses;
+          List<ClassRef> classes = state!
+              .where((element) => !setting || element.name.length < 5)
+              .toList();
           return GridView.builder(
             padding: const EdgeInsets.all(6.0),
             itemCount: classes.length,

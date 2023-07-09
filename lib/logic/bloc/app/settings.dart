@@ -2,25 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-sealed class ThemeBlocEvent {}
+sealed class SettingsBlocEvent {}
 
-final class SwitchedTheme extends ThemeBlocEvent {
+final class SwitchedTheme extends SettingsBlocEvent {
   final Color color;
   final Brightness brightness;
   SwitchedTheme(this.color, this.brightness);
 }
 
-final class CheckForTheme extends ThemeBlocEvent {}
+final class ToggleClass extends SettingsBlocEvent {}
 
-class ThemeBloc extends Bloc<ThemeBlocEvent, ThemeState> {
-  ThemeBloc()
-      : super(ThemeState(
+final class CheckForTheme extends SettingsBlocEvent {}
+
+class SettingsBloc extends Bloc<SettingsBlocEvent, SettingsState> {
+  SettingsBloc()
+      : super(SettingsState(
             Colors.purple,
             Brightness.dark,
             ThemeData(
                 brightness: Brightness.dark,
                 useMaterial3: true,
-                colorSchemeSeed: Colors.purple))) {
+                colorSchemeSeed: Colors.purple),
+            true)) {
     on<SwitchedTheme>((event, emit) async {
       ThemeData lightTheme =
           ThemeData(colorSchemeSeed: event.color, useMaterial3: true);
@@ -33,7 +36,8 @@ class ThemeBloc extends Bloc<ThemeBlocEvent, ThemeState> {
       final prefs = await SharedPreferences.getInstance();
       prefs.setBool("dark", event.brightness == Brightness.dark);
       prefs.setInt("color", event.color.value);
-      emit(ThemeState(event.color, event.brightness, theme));
+      emit(state.copyWith(
+          color: event.color, brightness: event.brightness, theme: theme));
     });
 
     on<CheckForTheme>(
@@ -48,12 +52,28 @@ class ThemeBloc extends Bloc<ThemeBlocEvent, ThemeState> {
         }
       },
     );
+
+    on<ToggleClass>(
+      (event, emit) {
+        emit(state.copyWith(hideExtraClasses: !state.hideExtraClasses));
+      },
+    );
   }
 }
 
-class ThemeState {
+class SettingsState {
   final Color color;
   final Brightness brightness;
   final ThemeData theme;
-  ThemeState(this.color, this.brightness, this.theme);
+  final bool hideExtraClasses;
+  SettingsState(this.color, this.brightness, this.theme, this.hideExtraClasses);
+
+  SettingsState copyWith(
+      {Color? color,
+      Brightness? brightness,
+      ThemeData? theme,
+      bool? hideExtraClasses}) {
+    return SettingsState(color ?? this.color, brightness ?? this.brightness,
+        theme ?? this.theme, hideExtraClasses ?? this.hideExtraClasses);
+  }
 }

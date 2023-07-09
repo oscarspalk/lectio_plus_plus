@@ -1,5 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/logic/bloc/app/settings.dart';
 import 'package:lpp/logic/bloc/student/student_bloc.dart';
 import 'package:lpp/ui/screens/welcome/theming/theme_controller.dart';
 import 'package:lpp/ui/widgets/layout/appbar.dart';
@@ -36,33 +38,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: LppAppbar(title: "Indstillinger", oldContext: context),
-      body: ListView(
-        children: [
-          ListTile(
-            onTap: () {
-              getStudentBloc(context).add(StudentLoggedOut());
-            },
-            trailing: const Icon(EvaIcons.logOut),
-            title: const Text("Log ud"),
-            subtitle: const Text("Fjerner alle dine data og logger dig ud"),
-          ),
-          ListTile(
-            title: Text("$version+$buildNumber"),
-            subtitle: const Text("Version"),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.push(context, SwipeablePageRoute(
-                builder: (context) {
-                  return ThemeController();
-                },
-              ));
-            },
-            title: const Text("Skift tema"),
-            subtitle: const Text("Tilpasning"),
-          )
-        ],
-      ),
+      body: BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
+        return ListView(
+          children: [
+            ListTile(
+              onTap: () {
+                getStudentBloc(context).add(StudentLoggedOut());
+              },
+              trailing: const Icon(EvaIcons.logOut),
+              title: const Text("Log ud"),
+              subtitle: const Text("Fjerner alle dine data og logger dig ud"),
+            ),
+            ListTile(
+              title: Text("$version+$buildNumber"),
+              subtitle: const Text("Version"),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.push(context, SwipeablePageRoute(
+                  builder: (context) {
+                    return ThemeController();
+                  },
+                ));
+              },
+              title: const Text("Skift tema"),
+              subtitle: const Text("Tilpasning"),
+            ),
+            CheckboxListTile(
+              value: state.hideExtraClasses,
+              onChanged: (_) => context.read<SettingsBloc>().add(ToggleClass()),
+              title: const Text("Gem ekstra klasser"),
+              subtitle: const Text(
+                  "Fjerner klasser som brogyggere fra klasselisten."),
+            )
+          ],
+        );
+      }),
     );
   }
 }

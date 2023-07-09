@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lpp/constants.dart';
-import 'package:lpp/logic/bloc/app/theme.dart';
+import 'package:lpp/logic/bloc/app/settings.dart';
 import 'package:lpp/logic/bloc/student/student_bloc.dart';
 import 'package:lpp/routing/router.dart';
 
@@ -11,7 +11,7 @@ Future<void> main() async {
   MobileAds.instance.initialize();
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
-      create: (_) => ThemeBloc()..add(CheckForTheme()),
+      create: (_) => SettingsBloc()..add(CheckForTheme()),
     ),
     BlocProvider(create: (_) => StudentBloc()..add(LaunchedApp()))
   ], child: const LectioApp()));
@@ -22,7 +22,7 @@ class LectioApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
+    return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
       return MaterialApp(
         builder: (context, child) {
           return MediaQuery(
