@@ -1,4 +1,3 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lpp/ui/widgets/layout/text_divider.dart';
 
@@ -26,37 +25,27 @@ class _AlphabeticListState<T> extends State<AlphabeticList<T>> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return const AlphabetFilter();
-                },
-              );
-            },
-            child: const Icon(EvaIcons.funnelOutline)),
         body: ListView(
-          children: letters.map((e) {
-            var matching =
-                widget.list.where((obj) => obj.key.toLowerCase().startsWith(e));
-            if (matching.isEmpty) {
-              return const SizedBox(
-                height: 0.0,
-              );
-            }
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextDivider(
-                  text: e.toUpperCase(),
-                  large: true,
-                ),
-                ...matching.map((e) => widget.itemBuilder(context, e.object))
-              ],
-            );
-          }).toList(),
-        ));
+      children: letters.map((e) {
+        var matching =
+            widget.list.where((obj) => obj.key.toLowerCase().startsWith(e));
+        if (matching.isEmpty) {
+          return const SizedBox(
+            height: 0.0,
+          );
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextDivider(
+              text: e.toUpperCase(),
+              large: true,
+            ),
+            ...matching.map((e) => widget.itemBuilder(context, e.object))
+          ],
+        );
+      }).toList(),
+    ));
   }
 }
 

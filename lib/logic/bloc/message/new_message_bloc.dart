@@ -1,28 +1,28 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lectio_wrapper/types/primitives/person.dart';
+import 'package:lectio_wrapper/types/message/meta/meta.dart';
 
 sealed class NewMessageEvent {}
 
 final class Load extends NewMessageEvent {}
 
 final class AddPerson extends NewMessageEvent {
-  final Person person;
+  final MetaDataEntry person;
   AddPerson(this.person);
 }
 
 final class RemovePerson extends NewMessageEvent {
-  final Person person;
+  final MetaDataEntry person;
   RemovePerson(this.person);
 }
 
 class NewMessageBloc extends Bloc<NewMessageEvent, NewMessageState> {
   final Student student;
-  NewMessageBloc(this.student) : super(NewMessageState(true, [], [])) {
+  NewMessageBloc(this.student) : super(NewMessageState(true, null, [])) {
     on<Load>(
       (event, emit) async {
-        emit(state.copyWith(
-            loading: false, students: await student.students.list()));
+        emit(
+            state.copyWith(loading: false, data: await student.students.get()));
       },
     );
     on<AddPerson>(
@@ -40,13 +40,13 @@ class NewMessageBloc extends Bloc<NewMessageEvent, NewMessageState> {
 
 class NewMessageState {
   bool loading;
-  List<Person> students;
-  List<Person> receivers;
-  NewMessageState(this.loading, this.students, this.receivers);
+  MessageMetaData? data;
+  List<MetaDataEntry> receivers;
+  NewMessageState(this.loading, this.data, this.receivers);
 
   NewMessageState copyWith(
-      {bool? loading, List<Person>? students, List<Person>? receivers}) {
-    return NewMessageState(loading ?? this.loading, students ?? this.students,
+      {bool? loading, MessageMetaData? data, List<MetaDataEntry>? receivers}) {
+    return NewMessageState(loading ?? this.loading, data ?? this.data,
         receivers ?? this.receivers);
   }
 }
