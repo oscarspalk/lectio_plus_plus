@@ -4,6 +4,7 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/homework/homework.dart';
 import 'package:lectio_wrapper/types/homework/link_detail.dart';
 import 'package:lpp/logic/bloc/student/student_cubit.dart';
+import 'package:lpp/ui/screens/state/empty.dart';
 import 'package:lpp/ui/screens/state/not_ready.dart';
 import 'package:lpp/ui/widgets/homework/homework_item.dart';
 import 'package:lpp/ui/widgets/layout/appbar.dart';
@@ -32,9 +33,7 @@ class HomeworkScreen extends StatelessWidget {
                 ]
               : state!;
           if (fakeHomework.isEmpty) {
-            return const Center(
-              child: Text("Der ikke er nogle lektier til dig. 😘"),
-            );
+            return const EmptyScreen();
           }
           return ListView.builder(
             itemCount: fakeHomework.length,

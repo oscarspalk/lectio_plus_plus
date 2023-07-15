@@ -17,7 +17,7 @@ class MessageItem extends StatelessWidget {
           },
         ));
       },
-      title: Text("${ref.topic} - ${ref.receivers}"),
+      title: Text("${ref.topic} - ${ref.sender}"),
       subtitle: Text(DateFormat("dd/MM").format(ref.dateChanged)),
     );
   }

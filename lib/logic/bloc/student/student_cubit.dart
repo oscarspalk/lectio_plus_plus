@@ -13,6 +13,11 @@ class StudentCubit<T> extends Cubit<StatePattern<T?>> {
     emit(StatePattern(list, States.ready));
   }
 
+  refresh() {
+    emit(StatePattern(null, States.loading));
+    load();
+  }
+
   @override
   void onError(Object error, StackTrace stackTrace) {
     emit(StatePattern(state.state, States.error));

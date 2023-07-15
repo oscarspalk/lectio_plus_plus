@@ -54,7 +54,9 @@ class _VerifySendScreenState extends State<VerifySendScreen>
                   FilledButton(
                       onPressed: () {
                         context.read<NewMessageBloc>().add(Send());
-                        context.read<StudentCubit<List<MessageRef>>>().load();
+                        context
+                            .read<StudentCubit<List<MessageRef>>>()
+                            .refresh();
                         for (int i = 0; i < 3; i++) {
                           if (Navigator.canPop(context)) Navigator.pop(context);
                         }

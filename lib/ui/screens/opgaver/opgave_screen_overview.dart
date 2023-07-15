@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
 import 'package:lpp/logic/bloc/opgaver/opgaver_bloc.dart';
+import 'package:lpp/ui/screens/state/empty.dart';
 import 'package:lpp/ui/widgets/layout/appbar.dart';
 import 'package:lpp/ui/widgets/opgaver/opgave_list_item.dart';
 import 'package:lpp/ui/screens/state/loading.dart';
@@ -53,9 +54,7 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
                     (b, a) => a.deadline.compareTo(b.deadline),
                   );
                 if (assignments.isEmpty) {
-                  return const Center(
-                    child: Text('Du ser heldig ud 😉'),
-                  );
+                  return const EmptyScreen();
                 }
                 return ListView.builder(
                   itemCount: assignments.length,

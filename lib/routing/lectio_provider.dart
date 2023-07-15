@@ -4,6 +4,7 @@ import 'package:lectio_wrapper/types/class.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
 import 'package:lectio_wrapper/types/grades/note.dart';
 import 'package:lectio_wrapper/types/homework/homework.dart';
+import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lpp/logic/bloc/absence/registation.dart';
 import 'package:lpp/logic/bloc/message/new_message_bloc.dart';
 import 'package:lpp/logic/bloc/opgaver/opgaver_bloc.dart';
@@ -65,13 +66,9 @@ class LectioProvider extends StatelessWidget {
       BlocProvider(
           create: (_) => NewMessageBloc(getStudentBloc(context).state.student!)
             ..add(Load())),
-      BlocProvider(
-        create: (context) => StudentCubit(
-          getStudentBloc(context).state.student!,
-          (student) {
-            return student.messages.list();
-          },
-        )..load(),
+      BlocProvider<StudentCubit<List<MessageRef>>>(
+        create: (context) =>
+            StudentCubit(student, (student) => student.messages.list())..load(),
       )
     ], child: child);
   }
