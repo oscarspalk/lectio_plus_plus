@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lpp/logic/bloc/student/student_bloc.dart';
@@ -17,7 +18,9 @@ class MessageDetails extends StatelessWidget {
       appBar: LppAppbar(
         title: ref.topic,
         oldContext: context,
-        hideMenu: true,
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(EvaIcons.trash2Outline))
+        ],
       ),
       body: StudentBlocBuilder<StudentCubit<Message>, Message?>(
         bloc: StudentCubit(getStudentBloc(context).state.student!,

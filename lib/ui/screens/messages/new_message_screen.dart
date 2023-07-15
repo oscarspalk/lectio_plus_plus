@@ -10,6 +10,7 @@ import 'package:lpp/ui/screens/state/loading.dart';
 import 'package:lpp/ui/widgets/layout/appbar.dart';
 import 'package:lpp/ui/widgets/layout/tabbar.dart';
 import 'package:lpp/ui/widgets/list/alphabetic_list.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class NewMessageScreen extends StatefulWidget {
   const NewMessageScreen({super.key});
@@ -83,12 +84,11 @@ class _NewMessageScreenState extends State<NewMessageScreen>
                       : null,
                   onPressed: valid
                       ? () {
-                          showBottomSheet(
-                            context: context,
+                          Navigator.push(context, SwipeablePageRoute(
                             builder: (context) {
                               return const MessageContentScreen();
                             },
-                          );
+                          ));
                         }
                       : null,
                   label: const Text("Næste"),

@@ -2,41 +2,27 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/logic/bloc/message/new_message_bloc.dart';
+import 'package:lpp/ui/screens/messages/verify_send.dart';
+import 'package:lpp/ui/widgets/layout/appbar.dart';
+import 'package:lpp/ui/widgets/welcome/illustration.dart';
+import 'package:ms_undraw/illustrations.g.dart';
 
-class MessageContentScreen extends StatefulWidget {
+class MessageContentScreen extends StatelessWidget {
   const MessageContentScreen({super.key});
 
   @override
-  State<MessageContentScreen> createState() => _MessageContentScreenState();
-}
-
-class _MessageContentScreenState extends State<MessageContentScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = BottomSheet.createAnimationController(this);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var bloc = context.read<NewMessageBloc>();
-    return BottomSheet(
-      animationController: _controller,
-      showDragHandle: true,
-      onClosing: () {
-        Navigator.pop(context);
-      },
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: BlocBuilder<NewMessageBloc, NewMessageState>(
-              builder: (context, state) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
+    return Scaffold(
+        appBar: LppAppbar(title: "Indhold", oldContext: context),
+        body: BlocBuilder<NewMessageBloc, NewMessageState>(
+          builder: (context, state) {
+            var bloc = context.read<NewMessageBloc>();
+
+            return ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(24.0),
               children: [
+                const Illustration(illustration: UnDrawIllustration.text_field),
                 TextField(
                   onChanged: (value) {
                     bloc.add(UpdateTopic(value));
@@ -54,22 +40,23 @@ class _MessageContentScreenState extends State<MessageContentScreen>
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24.0),
                   child: FilledButton.icon(
-                    onPressed: state.valid ? () {} : null,
+                    onPressed: state.valid
+                        ? () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return const VerifySendScreen();
+                              },
+                            );
+                          }
+                        : null,
                     label: const Text("Send"),
                     icon: const Icon(EvaIcons.paperPlaneOutline),
                   ),
                 )
               ],
             );
-          }),
-        );
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+          },
+        ));
   }
 }

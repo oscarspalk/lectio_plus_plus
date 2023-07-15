@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
 
 sealed class NewMessageEvent {}
@@ -25,6 +26,8 @@ final class UpdateContent extends NewMessageEvent {
   String content;
   UpdateContent(this.content);
 }
+
+final class Send extends NewMessageEvent {}
 
 class NewMessageBloc extends Bloc<NewMessageEvent, NewMessageState> {
   final Student student;
@@ -58,6 +61,14 @@ class NewMessageBloc extends Bloc<NewMessageEvent, NewMessageState> {
         emit(state.copyWith(topic: event.topic));
       },
     );
+
+    on<Send>(
+      (event, emit) {
+        student.messages.create(
+            CreateMessage(state.topic, state.content, true, state.receivers));
+        emit(state.copyWith(receivers: [], topic: "", content: ""));
+      },
+    );
   }
 }
 
@@ -71,7 +82,6 @@ class NewMessageState {
   NewMessageState(
       this.loading, this.data, this.receivers, this.topic, this.content)
       : valid = topic.isNotEmpty && content.isNotEmpty && receivers.isNotEmpty;
-
   NewMessageState copyWith(
       {bool? loading,
       MessageMetaData? data,

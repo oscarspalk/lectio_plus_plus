@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lpp/logic/bloc/student/student_cubit.dart';
-import 'package:lpp/logic/bloc/student/student_bloc.dart';
 import 'package:lpp/ui/screens/messages/new_message_screen.dart';
 import 'package:lpp/ui/screens/state/not_ready.dart';
 import 'package:lpp/ui/widgets/layout/appbar.dart';
@@ -36,12 +35,6 @@ class MessageScreen extends StatelessWidget {
           ? const NotReadyScreen()
           : StudentBlocBuilder<StudentCubit<List<MessageRef>>,
               List<MessageRef>?>(
-              bloc: StudentCubit(
-                getStudentBloc(context).state.student!,
-                (student) {
-                  return student.messages.list();
-                },
-              )..load(),
               builder: (context, data) {
                 if (data!.isEmpty) {
                   return const Center(
