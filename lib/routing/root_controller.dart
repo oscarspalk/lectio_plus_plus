@@ -1,10 +1,8 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:lpp/ads/ad_bar.dart';
 import 'package:lpp/routing/lectio_provider.dart';
 import 'package:lpp/ads/ad_consent_checker.dart';
 import 'package:lpp/routing/menu.dart';
-import 'package:lpp/routing/observer.dart';
 import 'package:lpp/ui/widgets/layout/bottombar.dart';
 import 'package:lpp/ui/widgets/layout/drawer.dart';
 import 'package:lpp/ui/screens/absence/absence_screen.dart';
@@ -72,13 +70,10 @@ class _RootControllerState extends State<RootController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar:
-          _navKey.currentState != null && _navKey.currentState!.canPop()
-              ? const AdBar()
-              : LppBottombar(
-                  onSelected: setScreen,
-                  selectedIndex: _selectedScreen,
-                  destinations: bottomDestinations),
+      bottomNavigationBar: LppBottombar(
+          onSelected: setScreen,
+          selectedIndex: _selectedScreen,
+          destinations: bottomDestinations),
       body: AdConsentChecker(
         child: LectioProvider(
           child: WillPopScope(
@@ -95,9 +90,6 @@ class _RootControllerState extends State<RootController> {
               },
               observers: [
                 HeroController(),
-                CallbackObserver(() {
-                  Future.delayed(Duration.zero, () => setState(() {}));
-                })
               ],
               onGenerateRoute: (settings) {
                 return MaterialPageRoute(

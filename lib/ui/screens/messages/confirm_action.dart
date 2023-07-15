@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lectio_wrapper/types/message/message.dart';
-import 'package:lpp/logic/bloc/message/new_message_bloc.dart';
-import 'package:lpp/logic/bloc/student/student_cubit.dart';
 import 'package:lpp/ui/style/typograhy.dart';
 import 'package:lpp/ui/widgets/welcome/illustration.dart';
 import 'package:ms_undraw/ms_undraw.dart';
 
-class VerifySendScreen extends StatefulWidget {
-  const VerifySendScreen({super.key});
-
+class ConfirmAction extends StatefulWidget {
+  const ConfirmAction(
+      {super.key,
+      required this.confirmText,
+      required this.onConfirm,
+      this.children});
+  final String confirmText;
+  final Function() onConfirm;
+  final List<Widget>? children;
   @override
-  State<VerifySendScreen> createState() => _VerifySendScreenState();
+  State<ConfirmAction> createState() => _ConfirmActionState();
 }
 
-class _VerifySendScreenState extends State<VerifySendScreen>
+class _ConfirmActionState extends State<ConfirmAction>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   @override
@@ -34,15 +36,19 @@ class _VerifySendScreenState extends State<VerifySendScreen>
       builder: (context) {
         return Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ListView(
-            shrinkWrap: true,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               const Illustration(illustration: UnDrawIllustration.verified),
               Text(
-                "Vil du sende?",
+                widget.confirmText,
                 style: headerStyle,
                 textAlign: TextAlign.center,
               ),
+              if (widget.children != null)
+                Column(
+                  children: widget.children!,
+                ),
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: [
@@ -52,16 +58,7 @@ class _VerifySendScreenState extends State<VerifySendScreen>
                       },
                       child: const Text("Annuller")),
                   FilledButton(
-                      onPressed: () {
-                        context.read<NewMessageBloc>().add(Send());
-                        context
-                            .read<StudentCubit<List<MessageRef>>>()
-                            .refresh();
-                        for (int i = 0; i < 3; i++) {
-                          if (Navigator.canPop(context)) Navigator.pop(context);
-                        }
-                      },
-                      child: const Text("Send"))
+                      onPressed: widget.onConfirm, child: const Text("Bekræft"))
                 ],
               )
             ],

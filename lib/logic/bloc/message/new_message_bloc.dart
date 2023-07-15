@@ -1,7 +1,9 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
+import 'package:lpp/logic/bloc/message/message_bloc.dart';
 
 sealed class NewMessageEvent {}
 
@@ -27,7 +29,10 @@ final class UpdateContent extends NewMessageEvent {
   UpdateContent(this.content);
 }
 
-final class Send extends NewMessageEvent {}
+final class Send extends NewMessageEvent {
+  BuildContext context;
+  Send(this.context);
+}
 
 class NewMessageBloc extends Bloc<NewMessageEvent, NewMessageState> {
   final Student student;
@@ -64,8 +69,9 @@ class NewMessageBloc extends Bloc<NewMessageEvent, NewMessageState> {
 
     on<Send>(
       (event, emit) {
-        student.messages.create(
-            CreateMessage(state.topic, state.content, true, state.receivers));
+        event.context.read<MessageBloc>().add(NewMessage(
+            CreateMessage(state.topic, state.content, true, state.receivers)));
+
         emit(state.copyWith(receivers: [], topic: "", content: ""));
       },
     );
