@@ -12,10 +12,14 @@ class GradeNoteScreen extends StatelessWidget {
     return StudentBlocBuilder<StudentCubit<List<GradeNote>>, List<GradeNote>?>(
       builder: (context, state) {
         return Accordion(
+            contentBorderWidth: 0.0,
             contentBackgroundColor: Theme.of(context).colorScheme.background,
             maxOpenSections: 1,
             children: state!.map((note) {
               return AccordionSection(
+                  contentBorderRadius: 0.0,
+                  headerBorderRadius: 0.0,
+                  contentBorderWidth: 0.0,
                   leftIcon: CircleAvatar(
                     child: Text(note.teacherInitials.toUpperCase()),
                   ),

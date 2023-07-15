@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
 import 'package:lectio_wrapper/types/primitives/person.dart';
 import 'package:lpp/logic/bloc/message/new_message_bloc.dart';
+import 'package:lpp/ui/screens/messages/content_screen.dart';
+import 'package:lpp/ui/screens/messages/search_receivers.dart';
 import 'package:lpp/ui/screens/state/loading.dart';
 import 'package:lpp/ui/widgets/layout/appbar.dart';
 import 'package:lpp/ui/widgets/layout/tabbar.dart';
@@ -19,10 +21,11 @@ class NewMessageScreen extends StatefulWidget {
 class _NewMessageScreenState extends State<NewMessageScreen>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
+  String search = "";
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 5, vsync: this);
+    _controller = TabController(length: 6, vsync: this);
   }
 
   @override
@@ -39,7 +42,8 @@ class _NewMessageScreenState extends State<NewMessageScreen>
                 "Elever",
                 "Lærere",
                 "Hold",
-                "Grupper"
+                "Grupper",
+                "Valgte"
               ])),
       body: BlocBuilder<NewMessageBloc, NewMessageState>(
         builder: (context, state) {
@@ -52,23 +56,44 @@ class _NewMessageScreenState extends State<NewMessageScreen>
             data.students,
             data.teachers,
             data.teams,
-            data.groups
+            data.groups,
+            state.receivers
           ];
           var valid = state.receivers.isNotEmpty;
           return Scaffold(
-            floatingActionButton: FloatingActionButton.extended(
-              heroTag: "send",
-              backgroundColor:
-                  !valid ? Theme.of(context).colorScheme.surfaceVariant : null,
-              foregroundColor: !valid
-                  ? Theme.of(context)
-                      .colorScheme
-                      .onSurfaceVariant
-                      .withOpacity(0.5)
-                  : null,
-              onPressed: valid ? () {} : null,
-              label: const Text("Send"),
-              icon: const Icon(EvaIcons.paperPlaneOutline),
+            floatingActionButton: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      showSearch(context: context, delegate: SearchReceivers());
+                    },
+                    child: const Icon(EvaIcons.searchOutline),
+                  ),
+                ),
+                FloatingActionButton.extended(
+                  heroTag: "next",
+                  backgroundColor: !valid
+                      ? Theme.of(context).colorScheme.surfaceVariant
+                      : null,
+                  foregroundColor: !valid
+                      ? Theme.of(context).colorScheme.onSurfaceVariant
+                      : null,
+                  onPressed: valid
+                      ? () {
+                          showBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return const MessageContentScreen();
+                            },
+                          );
+                        }
+                      : null,
+                  label: const Text("Næste"),
+                ),
+              ],
             ),
             body: SizedBox.expand(
                 child: TabBarView(
@@ -77,17 +102,9 @@ class _NewMessageScreenState extends State<NewMessageScreen>
                       return AlphabeticList<MetaDataEntry>(
                         itemBuilder: (context, person) {
                           var checked = state.receivers.contains(person);
-                          return CheckboxListTile(
-                            value: checked,
-                            onChanged: (value) {
-                              context.read<NewMessageBloc>().add(checked
-                                  ? RemovePerson(person)
-                                  : AddPerson(person));
-                            },
-                            subtitle: person is Person
-                                ? Text(person.initialsOrClass!)
-                                : null,
-                            title: Text(person.name),
+                          return ReceiverTile(
+                            checked: checked,
+                            person: person,
                           );
                         },
                         list: entries
@@ -105,5 +122,31 @@ class _NewMessageScreenState extends State<NewMessageScreen>
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+}
+
+class ReceiverTile extends StatelessWidget {
+  const ReceiverTile({
+    super.key,
+    required this.checked,
+    required this.person,
+  });
+
+  final bool checked;
+  final MetaDataEntry person;
+
+  @override
+  Widget build(BuildContext context) {
+    return CheckboxListTile(
+      value: checked,
+      onChanged: (value) {
+        context
+            .read<NewMessageBloc>()
+            .add(checked ? RemovePerson(person) : AddPerson(person));
+      },
+      subtitle:
+          person is Person ? Text((person as Person).initialsOrClass!) : null,
+      title: Text(person.name),
+    );
   }
 }

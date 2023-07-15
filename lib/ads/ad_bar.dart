@@ -56,7 +56,7 @@ class _AdBarState extends State<AdBar> {
   Widget build(BuildContext context) {
     return _bannerAd != null
         ? SizedBox(
-            width: MediaQuery.of(context).size.width,
+            width: double.infinity,
             height: 50.0,
             child: AdWidget(ad: _bannerAd!))
         : Container(
@@ -66,7 +66,9 @@ class _AdBarState extends State<AdBar> {
 
   @override
   void dispose() {
-    _bannerAd!.dispose();
+    if (_bannerAd != null) {
+      _bannerAd!.dispose();
+    }
     super.dispose();
   }
 }

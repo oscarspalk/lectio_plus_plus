@@ -1,6 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:lpp/ui/screens/absence/absence_screen.dart';
 import 'package:lpp/ui/screens/grades/grade.dart';
 import 'package:lpp/ui/screens/klasser/klasse_screen.dart';
 import 'package:lpp/ui/screens/messages/message_screen.dart';
@@ -29,11 +28,6 @@ class Menu extends StatelessWidget {
         name: "Karakterer",
         selectedIcon: EvaIcons.bookmark,
         screen: const GradeScreen()),
-    Destination(
-        icon: EvaIcons.activityOutline,
-        name: "Fravær",
-        selectedIcon: EvaIcons.activity,
-        screen: const AbsenceScreen()),
     Destination(
         icon: EvaIcons.messageCircleOutline,
         name: "Beskeder",

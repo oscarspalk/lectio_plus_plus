@@ -16,9 +16,20 @@ final class RemovePerson extends NewMessageEvent {
   RemovePerson(this.person);
 }
 
+final class UpdateTopic extends NewMessageEvent {
+  String topic;
+  UpdateTopic(this.topic);
+}
+
+final class UpdateContent extends NewMessageEvent {
+  String content;
+  UpdateContent(this.content);
+}
+
 class NewMessageBloc extends Bloc<NewMessageEvent, NewMessageState> {
   final Student student;
-  NewMessageBloc(this.student) : super(NewMessageState(true, null, [])) {
+  NewMessageBloc(this.student)
+      : super(NewMessageState(true, null, [], "", "")) {
     on<Load>(
       (event, emit) async {
         emit(
@@ -35,6 +46,18 @@ class NewMessageBloc extends Bloc<NewMessageEvent, NewMessageState> {
         emit(state.copyWith(receivers: state.receivers..remove(event.person)));
       },
     );
+
+    on<UpdateContent>(
+      (event, emit) {
+        emit(state.copyWith(content: event.content));
+      },
+    );
+
+    on<UpdateTopic>(
+      (event, emit) {
+        emit(state.copyWith(topic: event.topic));
+      },
+    );
   }
 }
 
@@ -42,11 +65,24 @@ class NewMessageState {
   bool loading;
   MessageMetaData? data;
   List<MetaDataEntry> receivers;
-  NewMessageState(this.loading, this.data, this.receivers);
+  String topic;
+  String content;
+  bool valid;
+  NewMessageState(
+      this.loading, this.data, this.receivers, this.topic, this.content)
+      : valid = topic.isNotEmpty && content.isNotEmpty && receivers.isNotEmpty;
 
   NewMessageState copyWith(
-      {bool? loading, MessageMetaData? data, List<MetaDataEntry>? receivers}) {
-    return NewMessageState(loading ?? this.loading, data ?? this.data,
-        receivers ?? this.receivers);
+      {bool? loading,
+      MessageMetaData? data,
+      List<MetaDataEntry>? receivers,
+      String? topic,
+      String? content}) {
+    return NewMessageState(
+        loading ?? this.loading,
+        data ?? this.data,
+        receivers ?? this.receivers,
+        topic ?? this.topic,
+        content ?? this.content);
   }
 }
