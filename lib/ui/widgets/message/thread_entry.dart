@@ -1,55 +1,73 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
+import 'package:lpp/logic/bloc/student/student_bloc.dart';
+import 'package:lpp/ui/screens/messages/edit_message.dart';
+import 'package:lpp/ui/screens/messages/reply_message.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class ThreadEntryWidget extends StatelessWidget {
-  const ThreadEntryWidget({super.key, required this.entry});
+  const ThreadEntryWidget(
+      {super.key, required this.entry, required this.message});
   final ThreadEntry entry;
+  final Message message;
   @override
   Widget build(BuildContext context) {
+    var student = getStudentBloc(context).state.student!;
+    var createdByCurrent = student.name ==
+        entry.user.name.substring(0, entry.user.name.indexOf('(')).trim();
     return Card(
+        margin:
+            const EdgeInsets.all(4.0).copyWith(left: entry.indent * 8.0 + 4),
         child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(entry.user.name.trim()),
-                  Text(
-                    DateFormat("HH:mm dd/MM").format(entry.at),
-                    style: Theme.of(context).textTheme.labelMedium,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(entry.user.name.trim()),
+                      Text(
+                        DateFormat("HH:mm dd/MM").format(entry.at),
+                        style: Theme.of(context).textTheme.labelMedium,
+                      ),
+                    ],
                   ),
+                  PopupMenuButton<Widget>(
+                    onSelected: (value) {
+                      Navigator.push(context, SwipeablePageRoute(
+                        builder: (context) {
+                          return value;
+                        },
+                      ));
+                    },
+                    itemBuilder: (_) {
+                      return [
+                        if (entry.files != null && entry.files!.isNotEmpty)
+                          const PopupMenuItem(child: Text("Filer")),
+                        if (createdByCurrent)
+                          PopupMenuItem(
+                            value: EditMessageScreen(
+                              entry: entry,
+                              message: message,
+                            ),
+                            child: const Text("Rediger"),
+                          ),
+                        const PopupMenuItem(
+                            value: ReplyMessageScreen(), child: Text("Besvar"))
+                      ];
+                    },
+                  )
                 ],
               ),
-              kDebugMode
-                  ? IconButton(
-                      onPressed: () {
-                        showMenu(
-                            context: context,
-                            position: RelativeRect.fill,
-                            items: [
-                              PopupMenuItem(
-                                  enabled: entry.files!.isNotEmpty,
-                                  child: const Text("Filer")),
-                              const PopupMenuItem(child: Text("Rediger")),
-                              const PopupMenuItem(child: Text("Slet"))
-                            ]);
-                      },
-                      icon: const Icon(EvaIcons.moreVerticalOutline))
-                  : Container()
+              Text(entry.content)
             ],
           ),
-          Text(entry.content)
-        ],
-      ),
-    ));
+        ));
   }
 }

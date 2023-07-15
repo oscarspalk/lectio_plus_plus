@@ -26,6 +26,21 @@ class DeleteMessage extends MessageEvent {
   DeleteMessage(this.ref);
 }
 
+class RefreshMessage extends MessageEvent {
+  Message message;
+  RefreshMessage(this.message);
+}
+
+class EditMessage extends MessageEvent {
+  Edit edit;
+  EditMessage(this.edit);
+}
+
+class ReplyMessage extends MessageEvent {
+  Reply reply;
+  ReplyMessage(this.reply);
+}
+
 class MessageBloc extends Bloc<MessageEvent, MessagesState> {
   final Student student;
   MessageBloc(this.student)
@@ -57,7 +72,6 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
         add(LoadRefs());
       },
     );
-
     on<DeleteMessage>(
       (event, emit) async {
         await student.messages
@@ -66,6 +80,30 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
           ...state.messages.where((element) => element.id != event.ref.id)
         ]));
         add(LoadRefs());
+      },
+    );
+
+    on<EditMessage>(
+      (event, emit) async {
+        emit(state.copyWith(loading: true));
+        await student.messages.edit(event.edit);
+      },
+    );
+
+    on<ReplyMessage>(
+      (event, emit) async {
+        emit(state.copyWith(loading: true));
+        await student.messages.reply(event.reply);
+      },
+    );
+
+    on<RefreshMessage>(
+      (event, emit) {
+        emit(state.copyWith(
+            messages: state.messages
+                .where((element) => element.id != event.message.id)
+                .toList()));
+        add(LoadMessage(MessageRef(event.message.id, DateTime(2023), "", "")));
       },
     );
   }

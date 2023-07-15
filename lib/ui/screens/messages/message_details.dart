@@ -60,7 +60,10 @@ class MessageDetails extends StatelessWidget {
             itemCount: msg.thread.length,
             itemBuilder: (context, index) {
               var threadItem = msg.thread.elementAt(index);
-              return ThreadEntryWidget(entry: threadItem);
+              return ThreadEntryWidget(
+                entry: threadItem,
+                message: msg,
+              );
             },
           );
         },
