@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lpp/ui/utils/state_pattern.dart';
+
+import '../../../utils/state_pattern.dart';
 
 class StudentCubit<T> extends Cubit<StatePattern<T?>> {
   final Student student;

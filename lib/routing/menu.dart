@@ -1,13 +1,13 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:lpp/ui/screens/grades/grade.dart';
-import 'package:lpp/ui/screens/klasser/klasse_screen.dart';
-import 'package:lpp/ui/screens/messages/message_screen.dart';
-import 'package:lpp/ui/screens/opgaver/opgave_screen_overview.dart';
-import 'package:lpp/ui/screens/settings/settings_screen.dart';
-import 'package:lpp/ui/screens/settings/wish_a_feature.dart';
-import 'package:lpp/ui/widgets/layout/appbar.dart';
-import 'package:lpp/ui/widgets/layout/drawer.dart';
+import 'package:lpp/topics/classes/screens/klasse_screen.dart';
+import 'package:lpp/topics/messages/screens/message_screen.dart';
+import 'package:lpp/topics/opgaver/screens/opgave_screen_overview.dart';
+import 'package:lpp/topics/settings/screens/settings_screen.dart';
+import 'package:lpp/topics/settings/screens/wish_a_feature.dart';
+import 'package:lpp/widgets/layout/appbar.dart';
+import 'package:lpp/widgets/layout/drawer.dart';
+import '../topics/grades/grade.dart';
 
 class Menu extends StatelessWidget {
   Menu({super.key});

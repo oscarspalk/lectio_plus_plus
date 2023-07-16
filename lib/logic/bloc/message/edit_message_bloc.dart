@@ -2,7 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
-import 'package:lpp/logic/bloc/message/message_bloc.dart';
+
+import 'message_bloc.dart';
 
 part 'edit_message_bloc.freezed.dart';
 

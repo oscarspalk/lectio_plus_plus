@@ -1,13 +1,14 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:lpp/routing/lectio_provider.dart';
-import 'package:lpp/ads/ad_consent_checker.dart';
-import 'package:lpp/routing/menu.dart';
-import 'package:lpp/ui/widgets/layout/bottombar.dart';
-import 'package:lpp/ui/widgets/layout/drawer.dart';
-import 'package:lpp/ui/screens/absence/absence_screen.dart';
-import 'package:lpp/ui/screens/homework/homework.dart';
-import 'package:lpp/ui/screens/calendar/schema.dart';
+import 'package:lpp/topics/calendar/screens/schema.dart';
+import 'package:lpp/widgets/layout/bottombar.dart';
+import 'package:lpp/widgets/layout/drawer.dart';
+
+import '../ads/ad_consent_checker.dart';
+import '../topics/absence/screens/absence_screen.dart';
+import '../topics/homework/screens/homework.dart';
+import 'lectio_provider.dart';
+import 'menu.dart';
 
 class RootController extends StatefulWidget {
   const RootController({super.key});

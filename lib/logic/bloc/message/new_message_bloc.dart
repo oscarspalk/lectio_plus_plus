@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
-import 'package:lpp/logic/bloc/message/message_bloc.dart';
+
+import 'message_bloc.dart';
 
 sealed class NewMessageEvent {}
 

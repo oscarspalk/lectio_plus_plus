@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lpp/ui/utils/helpers.dart';
+
+import '../../../utils/helpers.dart';
 
 sealed class SchemaEvent {}
 

@@ -1,8 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
-import 'package:flutter/foundation.dart';
 import 'package:lectio_wrapper/types/primitives/person.dart';
 
 part 'message_bloc.freezed.dart';
