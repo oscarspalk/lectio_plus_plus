@@ -58,8 +58,12 @@ class ThreadEntryWidget extends StatelessWidget {
                             ),
                             child: const Text("Rediger"),
                           ),
-                        const PopupMenuItem(
-                            value: ReplyMessageScreen(), child: Text("Besvar"))
+                        PopupMenuItem(
+                            value: ReplyMessageScreen(
+                              entry: entry,
+                              message: message,
+                            ),
+                            child: const Text("Besvar"))
                       ];
                     },
                   )
