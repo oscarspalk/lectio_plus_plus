@@ -47,6 +47,8 @@ class _EditMessageScreenState extends State<EditMessageScreen> {
               ),
               TextField(
                 controller: content,
+                minLines: 1,
+                maxLines: 4,
                 decoration: const InputDecoration(label: Text("Indhold")),
                 onChanged: bloc.setContent,
               ),

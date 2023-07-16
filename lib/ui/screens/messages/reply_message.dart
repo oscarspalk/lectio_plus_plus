@@ -46,6 +46,8 @@ class _ReplyMessageScreenState extends State<ReplyMessageScreen> {
                 onChanged: bloc.setTopic,
               ),
               TextField(
+                minLines: 1,
+                maxLines: 4,
                 controller: content,
                 decoration: const InputDecoration(label: Text("Indhold")),
                 onChanged: bloc.setContent,

@@ -26,11 +26,6 @@ class DeleteMessage extends MessageEvent {
   DeleteMessage(this.ref);
 }
 
-class RefreshMessage extends MessageEvent {
-  Message message;
-  RefreshMessage(this.message);
-}
-
 class EditMessage extends MessageEvent {
   Edit edit;
   EditMessage(this.edit);
@@ -87,6 +82,7 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
       (event, emit) async {
         emit(state.copyWith(loading: true));
         await student.messages.edit(event.edit);
+        await refreshMessage(emit, event.edit.message);
       },
     );
 
@@ -94,18 +90,18 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
       (event, emit) async {
         emit(state.copyWith(loading: true));
         await student.messages.reply(event.reply);
+        await refreshMessage(emit, event.reply.message);
       },
     );
+  }
 
-    on<RefreshMessage>(
-      (event, emit) {
-        emit(state.copyWith(
-            messages: state.messages
-                .where((element) => element.id != event.message.id)
-                .toList()));
-        add(LoadMessage(MessageRef(event.message.id, DateTime(2023), "", "")));
-      },
-    );
+  Future<void> refreshMessage(
+      Emitter<MessagesState> emit, Message message) async {
+    emit(state.copyWith(
+        messages: state.messages
+            .where((element) => element.id != message.id)
+            .toList()));
+    add(LoadMessage(MessageRef(message.id, DateTime(2023), "", "")));
   }
 }
 

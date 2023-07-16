@@ -37,7 +37,8 @@ class EditMessageBloc extends Cubit<EditState> {
   }
 
   submit(BuildContext context) {
-    context.read<MessageBloc>().add(EditMessage(Edit(
+    var bloc = context.read<MessageBloc>();
+    bloc.add(EditMessage(Edit(
         entry
           ..topic = state.topic
           ..content = state.content,

@@ -4,6 +4,7 @@ import 'package:lectio_wrapper/types/assignment.dart';
 import 'package:lpp/logic/bloc/opgaver/opgaver_bloc.dart';
 import 'package:lpp/ui/screens/state/empty.dart';
 import 'package:lpp/ui/widgets/layout/appbar.dart';
+import 'package:lpp/ui/widgets/layout/chipbar.dart';
 import 'package:lpp/ui/widgets/opgaver/opgave_list_item.dart';
 import 'package:lpp/ui/screens/state/loading.dart';
 
@@ -15,29 +16,28 @@ class OpgaveScreenOverview extends StatefulWidget {
 }
 
 class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
-  Set<String> filter = {"Venter"};
+  final List<String> filters = ["Venter", "Afleveret", "Mangler"];
 
+  Set<String> appliedFilters = {"Venter"};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LppAppbar(title: "Opgaver", oldContext: context),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.background,
-            borderRadius: BorderRadius.circular(50.0)),
-        child: SegmentedButton(
-            onSelectionChanged: (p0) {
-              setState(() {
-                filter = p0;
-              });
-            },
-            segments: const [
-              ButtonSegment(value: "Venter", label: Text("Aktuelle")),
-              ButtonSegment(value: "Mangler", label: Text("Mangler")),
-              ButtonSegment(value: "", label: Text("Alle"))
-            ],
-            selected: filter),
+      appBar: LppAppbar(
+        title: "Opgaver",
+        oldContext: context,
+        bottom: Chipbar(
+          appliedFilters: appliedFilters,
+          filters: filters,
+          apply: (filter) {
+            setState(() {
+              if (appliedFilters.contains(filter)) {
+                appliedFilters.remove(filter);
+              } else {
+                appliedFilters.add(filter);
+              }
+            });
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -48,7 +48,8 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
                   return const LoadingScreen();
                 }
                 List<AssignmentRef> assignments = state.refs.where((element) {
-                  return filter.first.isEmpty || element.status == filter.first;
+                  return appliedFilters.isEmpty ||
+                      appliedFilters.contains(element.status);
                 }).toList()
                   ..sort(
                     (b, a) => a.deadline.compareTo(b.deadline),
