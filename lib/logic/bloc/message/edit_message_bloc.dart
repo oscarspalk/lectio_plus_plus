@@ -8,15 +8,25 @@ part 'edit_message_bloc.freezed.dart';
 
 @freezed
 class EditState with _$EditState {
-  const factory EditState({required String topic, required String content}) =
-      _EditState;
+  const EditState._();
+  const factory EditState(
+      {required String topic,
+      required String content,
+      required ThreadEntry entry}) = _EditState;
+
+  bool isValid() {
+    return topic.isNotEmpty &&
+        content.isNotEmpty &&
+        (topic != entry.topic || content != entry.content);
+  }
 }
 
 class EditMessageBloc extends Cubit<EditState> {
   final ThreadEntry entry;
   final Message message;
   EditMessageBloc(this.entry, this.message)
-      : super(EditState(content: entry.content, topic: entry.topic));
+      : super(EditState(
+            content: entry.content, topic: entry.topic, entry: entry));
 
   setTopic(String topic) {
     emit(state.copyWith(topic: topic));

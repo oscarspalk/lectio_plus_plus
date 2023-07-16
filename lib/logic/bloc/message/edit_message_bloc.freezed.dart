@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$EditState {
   String get topic => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  ThreadEntry get entry => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $EditStateCopyWith<EditState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $EditStateCopyWith<$Res> {
   factory $EditStateCopyWith(EditState value, $Res Function(EditState) then) =
       _$EditStateCopyWithImpl<$Res, EditState>;
   @useResult
-  $Res call({String topic, String content});
+  $Res call({String topic, String content, ThreadEntry entry});
 }
 
 /// @nodoc
@@ -47,6 +48,7 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
   $Res call({
     Object? topic = null,
     Object? content = null,
+    Object? entry = null,
   }) {
     return _then(_value.copyWith(
       topic: null == topic
@@ -57,6 +59,10 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      entry: null == entry
+          ? _value.entry
+          : entry // ignore: cast_nullable_to_non_nullable
+              as ThreadEntry,
     ) as $Val);
   }
 }
@@ -68,7 +74,7 @@ abstract class _$$_EditStateCopyWith<$Res> implements $EditStateCopyWith<$Res> {
       __$$_EditStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String topic, String content});
+  $Res call({String topic, String content, ThreadEntry entry});
 }
 
 /// @nodoc
@@ -84,6 +90,7 @@ class __$$_EditStateCopyWithImpl<$Res>
   $Res call({
     Object? topic = null,
     Object? content = null,
+    Object? entry = null,
   }) {
     return _then(_$_EditState(
       topic: null == topic
@@ -94,23 +101,31 @@ class __$$_EditStateCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      entry: null == entry
+          ? _value.entry
+          : entry // ignore: cast_nullable_to_non_nullable
+              as ThreadEntry,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_EditState implements _EditState {
-  const _$_EditState({required this.topic, required this.content});
+class _$_EditState extends _EditState {
+  const _$_EditState(
+      {required this.topic, required this.content, required this.entry})
+      : super._();
 
   @override
   final String topic;
   @override
   final String content;
+  @override
+  final ThreadEntry entry;
 
   @override
   String toString() {
-    return 'EditState(topic: $topic, content: $content)';
+    return 'EditState(topic: $topic, content: $content, entry: $entry)';
   }
 
   @override
@@ -119,11 +134,12 @@ class _$_EditState implements _EditState {
         (other.runtimeType == runtimeType &&
             other is _$_EditState &&
             (identical(other.topic, topic) || other.topic == topic) &&
-            (identical(other.content, content) || other.content == content));
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.entry, entry) || other.entry == entry));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, topic, content);
+  int get hashCode => Object.hash(runtimeType, topic, content, entry);
 
   @JsonKey(ignore: true)
   @override
@@ -132,15 +148,19 @@ class _$_EditState implements _EditState {
       __$$_EditStateCopyWithImpl<_$_EditState>(this, _$identity);
 }
 
-abstract class _EditState implements EditState {
+abstract class _EditState extends EditState {
   const factory _EditState(
       {required final String topic,
-      required final String content}) = _$_EditState;
+      required final String content,
+      required final ThreadEntry entry}) = _$_EditState;
+  const _EditState._() : super._();
 
   @override
   String get topic;
   @override
   String get content;
+  @override
+  ThreadEntry get entry;
   @override
   @JsonKey(ignore: true)
   _$$_EditStateCopyWith<_$_EditState> get copyWith =>

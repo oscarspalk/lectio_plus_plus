@@ -33,7 +33,7 @@ class _EditMessageScreenState extends State<EditMessageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: LppAppbar(title: "Rediger besked", oldContext: context),
-      body: BlocBuilder(
+      body: BlocBuilder<EditMessageBloc, EditState>(
         bloc: bloc,
         builder: (context, state) {
           return ListView(
@@ -41,12 +41,25 @@ class _EditMessageScreenState extends State<EditMessageScreen> {
             children: [
               const Illustration(illustration: UnDrawIllustration.writer),
               TextField(
+                controller: topic,
                 decoration: const InputDecoration(label: Text("Emne")),
                 onChanged: bloc.setTopic,
               ),
               TextField(
+                controller: content,
                 decoration: const InputDecoration(label: Text("Indhold")),
                 onChanged: bloc.setContent,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: FilledButton(
+                    onPressed: state.isValid()
+                        ? () {
+                            Navigator.pop(context);
+                            bloc.submit(context);
+                          }
+                        : null,
+                    child: const Text("Gem")),
               )
             ],
           );
