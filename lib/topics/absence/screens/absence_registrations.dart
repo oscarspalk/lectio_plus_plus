@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
 import 'package:lpp/topics/absence/widgets/absence_registration.dart';
+import 'package:lpp/topics/state/empty.dart';
+import 'package:lpp/widgets/layout/text_divider.dart';
 
 import '../bloc/registation.dart';
 import '../../state/loading.dart';
@@ -27,13 +29,66 @@ class AbsenceRegistrations extends StatelessWidget {
               return a.module.start.compareTo(b.module.start);
             },
           );
-        return ListView.builder(
-          itemCount: causes.length,
-          itemBuilder: (context, index) {
-            return AbsenceRegistration(absenceCause: causes[index]);
-          },
-        );
+
+        List<AbsenceCauseEntry> filledCauses =
+            causes.where((element) => element.cause != null).toList();
+        List<AbsenceCauseEntry> missingCauses =
+            causes.where((element) => element.cause == null).toList();
+        if (causes.isEmpty) {
+          return const EmptyScreen();
+        }
+        return ListView(children: [
+          if (missingCauses.isNotEmpty)
+            MissingCauses(missingCauses: missingCauses),
+          if (filledCauses.isNotEmpty) FilledCauses(filledCauses: filledCauses)
+        ]);
       },
+    );
+  }
+}
+
+class MissingCauses extends StatelessWidget {
+  const MissingCauses({
+    super.key,
+    required this.missingCauses,
+  });
+
+  final List<AbsenceCauseEntry> missingCauses;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const TextDivider(text: "Mangler"),
+        ...missingCauses
+            .map((cause) => AbsenceRegistration(absenceCause: cause))
+            .toList()
+      ],
+    );
+  }
+}
+
+class FilledCauses extends StatelessWidget {
+  const FilledCauses({
+    super.key,
+    required this.filledCauses,
+  });
+
+  final List<AbsenceCauseEntry> filledCauses;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const TextDivider(
+          text: "Udfyldte",
+        ),
+        ...filledCauses
+            .map((cause) => AbsenceRegistration(absenceCause: cause))
+            .toList()
+      ],
     );
   }
 }

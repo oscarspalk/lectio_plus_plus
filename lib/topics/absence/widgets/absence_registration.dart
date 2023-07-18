@@ -21,7 +21,7 @@ class AbsenceRegistration extends StatelessWidget {
             )),
         title: Text(absenceCause.module.team),
         subtitle: Text(
-            "${absenceCause.cause.name} ${absenceCause.expandedCause.isNotEmpty ? "-" : ""} ${absenceCause.expandedCause}"),
+            "${absenceCause.cause != null ? absenceCause.cause!.name : "Mangler"} ${absenceCause.expandedCause.isNotEmpty ? "-" : ""} ${absenceCause.expandedCause}"),
         trailing: IconButton(
             onPressed: () {
               Navigator.push(context, SwipeablePageRoute(

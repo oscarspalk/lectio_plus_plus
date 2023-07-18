@@ -5,9 +5,9 @@ class AbsencePercentageCircle extends StatelessWidget {
   const AbsencePercentageCircle(
       {super.key, required this.percentage, required this.cause});
   final double percentage;
-  final AbsenceCauses cause;
+  final AbsenceCauses? cause;
 
-  Color colorFromCause(AbsenceCauses cause, BuildContext context) {
+  Color colorFromCause(AbsenceCauses? cause, BuildContext context) {
     switch (cause) {
       case AbsenceCauses.late:
         return Colors.orange.shade400;

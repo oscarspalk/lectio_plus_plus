@@ -15,7 +15,7 @@ class EditAbsence extends StatefulWidget {
 }
 
 class _EditAbsenceState extends State<EditAbsence> {
-  late AbsenceCauses _absenceCause;
+  late AbsenceCauses? _absenceCause;
   late TextEditingController explanationController;
   late String _explanation;
   @override
@@ -32,8 +32,9 @@ class _EditAbsenceState extends State<EditAbsence> {
   }
 
   bool validate() {
-    return _explanation != widget.cause.expandedCause ||
-        _absenceCause != widget.cause.cause;
+    return _absenceCause != null &&
+        (_explanation != widget.cause.expandedCause ||
+            _absenceCause != widget.cause.cause);
   }
 
   @override

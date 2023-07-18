@@ -19,12 +19,15 @@ class AbsenceRegistrationsBloc
       : super(AbsenceRegistrationsState([], true)) {
     on<RequestedLoad>((event, emit) async {
       var items = await student.absence.registrations.list();
+
       emit(AbsenceRegistrationsState(items, false));
     });
 
     on<UpdatedRegistration>((event, emit) async {
-      await student.absence.registrations.update(event.absenceCauseEntry,
-          event.absenceCauseEntry.cause, event.absenceCauseEntry.expandedCause);
+      await student.absence.registrations.update(
+          event.absenceCauseEntry,
+          event.absenceCauseEntry.cause!,
+          event.absenceCauseEntry.expandedCause);
       var registration = event.absenceCauseEntry;
       var beforeRegistration =
           state.entries.indexWhere((element) => element.id == registration.id);
