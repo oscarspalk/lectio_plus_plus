@@ -78,6 +78,11 @@ class DayView extends StatelessWidget {
                       var diff = dayEvent.end
                           .difference(dayEvent.start)
                           .compareTo(const Duration(minutes: 50));
+                      var canceled = dayEvent.status == "Aflyst!";
+                      TextStyle style = TextStyle(
+                          color: canceled
+                              ? theme.colorScheme.onError
+                              : theme.colorScheme.onPrimaryContainer);
                       return wv.FlutterWeekViewEvent(
                           padding: null,
                           eventTextBuilder:
@@ -103,6 +108,7 @@ class DayView extends StatelessWidget {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             softWrap: false,
+                                            style: style,
                                           )),
                                       Flexible(
                                           fit: FlexFit.loose,
@@ -111,6 +117,7 @@ class DayView extends StatelessWidget {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             softWrap: false,
+                                            style: style,
                                           ))
                                     ]),
                               ),
@@ -124,7 +131,7 @@ class DayView extends StatelessWidget {
                             ));
                           },
                           margin: const EdgeInsets.all(8.0),
-                          backgroundColor: dayEvent.status == "Aflyst!"
+                          backgroundColor: canceled
                               ? theme.colorScheme.error
                               : theme.colorScheme.primaryContainer,
                           title: checkForFormat(dayEvent.team),
@@ -187,7 +194,8 @@ class DayView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             children: day.informations
                 .map((e) => Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 4.0),
                       child: Container(
                         height: 30.0,
                         decoration: BoxDecoration(
