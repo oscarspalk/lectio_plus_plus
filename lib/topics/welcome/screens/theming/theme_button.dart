@@ -2,7 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../logic/bloc/app/settings.dart';
+import '../../../../logic/app/settings.dart';
 
 class ThemeButton extends StatelessWidget {
   const ThemeButton({super.key, required this.color});

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
+import 'package:lpp/topics/messages/bloc/edit_message_bloc.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:ms_undraw/illustrations.g.dart';
-
-import '../../../logic/bloc/message/edit_message_bloc.dart';
 
 class EditMessageScreen extends StatefulWidget {
   const EditMessageScreen(

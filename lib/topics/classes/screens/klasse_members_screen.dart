@@ -4,8 +4,8 @@ import 'package:lpp/topics/classes/screens/elev_list.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
-import '../../../logic/bloc/student/student_bloc.dart';
-import '../../../logic/bloc/student/student_cubit.dart';
+import '../../../logic/student/student_bloc.dart';
+import '../../../logic/student/student_cubit.dart';
 
 class KlasseMembersScreen extends StatelessWidget {
   final ClassRef klasseRef;

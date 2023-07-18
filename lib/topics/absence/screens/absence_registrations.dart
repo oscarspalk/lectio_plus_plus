@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
 import 'package:lpp/topics/absence/widgets/absence_registration.dart';
 
-import '../../../logic/bloc/absence/registation.dart';
+import '../bloc/registation.dart';
 import '../../state/loading.dart';
 
 class AbsenceRegistrations extends StatelessWidget {

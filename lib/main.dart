@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'constants.dart';
-import 'logic/bloc/app/settings.dart';
-import 'logic/bloc/student/student_bloc.dart';
+import 'logic/app/settings.dart';
+import 'logic/student/student_bloc.dart';
 import 'routing/router.dart';
 
 Future<void> main() async {

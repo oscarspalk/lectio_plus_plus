@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
+import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
 import 'package:lpp/topics/messages/screens/new_message_screen.dart';
-
-import '../../../logic/bloc/message/new_message_bloc.dart';
 
 class SearchReceivers extends SearchDelegate<MetaDataEntry> {
   @override

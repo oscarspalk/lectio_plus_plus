@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
-import 'package:lpp/logic/bloc/student/student_cubit.dart';
+import 'package:lpp/logic/student/student_cubit.dart';
 import 'package:lpp/topics/grades/screens/grade_notes.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/tabbar.dart';

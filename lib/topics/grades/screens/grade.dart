@@ -7,7 +7,7 @@ import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/tabbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
-import '../../../logic/bloc/student/student_cubit.dart';
+import '../../../logic/student/student_cubit.dart';
 
 final List<String> names = [
   "1. Standpunkt",

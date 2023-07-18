@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
 
-import '../../../../logic/bloc/app/settings.dart';
+import '../../../../logic/app/settings.dart';
 import 'theme_button.dart';
 
 class ThemeController extends StatelessWidget {

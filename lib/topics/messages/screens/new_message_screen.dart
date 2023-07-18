@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
 import 'package:lectio_wrapper/types/primitives/person.dart';
+import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
 import 'package:lpp/topics/messages/screens/content_screen.dart';
 import 'package:lpp/topics/messages/screens/search_receivers.dart';
 import 'package:lpp/topics/state/loading.dart';
@@ -10,8 +11,6 @@ import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/tabbar.dart';
 import 'package:lpp/widgets/list/alphabetic_list.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
-
-import '../../../logic/bloc/message/new_message_bloc.dart';
 
 class NewMessageScreen extends StatefulWidget {
   const NewMessageScreen({super.key});

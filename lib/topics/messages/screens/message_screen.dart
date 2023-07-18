@@ -1,12 +1,12 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/topics/messages/bloc/message_bloc.dart';
 import 'package:lpp/topics/messages/screens/new_message_screen.dart';
 import 'package:lpp/topics/messages/widgets/message_item.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
-import '../../../logic/bloc/message/message_bloc.dart';
 import '../../state/empty.dart';
 import '../../state/loading.dart';
 

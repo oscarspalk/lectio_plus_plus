@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/class.dart';
-import 'package:lpp/logic/bloc/student/student_cubit.dart';
-import 'package:lpp/logic/bloc/student/student_bloc.dart';
+import 'package:lpp/logic/student/student_cubit.dart';
+import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/classes/screens/elev_list.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';

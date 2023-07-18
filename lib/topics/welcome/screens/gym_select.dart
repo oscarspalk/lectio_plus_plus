@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/gym.dart';
 
-import '../../../logic/bloc/student/student_bloc.dart';
+import '../../../logic/student/student_bloc.dart';
 
 class SelectGym extends SearchDelegate<Gym> {
   final Function(int n) selectGym;

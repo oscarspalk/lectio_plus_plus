@@ -6,7 +6,7 @@ import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:ms_undraw/ms_undraw.dart';
 
-import '../../../logic/bloc/student/student_bloc.dart';
+import '../../../logic/student/student_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key, required this.selectedGym, required this.back});

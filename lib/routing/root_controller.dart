@@ -4,7 +4,7 @@ import 'package:lpp/topics/calendar/screens/schema.dart';
 import 'package:lpp/widgets/layout/bottombar.dart';
 import 'package:lpp/widgets/layout/drawer.dart';
 
-import '../ads/ad_consent_checker.dart';
+import '../topics/ads/ad_consent_checker.dart';
 import '../topics/absence/screens/absence_screen.dart';
 import '../topics/homework/screens/homework.dart';
 import 'lectio_provider.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_week_view/flutter_week_view.dart' as wv;
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
-import '../../../logic/bloc/schema/schema_bloc.dart';
+import '../bloc/schema_bloc.dart';
 import '../../../utils/formatters.dart';
 import '../../../utils/helpers.dart';
 import '../../modul/modul_details_screen.dart';

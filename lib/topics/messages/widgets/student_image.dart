@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/context/student.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
-import 'package:lpp/logic/bloc/student/student_bloc.dart';
-import 'package:lpp/logic/bloc/student/student_cubit.dart';
+import 'package:lpp/logic/student/student_bloc.dart';
+import 'package:lpp/logic/student/student_cubit.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
 class StudentImage extends StatelessWidget {

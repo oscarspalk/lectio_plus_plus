@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/note.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
-import '../../../logic/bloc/student/student_cubit.dart';
+import '../../../logic/student/student_cubit.dart';
 
 class GradeNoteScreen extends StatelessWidget {
   const GradeNoteScreen({super.key});

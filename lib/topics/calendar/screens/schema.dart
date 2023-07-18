@@ -5,7 +5,7 @@ import 'package:lpp/topics/calendar/screens/create.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
-import '../../../logic/bloc/schema/schema_bloc.dart';
+import '../bloc/schema_bloc.dart';
 import '../../../utils/helpers.dart';
 import '../widgets/day_view.dart';
 

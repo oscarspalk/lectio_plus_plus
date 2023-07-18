@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
-import '../../../logic/bloc/student/student_bloc.dart';
-import '../../../logic/bloc/student/student_cubit.dart';
+import '../../../logic/student/student_bloc.dart';
+import '../../../logic/student/student_cubit.dart';
 
 class Member extends StatelessWidget {
   const Member({super.key, required this.student});

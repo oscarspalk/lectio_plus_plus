@@ -2,11 +2,11 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
+import 'package:lpp/topics/messages/bloc/message_bloc.dart';
 import 'package:lpp/topics/messages/screens/confirm_action.dart';
 import 'package:lpp/topics/messages/widgets/thread_entry.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
-import '../../../logic/bloc/message/message_bloc.dart';
-import '../../../logic/bloc/student/student_bloc.dart';
+import '../../../logic/student/student_bloc.dart';
 import '../../state/empty.dart';
 import '../../state/loading.dart';
 

@@ -6,7 +6,7 @@ import 'package:lectio_wrapper/types/homework/link_detail.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
-import '../../logic/bloc/student/student_cubit.dart';
+import '../../logic/student/student_cubit.dart';
 import '../state/empty.dart';
 import '../state/not_ready.dart';
 import 'widgets/homework_item.dart';

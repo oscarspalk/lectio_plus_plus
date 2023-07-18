@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
-import '../../logic/bloc/student/student_bloc.dart';
-import '../../logic/bloc/student/student_cubit.dart';
+import '../../logic/student/student_bloc.dart';
+import '../../logic/student/student_cubit.dart';
 
 class Destination {
   Destination(

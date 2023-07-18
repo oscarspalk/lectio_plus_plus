@@ -5,7 +5,7 @@ import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:ms_undraw/ms_undraw.dart';
 
-import '../../../logic/bloc/feature/feature_request.dart';
+import '../bloc/feature_request.dart';
 
 class WishAFeatureScreen extends StatefulWidget {
   const WishAFeatureScreen({super.key});

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 
-import '../../../logic/bloc/absence/registation.dart';
+import '../bloc/registation.dart';
 
 class EditAbsence extends StatefulWidget {
   const EditAbsence({super.key, required this.cause});

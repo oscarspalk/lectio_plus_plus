@@ -4,14 +4,14 @@ import 'package:lectio_wrapper/types/class.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
 import 'package:lectio_wrapper/types/grades/note.dart';
 import 'package:lectio_wrapper/types/homework/homework.dart';
-import '../logic/bloc/absence/registation.dart';
-import '../logic/bloc/message/message_bloc.dart';
-import '../logic/bloc/message/new_message_bloc.dart';
-import '../logic/bloc/opgaver/opgaver_bloc.dart';
-import '../logic/bloc/opgaver/opgaver_details_bloc.dart';
-import '../logic/bloc/schema/schema_bloc.dart';
-import '../logic/bloc/student/student_bloc.dart';
-import '../logic/bloc/student/student_cubit.dart';
+import 'package:lpp/topics/messages/bloc/message_bloc.dart';
+import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
+import 'package:lpp/topics/opgaver/bloc/opgaver_bloc.dart';
+import 'package:lpp/topics/opgaver/bloc/opgaver_details_bloc.dart';
+import '../topics/absence/bloc/registation.dart';
+import '../topics/calendar/bloc/schema_bloc.dart';
+import '../logic/student/student_bloc.dart';
+import '../logic/student/student_cubit.dart';
 
 class LectioProvider extends StatelessWidget {
   const LectioProvider({super.key, required this.child});

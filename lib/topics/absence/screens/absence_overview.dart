@@ -4,7 +4,7 @@ import 'package:lectio_wrapper/types/absence/entry.dart';
 import 'package:lpp/topics/absence/widgets/stat.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
-import '../../../logic/bloc/student/student_cubit.dart';
+import '../../../logic/student/student_cubit.dart';
 
 class AbsenceOverview extends StatelessWidget {
   const AbsenceOverview({super.key});

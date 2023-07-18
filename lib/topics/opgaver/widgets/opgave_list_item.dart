@@ -3,10 +3,9 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
+import 'package:lpp/topics/opgaver/bloc/opgaver_details_bloc.dart';
+import 'package:lpp/topics/opgaver/screens/opgave_screen.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
-
-import '../../../logic/bloc/opgaver/opgaver_details_bloc.dart';
-import '../opgave_screen.dart';
 
 class OpgaveListItem extends StatelessWidget {
   final AssignmentRef opgave;

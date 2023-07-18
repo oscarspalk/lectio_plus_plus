@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
+import 'package:lpp/topics/opgaver/bloc/opgaver_bloc.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/chipbar.dart';
 
-import '../../../logic/bloc/opgaver/opgaver_bloc.dart';
 import '../../state/empty.dart';
 import '../../state/loading.dart';
 import '../widgets/opgave_list_item.dart';

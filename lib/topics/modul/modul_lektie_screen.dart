@@ -4,7 +4,7 @@ import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:requests/requests.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../logic/bloc/student/student_bloc.dart';
+import '../../logic/student/student_bloc.dart';
 
 class ModulLektieScreen extends StatefulWidget {
   final Content content;

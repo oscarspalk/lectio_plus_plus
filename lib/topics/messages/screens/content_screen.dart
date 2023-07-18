@@ -1,10 +1,10 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
 import 'package:lpp/topics/messages/screens/confirm_action.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
-import '../../../logic/bloc/message/new_message_bloc.dart';
 import 'package:ms_undraw/illustrations.g.dart';
 
 class MessageContentScreen extends StatelessWidget {

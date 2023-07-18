@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/topics/welcome/screens/welcome_carousel.dart';
 
-import '../logic/bloc/student/student_bloc.dart';
+import '../logic/student/student_bloc.dart';
 import '../topics/state/internet_error.dart';
 import '../topics/state/loading.dart';
 import '../topics/state/login_error.dart';

@@ -5,8 +5,8 @@ import 'package:lpp/topics/classes/widgets/class_list_item.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
-import '../../../logic/bloc/app/settings.dart';
-import '../../../logic/bloc/student/student_cubit.dart';
+import '../../../logic/app/settings.dart';
+import '../../../logic/student/student_cubit.dart';
 
 class KlasseScreen extends StatelessWidget {
   const KlasseScreen({super.key});

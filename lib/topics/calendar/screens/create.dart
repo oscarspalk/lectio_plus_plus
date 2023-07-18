@@ -4,9 +4,9 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/widgets/control/time_select.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 
-import '../../../logic/bloc/private_appointment/appointment_bloc.dart';
-import '../../../logic/bloc/schema/schema_bloc.dart';
-import '../../../logic/bloc/student/student_bloc.dart';
+import '../bloc/appointment_bloc.dart';
+import '../bloc/schema_bloc.dart';
+import '../../../logic/student/student_bloc.dart';
 
 class CreateAppointmentScreen extends StatefulWidget {
   const CreateAppointmentScreen({super.key, this.previous});

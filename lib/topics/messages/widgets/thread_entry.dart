@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
-import 'package:lpp/logic/bloc/student/student_bloc.dart';
+import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/messages/screens/edit_message.dart';
 import 'package:lpp/topics/messages/screens/reply_message.dart';
 import 'package:lpp/topics/messages/widgets/student_image.dart';
