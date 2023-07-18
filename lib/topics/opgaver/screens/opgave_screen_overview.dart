@@ -23,23 +23,11 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LppAppbar(
+      appBar: const LppAppbar(
         title: "Opgaver",
-        bottom: Chipbar(
-          appliedFilters: appliedFilters,
-          filters: filters,
-          apply: (filter) {
-            setState(() {
-              if (appliedFilters.contains(filter)) {
-                appliedFilters.remove(filter);
-              } else {
-                appliedFilters.add(filter);
-              }
-            });
-          },
-        ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: BlocBuilder<OpgaveBloc, AssignmentState>(
@@ -58,6 +46,7 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
                   return const EmptyScreen();
                 }
                 return ListView.builder(
+                  shrinkWrap: true,
                   itemCount: assignments.length,
                   itemBuilder: (context, index) {
                     var opgave = assignments.elementAt(index);
@@ -66,6 +55,19 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
                 );
               },
             ),
+          ),
+          Chipbar(
+            appliedFilters: appliedFilters,
+            filters: filters,
+            apply: (filter) {
+              setState(() {
+                if (appliedFilters.contains(filter)) {
+                  appliedFilters.remove(filter);
+                } else {
+                  appliedFilters.add(filter);
+                }
+              });
+            },
           ),
         ],
       ),

@@ -80,6 +80,11 @@ class DayView extends StatelessWidget {
                           .compareTo(const Duration(minutes: 50));
                       var canceled = dayEvent.status == "Aflyst!";
                       TextStyle style = TextStyle(
+                          decoration:
+                              canceled ? TextDecoration.lineThrough : null,
+                          decorationColor: canceled
+                              ? theme.colorScheme.onError
+                              : theme.colorScheme.onPrimaryContainer,
                           color: canceled
                               ? theme.colorScheme.onError
                               : theme.colorScheme.onPrimaryContainer);
@@ -190,44 +195,53 @@ class DayView extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-            children: day.informations
-                .map((e) => Padding(
+              child: day.informations.isEmpty
+                  ? const Center(
+                      child: Text("Ingen informationer"),
+                    )
+                  : ListView(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 4.0),
-                      child: Container(
-                        height: 30.0,
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10.0))),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                e.trim(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium!
-                                    .copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .surface),
-                                overflow: TextOverflow.fade,
-                                textAlign: TextAlign.start,
-                                maxLines: 1,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      children: day.informations
+                          .map((e) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 4.0),
+                                child: Container(
+                                  height: 30.0,
+                                  decoration: BoxDecoration(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          e.trim(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium!
+                                              .copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .surface),
+                                          overflow: TextOverflow.fade,
+                                          textAlign: TextAlign.start,
+                                          maxLines: 1,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ))
+                          .toList(),
                     ))
-                .toList(),
-          ))
         ],
       ),
     );

@@ -10,6 +10,7 @@ class EmptyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Illustration(illustration: UnDrawIllustration.empty),
         Text(

@@ -11,8 +11,10 @@ class Chipbar extends StatelessWidget implements PreferredSizeWidget {
   final Function(String filter) apply;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: Theme.of(context).colorScheme.primary,
       height: preferredSize.height,
+      width: preferredSize.width,
       child: Center(
         child: ListView(
           scrollDirection: Axis.horizontal,
