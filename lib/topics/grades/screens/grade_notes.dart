@@ -1,4 +1,5 @@
 import 'package:accordion/accordion.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/note.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
@@ -12,11 +13,16 @@ class GradeNoteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return StudentBlocBuilder<StudentCubit<List<GradeNote>>, List<GradeNote>?>(
       builder: (context, state) {
+        var scheme = Theme.of(context).colorScheme;
         return Accordion(
+            rightIcon:
+                Icon(EvaIcons.arrowDownOutline, color: scheme.onBackground),
             contentBorderWidth: 0.0,
-            contentBackgroundColor: Theme.of(context).colorScheme.background,
+            headerBackgroundColor: scheme.background,
+            contentBackgroundColor: scheme.background,
             maxOpenSections: 1,
             children: state!.map((note) {
+              var textStyle = TextStyle(color: scheme.onBackground);
               return AccordionSection(
                   contentBorderRadius: 0.0,
                   headerBorderRadius: 0.0,
@@ -27,9 +33,14 @@ class GradeNoteScreen extends StatelessWidget {
                   header: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(note.note.trim(),
-                          maxLines: 1, overflow: TextOverflow.ellipsis),
-                      Text("${note.team.displayName} - ${note.gradeType}")
+                      Text(
+                        note.note.trim(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: textStyle,
+                      ),
+                      Text("${note.team.displayName} - ${note.gradeType}",
+                          style: textStyle)
                     ],
                   ),
                   content: ListTile(title: Text(note.note.trim())));

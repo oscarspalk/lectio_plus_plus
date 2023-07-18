@@ -41,7 +41,6 @@ class _GradeScreenState extends State<GradeScreen>
     return Scaffold(
         appBar: LppAppbar(
           title: "Karakterer",
-          oldContext: context,
           bottom: LppTabBar(
             tabs: names,
             scrollable: true,

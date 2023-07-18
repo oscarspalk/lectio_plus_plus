@@ -27,7 +27,6 @@ class _ModulLektieScreenState extends State<ModulLektieScreen> {
     return Scaffold(
         appBar: LppAppbar(
           title: widget.content.content,
-          oldContext: context,
           hideMenu: true,
         ),
         body: widget.content.href!.startsWith("https://")

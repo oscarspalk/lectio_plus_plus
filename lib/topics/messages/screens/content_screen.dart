@@ -13,7 +13,7 @@ class MessageContentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: LppAppbar(title: "Indhold", oldContext: context),
+        appBar: const LppAppbar(title: "Indhold"),
         body: BlocBuilder<NewMessageBloc, NewMessageState>(
           builder: (context, state) {
             var bloc = context.read<NewMessageBloc>();

@@ -27,9 +27,8 @@ class MessageScreen extends StatelessWidget {
           ));
         },
       ),
-      appBar: LppAppbar(
+      appBar: const LppAppbar(
         title: "Beskeder",
-        oldContext: context,
       ),
       body: BlocBuilder<MessageBloc, MessagesState>(
         builder: (context, data) {

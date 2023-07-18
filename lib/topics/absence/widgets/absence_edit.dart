@@ -40,9 +40,8 @@ class _EditAbsenceState extends State<EditAbsence> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LppAppbar(
+      appBar: const LppAppbar(
         title: "Opdaterer årsag",
-        oldContext: context,
         hideMenu: true,
       ),
       body: Padding(

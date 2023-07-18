@@ -32,7 +32,7 @@ class _ReplyMessageScreenState extends State<ReplyMessageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LppAppbar(title: "Svar besked", oldContext: context),
+      appBar: const LppAppbar(title: "Svar besked"),
       body: BlocBuilder<ReplyMessageBloc, ReplyState>(
         bloc: bloc,
         builder: (context, state) {

@@ -37,9 +37,12 @@ class ThreadEntryWidget extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    StudentImage(
-                      entry: entry.user,
-                      small: true,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: StudentImage(
+                        entry: entry.user,
+                        small: true,
+                      ),
                     )
                   ],
                 ),

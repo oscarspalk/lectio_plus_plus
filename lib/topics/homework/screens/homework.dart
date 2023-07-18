@@ -17,7 +17,9 @@ class HomeworkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LppAppbar(title: "Lektier", oldContext: context),
+      appBar: const LppAppbar(
+        title: "Lektier",
+      ),
       body: StudentBlocBuilder<StudentCubit<List<Homework>>, List<Homework>?>(
         builder: (context, state) {
           if (!kDebugMode) {

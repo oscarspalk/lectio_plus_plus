@@ -14,8 +14,7 @@ class KlasseMembersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          LppAppbar(title: klasseRef.name, oldContext: context, hideMenu: true),
+      appBar: LppAppbar(title: klasseRef.name, hideMenu: true),
       body: StudentBlocBuilder<StudentCubit<Class>, Class?>(
         bloc: StudentCubit(getStudentBloc(context).state.student!,
             (student) => student.classes.get(klasseRef))

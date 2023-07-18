@@ -33,7 +33,6 @@ class ThemeController extends StatelessWidget {
         return Scaffold(
           appBar: LppAppbar(
             title: "Vælg et tema",
-            oldContext: context,
             hideMenu: true,
             actions: [
               IconButton(

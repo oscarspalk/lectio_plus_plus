@@ -31,7 +31,6 @@ class _AbsenceScreenState extends State<AbsenceScreen>
     return Scaffold(
       appBar: LppAppbar(
         title: "Fravær",
-        oldContext: context,
         bottom: LppTabBar(
             controller: tabController,
             tabs: const ["Oversigt", "Registreringer"]),

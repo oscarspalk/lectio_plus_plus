@@ -21,7 +21,6 @@ class MessageDetails extends StatelessWidget {
     return Scaffold(
       appBar: LppAppbar(
         title: ref.topic,
-        oldContext: context,
         actions: [
           if (student.name ==
               ref.sender.substring(0, ref.sender.indexOf('(')).trim())

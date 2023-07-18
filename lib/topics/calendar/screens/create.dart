@@ -43,7 +43,6 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
         title: widget.previous != null
             ? "Opdater begivenhed"
             : "Ny privat begivenhed",
-        oldContext: context,
         hideMenu: true,
       ),
       body: Padding(

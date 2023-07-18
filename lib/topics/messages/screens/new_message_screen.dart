@@ -34,7 +34,6 @@ class _NewMessageScreenState extends State<NewMessageScreen>
     return Scaffold(
       appBar: LppAppbar(
           title: "Vælg modtagere",
-          oldContext: context,
           bottom: LppTabBar(
               scrollable: true,
               controller: _controller,

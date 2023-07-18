@@ -21,7 +21,6 @@ class OpgaveScreen extends StatelessWidget {
         appBar: LppAppbar(
           hideMenu: true,
           title: ref.title,
-          oldContext: context,
         ),
         body: BlocBuilder<OpgaveDetailsBloc, Assignment?>(
           builder: (context, state) {

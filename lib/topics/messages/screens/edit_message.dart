@@ -32,7 +32,9 @@ class _EditMessageScreenState extends State<EditMessageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LppAppbar(title: "Rediger besked", oldContext: context),
+      appBar: const LppAppbar(
+        title: "Rediger besked",
+      ),
       body: BlocBuilder<EditMessageBloc, EditState>(
         bloc: bloc,
         builder: (context, state) {

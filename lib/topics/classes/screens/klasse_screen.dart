@@ -14,9 +14,8 @@ class KlasseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LppAppbar(
+      appBar: const LppAppbar(
         title: "Klasser",
-        oldContext: context,
       ),
       body: StudentBlocBuilder<StudentCubit<List<ClassRef>>, List<ClassRef>?>(
         builder: (context, state) {

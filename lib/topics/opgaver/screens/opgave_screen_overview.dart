@@ -25,7 +25,6 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
     return Scaffold(
       appBar: LppAppbar(
         title: "Opgaver",
-        oldContext: context,
         bottom: Chipbar(
           appliedFilters: appliedFilters,
           filters: filters,

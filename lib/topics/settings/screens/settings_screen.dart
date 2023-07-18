@@ -37,11 +37,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LppAppbar(title: "Indstillinger", oldContext: context),
+      appBar: const LppAppbar(title: "Indstillinger"),
       body: BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
-        return ListView(
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            ListView(
+              shrinkWrap: true,
+              children: [
+                ListTile(
+                  title: Text("$version+$buildNumber"),
+                  subtitle: const Text("Version"),
+                ),
+                ListTile(
+                  onTap: () {
+                    Navigator.push(context, SwipeablePageRoute(
+                      builder: (context) {
+                        return ThemeController();
+                      },
+                    ));
+                  },
+                  title: const Text("Skift tema"),
+                  subtitle: const Text("Tilpasning"),
+                ),
+                CheckboxListTile(
+                  value: state.hideExtraClasses,
+                  onChanged: (_) =>
+                      context.read<SettingsBloc>().add(ToggleClass()),
+                  title: const Text("Gem ekstra klasser"),
+                  subtitle: const Text(
+                      "Fjerner klasser som brogyggere fra klasselisten."),
+                ),
+              ],
+            ),
             ListTile(
+              textColor: Theme.of(context).colorScheme.onErrorContainer,
+              tileColor: Theme.of(context).colorScheme.errorContainer,
               onTap: () {
                 getStudentBloc(context).add(StudentLoggedOut());
               },
@@ -49,28 +80,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: const Text("Log ud"),
               subtitle: const Text("Fjerner alle dine data og logger dig ud"),
             ),
-            ListTile(
-              title: Text("$version+$buildNumber"),
-              subtitle: const Text("Version"),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.push(context, SwipeablePageRoute(
-                  builder: (context) {
-                    return ThemeController();
-                  },
-                ));
-              },
-              title: const Text("Skift tema"),
-              subtitle: const Text("Tilpasning"),
-            ),
-            CheckboxListTile(
-              value: state.hideExtraClasses,
-              onChanged: (_) => context.read<SettingsBloc>().add(ToggleClass()),
-              title: const Text("Gem ekstra klasser"),
-              subtitle: const Text(
-                  "Fjerner klasser som brogyggere fra klasselisten."),
-            )
           ],
         );
       }),

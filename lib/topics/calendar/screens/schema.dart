@@ -59,7 +59,6 @@ class _SchemaScreenState extends State<SchemaScreen> {
                   " - Uge ${weekFromDateTime(state.selectedTime)}",
                 ),
               ]),
-              oldContext: context,
             ),
             floatingActionButton:
                 Row(mainAxisAlignment: MainAxisAlignment.end, children: [

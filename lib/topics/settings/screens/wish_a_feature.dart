@@ -26,9 +26,8 @@ class _WishAFeatureScreenState extends State<WishAFeatureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: LppAppbar(
+        appBar: const LppAppbar(
           title: "Ønsk en feature",
-          oldContext: context,
         ),
         body: BlocBuilder<FeatureRequestBloc, FeatureRequestState>(
           bloc: bloc,

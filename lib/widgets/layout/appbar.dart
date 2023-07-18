@@ -7,7 +7,6 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
   final bool hideMenu;
   final bool hideLeading;
   final List<Widget>? actions;
-  final BuildContext oldContext;
   final PreferredSizeWidget? bottom;
   final bool noStyle;
   const LppAppbar(
@@ -16,7 +15,6 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
       this.titleWidget,
       this.hideMenu = false,
       this.actions,
-      required this.oldContext,
       this.bottom,
       this.noStyle = false,
       this.hideLeading = false});
