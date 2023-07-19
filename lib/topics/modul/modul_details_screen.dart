@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
 import 'package:lpp/topics/calendar/screens/create.dart';
+import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 import '../calendar/bloc/schema_bloc.dart';
@@ -13,7 +14,6 @@ import '../../logic/student/student_bloc.dart';
 import 'modul_lektie_screen.dart';
 import '../../utils/formatters.dart';
 import '../../utils/helpers.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 bool ine(String input) {
   return input.isNotEmpty;
@@ -35,11 +35,8 @@ class ModulDetailsScreen extends StatelessWidget {
                   IconButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        Navigator.push(context, SwipeablePageRoute(
-                          builder: (context) {
-                            return CreateAppointmentScreen(previous: event);
-                          },
-                        ));
+                        Navigator.push(context,
+                            adRoute(CreateAppointmentScreen(previous: event)));
                       },
                       icon: const Icon(EvaIcons.editOutline)),
                   IconButton(
@@ -166,17 +163,15 @@ class ModulDetailsScreen extends StatelessWidget {
               title: Text(e.content),
               onTap: e.href != null
                   ? () {
-                      Navigator.push(context, SwipeablePageRoute(
-                        builder: (context) {
-                          return ModulLektieScreen(
+                      Navigator.push(
+                          context,
+                          adRoute(ModulLektieScreen(
                               content: e,
                               cookieJar: context
                                   .read<StudentBloc>()
                                   .state
                                   .student!
-                                  .getCookies());
-                        },
-                      ));
+                                  .getCookies())));
                     }
                   : null,
               subtitle: e.note != null ? Text(e.note!) : null,

@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/topics/messages/bloc/message_bloc.dart';
 import 'package:lpp/topics/messages/screens/new_message_screen.dart';
 import 'package:lpp/topics/messages/widgets/message_item.dart';
+import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 import '../../state/empty.dart';
 import '../../state/loading.dart';
@@ -20,11 +20,7 @@ class MessageScreen extends StatelessWidget {
         label: const Text("Ny besked"),
         icon: const Icon(EvaIcons.messageSquareOutline),
         onPressed: () {
-          Navigator.push(context, SwipeablePageRoute(
-            builder: (context) {
-              return const NewMessageScreen();
-            },
-          ));
+          Navigator.push(context, adRoute(const NewMessageScreen()));
         },
       ),
       appBar: const LppAppbar(

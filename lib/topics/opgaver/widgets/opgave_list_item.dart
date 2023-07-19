@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
 import 'package:lpp/topics/opgaver/bloc/opgaver_details_bloc.dart';
 import 'package:lpp/topics/opgaver/screens/opgave_screen.dart';
+import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/utils/helpers.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class OpgaveListItem extends StatelessWidget {
   final AssignmentRef opgave;
@@ -18,13 +18,11 @@ class OpgaveListItem extends StatelessWidget {
     return ListTile(
       onTap: () {
         context.read<OpgaveDetailsBloc>().load(opgave);
-        Navigator.push(context, SwipeablePageRoute(
-          builder: (context) {
-            return OpgaveScreen(
+        Navigator.push(
+            context,
+            adRoute(OpgaveScreen(
               ref: opgave,
-            );
-          },
-        ));
+            )));
       },
       leading: Icon(
           opgave.status == "Afleveret" ? EvaIcons.checkmark : EvaIcons.close),

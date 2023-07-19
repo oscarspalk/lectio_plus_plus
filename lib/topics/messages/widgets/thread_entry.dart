@@ -5,7 +5,7 @@ import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/messages/screens/edit_message.dart';
 import 'package:lpp/topics/messages/screens/reply_message.dart';
 import 'package:lpp/topics/messages/widgets/student_image.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
+import 'package:lpp/utils/ad_route.dart';
 
 class ThreadEntryWidget extends StatelessWidget {
   const ThreadEntryWidget(
@@ -58,11 +58,7 @@ class ThreadEntryWidget extends StatelessWidget {
                 ),
                 PopupMenuButton<Widget>(
                   onSelected: (value) {
-                    Navigator.push(context, SwipeablePageRoute(
-                      builder: (context) {
-                        return value;
-                      },
-                    ));
+                    Navigator.push(context, adRoute(value));
                   },
                   itemBuilder: (_) {
                     return [

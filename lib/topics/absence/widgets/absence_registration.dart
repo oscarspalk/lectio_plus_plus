@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
 import 'package:lpp/topics/absence/widgets/absence_edit.dart';
 import 'package:lpp/topics/absence/widgets/absence_percentage_circle.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
+import 'package:lpp/utils/ad_route.dart';
 
 class AbsenceRegistration extends StatelessWidget {
   const AbsenceRegistration({super.key, required this.absenceCause});
@@ -24,13 +24,11 @@ class AbsenceRegistration extends StatelessWidget {
             "${absenceCause.cause != null ? absenceCause.cause!.name : "Mangler"} ${absenceCause.expandedCause.isNotEmpty ? "-" : ""} ${absenceCause.expandedCause}"),
         trailing: IconButton(
             onPressed: () {
-              Navigator.push(context, SwipeablePageRoute(
-                builder: (context) {
-                  return EditAbsence(
+              Navigator.push(
+                  context,
+                  adRoute(EditAbsence(
                     cause: absenceCause,
-                  );
-                },
-              ));
+                  )));
             },
             icon: const Icon(EvaIcons.editOutline)));
   }

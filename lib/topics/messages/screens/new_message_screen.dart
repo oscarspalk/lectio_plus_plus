@@ -7,10 +7,10 @@ import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
 import 'package:lpp/topics/messages/screens/content_screen.dart';
 import 'package:lpp/topics/messages/screens/search_receivers.dart';
 import 'package:lpp/topics/state/loading.dart';
+import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/tabbar.dart';
 import 'package:lpp/widgets/list/alphabetic_list.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class NewMessageScreen extends StatefulWidget {
   const NewMessageScreen({super.key});
@@ -83,11 +83,8 @@ class _NewMessageScreenState extends State<NewMessageScreen>
                       : null,
                   onPressed: valid
                       ? () {
-                          Navigator.push(context, SwipeablePageRoute(
-                            builder: (context) {
-                              return const MessageContentScreen();
-                            },
-                          ));
+                          Navigator.push(
+                              context, adRoute(const MessageContentScreen()));
                         }
                       : null,
                   label: const Text("Næste"),

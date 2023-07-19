@@ -7,7 +7,7 @@ import 'package:lpp/topics/messages/bloc/message_bloc.dart';
 import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
 import 'package:lpp/topics/messages/screens/message_details.dart';
 import 'package:lpp/topics/messages/widgets/student_image.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
+import 'package:lpp/utils/ad_route.dart';
 
 class MessageItem extends StatelessWidget {
   const MessageItem({super.key, required this.ref});
@@ -35,12 +35,9 @@ class MessageItem extends StatelessWidget {
         return ListTile(
           leading: StudentImage(entry: sender),
           onTap: () {
-            Navigator.push(context, SwipeablePageRoute(
-              builder: (context) {
-                context.read<MessageBloc>().add(LoadMessage(ref));
-                return MessageDetails(ref: ref);
-              },
-            ));
+            context.read<MessageBloc>().add(LoadMessage(ref));
+
+            Navigator.push(context, adRoute(MessageDetails(ref: ref)));
           },
           title: Text(ref.topic),
           subtitle: Text(ref.sender),

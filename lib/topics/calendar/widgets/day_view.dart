@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_week_view/flutter_week_view.dart' as wv;
 import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
+import 'package:lpp/utils/ad_route.dart';
 
 import '../bloc/schema_bloc.dart';
 import '../../../utils/formatters.dart';
@@ -129,11 +129,8 @@ class DayView extends StatelessWidget {
                             );
                           },
                           onTap: () {
-                            Navigator.push(context, SwipeablePageRoute(
-                              builder: (context) {
-                                return ModulDetailsScreen(event: dayEvent);
-                              },
-                            ));
+                            Navigator.push(context,
+                                adRoute(ModulDetailsScreen(event: dayEvent)));
                           },
                           margin: const EdgeInsets.all(8.0),
                           backgroundColor: canceled

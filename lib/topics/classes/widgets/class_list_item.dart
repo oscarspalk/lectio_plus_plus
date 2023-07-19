@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/class.dart';
 import 'package:lpp/style/typograhy.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
+import 'package:lpp/utils/ad_route.dart';
 
 import '../klasse_members_screen.dart';
 
@@ -16,11 +16,8 @@ class ClassListItem extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, SwipeablePageRoute(
-            builder: (context) {
-              return KlasseMembersScreen(klasseRef: klasse);
-            },
-          ));
+          Navigator.push(
+              context, adRoute(KlasseMembersScreen(klasseRef: klasse)));
         },
         child: Padding(
           padding: const EdgeInsets.all(12.0),

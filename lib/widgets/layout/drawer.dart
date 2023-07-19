@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 import '../../logic/student/student_bloc.dart';
 import '../../logic/student/student_cubit.dart';
@@ -35,11 +35,8 @@ class LppDrawer extends StatelessWidget {
     return NavigationDrawer(
       selectedIndex: 99,
       onDestinationSelected: (int x) {
-        Navigator.push(context, SwipeablePageRoute(
-          builder: (context) {
-            return combinedDestinations.elementAt(x).screen;
-          },
-        ));
+        Navigator.push(
+            context, adRoute(combinedDestinations.elementAt(x).screen));
       },
       children: [
         Padding(
