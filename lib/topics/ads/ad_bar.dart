@@ -30,16 +30,18 @@ class _AdBarState extends State<AdBar> {
     BannerAd(
       adUnitId: _adUnitId,
       request: const AdRequest(),
-      size: AdSize.fluid,
+      size: AdSize.banner,
       listener: BannerAdListener(
         // Called when an ad is successfully received.
         onAdLoaded: (ad) {
+          debugPrint("Found ad");
           setState(() {
             _bannerAd = ad as BannerAd;
           });
         },
         // Called when an ad request failed.
         onAdFailedToLoad: (ad, err) {
+          debugPrint("Failed to load ad.");
           ad.dispose();
         },
         // Called when an ad opens an overlay that covers the screen.
@@ -60,6 +62,8 @@ class _AdBarState extends State<AdBar> {
             height: 50.0,
             child: AdWidget(ad: _bannerAd!))
         : Container(
+            color: kDebugMode ? Colors.yellow : null,
+            width: double.infinity,
             height: 50.0,
           );
   }
