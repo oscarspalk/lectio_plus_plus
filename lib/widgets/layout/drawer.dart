@@ -49,7 +49,9 @@ class LppDrawer extends StatelessWidget {
         BlocConsumer<StudentBloc, StudentState>(
           builder: (context, state) {
             return ListTile(
-              leading: SizedBox(
+              leading: Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: const BoxDecoration(shape: BoxShape.circle),
                 height: 40.0,
                 width: 40.0,
                 child: StudentBlocBuilder<StudentCubit<Uint8List>, Uint8List?>(

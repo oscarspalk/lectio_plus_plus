@@ -15,7 +15,9 @@ class StudentImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var acSize = small ? 30.0 : size;
-    return SizedBox(
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: const BoxDecoration(shape: BoxShape.circle),
       height: acSize,
       width: acSize,
       child: entry != null
