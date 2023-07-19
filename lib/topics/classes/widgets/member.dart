@@ -17,25 +17,24 @@ class Member extends StatelessWidget {
         showDialog(
           context: context,
           builder: (context) {
-            return SimpleDialog(
+            return Dialog(
+              clipBehavior: Clip.hardEdge,
               elevation: 0.0,
               shadowColor: Colors.transparent,
               backgroundColor: Colors.transparent,
-              children: [
-                StudentBlocBuilder<StudentCubit<Uint8List>, Uint8List?>(
-                  bloc: StudentCubit(
-                      getStudentBloc(context).state.student!,
-                      (primaryStudent) =>
-                          primaryStudent.getImage(student.imageId))
-                    ..load(),
-                  builder: (context, state) {
-                    return CircleAvatar(
-                      radius: MediaQuery.of(context).size.width / 2,
-                      foregroundImage: Image.memory(state!).image,
-                    );
-                  },
-                ),
-              ],
+              child: StudentBlocBuilder<StudentCubit<Uint8List>, Uint8List?>(
+                bloc: StudentCubit(
+                    getStudentBloc(context).state.student!,
+                    (primaryStudent) =>
+                        primaryStudent.getImage(student.imageId))
+                  ..load(),
+                builder: (context, state) {
+                  return CircleAvatar(
+                    radius: 150.0,
+                    foregroundImage: Image.memory(state!).image,
+                  );
+                },
+              ),
             );
           },
         );

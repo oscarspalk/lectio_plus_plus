@@ -10,7 +10,7 @@ class StudentCubit<T> extends Cubit<StatePattern<T?>> {
       : super(StatePattern(null, States.loading));
 
   load() async {
-    var list = await selector(student);
+    var list = await selector(student).timeout(const Duration(seconds: 20));
     emit(StatePattern(list, States.ready));
   }
 

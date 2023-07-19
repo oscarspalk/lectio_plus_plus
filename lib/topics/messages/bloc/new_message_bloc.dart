@@ -41,8 +41,7 @@ class NewMessageBloc extends Bloc<NewMessageEvent, NewMessageState> {
       : super(NewMessageState(true, null, [], "", "")) {
     on<Load>(
       (event, emit) async {
-        emit(
-            state.copyWith(loading: false, data: await student.students.get()));
+        emit(state.copyWith(loading: false, data: await student.meta.get()));
       },
     );
     on<AddPerson>(

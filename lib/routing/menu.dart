@@ -4,6 +4,7 @@ import 'package:lpp/topics/classes/screens/klasse_screen.dart';
 import 'package:lpp/topics/grades/screens/grade.dart';
 import 'package:lpp/topics/messages/screens/message_screen.dart';
 import 'package:lpp/topics/opgaver/screens/opgave_screen_overview.dart';
+import 'package:lpp/topics/people/screens/people_screen.dart';
 import 'package:lpp/topics/settings/screens/settings_screen.dart';
 import 'package:lpp/topics/settings/screens/wish_a_feature.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
@@ -19,10 +20,15 @@ class Menu extends StatelessWidget {
         name: "Opgaver",
         screen: const OpgaveScreenOverview()),
     Destination(
-        icon: EvaIcons.peopleOutline,
-        selectedIcon: EvaIcons.people,
+        icon: EvaIcons.folderOutline,
+        selectedIcon: EvaIcons.folder,
         name: "Klasser",
         screen: const KlasseScreen()),
+    Destination(
+        icon: EvaIcons.peopleOutline,
+        name: "Personer",
+        selectedIcon: EvaIcons.people,
+        screen: const PeopleScreen()),
     Destination(
         icon: EvaIcons.bookmarkOutline,
         name: "Karakterer",

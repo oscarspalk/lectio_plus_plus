@@ -66,6 +66,10 @@ class LectioProvider extends StatelessWidget {
       BlocProvider(
           create: (_) => NewMessageBloc(getStudentBloc(context).state.student!)
             ..add(Load())),
+      BlocProvider(
+        create: (context) =>
+            StudentCubit(student, (student) => student.students.list())..load(),
+      ),
       BlocProvider<MessageBloc>(
         create: (context) => MessageBloc(student)..add(LoadRefs()),
       )
