@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio/student.dart';
-import 'package:lpp/logic/student/student_cubit.dart';
-import 'package:lpp/topics/classes/widgets/member.dart';
+import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
+import 'package:lpp/topics/people/widget/person_tile.dart';
 import 'package:lpp/topics/state/empty.dart';
-import 'package:lpp/widgets/loading/student_bloc_builder.dart';
+import 'package:lpp/topics/state/loading.dart';
 
 class SearchPeople extends SearchDelegate<Student> {
   @override
@@ -23,9 +24,13 @@ class SearchPeople extends SearchDelegate<Student> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return StudentBlocBuilder<StudentCubit<List<Student>>, List<Student>?>(
+    return BlocBuilder<NewMessageBloc, NewMessageState>(
       builder: (context, state) {
-        var matching = state!
+        if (state.loading) {
+          return const LoadingScreen();
+        }
+        var concatenated = [...state.data!.students, ...state.data!.teachers];
+        var matching = concatenated
             .where((element) =>
                 element.name.toLowerCase().contains(query.toLowerCase()))
             .toList();
@@ -36,7 +41,9 @@ class SearchPeople extends SearchDelegate<Student> {
           itemCount: matching.length,
           itemBuilder: (context, index) {
             var person = matching[index];
-            return Member(student: person);
+            return PersonTile(
+              person: person,
+            );
           },
         );
       },

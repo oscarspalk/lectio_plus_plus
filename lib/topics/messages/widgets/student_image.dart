@@ -7,15 +7,17 @@ import 'package:lpp/logic/student/student_cubit.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
 class StudentImage extends StatelessWidget {
-  const StudentImage({super.key, required this.entry, this.small = false});
+  const StudentImage(
+      {super.key, required this.entry, this.small = false, this.size = 40.0});
   final MetaDataEntry? entry;
   final bool small;
+  final double size;
   @override
   Widget build(BuildContext context) {
-    var size = small ? 30.0 : 40.0;
+    var acSize = small ? 30.0 : size;
     return SizedBox(
-      height: size,
-      width: size,
+      height: acSize,
+      width: acSize,
       child: entry != null
           ? StudentBlocBuilder<StudentCubit<Uint8List>, Uint8List?>(
               bloc: StudentCubit(
