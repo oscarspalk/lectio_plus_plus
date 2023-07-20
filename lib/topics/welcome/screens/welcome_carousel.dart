@@ -35,6 +35,10 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
     carousel.previousPage(duration: animDuration, curve: animCurve);
   }
 
+  void skip() {
+    carousel.animateToPage(5, duration: animDuration, curve: animCurve);
+  }
+
   @override
   Widget build(BuildContext context) {
     return PageView(
@@ -42,6 +46,7 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
       controller: carousel,
       children: [
         GreetingsScreen(
+          skip: skip,
           next: next,
         ),
         MoneyScreen(next: next),

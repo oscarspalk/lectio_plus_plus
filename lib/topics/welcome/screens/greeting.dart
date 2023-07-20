@@ -4,10 +4,10 @@ import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:ms_undraw/ms_undraw.dart';
 
 class GreetingsScreen extends StatelessWidget {
-  const GreetingsScreen({super.key, required this.next});
+  const GreetingsScreen({super.key, required this.next, required this.skip});
 
   final Function() next;
-
+  final Function() skip;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +35,8 @@ class GreetingsScreen extends StatelessWidget {
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: [
+                  FilledButton.tonal(
+                      onPressed: skip, child: const Text("Spring over")),
                   FilledButton(onPressed: next, child: const Text("Gå i gang"))
                 ],
               )
