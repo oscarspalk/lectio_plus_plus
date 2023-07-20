@@ -5,6 +5,8 @@ import 'package:lpp/topics/grades/screens/grade.dart';
 import 'package:lpp/topics/messages/screens/message_screen.dart';
 import 'package:lpp/topics/opgaver/screens/opgave_screen_overview.dart';
 import 'package:lpp/topics/people/screens/people_screen.dart';
+import 'package:lpp/topics/plans/screens/overview.dart';
+import 'package:lpp/topics/rooms/screens/overview.dart';
 import 'package:lpp/topics/settings/screens/settings_screen.dart';
 import 'package:lpp/topics/settings/screens/wish_a_feature.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
@@ -34,6 +36,16 @@ class Menu extends StatelessWidget {
         name: "Karakterer",
         selectedIcon: EvaIcons.bookmark,
         screen: const GradeScreen()),
+    Destination(
+        icon: Icons.meeting_room_outlined,
+        name: "Lokaler",
+        selectedIcon: Icons.meeting_room,
+        screen: const RoomOverview()),
+    Destination(
+        icon: EvaIcons.fileTextOutline,
+        name: "Studieplan",
+        selectedIcon: EvaIcons.fileText,
+        screen: const PlanOverview()),
     Destination(
         icon: EvaIcons.messageCircleOutline,
         name: "Beskeder",

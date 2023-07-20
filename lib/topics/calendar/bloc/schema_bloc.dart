@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lectio_wrapper/types/rooms/room.dart';
 
 import '../../../utils/helpers.dart';
 
@@ -30,16 +31,19 @@ final class UpdatedAppointment extends AppointmentEvent {
 
 class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
   final Student student;
-
+  final Room? room;
   List<Week> weeks = [];
 
   Future<Week> _getWeek(int year, int num) async {
-    Week fetchedWeek = await student.weeks.get(year, num);
+    Week fetchedWeek = await (room != null
+        ? student.rooms.get(room!, year, num)
+        : student.weeks.get(year, num));
     weeks.add(fetchedWeek);
     return fetchedWeek;
   }
 
-  SchemaBloc(this.student) : super(SchemaState(DateTime.now(), [])) {
+  SchemaBloc(this.student, {this.room})
+      : super(SchemaState(DateTime.now(), [])) {
     on<SwitchedDate>((event, emit) async {
       var weekNum = weekFromDateTime(event.time);
       List<Week> availableWeeks =
