@@ -90,11 +90,14 @@ class _SchemaScreenState extends State<SchemaScreen> {
                 controller: _pageController,
                 scrollDirection: Axis.horizontal,
                 onPageChanged: (value) {
+                  debugPrint(formatDateReadable(
+                      start.add(Duration(days: value - startIndex))));
                   (widget.bloc ?? context.read<SchemaBloc>()).add(SwitchedDate(
                       start.add(Duration(days: value - startIndex))));
                 },
                 itemBuilder: (context, index) {
                   return DayView(
+                      bloc: widget.bloc,
                       daySelected:
                           start.add(Duration(days: index - startIndex)));
                 }));

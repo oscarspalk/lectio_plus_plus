@@ -15,10 +15,12 @@ const double columnWidth = 65.0;
 
 class DayView extends StatelessWidget {
   final DateTime daySelected;
-  const DayView({super.key, required this.daySelected});
+  final SchemaBloc? bloc;
+  const DayView({super.key, required this.daySelected, this.bloc});
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SchemaBloc, SchemaState>(
+      bloc: bloc,
       builder: (context, state) {
         var weekNum = weekFromDateTime(daySelected);
         var availableWeeks =

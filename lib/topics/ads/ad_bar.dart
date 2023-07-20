@@ -56,7 +56,7 @@ class _AdBarState extends State<AdBar> {
 
   @override
   Widget build(BuildContext context) {
-    return _bannerAd != null
+    return !kDebugMode && _bannerAd != null
         ? SizedBox(
             width: double.infinity,
             height: 50.0,

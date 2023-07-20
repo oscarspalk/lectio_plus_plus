@@ -18,41 +18,43 @@ class PersonDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     var wPerson = person as Person;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 24.0),
-      child: Column(
-        children: [
-          StudentImage(
-            entry: person,
-            size: 150.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Text(
-              person.name,
-              style: headerStyle,
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 48.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            StudentImage(
+              entry: person,
+              size: 150.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(
+                person.name,
+                style: headerStyle,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Text(
+              wPerson.initialsOrClass ?? "",
               textAlign: TextAlign.center,
             ),
-          ),
-          Text(
-            wPerson.initialsOrClass ?? "",
-            textAlign: TextAlign.center,
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  adRoute(SchemaScreen(
-                      name: formatName(person.name),
-                      bloc: SchemaBloc(Student(person.id.substring(1),
-                          getStudentBloc(context).state.student!.gymId))
-                        ..add(
-                          SwitchedDate(DateTime.now()),
-                        ))));
-            },
-            title: Text("Se ${formatName(person.name)} skema"),
-            leading: const Icon(EvaIcons.calendarOutline),
-          )
-        ],
+            ListTile(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    adRoute(SchemaScreen(
+                        name: formatName(person.name),
+                        bloc: SchemaBloc(Student(person.id.substring(1),
+                            getStudentBloc(context).state.student!.gymId))
+                          ..add(
+                            SwitchedDate(DateTime.now()),
+                          ))));
+              },
+              title: Text("Se ${formatName(person.name)} skema"),
+              leading: const Icon(EvaIcons.calendarOutline),
+            )
+          ],
+        ),
       ),
     );
   }
