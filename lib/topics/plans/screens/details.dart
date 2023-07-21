@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/plan/study_plan.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/logic/student/student_cubit.dart';
+import 'package:lpp/utils/helpers.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
+import 'package:lpp/widgets/primitive/statement.dart';
 
 class PlanDetails extends StatelessWidget {
   const PlanDetails({super.key, required this.ref});
   final StudyPlanRef ref;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,13 +22,17 @@ class PlanDetails extends StatelessWidget {
         builder: (context, state) {
           return ListView(
             children: [
-              ListTile(
-                title: Text(state!.teacher.name),
-                subtitle: const Text("Lærer"),
+              Statement(
+                content: state!.teacher.name,
+                topic: "Lærer",
               ),
-              ListTile(
-                title: Text(state.description),
-                subtitle: const Text("Beskrivelse"),
+              Statement(
+                  topic: "Periode",
+                  content:
+                      "Uge ${weekFromDateTime(ref.start)} - Uge ${weekFromDateTime(ref.end)}"),
+              Statement(
+                content: state.description,
+                topic: "Beskrivelse",
               )
             ],
           );
