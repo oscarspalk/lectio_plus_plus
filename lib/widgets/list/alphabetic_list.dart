@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lpp/topics/state/empty.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
 
 class AssociatedObject<T> {
@@ -25,26 +26,30 @@ class _AlphabeticListState<T> extends State<AlphabeticList<T>> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
-      children: letters.map((e) {
-        var matching =
-            widget.list.where((obj) => obj.key.toLowerCase().startsWith(e));
-        if (matching.isEmpty) {
-          return const SizedBox(
-            height: 0.0,
-          );
-        }
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextDivider(
-              text: e.toUpperCase(),
-              large: true,
-            ),
-            ...matching.map((e) => widget.itemBuilder(context, e.object))
-          ],
-        );
-      }).toList(),
-    ));
+        body: widget.list.isEmpty
+            ? const EmptyScreen()
+            : ListView(
+                children: letters.map((e) {
+                  var matching = widget.list
+                      .where((obj) => obj.key.toLowerCase().startsWith(e));
+                  if (matching.isEmpty) {
+                    return const SizedBox(
+                      height: 0.0,
+                    );
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextDivider(
+                        primary: true,
+                        text: e.toUpperCase(),
+                        large: true,
+                      ),
+                      ...matching
+                          .map((e) => widget.itemBuilder(context, e.object))
+                    ],
+                  );
+                }).toList(),
+              ));
   }
 }

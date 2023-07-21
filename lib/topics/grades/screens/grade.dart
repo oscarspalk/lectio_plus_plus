@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
+import 'package:lectio_wrapper/types/grades/subject.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
 import 'package:lpp/topics/grades/screens/grade_notes.dart';
 import 'package:lpp/topics/grades/screens/normal_grades.dart';
@@ -49,17 +50,21 @@ class _GradeScreenState extends State<GradeScreen>
         ),
         body: StudentBlocBuilder<StudentCubit<List<GradeRow>>, List<GradeRow>?>(
             builder: (context, state) {
-          List<Map<Team, Grade?>> types = names
+          List<Map<(Team, Subject), Grade?>> types = names
               .take(names.length - 1)
-              .map((e) => <Team, Grade?>{})
+              .map((e) => <(Team, Subject), Grade?>{})
               .toList();
           for (var row in state!) {
-            types[0].putIfAbsent(row.team, () => row.firstStandpunkt);
-            types[1].putIfAbsent(row.team, () => row.secondStandpunkt);
-            types[2].putIfAbsent(row.team, () => row.finalYearGrade);
-            types[3].putIfAbsent(row.team, () => row.internalTest);
-            types[4].putIfAbsent(row.team, () => row.yearGrade);
-            types[5].putIfAbsent(row.team, () => row.examGrade);
+            types[0].putIfAbsent(
+                (row.team, row.subject), () => row.firstStandpunkt);
+            types[1].putIfAbsent(
+                (row.team, row.subject), () => row.secondStandpunkt);
+            types[2]
+                .putIfAbsent((row.team, row.subject), () => row.finalYearGrade);
+            types[3]
+                .putIfAbsent((row.team, row.subject), () => row.internalTest);
+            types[4].putIfAbsent((row.team, row.subject), () => row.yearGrade);
+            types[5].putIfAbsent((row.team, row.subject), () => row.examGrade);
           }
           return TabBarView(
               controller: _tabController,

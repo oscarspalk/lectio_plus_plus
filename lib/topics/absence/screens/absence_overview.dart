@@ -70,6 +70,7 @@ class AbsenceOverview extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: GridView.count(
+                  physics: const NeverScrollableScrollPhysics(),
                   crossAxisSpacing: 8.0,
                   shrinkWrap: true,
                   crossAxisCount: 2,

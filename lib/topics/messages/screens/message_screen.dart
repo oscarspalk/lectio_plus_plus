@@ -20,7 +20,8 @@ class MessageScreen extends StatelessWidget {
         label: const Text("Ny besked"),
         icon: const Icon(EvaIcons.messageSquareOutline),
         onPressed: () {
-          Navigator.push(context, adRoute(const NewMessageScreen()));
+          Navigator.push(
+              context, adRoute(const NewMessageScreen(), onlyFromEdge: true));
         },
       ),
       appBar: const LppAppbar(

@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio/account.dart';
@@ -45,12 +46,14 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextField(
               controller: usernameController,
-              decoration: const InputDecoration(label: Text("Brugernavn")),
+              decoration: const InputDecoration(
+                  label: Text("Brugernavn"), icon: Icon(EvaIcons.person)),
             ),
             TextField(
               controller: passwordController,
               obscureText: true,
-              decoration: const InputDecoration(label: Text("Kodeord")),
+              decoration: const InputDecoration(
+                  label: Text("Kodeord"), icon: Icon(Icons.key_outlined)),
             ),
             ButtonBar(
                 buttonPadding: const EdgeInsets.all(12.0),

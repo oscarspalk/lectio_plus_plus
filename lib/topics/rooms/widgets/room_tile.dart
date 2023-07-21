@@ -14,11 +14,13 @@ class RoomTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
             context,
-            adRoute(SchemaScreen(
-              bloc:
-                  SchemaBloc(getStudentBloc(context).state.student!, room: room)
+            adRoute(
+                SchemaScreen(
+                  bloc: SchemaBloc(getStudentBloc(context).state.student!,
+                      room: room)
                     ..add(SwitchedDate(DateTime.now())),
-            )));
+                ),
+                onlyFromEdge: true));
       },
       title: Text(room.short),
       subtitle: Text(room.name),

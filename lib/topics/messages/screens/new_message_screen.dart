@@ -26,7 +26,7 @@ class _NewMessageScreenState extends State<NewMessageScreen>
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 6, vsync: this);
+    _controller = TabController(length: 6, vsync: this, initialIndex: 1);
   }
 
   @override
@@ -34,17 +34,15 @@ class _NewMessageScreenState extends State<NewMessageScreen>
     return Scaffold(
       appBar: LppAppbar(
           title: "Vælg modtagere",
-          bottom: LppTabBar(
-              scrollable: true,
-              controller: _controller,
-              tabs: const [
-                "Favoritter",
-                "Elever",
-                "Lærere",
-                "Hold",
-                "Grupper",
-                "Valgte"
-              ])),
+          bottom:
+              LppTabBar(scrollable: true, controller: _controller, tabs: const [
+            "Valgte",
+            "Favoritter",
+            "Elever",
+            "Lærere",
+            "Hold",
+            "Grupper",
+          ])),
       body: BlocBuilder<NewMessageBloc, NewMessageState>(
         builder: (context, state) {
           if (state.loading) {
@@ -52,12 +50,12 @@ class _NewMessageScreenState extends State<NewMessageScreen>
           }
           var data = state.data!;
           List<List<MetaDataEntry>> screens = [
+            state.receivers,
             data.favorites,
             data.students,
             data.teachers,
             data.teams,
             data.groups,
-            state.receivers
           ];
           var valid = state.receivers.isNotEmpty;
           return Scaffold(

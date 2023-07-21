@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
+import 'package:lectio_wrapper/types/grades/subject.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
 
 class SpecificGradeScreen extends StatelessWidget {
   const SpecificGradeScreen({super.key, required this.grades});
 
-  final Map<Team, Grade?> grades;
+  final Map<(Team, Subject), Grade?> grades;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,8 @@ class SpecificGradeScreen extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(entry.key.displayName),
+                    Text(
+                        "${entry.key.$1.displayName} - ${entry.key.$2.type == SubjectTypes.oral ? "Mundtlig" : "Skriftlig"}"),
                     Text(entry.value != null
                         ? entry.value!.grade.toString()
                         : "-")
