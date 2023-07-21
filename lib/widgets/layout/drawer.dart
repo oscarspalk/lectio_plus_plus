@@ -13,11 +13,13 @@ class Destination {
       {required this.icon,
       required this.name,
       required this.selectedIcon,
-      required this.screen});
+      required this.screen,
+      this.onlyFromEdge = false});
   IconData icon;
   IconData selectedIcon;
   String name;
   Widget screen;
+  bool onlyFromEdge;
 }
 
 class LppDrawer extends StatelessWidget {
@@ -36,7 +38,9 @@ class LppDrawer extends StatelessWidget {
       selectedIndex: 99,
       onDestinationSelected: (int x) {
         Navigator.push(
-            context, adRoute(combinedDestinations.elementAt(x).screen));
+            context,
+            adRoute(combinedDestinations.elementAt(x).screen,
+                onlyFromEdge: combinedDestinations.elementAt(x).onlyFromEdge));
       },
       children: [
         Padding(

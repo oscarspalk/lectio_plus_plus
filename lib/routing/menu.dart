@@ -35,7 +35,8 @@ class Menu extends StatelessWidget {
         icon: EvaIcons.bookmarkOutline,
         name: "Karakterer",
         selectedIcon: EvaIcons.bookmark,
-        screen: const GradeScreen()),
+        screen: const GradeScreen(),
+        onlyFromEdge: true),
     Destination(
         icon: Icons.meeting_room_outlined,
         name: "Lokaler",

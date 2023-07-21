@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_week_view/flutter_week_view.dart' as wv;
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/topics/calendar/widgets/day_header.dart';
+import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
 
 import '../bloc/schema_bloc.dart';
 import '../../../utils/formatters.dart';
 import '../../../utils/helpers.dart';
-import '../../modul/modul_details_screen.dart';
 import '../../state/loading.dart';
 
 const double columnWidth = 65.0;

@@ -24,7 +24,9 @@ class _AdBarState extends State<AdBar> {
       ? (Platform.isAndroid
           ? 'ca-app-pub-4763369128964093/1205778337'
           : 'ca-app-pub-3940256099942544/2934735716')
-      : (Platform.isAndroid ? "ca-app-pub-4763369128964093/1205778337" : "");
+      : (Platform.isAndroid
+          ? "ca-app-pub-4763369128964093/1205778337"
+          : "ca-app-pub-4763369128964093/2170963928");
 
   void _loadAd() async {
     BannerAd(
@@ -61,8 +63,7 @@ class _AdBarState extends State<AdBar> {
             width: double.infinity,
             height: 50.0,
             child: AdWidget(ad: _bannerAd!))
-        : Container(
-            color: kDebugMode ? Colors.yellow : null,
+        : const SizedBox(
             width: double.infinity,
             height: 50.0,
           );

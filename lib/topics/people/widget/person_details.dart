@@ -42,13 +42,15 @@ class PersonDetails extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                     context,
-                    adRoute(SchemaScreen(
-                        name: formatName(person.name),
-                        bloc: SchemaBloc(Student(person.id.substring(1),
-                            getStudentBloc(context).state.student!.gymId))
-                          ..add(
-                            SwitchedDate(DateTime.now()),
-                          ))));
+                    adRoute(
+                        SchemaScreen(
+                            name: formatName(person.name),
+                            bloc: SchemaBloc(Student(person.id.substring(1),
+                                getStudentBloc(context).state.student!.gymId))
+                              ..add(
+                                SwitchedDate(DateTime.now()),
+                              )),
+                        onlyFromEdge: true));
               },
               title: Text("Se ${formatName(person.name)} skema"),
               leading: const Icon(EvaIcons.calendarOutline),

@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
+import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
 import 'package:lpp/topics/calendar/screens/create.dart';
+import 'package:lpp/topics/modul/screens/modul_lektie_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
-import '../calendar/bloc/schema_bloc.dart';
-import '../../logic/student/student_cubit.dart';
-import '../../logic/student/student_bloc.dart';
-import 'modul_lektie_screen.dart';
-import '../../utils/formatters.dart';
-import '../../utils/helpers.dart';
+
+import '../../../logic/student/student_bloc.dart';
+import '../../../logic/student/student_cubit.dart';
+import '../../../utils/formatters.dart';
+import '../../../utils/helpers.dart';
 
 bool ine(String input) {
   return input.isNotEmpty;
@@ -160,6 +161,8 @@ class ModulDetailsScreen extends StatelessWidget {
               : []),
           ...regDetails.content.map((e) {
             return ListTile(
+              leading:
+                  e.href != null ? const Icon(EvaIcons.link2Outline) : null,
               title: Text(e.content),
               onTap: e.href != null
                   ? () {

@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/topics/assignments/scraping.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
 import 'package:lectio_wrapper/types/primitives/file.dart';
+import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
 import 'package:lpp/topics/opgaver/bloc/opgaver_details_bloc.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 
-import '../../modul/modul_details_screen.dart';
 import '../../state/loading.dart';
 
 class OpgaveScreen extends StatelessWidget {
