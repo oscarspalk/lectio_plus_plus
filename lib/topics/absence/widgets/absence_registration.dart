@@ -24,11 +24,7 @@ class AbsenceRegistration extends StatelessWidget {
             "${absenceCause.cause != null ? absenceCause.cause!.name : "Mangler"} ${absenceCause.expandedCause.isNotEmpty ? "-" : ""} ${absenceCause.expandedCause}"),
         trailing: IconButton(
             onPressed: () {
-              Navigator.push(
-                  context,
-                  adRoute(EditAbsence(
-                    cause: absenceCause,
-                  )));
+              adSheet(EditAbsence(cause: absenceCause), context);
             },
             icon: const Icon(EvaIcons.editOutline)));
   }

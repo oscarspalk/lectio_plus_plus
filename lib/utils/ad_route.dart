@@ -10,3 +10,16 @@ Route adRoute(Widget screen, {bool onlyFromEdge = false}) {
     },
   );
 }
+
+void adSheet(Widget sheet, BuildContext context) {
+  showModalBottomSheet(
+    isScrollControlled: true,
+    context: context,
+    builder: (context) {
+      return Column(mainAxisSize: MainAxisSize.min, children: [
+        sheet,
+        const AdBar(),
+      ]);
+    },
+  );
+}

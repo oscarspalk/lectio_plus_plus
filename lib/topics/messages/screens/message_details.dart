@@ -5,6 +5,7 @@ import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lpp/topics/messages/bloc/message_bloc.dart';
 import 'package:lpp/topics/messages/screens/confirm_action.dart';
 import 'package:lpp/topics/messages/widgets/thread_entry.dart';
+import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import '../../../logic/student/student_bloc.dart';
 import '../../state/empty.dart';
@@ -26,19 +27,16 @@ class MessageDetails extends StatelessWidget {
               ref.sender.substring(0, ref.sender.indexOf('(')).trim())
             IconButton(
                 onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return ConfirmAction(
+                  adSheet(
+                      ConfirmAction(
                           confirmText: "Vil du slette?",
                           onConfirm: () {
                             BlocProvider.of<MessageBloc>(context)
                                 .add(DeleteMessage(ref));
                             Navigator.pop(context);
                             Navigator.pop(context);
-                          });
-                    },
-                  );
+                          }),
+                      context);
                 },
                 icon: const Icon(EvaIcons.trash2Outline))
         ],

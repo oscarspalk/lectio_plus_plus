@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
 import 'package:lpp/topics/messages/screens/confirm_action.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
+import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:ms_undraw/illustrations.g.dart';
 
@@ -42,11 +43,8 @@ class MessageContentScreen extends StatelessWidget {
                   child: FilledButton.icon(
                     onPressed: state.valid
                         ? () {
-                            showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (context) {
-                                return ConfirmAction(
+                            adSheet(
+                                ConfirmAction(
                                   confirmText: "Vil du sende?",
                                   onConfirm: () {
                                     context
@@ -74,9 +72,8 @@ class MessageContentScreen extends StatelessWidget {
                                       subtitle: const Text("Modtagere"),
                                     )
                                   ],
-                                );
-                              },
-                            );
+                                ),
+                                context);
                           }
                         : null,
                     label: const Text("Send"),

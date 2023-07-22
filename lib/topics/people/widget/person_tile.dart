@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
 import 'package:lpp/topics/people/widget/person_details.dart';
+import 'package:lpp/utils/ad_route.dart';
 
 class PersonTile extends StatelessWidget {
   const PersonTile({super.key, required this.person});
@@ -11,12 +12,7 @@ class PersonTile extends StatelessWidget {
       title: Text(person.name),
       subtitle: Text(person.classOrInitials ?? ""),
       onTap: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return PersonDetails(person: person);
-          },
-        );
+        adSheet(PersonDetails(person: person), context);
       },
     );
   }

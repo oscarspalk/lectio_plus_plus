@@ -2,7 +2,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
-import 'package:lpp/widgets/layout/appbar.dart';
 
 import '../bloc/registation.dart';
 
@@ -54,62 +53,56 @@ class _EditAbsenceState extends State<EditAbsence> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const LppAppbar(
-        title: "Opdaterer årsag",
-        hideMenu: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            InputDecorator(
-                decoration: const InputDecoration(label: Text("Årsag")),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<AbsenceCauses>(
-                      value: _absenceCause,
-                      items: AbsenceCauses.values
-                          .map((e) => DropdownMenuItem<AbsenceCauses>(
-                              value: e,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Icon(iconFromCause(e)),
-                                  ),
-                                  Text(e.name)
-                                ],
-                              )))
-                          .toList(),
-                      onChanged: (e) {
-                        setState(() {
-                          _absenceCause = e!;
-                        });
-                      }),
-                )),
-            TextField(
-              controller: explanationController,
-              decoration:
-                  const InputDecoration(label: Text("Forklaring (valgfri)")),
-            ),
-            Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: FilledButton.icon(
-                    onPressed: validate()
-                        ? () async {
-                            Navigator.pop(context);
-                            var newEntry = widget.cause;
-                            newEntry.cause = _absenceCause;
-                            newEntry.expandedCause = _explanation;
-                            context
-                                .read<AbsenceRegistrationsBloc>()
-                                .add(UpdatedRegistration(newEntry));
-                          }
-                        : null,
-                    icon: const Icon(EvaIcons.save),
-                    label: const Text("Gem")))
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        children: [
+          InputDecorator(
+              decoration: const InputDecoration(label: Text("Årsag")),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<AbsenceCauses>(
+                    value: _absenceCause,
+                    items: AbsenceCauses.values
+                        .map((e) => DropdownMenuItem<AbsenceCauses>(
+                            value: e,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Icon(iconFromCause(e)),
+                                ),
+                                Text(e.name)
+                              ],
+                            )))
+                        .toList(),
+                    onChanged: (e) {
+                      setState(() {
+                        _absenceCause = e!;
+                      });
+                    }),
+              )),
+          TextField(
+            controller: explanationController,
+            decoration:
+                const InputDecoration(label: Text("Forklaring (valgfri)")),
+          ),
+          Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: FilledButton.icon(
+                  onPressed: validate()
+                      ? () async {
+                          Navigator.pop(context);
+                          var newEntry = widget.cause;
+                          newEntry.cause = _absenceCause;
+                          newEntry.expandedCause = _explanation;
+                          context
+                              .read<AbsenceRegistrationsBloc>()
+                              .add(UpdatedRegistration(newEntry));
+                        }
+                      : null,
+                  icon: const Icon(EvaIcons.save),
+                  label: const Text("Gem")))
+        ],
       ),
     );
   }

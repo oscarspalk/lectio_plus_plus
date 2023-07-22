@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/widgets/control/time_select.dart';
-import 'package:lpp/widgets/layout/appbar.dart';
 
 import '../bloc/appointment_bloc.dart';
 import '../bloc/schema_bloc.dart';
@@ -38,71 +38,68 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     bool updating = widget.previous != null;
-    return Scaffold(
-      appBar: LppAppbar(
-        title: widget.previous != null
-            ? "Opdater begivenhed"
-            : "Ny privat begivenhed",
-        hideMenu: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: BlocBuilder<AppointmentBloc, PrivateAppointmentState>(
-          bloc: bloc,
-          builder: (context, state) {
-            return Column(children: [
-              TextField(
-                controller: titleController,
-                decoration: InputDecoration(
-                    label: const Text("Titel"),
-                    errorText: titleController.text.isEmpty
-                        ? "Skal være udfyldt"
-                        : null),
-              ),
-              TextField(
-                controller: noteController,
-                decoration:
-                    const InputDecoration(label: Text("Note (valgfri)")),
-              ),
-              TimeSelect(
-                  errorText: state.start.isAfter(state.end)
-                      ? "Start tidspunktet skal være før slut tidspunktet"
-                      : null,
-                  name: "Start tidspunkt",
-                  update: bloc.setStart,
-                  time: state.start),
-              TimeSelect(
-                  name: "Slut tidspunkt", update: bloc.setEnd, time: state.end),
-              FilledButton(
-                  onPressed: state.valid
-                      ? () async {
-                          var event = CalendarEvent(
-                              "",
-                              state.title,
-                              '',
-                              '',
-                              '',
-                              updating ? widget.previous!.id : "",
-                              state.start,
-                              state.end,
-                              note: state.note);
-                          if (updating) {
-                            context
-                                .read<SchemaBloc>()
-                                .add(UpdatedAppointment(event));
-                          } else {
-                            context
-                                .read<SchemaBloc>()
-                                .add(AddedAppointment(event));
-                          }
-                          FocusScope.of(context).unfocus();
-                          Navigator.pop(context);
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: BlocBuilder<AppointmentBloc, PrivateAppointmentState>(
+        bloc: bloc,
+        builder: (context, state) {
+          return Column(children: [
+            Text(
+              widget.previous != null
+                  ? "Opdater begivenhed"
+                  : "Ny privat begivenhed",
+              style: headerStyle,
+            ),
+            TextField(
+              controller: titleController,
+              decoration: InputDecoration(
+                  label: const Text("Titel"),
+                  errorText: titleController.text.isEmpty
+                      ? "Skal være udfyldt"
+                      : null),
+            ),
+            TextField(
+              controller: noteController,
+              decoration: const InputDecoration(label: Text("Note (valgfri)")),
+            ),
+            TimeSelect(
+                errorText: state.start.isAfter(state.end)
+                    ? "Start tidspunktet skal være før slut tidspunktet"
+                    : null,
+                name: "Start tidspunkt",
+                update: bloc.setStart,
+                time: state.start),
+            TimeSelect(
+                name: "Slut tidspunkt", update: bloc.setEnd, time: state.end),
+            FilledButton(
+                onPressed: state.valid
+                    ? () async {
+                        var event = CalendarEvent(
+                            "",
+                            state.title,
+                            '',
+                            '',
+                            '',
+                            updating ? widget.previous!.id : "",
+                            state.start,
+                            state.end,
+                            note: state.note);
+                        if (updating) {
+                          context
+                              .read<SchemaBloc>()
+                              .add(UpdatedAppointment(event));
+                        } else {
+                          context
+                              .read<SchemaBloc>()
+                              .add(AddedAppointment(event));
                         }
-                      : null,
-                  child: Text(updating ? "Opdater" : "Opret"))
-            ]);
-          },
-        ),
+                        FocusScope.of(context).unfocus();
+                        Navigator.pop(context);
+                      }
+                    : null,
+                child: Text(updating ? "Opdater" : "Opret"))
+          ]);
+        },
       ),
     );
   }

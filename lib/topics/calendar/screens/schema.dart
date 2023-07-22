@@ -81,8 +81,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
                   child: FloatingActionButton(
                       heroTag: 2,
                       onPressed: () {
-                        Navigator.of(context)
-                            .push(adRoute(const CreateAppointmentScreen()));
+                        adSheet(const CreateAppointmentScreen(), context);
                       },
                       child: const Icon(EvaIcons.plus)),
                 ),
