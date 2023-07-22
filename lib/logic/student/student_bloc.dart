@@ -5,6 +5,8 @@ import 'package:lectio_wrapper/lectio/basic_info.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/topics/gyms/controller.dart';
 import 'package:lectio_wrapper/types/gym.dart';
+import 'package:lectio_wrapper/types/primitives/team.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum StudentStates {
   unauthorized,
@@ -14,24 +16,37 @@ enum StudentStates {
   internetError
 }
 
+enum LoadingStates { caching, normal }
+
 class StudentState {
   Student? student;
   BasicInfo? basicInfo;
   StudentStates state;
   List<Gym> gyms;
+  List<Team> teams;
+  LoadingStates loadingState;
 
   StudentState copyWith(
       {Student? student,
       BasicInfo? basicInfo,
       StudentStates? state,
-      List<Gym>? gyms}) {
+      List<Gym>? gyms,
+      LoadingStates? loadingState,
+      List<Team>? teams}) {
     return StudentState(state ?? this.state,
         gyms: gyms ?? this.gyms,
         basicInfo: basicInfo ?? this.basicInfo,
-        student: student ?? this.student);
+        student: student ?? this.student,
+        loadingState: loadingState ?? this.loadingState,
+        teams: teams ?? this.teams);
   }
 
-  StudentState(this.state, {this.student, this.basicInfo, required this.gyms});
+  StudentState(this.state,
+      {this.student,
+      this.basicInfo,
+      required this.gyms,
+      required this.loadingState,
+      required this.teams});
 }
 
 sealed class StudentEvent {}
@@ -48,7 +63,9 @@ final class LaunchedApp extends StudentEvent {}
 final class ResetError extends StudentEvent {}
 
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
-  StudentBloc() : super(StudentState(StudentStates.loading, gyms: [])) {
+  StudentBloc()
+      : super(StudentState(StudentStates.loading,
+            gyms: [], teams: [], loadingState: LoadingStates.normal)) {
     on<LaunchedApp>((event, emit) async {
       emit(state.copyWith(state: StudentStates.loading));
       try {
@@ -64,6 +81,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
               .login();
           var info = await student?.getBasicInfo();
           if (student != null) {
+            await _checkCache(emit);
             return emit(state.copyWith(
                 state: StudentStates.authorized,
                 student: student,
@@ -120,6 +138,16 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         emit(state.copyWith(state: StudentStates.unauthorized));
       },
     );
+  }
+
+  Future<void> _checkCache(Emitter<StudentState> emit) async {
+    final prefs = await SharedPreferences.getInstance();
+    var lastCheck = prefs.getString("cache_check");
+    if (lastCheck == null ||
+        DateTime.parse(lastCheck).difference(DateTime.now()).inDays > 7) {
+      emit(state.copyWith(loadingState: LoadingStates.caching));
+      var teams = await state.student!.teams.list();
+    }
   }
 }
 

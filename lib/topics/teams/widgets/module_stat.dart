@@ -9,14 +9,23 @@ class ModuleStat extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(team.name),
-      trailing: statistics.total != 0
-          ? SizedBox(
-              width: 50.0,
-              child: LinearProgressIndicator(
-                value: statistics.normal / statistics.total,
-              ),
-            )
-          : null,
+      subtitle:
+          Text("${(statistics.deviation * 100).toStringAsFixed(1)}% afvigelse"),
+      trailing: SizedBox(
+        width: 50.0,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            LinearProgressIndicator(
+              value: statistics.total != 0
+                  ? statistics.normal / statistics.total
+                  : 1.0,
+            ),
+            Text("${statistics.total}/${statistics.normal}")
+          ],
+        ),
+      ),
     );
   }
 }
