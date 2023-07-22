@@ -13,7 +13,7 @@ class InternetErrorScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline,
+            Icon(Icons.wifi_off_outlined,
                 size: 48.0, color: Theme.of(context).colorScheme.primary),
             const Padding(
               padding: EdgeInsets.all(8.0),
