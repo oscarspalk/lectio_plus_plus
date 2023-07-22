@@ -1,10 +1,12 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
 import 'package:lpp/topics/opgaver/bloc/opgaver_bloc.dart';
+import 'package:lpp/topics/opgaver/widgets/filter_sheet.dart';
 import 'package:lpp/topics/opgaver/widgets/opgave_list.dart';
+import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
-import 'package:lpp/widgets/layout/chipbar.dart';
 
 import '../../state/empty.dart';
 import '../../state/loading.dart';
@@ -20,9 +22,26 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
   final List<String> filters = ["Venter", "Afleveret", "Mangler"];
 
   Set<String> appliedFilters = {"Venter"};
+
+  void apply(String filter) {
+    setState(() {
+      if (appliedFilters.contains(filter)) {
+        appliedFilters.remove(filter);
+      } else {
+        appliedFilters.add(filter);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          adSheet(const FilterSheet(), context);
+        },
+        child: const Icon(EvaIcons.funnelOutline),
+      ),
       appBar: const LppAppbar(
         title: "Opgaver",
       ),
@@ -36,8 +55,10 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
                   return const LoadingScreen();
                 }
                 List<AssignmentRef> assignments = state.refs.where((element) {
-                  return appliedFilters.isEmpty ||
-                      appliedFilters.contains(element.status);
+                  return state.appliedFilters.isEmpty ||
+                      state.appliedFilters
+                          .map((e) => e.name)
+                          .contains(element.status);
                 }).toList()
                   ..sort(
                     (b, a) => a.deadline.compareTo(b.deadline),
@@ -48,19 +69,6 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
                 return OpgaveList(opgaver: assignments);
               },
             ),
-          ),
-          Chipbar(
-            appliedFilters: appliedFilters,
-            filters: filters,
-            apply: (filter) {
-              setState(() {
-                if (appliedFilters.contains(filter)) {
-                  appliedFilters.remove(filter);
-                } else {
-                  appliedFilters.add(filter);
-                }
-              });
-            },
           ),
         ],
       ),

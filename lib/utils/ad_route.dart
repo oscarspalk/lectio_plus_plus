@@ -13,6 +13,7 @@ Route adRoute(Widget screen, {bool onlyFromEdge = false}) {
 
 void adSheet(Widget sheet, BuildContext context) {
   showModalBottomSheet(
+    clipBehavior: Clip.hardEdge,
     isScrollControlled: true,
     context: context,
     builder: (context) {
