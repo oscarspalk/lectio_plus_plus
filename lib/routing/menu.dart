@@ -9,6 +9,7 @@ import 'package:lpp/topics/plans/screens/overview.dart';
 import 'package:lpp/topics/rooms/screens/overview.dart';
 import 'package:lpp/topics/settings/screens/settings_screen.dart';
 import 'package:lpp/topics/settings/screens/wish_a_feature.dart';
+import 'package:lpp/topics/teams/screens/module_statistics_overview.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/drawer.dart';
 
@@ -51,7 +52,12 @@ class Menu extends StatelessWidget {
         icon: EvaIcons.messageCircleOutline,
         name: "Beskeder",
         selectedIcon: EvaIcons.messageCircle,
-        screen: const MessageScreen())
+        screen: const MessageScreen()),
+    Destination(
+        icon: EvaIcons.barChart2Outline,
+        name: "Modulregnskab",
+        selectedIcon: EvaIcons.barChart2,
+        screen: const ModuleStatisticsOverview())
   ];
 
   final List<Destination> relatedDestinations = [

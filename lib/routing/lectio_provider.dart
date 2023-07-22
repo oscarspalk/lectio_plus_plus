@@ -8,6 +8,7 @@ import 'package:lpp/topics/messages/bloc/message_bloc.dart';
 import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
 import 'package:lpp/topics/opgaver/bloc/opgaver_bloc.dart';
 import 'package:lpp/topics/opgaver/bloc/opgaver_details_bloc.dart';
+import 'package:lpp/topics/teams/bloc/module_statistics_bloc.dart';
 import '../topics/absence/bloc/registation.dart';
 import '../topics/calendar/bloc/schema_bloc.dart';
 import '../logic/student/student_bloc.dart';
@@ -76,6 +77,9 @@ class LectioProvider extends StatelessWidget {
       BlocProvider(
         create: (context) =>
             StudentCubit(student, (student) => student.plans.list())..load(),
+      ),
+      BlocProvider(
+        create: (context) => ModuleStatisticsBloc(student),
       )
     ], child: child);
   }
