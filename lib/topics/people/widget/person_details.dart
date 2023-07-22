@@ -2,7 +2,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
-import 'package:lectio_wrapper/types/primitives/person.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
@@ -16,7 +15,7 @@ class PersonDetails extends StatelessWidget {
   final MetaDataEntry person;
   @override
   Widget build(BuildContext context) {
-    var wPerson = person as Person;
+    var wPerson = person;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 48.0),
       child: SingleChildScrollView(
@@ -35,7 +34,7 @@ class PersonDetails extends StatelessWidget {
               ),
             ),
             Text(
-              wPerson.initialsOrClass ?? "",
+              wPerson.classOrInitials ?? "",
               textAlign: TextAlign.center,
             ),
             ListTile(

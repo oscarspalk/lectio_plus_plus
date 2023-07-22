@@ -2,7 +2,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
-import 'package:lectio_wrapper/types/primitives/person.dart';
 import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
 import 'package:lpp/topics/messages/screens/content_screen.dart';
 import 'package:lpp/topics/messages/screens/search_receivers.dart';
@@ -139,7 +138,7 @@ class ReceiverTile extends StatelessWidget {
             .add(checked ? RemovePerson(person) : AddPerson(person));
       },
       subtitle:
-          person is Person ? Text((person as Person).initialsOrClass!) : null,
+          person.classOrInitials != null ? Text(person.classOrInitials!) : null,
       title: Text(person.name),
     );
   }

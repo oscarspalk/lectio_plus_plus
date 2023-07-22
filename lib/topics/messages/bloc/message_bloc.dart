@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
-import 'package:lectio_wrapper/types/primitives/person.dart';
+import 'package:lectio_wrapper/types/message/meta/meta.dart';
 
 part 'message_bloc.freezed.dart';
 
@@ -69,8 +69,8 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
     );
     on<DeleteMessage>(
       (event, emit) async {
-        await student.messages
-            .delete(Message(event.ref.id, [], Person("", ""), "", ""));
+        await student.messages.delete(
+            Message(event.ref.id, [], MetaDataEntry(name: "", id: ""), "", ""));
         emit(state.copyWith(messages: [
           ...state.messages.where((element) => element.id != event.ref.id)
         ]));

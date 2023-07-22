@@ -13,8 +13,22 @@ class OpgaveListItem extends StatelessWidget {
 
   const OpgaveListItem({super.key, required this.opgave});
 
+  String futureOrLate(DateTime time) {
+    var now = DateTime.now();
+    if (time.isAfter(now)) {
+      return "${now.difference(time).inDays} tilbage";
+    } else {
+      return "${now.difference(time).inDays} dage overskredet";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    var delivered = opgave.status == "Afleveret";
+    var timeText = delivered
+        ? "${formatDateReadable(opgave.deadline)} ${DateFormat.Hm().format(opgave.deadline)}"
+        : futureOrLate(opgave.deadline);
+    var missing = opgave.status == "Mangler";
     return ListTile(
       onTap: () {
         context.read<OpgaveDetailsBloc>().load(opgave);
@@ -25,10 +39,17 @@ class OpgaveListItem extends StatelessWidget {
             )));
       },
       leading: Icon(
-          opgave.status == "Afleveret" ? EvaIcons.checkmark : EvaIcons.close),
+        delivered
+            ? EvaIcons.checkmark
+            : (missing ? EvaIcons.close : EvaIcons.clockOutline),
+        color: delivered
+            ? Colors.green
+            : missing
+                ? Colors.red
+                : Theme.of(context).colorScheme.primary,
+      ),
       title: Text(opgave.title),
-      subtitle: Text(
-          "${opgave.status} - ${formatDateReadable(opgave.deadline)} ${DateFormat.Hm().format(opgave.deadline)}"),
+      subtitle: Text("${opgave.status} - $timeText"),
     );
   }
 }

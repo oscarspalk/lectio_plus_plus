@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/topics/assignments/scraping.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
+import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lectio_wrapper/types/primitives/file.dart';
+import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
+import 'package:lpp/topics/modul/screens/modul_lektie_screen.dart';
 import 'package:lpp/topics/opgaver/bloc/opgaver_details_bloc.dart';
+import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 
 import '../../state/loading.dart';
@@ -90,6 +94,18 @@ class OpgaveScreen extends StatelessWidget {
       ...testFiles
           .map((e) => ListTile(
                 title: Text(e.name),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      adRoute(ModulLektieScreen(
+                          content:
+                              Content("", href: "https://lectio.dk${e.href}"),
+                          cookieJar: context
+                              .read<StudentBloc>()
+                              .state
+                              .student!
+                              .getCookies())));
+                },
               ))
           .toList()
     ];
@@ -119,6 +135,15 @@ class AssignmentEntryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () {
+        debugPrint(entry.resource.href);
+        Navigator.push(
+            context,
+            adRoute(ModulLektieScreen(
+                content: Content("", href: entry.resource.href),
+                cookieJar:
+                    context.read<StudentBloc>().state.student!.getCookies())));
+      },
       title: Text(entry.resource.name),
       subtitle: Text(
           "Afleveret af ${entry.user.name} - ${deadlineFormat.format(entry.time)}"),

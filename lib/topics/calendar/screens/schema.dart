@@ -56,16 +56,17 @@ class _SchemaScreenState extends State<SchemaScreen> {
         return Scaffold(
             appBar: LppAppbar(
               title: "",
-              titleWidget:
-                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Text(
-                  "${widget.name != null ? "${widget.name} " : ""}${months[state!.selectedTime.month - 1]}",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  " - Uge ${weekFromDateTime(state.selectedTime)}",
-                ),
-              ]),
+              titleWidget: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Uge ${weekFromDateTime(state!.selectedTime)}",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                      "${widget.name != null ? "${widget.name} " : ""}${months[state.selectedTime.month - 1]} ${state.selectedTime.year.toString()}")
+                ],
+              ),
             ),
             floatingActionButton:
                 Row(mainAxisAlignment: MainAxisAlignment.end, children: [

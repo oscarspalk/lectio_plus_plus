@@ -37,6 +37,21 @@ class _EditAbsenceState extends State<EditAbsence> {
             _absenceCause != widget.cause.cause);
   }
 
+  IconData iconFromCause(AbsenceCauses cause) {
+    switch (cause) {
+      case AbsenceCauses.sick:
+        return EvaIcons.thermometerOutline;
+      case AbsenceCauses.schoolRelated:
+        return EvaIcons.bookOpenOutline;
+      case AbsenceCauses.late:
+        return EvaIcons.clockOutline;
+      case AbsenceCauses.privateRelations:
+        return EvaIcons.peopleOutline;
+      case AbsenceCauses.other:
+        return EvaIcons.moreVerticalOutline;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +70,16 @@ class _EditAbsenceState extends State<EditAbsence> {
                       value: _absenceCause,
                       items: AbsenceCauses.values
                           .map((e) => DropdownMenuItem<AbsenceCauses>(
-                              value: e, child: Text(e.name)))
+                              value: e,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: Icon(iconFromCause(e)),
+                                  ),
+                                  Text(e.name)
+                                ],
+                              )))
                           .toList(),
                       onChanged: (e) {
                         setState(() {

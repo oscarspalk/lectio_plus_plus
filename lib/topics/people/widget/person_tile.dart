@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
-import 'package:lectio_wrapper/types/primitives/person.dart';
 import 'package:lpp/topics/people/widget/person_details.dart';
 
 class PersonTile extends StatelessWidget {
@@ -10,7 +9,7 @@ class PersonTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(person.name),
-      subtitle: Text((person as Person).initialsOrClass ?? ""),
+      subtitle: Text(person.classOrInitials ?? ""),
       onTap: () {
         showModalBottomSheet(
           context: context,
