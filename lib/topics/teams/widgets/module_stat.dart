@@ -9,7 +9,7 @@ class ModuleStat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: TeamName(team: team),
+      title: TeamName(teamName: team.name),
       subtitle:
           Text("${(statistics.deviation * 100).toStringAsFixed(1)}% afvigelse"),
       trailing: SizedBox(

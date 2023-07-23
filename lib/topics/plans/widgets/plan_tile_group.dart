@@ -20,7 +20,7 @@ class PlanTileGroup extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextDivider(
-            customText: TeamName(team: entry.team),
+            customText: TeamName(teamName: entry.team.name),
             text: entry.team.name,
             primary: true),
         ...sorted.map((ref) => PlanTile(ref: ref)).toList()

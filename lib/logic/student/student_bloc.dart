@@ -155,8 +155,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       for (var team in teams) {
         var teamContext =
             (await state.student!.context.get("HE${team.id}")) as TeamContext;
-        metaTeams.add(Team(teamContext.subject, team.id.replaceAll("HE", ""),
-            teamContext.subject));
+        metaTeams.add(
+            Team(team.name, team.id.replaceAll("HE", ""), teamContext.subject));
       }
       prefs.setString("cache_check", DateTime.now().toIso8601String());
       prefs.setStringList(

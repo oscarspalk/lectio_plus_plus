@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
 import 'package:lectio_wrapper/types/grades/subject.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
+import 'package:lpp/widgets/primitive/team_name.dart';
 
 class SpecificGradeScreen extends StatelessWidget {
   const SpecificGradeScreen({super.key, required this.grades});
@@ -27,8 +28,14 @@ class SpecificGradeScreen extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                        "${entry.key.$1.displayName} - ${entry.key.$2.type == SubjectTypes.oral ? "Mundtlig" : "Skriftlig"}"),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TeamName(teamName: entry.key.$1.name),
+                        Text(
+                            ", ${entry.key.$2.type == SubjectTypes.oral ? "Mundtlig" : "Skriftlig"}"),
+                      ],
+                    ),
                     Text(entry.value != null
                         ? entry.value!.grade.toString()
                         : "-")

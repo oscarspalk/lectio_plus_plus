@@ -3,6 +3,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/note.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
+import 'package:lpp/widgets/primitive/team_name.dart';
 
 import '../../../logic/student/student_cubit.dart';
 
@@ -39,8 +40,12 @@ class GradeNoteScreen extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: textStyle,
                       ),
-                      Text("${note.team.displayName} - ${note.gradeType}",
-                          style: textStyle)
+                      Row(
+                        children: [
+                          TeamName(teamName: note.team.name),
+                          Text(" - ${note.gradeType}", style: textStyle),
+                        ],
+                      )
                     ],
                   ),
                   content: ListTile(title: Text(note.note.trim())));
