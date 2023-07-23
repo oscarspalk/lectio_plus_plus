@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
+import 'package:lpp/widgets/primitive/team_name.dart';
 
 class ModuleStat extends StatelessWidget {
   const ModuleStat({super.key, required this.statistics, required this.team});
@@ -8,11 +9,11 @@ class ModuleStat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(team.name),
+      title: TeamName(team: team),
       subtitle:
           Text("${(statistics.deviation * 100).toStringAsFixed(1)}% afvigelse"),
       trailing: SizedBox(
-        width: 50.0,
+        width: 100.0,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -22,7 +23,10 @@ class ModuleStat extends StatelessWidget {
                   ? statistics.normal / statistics.total
                   : 1.0,
             ),
-            Text("${statistics.total}/${statistics.normal}")
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text("${statistics.total}/${statistics.normal} moduler"),
+            )
           ],
         ),
       ),
