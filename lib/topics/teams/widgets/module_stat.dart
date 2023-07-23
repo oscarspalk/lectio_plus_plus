@@ -19,8 +19,8 @@ class ModuleStat extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             LinearProgressIndicator(
-              value: statistics.total != 0
-                  ? statistics.normal / statistics.total
+              value: statistics.total != 0 && statistics.normal != 0
+                  ? statistics.total / statistics.normal
                   : 1.0,
             ),
             Padding(
