@@ -5,12 +5,12 @@ import 'package:lectio_wrapper/topics/assignments/scraping.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lectio_wrapper/types/primitives/file.dart';
-import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
-import 'package:lpp/topics/modul/screens/modul_lektie_screen.dart';
+import 'package:lpp/topics/modul/widgets/resource_view.dart';
 import 'package:lpp/topics/opgaver/bloc/opgaver_details_bloc.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
+import 'package:lpp/widgets/layout/text_divider.dart';
 
 import '../../state/loading.dart';
 
@@ -95,16 +95,19 @@ class OpgaveScreen extends StatelessWidget {
           .map((e) => ListTile(
                 title: Text(e.name),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      adRoute(ModulLektieScreen(
-                          content:
-                              Content("", href: "https://lectio.dk${e.href}"),
-                          cookieJar: context
-                              .read<StudentBloc>()
-                              .state
-                              .student!
-                              .getCookies())));
+                  if (e.href.startsWith("https://")) {
+                    Navigator.push(
+                        context,
+                        adRoute(ResourceWebview(
+                            content: Content(e.name, href: e.href))));
+                  } else {
+                    Navigator.push(
+                        context,
+                        adRoute(LectioResourceView(
+                          content: Content(e.name,
+                              href: "https://lectio.dk${e.href}"),
+                        )));
+                  }
                 },
               ))
           .toList()
@@ -113,12 +116,9 @@ class OpgaveScreen extends StatelessWidget {
 
   List<Widget> getEntries(BuildContext context, List<AssignmentEntry> entries) {
     return [
-      Padding(
-        padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-        child: Text(
-          'Indlæg',
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
+      const TextDivider(
+        text: "Indlæg",
+        primary: true,
       ),
       ...(entries.isEmpty
           ? [const Center(child: Text("Der er ingen indlæg 😒"))]
@@ -139,10 +139,9 @@ class AssignmentEntryRow extends StatelessWidget {
         debugPrint(entry.resource.href);
         Navigator.push(
             context,
-            adRoute(ModulLektieScreen(
-                content: Content("", href: entry.resource.href),
-                cookieJar:
-                    context.read<StudentBloc>().state.student!.getCookies())));
+            adRoute(LectioResourceView(
+                content:
+                    Content(entry.resource.name, href: entry.resource.href))));
       },
       title: Text(entry.resource.name),
       subtitle: Text(

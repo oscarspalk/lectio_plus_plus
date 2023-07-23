@@ -175,13 +175,14 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 }
 
 String teamToString(Team team) {
-  return "name=${team.name};id=${team.id}";
+  return "name=${team.name};id=${team.id};display=${team.displayName}";
 }
 
 Team stringToTeam(String team) {
   var topics = team.split(";");
   String name = "";
   String id = "";
+  String display = "";
   for (var topic in topics) {
     var split = topic.split('=');
     switch (split[0]) {
@@ -191,9 +192,12 @@ Team stringToTeam(String team) {
       case 'id':
         id = split[1];
         break;
+      case 'display':
+        display = split[1];
+        break;
     }
   }
-  return Team(name, id, name);
+  return Team(name, id, display);
 }
 
 StudentBloc getStudentBloc(BuildContext context) {

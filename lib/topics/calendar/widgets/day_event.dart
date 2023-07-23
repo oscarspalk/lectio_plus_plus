@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_week_view/flutter_week_view.dart';
+import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
+import 'package:lpp/utils/ad_route.dart';
+import 'package:lpp/widgets/primitive/team_name.dart';
+
+FlutterWeekViewEvent buildDayEvent(
+    BuildContext context, CalendarEvent dayEvent) {
+  var theme = Theme.of(context);
+  var diff = dayEvent.end
+      .difference(dayEvent.start)
+      .compareTo(const Duration(minutes: 50));
+  var canceled = dayEvent.status == "Aflyst!";
+  TextStyle style = TextStyle(
+      decoration: canceled ? TextDecoration.lineThrough : null,
+      decorationColor: canceled
+          ? theme.colorScheme.onError
+          : theme.colorScheme.onPrimaryContainer,
+      color: canceled
+          ? theme.colorScheme.onError
+          : theme.colorScheme.onPrimaryContainer);
+  return FlutterWeekViewEvent(
+      padding: null,
+      eventTextBuilder: (event, context, dayView, height, width) {
+        return Container(
+          decoration: const BoxDecoration(),
+          width: width,
+          clipBehavior: Clip.hardEdge,
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                      fit: FlexFit.loose,
+                      child: TeamName(
+                        teamName: dayEvent.team,
+                        builder: (String name) {
+                          return Text(
+                            name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                            style: style,
+                          );
+                        },
+                      )),
+                  Flexible(
+                      fit: FlexFit.loose,
+                      child: Text(
+                        dayEvent.room,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        style: style,
+                      ))
+                ]),
+          ),
+        );
+      },
+      onTap: () {
+        Navigator.push(context, adRoute(ModulDetailsScreen(event: dayEvent)));
+      },
+      margin: const EdgeInsets.all(8.0),
+      backgroundColor: canceled
+          ? theme.colorScheme.error
+          : theme.colorScheme.primaryContainer,
+      title: '',
+      description: dayEvent.teacher,
+      start: dayEvent.start,
+      end: diff.isNegative
+          ? dayEvent.start.add(const Duration(minutes: 50))
+          : dayEvent.end);
+}

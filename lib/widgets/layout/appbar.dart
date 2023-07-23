@@ -28,17 +28,15 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0.0,
       automaticallyImplyLeading: !hideLeading,
       iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
-      title: titleWidget ??
-          Text(title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
+      title: DefaultTextStyle(
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              color: Theme.of(context).colorScheme.onPrimary,
+              fontWeight: FontWeight.bold,
+              overflow: TextOverflow.ellipsis),
+          child: titleWidget ??
+              Text(
+                title,
               )),
-      titleTextStyle: noStyle
-          ? null
-          : Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: Theme.of(context).colorScheme.onPrimary),
       actions: actions,
     );
   }

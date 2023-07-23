@@ -9,12 +9,14 @@ import 'package:lpp/topics/calendar/screens/create.dart';
 import 'package:lpp/topics/modul/screens/modul_lektie_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
+import 'package:lpp/widgets/layout/text_divider.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
+import 'package:lpp/widgets/primitive/statement.dart';
+import 'package:lpp/widgets/primitive/team_name.dart';
 
 import '../../../logic/student/student_bloc.dart';
 import '../../../logic/student/student_cubit.dart';
 import '../../../utils/formatters.dart';
-import '../../../utils/helpers.dart';
 
 bool ine(String input) {
   return input.isNotEmpty;
@@ -30,7 +32,8 @@ class ModulDetailsScreen extends StatelessWidget {
     return Scaffold(
         appBar: LppAppbar(
           hideMenu: true,
-          title: standIn(checkForFormat(event.team), event.title),
+          title: "",
+          titleWidget: TeamName(teamName: event.team),
           actions: event.type == CalendarEventType.private
               ? [
                   IconButton(
@@ -59,12 +62,9 @@ class ModulDetailsScreen extends StatelessWidget {
           builder: (context, data) {
             return ListView(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-                  child: Text(
-                    'Information',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
+                const TextDivider(
+                  text: "Information",
+                  primary: true,
                 ),
                 ine(event.title)
                     ? ListTile(
@@ -114,13 +114,9 @@ class ModulDetailsScreen extends StatelessWidget {
       case CalendarEventType.test:
         var examDetails = details as TestCalendarEventDetails;
         return [
-          const Divider(indent: 28, endIndent: 28),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-            child: Text(
-              'Eksamen',
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
+          const TextDivider(
+            text: "Eksamen",
+            primary: true,
           ),
           ListTile(
             title: Text(examDetails.room),
@@ -147,37 +143,36 @@ class ModulDetailsScreen extends StatelessWidget {
       case CalendarEventType.regular:
         var regDetails = details as RegularCalendarEventDetails;
         return [
+          if (regDetails.note != null && regDetails.note!.isNotEmpty)
+            Statement(topic: "Note", content: regDetails.note!),
           ...(regDetails.content.isNotEmpty
               ? [
-                  const Divider(indent: 28, endIndent: 28),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-                    child: Text(
-                      'Lektier',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ),
+                  const TextDivider(
+                    text: "Lektier",
+                    primary: true,
+                  )
                 ]
               : []),
           ...regDetails.content.map((e) {
-            return ListTile(
-              leading:
-                  e.href != null ? const Icon(EvaIcons.link2Outline) : null,
-              title: Text(e.content),
-              onTap: e.href != null
-                  ? () {
-                      Navigator.push(
-                          context,
-                          adRoute(ModulLektieScreen(
-                              content: e,
-                              cookieJar: context
-                                  .read<StudentBloc>()
-                                  .state
-                                  .student!
-                                  .getCookies())));
-                    }
-                  : null,
-              subtitle: e.note != null ? Text(e.note!) : null,
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading:
+                      e.href != null ? const Icon(EvaIcons.link2Outline) : null,
+                  title: Text(e.content),
+                  onTap: e.href != null
+                      ? () {
+                          Navigator.push(
+                              context,
+                              adRoute(ModulLektieScreen(
+                                content: e,
+                              )));
+                        }
+                      : null,
+                ),
+                if (e.note != null) ListTile(title: Text(e.note!))
+              ],
             );
           })
         ];

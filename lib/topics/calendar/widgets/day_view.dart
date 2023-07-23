@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_week_view/flutter_week_view.dart' as wv;
 import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lpp/topics/calendar/widgets/day_event.dart';
 import 'package:lpp/topics/calendar/widgets/day_header.dart';
-import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
-import 'package:lpp/utils/ad_route.dart';
 
 import '../bloc/schema_bloc.dart';
-import '../../../utils/formatters.dart';
 import '../../../utils/helpers.dart';
 import '../../state/loading.dart';
 
@@ -38,7 +36,6 @@ class DayView extends StatelessWidget {
         } else {
           day = availableDays[0];
         }
-        var theme = Theme.of(context);
 
         var firstEventStart =
             day.events.isNotEmpty ? day.events.first.start : null;
@@ -78,73 +75,7 @@ class DayView extends StatelessWidget {
                                 minute: firstEventStart.minute)
                             : const wv.HourMinute(hour: 7, minute: 30),
                     events: day.events.map((dayEvent) {
-                      var diff = dayEvent.end
-                          .difference(dayEvent.start)
-                          .compareTo(const Duration(minutes: 50));
-                      var canceled = dayEvent.status == "Aflyst!";
-                      TextStyle style = TextStyle(
-                          decoration:
-                              canceled ? TextDecoration.lineThrough : null,
-                          decorationColor: canceled
-                              ? theme.colorScheme.onError
-                              : theme.colorScheme.onPrimaryContainer,
-                          color: canceled
-                              ? theme.colorScheme.onError
-                              : theme.colorScheme.onPrimaryContainer);
-                      return wv.FlutterWeekViewEvent(
-                          padding: null,
-                          eventTextBuilder:
-                              (event, context, dayView, height, width) {
-                            return Container(
-                              decoration: const BoxDecoration(),
-                              width: width,
-                              clipBehavior: Clip.hardEdge,
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Flexible(
-                                          fit: FlexFit.loose,
-                                          child: Text(
-                                            checkForFormat(
-                                              standIn(dayEvent.team,
-                                                  dayEvent.title),
-                                            ),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            softWrap: false,
-                                            style: style,
-                                          )),
-                                      Flexible(
-                                          fit: FlexFit.loose,
-                                          child: Text(
-                                            dayEvent.room,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            softWrap: false,
-                                            style: style,
-                                          ))
-                                    ]),
-                              ),
-                            );
-                          },
-                          onTap: () {
-                            Navigator.push(context,
-                                adRoute(ModulDetailsScreen(event: dayEvent)));
-                          },
-                          margin: const EdgeInsets.all(8.0),
-                          backgroundColor: canceled
-                              ? theme.colorScheme.error
-                              : theme.colorScheme.primaryContainer,
-                          title: checkForFormat(dayEvent.team),
-                          description: dayEvent.teacher,
-                          start: dayEvent.start,
-                          end: diff.isNegative
-                              ? dayEvent.start.add(const Duration(minutes: 50))
-                              : dayEvent.end);
+                      return buildDayEvent(context, dayEvent);
                     }).toList(),
                   ),
                 ),
