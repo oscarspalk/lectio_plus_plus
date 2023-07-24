@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
+import 'package:lpp/topics/state/empty.dart';
 import 'package:lpp/topics/state/loading.dart';
+import 'package:lpp/topics/state/success.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:requests/requests.dart';
@@ -45,7 +47,9 @@ class _LectioResourceViewState extends State<LectioResourceView> {
 
   Future<void> getData() async {
     var student = getStudentBloc(context).state.student!;
-    url = student.buildUrl(widget.content.href!);
+    url = widget.content.href!.startsWith("/lectio")
+        ? "https://www.lectio.dk${widget.content.href}"
+        : student.buildUrl(widget.content.href!);
     var cookieJar = await student.getCookies();
     cookieString =
         cookieJar.values.map((e) => "${e.name}=${e.value}").toList().join(";");
@@ -81,7 +85,7 @@ class _LectioResourceViewState extends State<LectioResourceView> {
       return const LoadingScreen();
     }
     if (Platform.isAndroid) {
-      return Center(child: FailReason(type: resultType));
+      return FailReason(type: resultType);
     }
     return WebViewWidget(controller: webViewController);
   }
@@ -92,10 +96,13 @@ class FailReason extends StatelessWidget {
   final ResultType type;
   @override
   Widget build(BuildContext context) {
+    if (type == ResultType.done) {
+      return const SuccessScreen();
+    }
     String reason = "";
     switch (type) {
       case ResultType.noAppToOpen:
-        reason = "Ingen af dine apps understøtter denne filtype.";
+        reason = "Ingen af dine apps understøtter denne filtype";
       case ResultType.error:
         reason = "Der skete en fejl";
       case ResultType.permissionDenied:
@@ -105,6 +112,8 @@ class FailReason extends StatelessWidget {
       default:
         reason = "Øv!";
     }
-    return Text(reason);
+    return EmptyScreen(
+      text: reason,
+    );
   }
 }

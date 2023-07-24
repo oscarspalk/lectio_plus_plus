@@ -12,53 +12,11 @@ FlutterWeekViewEvent buildDayEvent(
       .difference(dayEvent.start)
       .compareTo(const Duration(minutes: 50));
   var canceled = dayEvent.status == "Aflyst!";
-  TextStyle style = TextStyle(
-      decoration: canceled ? TextDecoration.lineThrough : null,
-      decorationColor: canceled
-          ? theme.colorScheme.onError
-          : theme.colorScheme.onPrimaryContainer,
-      color: canceled
-          ? theme.colorScheme.onError
-          : theme.colorScheme.onPrimaryContainer);
+
   return FlutterWeekViewEvent(
       padding: null,
       eventTextBuilder: (event, context, dayView, height, width) {
-        return Container(
-          decoration: const BoxDecoration(),
-          width: width,
-          clipBehavior: Clip.hardEdge,
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                      fit: FlexFit.loose,
-                      child: TeamName(
-                        teamName: dayEvent.team,
-                        builder: (String name) {
-                          return Text(
-                            name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: false,
-                            style: style,
-                          );
-                        },
-                      )),
-                  Flexible(
-                      fit: FlexFit.loose,
-                      child: Text(
-                        dayEvent.room,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: false,
-                        style: style,
-                      ))
-                ]),
-          ),
-        );
+        return dayEventWidget(width, dayEvent, context);
       },
       onTap: () {
         Navigator.push(context, adRoute(ModulDetailsScreen(event: dayEvent)));
@@ -73,4 +31,56 @@ FlutterWeekViewEvent buildDayEvent(
       end: diff.isNegative
           ? dayEvent.start.add(const Duration(minutes: 50))
           : dayEvent.end);
+}
+
+Widget dayEventWidget(
+    double width, CalendarEvent dayEvent, BuildContext context) {
+  var theme = Theme.of(context);
+  var canceled = dayEvent.status == "Aflyst!";
+  TextStyle style = TextStyle(
+      decoration: canceled ? TextDecoration.lineThrough : null,
+      decorationColor: canceled
+          ? theme.colorScheme.onError
+          : theme.colorScheme.onPrimaryContainer,
+      color: canceled
+          ? theme.colorScheme.onError
+          : theme.colorScheme.onPrimaryContainer);
+  return Container(
+    decoration: BoxDecoration(
+      color: canceled
+          ? theme.colorScheme.error
+          : theme.colorScheme.primaryContainer,
+    ),
+    width: width,
+    clipBehavior: Clip.hardEdge,
+    alignment: Alignment.topLeft,
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Flexible(
+            fit: FlexFit.loose,
+            child: TeamName(
+              teamName: dayEvent.team,
+              builder: (String name) {
+                return Text(
+                  name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  style: style,
+                );
+              },
+            )),
+        Flexible(
+            fit: FlexFit.loose,
+            child: Text(
+              dayEvent.room,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
+              style: style,
+            ))
+      ]),
+    ),
+  );
 }

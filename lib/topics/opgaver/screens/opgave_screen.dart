@@ -6,7 +6,7 @@ import 'package:lectio_wrapper/types/assignment.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lectio_wrapper/types/primitives/file.dart';
 import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
-import 'package:lpp/topics/modul/widgets/resource_view.dart';
+import 'package:lpp/topics/modul/screens/modul_lektie_screen.dart';
 import 'package:lpp/topics/opgaver/bloc/opgaver_details_bloc.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
@@ -32,12 +32,9 @@ class OpgaveScreen extends StatelessWidget {
               var assignment = state;
               return ListView(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-                    child: Text(
-                      'Information',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
+                  const TextDivider(
+                    text: "Information",
+                    primary: true,
                   ),
                   ListTile(
                     title: Text(assignment.title),
@@ -84,30 +81,18 @@ class OpgaveScreen extends StatelessWidget {
       return [];
     }
     return [
-      Padding(
-        padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-        child: Text(
-          'Dokumenter',
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
+      const TextDivider(
+        text: "Dokumenter",
+        primary: true,
       ),
       ...testFiles
           .map((e) => ListTile(
                 title: Text(e.name),
                 onTap: () {
-                  if (e.href.startsWith("https://")) {
-                    Navigator.push(
-                        context,
-                        adRoute(ResourceWebview(
-                            content: Content(e.name, href: e.href))));
-                  } else {
-                    Navigator.push(
-                        context,
-                        adRoute(LectioResourceView(
-                          content: Content(e.name,
-                              href: "https://lectio.dk${e.href}"),
-                        )));
-                  }
+                  Navigator.push(
+                      context,
+                      adRoute(ModulLektieScreen(
+                          content: Content(e.name, href: e.href))));
                 },
               ))
           .toList()
@@ -139,7 +124,7 @@ class AssignmentEntryRow extends StatelessWidget {
         debugPrint(entry.resource.href);
         Navigator.push(
             context,
-            adRoute(LectioResourceView(
+            adRoute(ModulLektieScreen(
                 content:
                     Content(entry.resource.name, href: entry.resource.href))));
       },

@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
+import 'package:lpp/topics/calendar/widgets/day_event.dart';
 
 import '../bloc/registation.dart';
 
@@ -57,6 +58,7 @@ class _EditAbsenceState extends State<EditAbsence> {
       padding: const EdgeInsets.all(24.0),
       child: Column(
         children: [
+          dayEventWidget(double.infinity, widget.cause.module, context),
           InputDecorator(
               decoration: const InputDecoration(label: Text("Årsag")),
               child: DropdownButtonHideUnderline(
