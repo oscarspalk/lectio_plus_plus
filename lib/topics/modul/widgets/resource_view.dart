@@ -59,6 +59,10 @@ class _LectioResourceViewState extends State<LectioResourceView> {
       var indexOfLast2 = widget.content.content.lastIndexOf('.');
       if (indexOfLast2 != -1) {
         extension = widget.content.content.substring(indexOfLast2 + 1);
+        var indexOfBrackets = extension.indexOf('(');
+        if (indexOfBrackets != -1) {
+          extension = extension.substring(0, indexOfBrackets).trim();
+        }
       }
     }
     if (Platform.isIOS) {
