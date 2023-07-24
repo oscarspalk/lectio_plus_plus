@@ -53,6 +53,14 @@ class _LectioResourceViewState extends State<LectioResourceView> {
     var cookieJar = await student.getCookies();
     cookieString =
         cookieJar.values.map((e) => "${e.name}=${e.value}").toList().join(";");
+    var indexOfLast = url.lastIndexOf('.');
+    var extension = url.substring(indexOfLast + 1);
+    if (extension.length > 4) {
+      var indexOfLast2 = widget.content.content.lastIndexOf('.');
+      if (indexOfLast2 != -1) {
+        extension = widget.content.content.substring(indexOfLast2 + 1);
+      }
+    }
     if (Platform.isIOS) {
       webViewController.setNavigationDelegate(NavigationDelegate(
         onPageFinished: (url) {
@@ -65,8 +73,6 @@ class _LectioResourceViewState extends State<LectioResourceView> {
           .loadRequest(Uri.parse(url), headers: {"cookie": cookieString});
     } else {
       Requests.setStoredCookies("www.lectio.dk", cookieJar);
-      var indexOfLast = url.lastIndexOf('.');
-      var extension = url.substring(indexOfLast + 1);
       var req = await Requests.get(url);
       var path = "${(await getTemporaryDirectory()).path}/file.$extension";
       File tempFile = File(path);
