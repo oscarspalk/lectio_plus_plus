@@ -17,12 +17,12 @@ final class CheckForTheme extends SettingsBlocEvent {}
 class SettingsBloc extends Bloc<SettingsBlocEvent, SettingsState> {
   SettingsBloc()
       : super(SettingsState(
-            Colors.purple,
+            Colors.orange,
             Brightness.dark,
             ThemeData(
                 brightness: Brightness.dark,
                 useMaterial3: true,
-                colorSchemeSeed: Colors.purple),
+                colorSchemeSeed: Colors.orange),
             true)) {
     on<SwitchedTheme>((event, emit) async {
       ThemeData lightTheme =
