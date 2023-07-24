@@ -17,7 +17,7 @@ class _AdBarState extends State<AdBar> {
   @override
   void initState() {
     super.initState();
-    _loadAd();
+    if (!kDebugMode) _loadAd();
   }
 
   final String _adUnitId = kDebugMode

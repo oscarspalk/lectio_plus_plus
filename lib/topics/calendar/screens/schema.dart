@@ -58,13 +58,13 @@ class _SchemaScreenState extends State<SchemaScreen> {
               title: "",
               titleWidget: Row(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     "Uge ${weekFromDateTime(state!.selectedTime)}",
                   ),
                   Text(
-                    "${widget.name != null ? "${widget.name} " : ""}${months[state.selectedTime.month - 1]} ${state.selectedTime.year.toString()}",
+                    " - ${widget.name != null ? "${widget.name} " : ""}${months[state.selectedTime.month - 1]} ${state.selectedTime.year.toString()}",
                     style: const TextStyle(fontWeight: FontWeight.normal),
                   )
                 ],

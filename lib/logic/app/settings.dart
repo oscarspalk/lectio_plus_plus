@@ -47,8 +47,6 @@ class SettingsBloc extends Bloc<SettingsBlocEvent, SettingsState> {
           Color color = Color(prefs.getInt("color")!);
           bool dark = prefs.getBool("dark")!;
           add(SwitchedTheme(color, dark ? Brightness.dark : Brightness.light));
-        } else {
-          add(SwitchedTheme(Colors.purple, Brightness.dark));
         }
       },
     );
