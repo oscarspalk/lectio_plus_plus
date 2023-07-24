@@ -8,7 +8,6 @@ import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
 import '../../../logic/student/student_cubit.dart';
 import '../../state/empty.dart';
-import '../../state/not_ready.dart';
 import '../widgets/homework_item.dart';
 
 class HomeworkScreen extends StatelessWidget {
@@ -22,9 +21,6 @@ class HomeworkScreen extends StatelessWidget {
       ),
       body: StudentBlocBuilder<StudentCubit<List<Homework>>, List<Homework>?>(
         builder: (context, state) {
-          if (!kDebugMode) {
-            return const NotReadyScreen();
-          }
           List<Homework> fakeHomework = kDebugMode
               ? [
                   Homework(

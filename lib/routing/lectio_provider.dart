@@ -4,6 +4,7 @@ import 'package:lectio_wrapper/types/class.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
 import 'package:lectio_wrapper/types/grades/note.dart';
 import 'package:lectio_wrapper/types/homework/homework.dart';
+import 'package:lpp/topics/homework/bloc/homework_bloc.dart';
 import 'package:lpp/topics/messages/bloc/message_bloc.dart';
 import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
 import 'package:lpp/topics/opgaver/bloc/opgaver_bloc.dart';
@@ -80,7 +81,8 @@ class LectioProvider extends StatelessWidget {
       ),
       BlocProvider(
         create: (context) => ModuleStatisticsBloc(student),
-      )
+      ),
+      BlocProvider(create: (_) => HomeworkManagerBloc())
     ], child: child);
   }
 }
