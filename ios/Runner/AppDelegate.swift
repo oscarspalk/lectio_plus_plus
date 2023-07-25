@@ -1,6 +1,6 @@
 import UIKit
 import Flutter
-import flutter_local_notifications
+import workmanager
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -9,10 +9,9 @@ import flutter_local_notifications
   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
   // This is required to make any communication available in the action isolate.
-  FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
-    GeneratedPluginRegistrant.register(with: registry)
-  }
+WorkmanagerPlugin.registerTask(withIdentifier: "com.oscarspalk.lpp.fetch")
   GeneratedPluginRegistrant.register(with: self)
+          UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(60*15))
   return super.application(application, didFinishLaunchingWithOptions: launchOptions)
 }
 }

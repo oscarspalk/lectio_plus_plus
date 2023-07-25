@@ -252,5 +252,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.oscarspalk.lpp.fetch</string>
+  </array>
 </dict>
 </plist>

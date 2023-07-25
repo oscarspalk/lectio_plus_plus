@@ -2,14 +2,26 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lpp/constants.dart';
+import 'package:workmanager/workmanager.dart';
 
-const notificationChannelId = 'my_foreground';
-const notificationId = 888;
+const notificationChannelId = 'lpp';
+const notificationId = 0;
 // this will be used for notification id, So you can update your custom notification with this id.
 
-Future<void> initializeService() async {
+@pragma(
+    'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    /*await initializeNotifcations();
+    await notify();*/
+    debugPrint("hello world");
+    return true;
+  });
+}
+
+Future<void> initializeNotifcations() async {
   const DarwinInitializationSettings initializationSettingsDarwin =
       DarwinInitializationSettings(notificationCategories: [
     DarwinNotificationCategory(
@@ -20,8 +32,6 @@ Future<void> initializeService() async {
       },
     )
   ]);
-
-  final service = FlutterBackgroundService();
 
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     notificationChannelId, // id
@@ -40,56 +50,29 @@ Future<void> initializeService() async {
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
-
-  await service.configure(
-      iosConfiguration: IosConfiguration(
-        autoStart: true,
-        onForeground: onStart,
-        onBackground: (instance) {
-          onStart(instance);
-          return true;
-        },
-      ),
-      androidConfiguration: AndroidConfiguration(
-        // this will be executed when app is in foreground or background in separated isolate
-        onStart: onStart,
-
-        // auto start service
-        autoStart: true,
-        isForegroundMode: true,
-        notificationChannelId:
-            notificationChannelId, // this must match with notification channel you created above.
-        initialNotificationTitle: 'AWESOME SERVICE',
-        initialNotificationContent: 'Initializing',
-        foregroundServiceNotificationId: notificationId,
-      ));
 }
 
-Future<void> onStart(ServiceInstance service) async {
-  // Only available for flutter 3.0.0 and later
+Future<void> notify() async {
   DartPluginRegistrant.ensureInitialized();
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
   // bring to foreground
-  Timer.periodic(const Duration(seconds: 1), (timer) async {
-    debugPrint("click");
-    flutterLocalNotificationsPlugin.show(
-      notificationId,
-      'COOL SERVICE',
-      'Awesome ${DateTime.now()}',
-      const NotificationDetails(
-          android: AndroidNotificationDetails(
-            notificationChannelId,
-            'MY FOREGROUND SERVICE',
-            icon: 'ic_bg_service_small',
-            ongoing: true,
-          ),
-          iOS: DarwinNotificationDetails(
-              categoryIdentifier: 'demoCategory',
-              threadIdentifier: notificationChannelId,
-              subtitle: "Sup boy")),
-    );
-  });
+  debugPrint("click");
+  flutterLocalNotificationsPlugin.show(
+    notificationId,
+    appName,
+    'Awesome ${DateTime.now()}',
+    const NotificationDetails(
+        android: AndroidNotificationDetails(
+          notificationChannelId,
+          appName,
+          icon: 'ic_bg_service_small',
+          ongoing: true,
+        ),
+        iOS: DarwinNotificationDetails(
+            categoryIdentifier: 'demoCategory',
+            threadIdentifier: notificationChannelId)),
+  );
 }
