@@ -94,9 +94,10 @@ class _EditAbsenceState extends State<EditAbsence> {
                   onPressed: validate()
                       ? () async {
                           Navigator.pop(context);
-                          var newEntry = widget.cause;
-                          newEntry.cause = _absenceCause;
-                          newEntry.expandedCause = _explanation;
+                          var newEntry = widget.cause.copyWith(
+                              cause: _absenceCause,
+                              expandedCause: _explanation);
+
                           context
                               .read<AbsenceRegistrationsBloc>()
                               .add(UpdatedRegistration(newEntry));

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/widgets/control/time_select.dart';
 
@@ -75,14 +75,15 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                 onPressed: state.valid
                     ? () async {
                         var event = CalendarEvent(
-                            "",
-                            state.title,
-                            '',
-                            '',
-                            '',
-                            updating ? widget.previous!.id : "",
-                            state.start,
-                            state.end,
+                            type: CalendarEventType.regular,
+                            status: "",
+                            title: state.title,
+                            team: '',
+                            teacher: '',
+                            room: '',
+                            id: updating ? widget.previous!.id : "",
+                            start: state.start,
+                            end: state.end,
                             note: state.note);
                         if (updating) {
                           context

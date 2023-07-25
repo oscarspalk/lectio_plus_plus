@@ -32,7 +32,7 @@ class DayView extends StatelessWidget {
             .toList();
         late Day day;
         if (availableDays.isEmpty) {
-          day = Day([], [], state.selectedTime);
+          day = Day(informations: [], events: [], date: state.selectedTime);
         } else {
           day = availableDays[0];
         }
