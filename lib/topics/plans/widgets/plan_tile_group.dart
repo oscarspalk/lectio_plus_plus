@@ -9,7 +9,7 @@ class PlanTileGroup extends StatelessWidget {
   final StudyTeamEntry entry;
   @override
   Widget build(BuildContext context) {
-    var sorted = entry.entries
+    var sorted = entry.entries.take(entry.entries.length).toList()
       ..sort(
         (b, a) {
           return a.start.compareTo(b.start);

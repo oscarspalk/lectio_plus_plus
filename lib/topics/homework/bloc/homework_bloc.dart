@@ -1,18 +1,48 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeworkManagerBloc extends Cubit<List<ManagedHomework>> {
-  HomeworkManagerBloc() : super([]);
+  HomeworkManagerBloc() : super([]) {
+    _load();
+  }
+
+  _load() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<ManagedHomework> mHomework = [];
+    var homeworkList = prefs.getStringList("homework");
+    if (homeworkList != null) {
+      for (var homework in homeworkList) {
+        mHomework.add(ManagedHomework.fromString(homework));
+      }
+      emit(mHomework);
+    }
+  }
+
+  _save() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (state.isNotEmpty) {
+      List<String> data = [];
+      for (var homework in state) {
+        data.add(homework.toString());
+      }
+      prefs.setStringList("homework", data);
+    }
+  }
 
   toggle(Homework homework) {
     var index =
         state.indexWhere((element) => element.homeworkId == homework.classLink);
+    var copiedState = state.take(state.length).toList();
     if (index == -1) {
-      state.add(ManagedHomework(DateTime.now(), homework.classLink, true));
+      copiedState
+          .add(ManagedHomework(DateTime.now(), homework.classLink, true));
     } else {
-      state[index].done = !state[index].done;
+      var newVal = !state[index].done;
+      copiedState[index].done = newVal;
     }
-    emit(state);
+    emit(copiedState);
+    _save();
   }
 }
 

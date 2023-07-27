@@ -13,13 +13,28 @@ class HomeworkItem extends StatelessWidget {
         builder: (context, state) {
       var index = state
           .indexWhere((element) => element.homeworkId == homework.classLink);
+      var checked = index != -1 && state[index].done;
+      var throughStyle = TextStyle(
+          decoration:
+              checked ? TextDecoration.lineThrough : TextDecoration.none);
       return CheckboxListTile(
-        value: index != -1 && state[index].done,
+        value: checked,
         onChanged: (_) {
           context.read<HomeworkManagerBloc>().toggle(homework);
         },
-        title: Text(homework.note),
-        subtitle: TeamName(teamName: homework.activity),
+        title: Text(
+          homework.note,
+          style: throughStyle,
+        ),
+        subtitle: TeamName(
+          teamName: homework.activity,
+          builder: (name) {
+            return Text(
+              name,
+              style: throughStyle,
+            );
+          },
+        ),
       );
     });
   }

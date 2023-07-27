@@ -15,11 +15,18 @@ class OpgaveListItem extends StatelessWidget {
 
   String futureOrLate(DateTime time) {
     var now = DateTime.now();
-    if (time.isAfter(now)) {
-      return "${now.difference(time).inDays} tilbage";
-    } else {
-      return "${now.difference(time).inDays} dage overskredet";
+    var days = now.difference(time).inDays.abs();
+    var hours = now.difference(time).inHours.abs();
+    var minutes =
+        now.add(Duration(hours: hours)).difference(time).inMinutes.abs();
+    var text = time.isAfter(now) ? "tilbage" : "forsinket";
+    if (days == 1) {
+      return "$days dag $text";
     }
+    if (days > 1) {
+      return "$days dage $text";
+    }
+    return "${hours > 0 ? hours == 1 ? "$hours time og " : "$hours timer og " : ""}${minutes == 1 ? "$minutes minut" : "$minutes minutter"} $text";
   }
 
   @override

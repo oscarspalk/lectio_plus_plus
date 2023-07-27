@@ -33,7 +33,9 @@ class ModulDetailsScreen extends StatelessWidget {
         appBar: LppAppbar(
           hideMenu: true,
           title: "",
-          titleWidget: TeamName(teamName: event.team),
+          titleWidget: event.team.isNotEmpty
+              ? TeamName(teamName: event.team)
+              : Text(event.title),
           actions: event.type == CalendarEventType.private
               ? [
                   IconButton(

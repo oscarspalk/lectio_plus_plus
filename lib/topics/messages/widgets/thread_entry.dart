@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
-import 'package:lpp/logic/student/student_bloc.dart';
-import 'package:lpp/topics/messages/screens/edit_message.dart';
-import 'package:lpp/topics/messages/screens/reply_message.dart';
 import 'package:lpp/topics/messages/widgets/student_image.dart';
-import 'package:lpp/utils/ad_route.dart';
+import 'package:lpp/topics/messages/widgets/thread_context.dart';
 
 class ThreadEntryWidget extends StatelessWidget {
   const ThreadEntryWidget(
@@ -14,12 +11,9 @@ class ThreadEntryWidget extends StatelessWidget {
   final Message message;
   @override
   Widget build(BuildContext context) {
-    var student = getStudentBloc(context).state.student!;
-    var createdByCurrent = student.name ==
-        entry.user.name.substring(0, entry.user.name.indexOf('(')).trim();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 12.0)
-          .copyWith(left: entry.indent * 12.0 + 8.0),
+          .copyWith(left: entry.indent * 4.0 + 8.0),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         decoration: BoxDecoration(
@@ -56,31 +50,7 @@ class ThreadEntryWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                PopupMenuButton<Widget>(
-                  onSelected: (value) {
-                    Navigator.push(context, adRoute(value));
-                  },
-                  itemBuilder: (_) {
-                    return [
-                      if (entry.files != null && entry.files!.isNotEmpty)
-                        const PopupMenuItem(child: Text("Filer")),
-                      if (createdByCurrent)
-                        PopupMenuItem(
-                          value: EditMessageScreen(
-                            entry: entry,
-                            message: message,
-                          ),
-                          child: const Text("Rediger"),
-                        ),
-                      PopupMenuItem(
-                          value: ReplyMessageScreen(
-                            entry: entry,
-                            message: message,
-                          ),
-                          child: const Text("Besvar"))
-                    ];
-                  },
-                )
+                ThreadContext(entry: entry, message: message)
               ],
             ),
             Text(entry.content)

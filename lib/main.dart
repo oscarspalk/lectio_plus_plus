@@ -13,13 +13,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
   if (kDebugMode) {
+    await initializeNotifcations();
     Workmanager().initialize(
         callbackDispatcher, // The top level function, aka callbackDispatcher
         isInDebugMode:
             true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
         );
-    const name = "com.oscarspalk.lpp.fetch";
-    Workmanager().registerOneOffTask(name, name);
   }
   runApp(MultiBlocProvider(providers: [
     BlocProvider(

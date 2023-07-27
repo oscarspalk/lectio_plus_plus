@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -13,11 +14,14 @@ const notificationId = 0;
 @pragma(
     'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
 void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    /*await initializeNotifcations();
-    await notify();*/
-    debugPrint("hello world");
-    return true;
+  Workmanager().executeTask((task, inputData) {
+    switch (task) {
+      case Workmanager.iOSBackgroundTask:
+        stderr.writeln("The iOS background fetch was triggered");
+        break;
+    }
+    bool success = true;
+    return Future.value(success);
   });
 }
 

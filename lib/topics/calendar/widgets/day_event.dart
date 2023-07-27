@@ -59,18 +59,20 @@ Widget dayEventWidget(
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Flexible(
             fit: FlexFit.loose,
-            child: TeamName(
-              teamName: dayEvent.team,
-              builder: (String name) {
-                return Text(
-                  name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                  style: style,
-                );
-              },
-            )),
+            child: dayEvent.team.isNotEmpty
+                ? TeamName(
+                    teamName: dayEvent.team,
+                    builder: (String name) {
+                      return Text(
+                        name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        style: style,
+                      );
+                    },
+                  )
+                : Text(dayEvent.title)),
         Flexible(
             fit: FlexFit.loose,
             child: Text(

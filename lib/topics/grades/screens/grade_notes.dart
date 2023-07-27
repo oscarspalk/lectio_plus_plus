@@ -25,28 +25,27 @@ class GradeNoteScreen extends StatelessWidget {
             children: state!.map((note) {
               var textStyle = TextStyle(color: scheme.onBackground);
               return AccordionSection(
+                  headerPadding: const EdgeInsets.symmetric(horizontal: 12.0),
                   contentBorderRadius: 0.0,
                   headerBorderRadius: 0.0,
                   contentBorderWidth: 0.0,
                   leftIcon: CircleAvatar(
                     child: Text(note.teacherInitials.toUpperCase()),
                   ),
-                  header: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        note.note.trim(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: textStyle,
-                      ),
-                      Row(
-                        children: [
-                          TeamName(teamName: note.team.name),
-                          Text(" - ${note.gradeType}", style: textStyle),
-                        ],
-                      )
-                    ],
+                  header: ListTile(
+                    title: TeamName(
+                      teamName: note.team.name,
+                      builder: (name) {
+                        return Text(
+                          name,
+                          style: textStyle,
+                        );
+                      },
+                    ),
+                    subtitle: Text(
+                      note.gradeType,
+                      style: textStyle,
+                    ),
                   ),
                   content: ListTile(title: Text(note.note.trim())));
             }).toList());
