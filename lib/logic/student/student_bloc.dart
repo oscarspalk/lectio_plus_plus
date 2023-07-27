@@ -159,15 +159,19 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
   }
 
   Future<Student?> _checkCreds(Account account) async {
-    const storage = FlutterSecureStorage();
-    var lastLoginStr = await storage.read(key: 'last_login');
-    var cookie = await storage.read(key: 'cookie');
-    if (lastLoginStr != null && cookie != null) {
-      var lastLogin = DateTime.parse(lastLoginStr);
-      if (lastLogin.difference(DateTime.now()).inDays.abs() > 20) {
-        return null;
+    try {
+      const storage = FlutterSecureStorage();
+      var lastLoginStr = await storage.read(key: 'last_login');
+      var cookie = await storage.read(key: 'cookie');
+      if (lastLoginStr != null && cookie != null) {
+        var lastLogin = DateTime.parse(lastLoginStr);
+        if (lastLogin.difference(DateTime.now()).inDays.abs() > 20) {
+          return null;
+        }
+        return await account.loginWithCookies(cookie);
       }
-      return account.loginWithCookies(cookie);
+    } catch (e) {
+      return null;
     }
     return null;
   }
