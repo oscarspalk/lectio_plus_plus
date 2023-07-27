@@ -7,8 +7,10 @@ import '../../utils/state_pattern.dart';
 
 class StudentBlocBuilder<T extends StateStreamable<StatePattern<V>>, V>
     extends StatelessWidget {
-  const StudentBlocBuilder({super.key, this.bloc, required this.builder});
+  const StudentBlocBuilder(
+      {super.key, this.bloc, required this.builder, this.small = false});
   final T? bloc;
+  final bool small;
   final Widget Function(BuildContext context, V state) builder;
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,14 @@ class StudentBlocBuilder<T extends StateStreamable<StatePattern<V>>, V>
           return const InternetErrorScreen();
         }
         if (state.status == States.loading) {
-          return const LoadingScreen();
+          return small
+              ? const Center(
+                  child: SizedBox(
+                      height: 30.0,
+                      width: 30.0,
+                      child: CircularProgressIndicator()),
+                )
+              : const LoadingScreen();
         }
         return builder(context, state.state);
       },

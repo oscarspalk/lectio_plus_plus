@@ -2,7 +2,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lectio_wrapper/lectio/basic_info.dart';
 import 'package:lpp/utils/ad_route.dart';
+import 'package:lpp/widgets/layout/text_divider.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
 import '../../logic/student/student_bloc.dart';
@@ -43,52 +45,63 @@ class LppDrawer extends StatelessWidget {
                 onlyFromEdge: combinedDestinations.elementAt(x).onlyFromEdge));
       },
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-          child: Text(
-            'Elev',
-            style: Theme.of(context).textTheme.titleSmall,
+        const TextDivider(
+          text: 'Elev',
+          primary: true,
+        ),
+        SizedBox(
+          height: 70.0,
+          child: BlocConsumer<StudentBloc, StudentState>(
+            builder: (context, studentState) {
+              return StudentBlocBuilder<StudentCubit<BasicInfo>, BasicInfo?>(
+                  small: true,
+                  builder: (context, state) {
+                    return ListTile(
+                      leading: Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: const BoxDecoration(shape: BoxShape.circle),
+                        height: 40.0,
+                        width: 40.0,
+                        child: StudentBlocBuilder<StudentCubit<Uint8List>,
+                                Uint8List?>(
+                            bloc: StudentCubit(
+                                getStudentBloc(context).state.student!,
+                                (student) async =>
+                                    student.getImage(state!.pictureId))
+                              ..load(),
+                            builder: (context, state) {
+                              return CircleAvatar(
+                                foregroundImage:
+                                    Image.memory(state as Uint8List).image,
+                              );
+                            }),
+                      ),
+                      title: Text(
+                        state!.name,
+                        style: Theme.of(context).textTheme.labelLarge,
+                      ),
+                      subtitle: Text(
+                        studentState.gyms
+                            .firstWhere((element) =>
+                                element.id == studentState.student!.gymId)
+                            .name,
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelMedium!
+                            .copyWith(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
+                      ),
+                    );
+                  });
+            },
+            listener: (context, state) {},
           ),
         ),
-        BlocConsumer<StudentBloc, StudentState>(
-          builder: (context, state) {
-            return ListTile(
-              leading: Container(
-                clipBehavior: Clip.antiAlias,
-                decoration: const BoxDecoration(shape: BoxShape.circle),
-                height: 40.0,
-                width: 40.0,
-                child: StudentBlocBuilder<StudentCubit<Uint8List>, Uint8List?>(
-                    bloc: StudentCubit(getStudentBloc(context).state.student!,
-                        (student) => student.getImage(student.imageId))
-                      ..load(),
-                    builder: (context, state) {
-                      return CircleAvatar(
-                        foregroundImage: Image.memory(state as Uint8List).image,
-                      );
-                    }),
-              ),
-              title: Text(
-                state.basicInfo!.name,
-                style: Theme.of(context).textTheme.labelLarge,
-              ),
-              subtitle: Text(
-                state.gyms
-                    .firstWhere((element) => element.id == state.student!.gymId)
-                    .name,
-                style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant),
-              ),
-            );
-          },
-          listener: (context, state) {},
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-          child: Text(
-            'Skole',
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
+        const TextDivider(
+          text: "Skole",
+          primary: true,
         ),
         ...destinations.map((e) {
           return NavigationDrawerDestination(
@@ -96,12 +109,9 @@ class LppDrawer extends StatelessWidget {
               icon: Icon(e.icon),
               label: Text(e.name));
         }),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-          child: Text(
-            'Andet',
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
+        const TextDivider(
+          text: "Andet",
+          primary: true,
         ),
         ...relatedDestinations.map((e) {
           return NavigationDrawerDestination(
