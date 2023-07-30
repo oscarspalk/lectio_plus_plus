@@ -79,10 +79,7 @@ class LppDrawer extends StatelessWidget {
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
                       subtitle: Text(
-                        studentState.gyms
-                            .firstWhere((element) =>
-                                element.id == studentState.student!.gymId)
-                            .name,
+                        studentState.gymName,
                         style: Theme.of(context)
                             .textTheme
                             .labelMedium!

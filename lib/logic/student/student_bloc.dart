@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +29,7 @@ class StudentState {
   List<Gym> gyms;
   List<Team> teams;
   LoadingStates loadingState;
+  String gymName;
 
   StudentState copyWith(
       {Student? student,
@@ -35,13 +37,15 @@ class StudentState {
       StudentStates? state,
       List<Gym>? gyms,
       LoadingStates? loadingState,
-      List<Team>? teams}) {
+      List<Team>? teams,
+      String? gymName}) {
     return StudentState(state ?? this.state,
         gyms: gyms ?? this.gyms,
         basicInfo: basicInfo ?? this.basicInfo,
         student: student ?? this.student,
         loadingState: loadingState ?? this.loadingState,
-        teams: teams ?? this.teams);
+        teams: teams ?? this.teams,
+        gymName: gymName ?? this.gymName);
   }
 
   StudentState(this.state,
@@ -49,7 +53,8 @@ class StudentState {
       this.basicInfo,
       required this.gyms,
       required this.loadingState,
-      required this.teams});
+      required this.teams,
+      required this.gymName});
 }
 
 sealed class StudentEvent {}
@@ -65,15 +70,28 @@ final class LaunchedApp extends StudentEvent {}
 
 final class ResetError extends StudentEvent {}
 
+final class ListGyms extends StudentEvent {}
+
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
   StudentBloc()
       : super(StudentState(StudentStates.loading,
-            gyms: [], teams: [], loadingState: LoadingStates.normal)) {
+            gyms: [],
+            teams: [],
+            loadingState: LoadingStates.normal,
+            gymName: "")) {
+    on<ListGyms>(
+      (event, emit) async {
+        var startState = state.state;
+        emit(state.copyWith(state: StudentStates.loading));
+        var gyms = await GymController().list();
+        emit(state.copyWith(gyms: gyms, state: startState));
+      },
+    );
+
     on<LaunchedApp>((event, emit) async {
       Future<Student?> login(Account account) async {
         var student = await account.login();
         if (student != null) {
-          _saveCreds(student, account);
           return student;
         }
         return null;
@@ -81,10 +99,9 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 
       emit(state.copyWith(state: StudentStates.loading));
       try {
-        emit(state.copyWith(gyms: await GymController().list()));
         const storage = FlutterSecureStorage();
         var map = await storage.readAll();
-
+        var gymName = await storage.read(key: 'gym_name');
         if (map.containsKey("username") &&
             map.containsKey("password") &&
             map.containsKey("gymId")) {
@@ -93,14 +110,13 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
           var checkedStudent = await _checkCreds(account);
           var student = checkedStudent ?? await login(account);
           if (student != null) {
-            emit(state.copyWith(
-              student: student,
-            ));
+            emit(state.copyWith(student: student, gymName: gymName ?? ""));
             await _checkCache(emit);
             return emit(state.copyWith(state: StudentStates.authorized));
           }
         }
-        return emit(state.copyWith(state: StudentStates.unauthorized));
+        emit(state.copyWith(state: StudentStates.unauthorized));
+        add(ListGyms());
       } catch (e) {
         emit(state.copyWith(state: StudentStates.internetError));
       }
@@ -114,7 +130,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
           var account = event.account;
           var student = await account.login();
           if (student != null) {
-            _saveCreds(student, account);
+            _saveCreds(student, account, emit);
             emit(state.copyWith(
               student: student,
             ));
@@ -136,6 +152,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 
       await storage.deleteAll();
       emit(state.copyWith(state: StudentStates.unauthorized));
+      add(ListGyms());
     });
 
     on<ResetError>(
@@ -145,29 +162,45 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     );
   }
 
-  _saveCreds(Student student, Account account) async {
+  _saveCreds(
+      Student student, Account account, Emitter<StudentState> emit) async {
     var jar = await student.getCookies();
     const storage = FlutterSecureStorage();
-    await storage.write(key: "username", value: account.username);
-    await storage.write(key: "password", value: account.password);
-    await storage.write(key: "gymId", value: account.gymId.toString());
-    await storage.write(
-        key: "cookie", value: jar.map((e) => "${e.name}=${e.value}").join(","));
-    await storage.write(
-        key: "last_login", value: DateTime.now().toIso8601String());
+    var gym = state.gyms.firstWhere((element) => element.id == account.gymId);
+    emit(state.copyWith(gymName: gym.name));
+    var autoLoginCookie =
+        jar.indexWhere((element) => element.name == "autologinkey");
+    if (autoLoginCookie != -1) {
+      var cookie = jar.elementAt(autoLoginCookie);
+      await storage.write(key: "username", value: account.username);
+      await storage.write(key: "password", value: account.password);
+      await storage.write(key: "gymId", value: account.gymId.toString());
+      await storage.write(
+          key: "cookie",
+          value: jar.map((e) => "${e.name}=${e.value}").join(","));
+      await storage.write(
+          key: "last_login", value: cookie.expires!.toIso8601String());
+      await storage.write(key: 'student_id', value: student.studentId);
+      await storage.write(key: 'gym_name', value: gym.name);
+    }
   }
 
   Future<Student?> _checkCreds(Account account) async {
     try {
       const storage = FlutterSecureStorage();
       var lastLoginStr = await storage.read(key: 'last_login');
+      var studentId = await storage.read(key: 'student_id');
       var cookie = await storage.read(key: 'cookie');
-      if (lastLoginStr != null && cookie != null) {
+      if (lastLoginStr != null && cookie != null && studentId != null) {
         var lastLogin = DateTime.parse(lastLoginStr);
-        if (lastLogin.difference(DateTime.now()).inDays.abs() > 20) {
+        if (lastLogin.isAfter(DateTime.now())) {
           return null;
         }
-        return await account.loginWithCookies(cookie);
+        var cookies = cookie.split(',').map((cook) {
+          var cookSplit = cook.split("=");
+          return Cookie(cookSplit[0], cookSplit[1]);
+        }).toList();
+        return await account.loginWithCookies(cookies, studentId);
       }
     } catch (e) {
       return null;

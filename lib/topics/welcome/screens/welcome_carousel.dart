@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/logic/student/student_bloc.dart';
+import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/topics/welcome/screens/greeting.dart';
 import 'package:lpp/topics/welcome/screens/gym.dart';
 import 'package:lpp/topics/welcome/screens/login_screen.dart';
@@ -41,34 +44,39 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      physics: const NeverScrollableScrollPhysics(),
-      controller: carousel,
-      children: [
-        GreetingsScreen(
-          skip: skip,
-          next: next,
-        ),
-        MoneyScreen(next: next),
-        ThemeScreen(next: next),
-        Safety(next: next),
-        TermsOfService(next: next),
-        GymScreen(
-          next: next,
-          selectGym: (n) {
-            next();
-            setState(() {
-              _selectedGym = n;
-            });
-            Navigator.pop(context);
-          },
-        ),
-        LoginScreen(
-          selectedGym: _selectedGym,
-          back: back,
-        ),
-      ],
-    );
+    return BlocBuilder<StudentBloc, StudentState>(builder: (context, state) {
+      if (state.state == StudentStates.loading || state.gyms.isEmpty) {
+        return const LoadingScreen();
+      }
+      return PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: carousel,
+        children: [
+          GreetingsScreen(
+            skip: skip,
+            next: next,
+          ),
+          MoneyScreen(next: next),
+          ThemeScreen(next: next),
+          Safety(next: next),
+          TermsOfService(next: next),
+          GymScreen(
+            next: next,
+            selectGym: (n) {
+              next();
+              setState(() {
+                _selectedGym = n;
+              });
+              Navigator.pop(context);
+            },
+          ),
+          LoginScreen(
+            selectedGym: _selectedGym,
+            back: back,
+          ),
+        ],
+      );
+    });
   }
 
   @override

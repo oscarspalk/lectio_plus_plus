@@ -57,3 +57,9 @@ final List<String> weekDays = [
   "Lørdag",
   "Søndag"
 ];
+
+bool search(String query, String item) {
+  var lowerQuery = query.toLowerCase();
+  var lowerItem = item.toLowerCase();
+  return lowerItem.startsWith(lowerQuery) || lowerItem.contains(lowerQuery);
+}

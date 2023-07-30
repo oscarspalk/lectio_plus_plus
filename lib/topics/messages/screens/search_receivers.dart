@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
 import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
 import 'package:lpp/topics/messages/screens/new_message_screen.dart';
+import 'package:lpp/utils/helpers.dart';
 
 class SearchReceivers extends SearchDelegate<MetaDataEntry> {
   @override
@@ -33,8 +34,7 @@ class SearchReceivers extends SearchDelegate<MetaDataEntry> {
         ];
 
         List<MetaDataEntry> matching = concatenated
-            .where((element) =>
-                element.name.toLowerCase().contains(query.toLowerCase()))
+            .where((element) => search(query, element.name))
             .toList();
         return ListView.builder(
           itemCount: matching.length,

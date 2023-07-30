@@ -1,9 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:lpp/notifications/notification.dart';
-import 'package:workmanager/workmanager.dart';
 import 'constants.dart';
 import 'logic/app/settings.dart';
 import 'logic/student/student_bloc.dart';
@@ -12,14 +9,14 @@ import 'routing/router.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
-  if (kDebugMode) {
+  /*if (false) {
     await initializeNotifcations();
     Workmanager().initialize(
         callbackDispatcher, // The top level function, aka callbackDispatcher
         isInDebugMode:
             true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
         );
-  }
+  }*/
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
       create: (_) => SettingsBloc()..add(CheckForTheme()),

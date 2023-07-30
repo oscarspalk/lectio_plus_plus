@@ -1,12 +1,11 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lpp/logic/student/student_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/topics/people/bloc/people_bloc.dart';
 import 'package:lpp/topics/people/widget/people_search.dart';
-import 'package:lpp/topics/state/empty.dart';
+import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/list/alphabetic_list.dart';
-import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
 import '../widget/person_tile.dart';
 
@@ -23,13 +22,14 @@ class PeopleScreen extends StatelessWidget {
             showSearch(context: context, delegate: SearchPeople());
           },
         ),
-        body: StudentBlocBuilder<StudentCubit<List<Student>>, List<Student>?>(
+        body: BlocBuilder<PeopleBloc, PeopleState>(
           builder: (context, state) {
-            if (state!.isEmpty) {
-              return const EmptyScreen();
+            if (state.people.isEmpty) {
+              return const LoadingScreen();
             }
             return AlphabeticList(
-              list: state.map((e) => AssociatedObject(e.name, e)).toList(),
+              list:
+                  state.people.map((e) => AssociatedObject(e.name, e)).toList(),
               itemBuilder: (context, item) {
                 return PersonTile(person: item);
               },

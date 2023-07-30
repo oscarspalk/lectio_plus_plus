@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio/student.dart';
-import 'package:lpp/logic/student/student_cubit.dart';
+import 'package:lpp/topics/people/bloc/people_bloc.dart';
 import 'package:lpp/topics/people/widget/person_tile.dart';
 import 'package:lpp/topics/state/empty.dart';
-import 'package:lpp/widgets/loading/student_bloc_builder.dart';
+import 'package:lpp/topics/state/loading.dart';
+import 'package:lpp/utils/helpers.dart';
 
 class SearchPeople extends SearchDelegate<Student> {
   @override
@@ -23,11 +25,13 @@ class SearchPeople extends SearchDelegate<Student> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return StudentBlocBuilder<StudentCubit<List<Student>>, List<Student>?>(
+    return BlocBuilder<PeopleBloc, PeopleState>(
       builder: (context, state) {
-        var matching = state!
-            .where((element) =>
-                element.name.toLowerCase().contains(query.toLowerCase()))
+        if (state.people.isEmpty) {
+          return const LoadingScreen();
+        }
+        var matching = state.people
+            .where((element) => search(query, element.name))
             .toList();
         if (matching.isEmpty) {
           return const EmptyScreen();
