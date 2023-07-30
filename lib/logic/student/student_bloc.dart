@@ -152,8 +152,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     await storage.write(key: "password", value: account.password);
     await storage.write(key: "gymId", value: account.gymId.toString());
     await storage.write(
-        key: "cookie",
-        value: jar.values.map((e) => "${e.name}=${e.value}").join(","));
+        key: "cookie", value: jar.map((e) => "${e.name}=${e.value}").join(","));
     await storage.write(
         key: "last_login", value: DateTime.now().toIso8601String());
   }

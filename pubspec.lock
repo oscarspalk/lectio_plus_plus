@@ -217,6 +217,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  cookie_jar:
+    dependency: transitive
+    description:
+      name: cookie_jar
+      sha256: d1cc6516a190ba667941f722b6365d202caff3dacb38de24268b8d6ff1ec8a1d
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   crypto:
     dependency: transitive
     description:
@@ -273,6 +281,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.1+1"
+  dio_cookie_manager:
+    dependency: transitive
+    description:
+      name: dio_cookie_manager
+      sha256: b45f11c2fcbccf39c5952ab68910b3a155486c4fa730ceb4ce867c4943169ea1
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.4"
   eva_icons_flutter:
     dependency: "direct main"
     description:
@@ -504,14 +520,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
-  hex:
-    dependency: transitive
-    description:
-      name: hex
-      sha256: "4e7cd54e4b59ba026432a6be2dd9d96e4c5205725194997193bf871703b82c4a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0"
   html:
     dependency: transitive
     description:
@@ -588,10 +596,10 @@ packages:
     dependency: "direct main"
     description:
       name: lectio_wrapper
-      sha256: "6ecad9814184b3748ab41dd105e998518b17a98423cffd77f7fd08a24a6f4596"
+      sha256: "17faec35aa51091641997e7a0a5d257d202125c95bf7cbcbca493032cf2441e8"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.20"
+    version: "0.5.4"
   lints:
     dependency: transitive
     description:
@@ -840,22 +848,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
-  quiver:
-    dependency: transitive
-    description:
-      name: quiver
-      sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.1"
-  requests:
-    dependency: "direct main"
-    description:
-      name: requests
-      sha256: "18b5511c2d6cca922260d0c38e78ed76d4a359fea966fcb4aebe30d8351638ef"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.7.0"
   salomon_bottom_bar:
     dependency: "direct main"
     description:

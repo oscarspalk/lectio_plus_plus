@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
@@ -5,7 +7,6 @@ import 'package:lpp/logic/student/student_cubit.dart';
 import 'package:lpp/topics/modul/widgets/resource_view.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
-import 'package:requests/requests.dart';
 
 class ModulLektieScreen extends StatefulWidget {
   final Content content;
@@ -28,7 +29,7 @@ class _ModulLektieScreenState extends State<ModulLektieScreen> {
           title: widget.content.content,
           hideMenu: true,
         ),
-        body: StudentBlocBuilder<StudentCubit<CookieJar>, CookieJar?>(
+        body: StudentBlocBuilder<StudentCubit<List<Cookie>>, List<Cookie>?>(
             bloc: StudentCubit(getStudentBloc(context).state.student!,
                 (student) => student.getCookies())
               ..load(),

@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
+import 'package:lectio_wrapper/utils/dio_client.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/state/empty.dart';
 import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/topics/state/success.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:requests/requests.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ResourceWebview extends StatelessWidget {
@@ -52,7 +52,7 @@ class _LectioResourceViewState extends State<LectioResourceView> {
         : student.buildUrl(widget.content.href!);
     var cookieJar = await student.getCookies();
     cookieString =
-        cookieJar.values.map((e) => "${e.name}=${e.value}").toList().join(";");
+        cookieJar.map((e) => "${e.name}=${e.value}").toList().join(";");
     var indexOfLast = url.lastIndexOf('.');
     var extension = url.substring(indexOfLast + 1);
     if (extension.length > 4) {
@@ -76,11 +76,10 @@ class _LectioResourceViewState extends State<LectioResourceView> {
       await webViewController
           .loadRequest(Uri.parse(url), headers: {"cookie": cookieString});
     } else {
-      Requests.setStoredCookies("www.lectio.dk", cookieJar);
-      var req = await Requests.get(url);
+      var req = await lppDio.get(url);
       var path = "${(await getTemporaryDirectory()).path}/file.$extension";
       File tempFile = File(path);
-      await tempFile.writeAsBytes(req.bodyBytes);
+      await tempFile.writeAsBytes((req.data as String).codeUnits);
       var result = await OpenFilex.open(path);
       setState(() {
         loading = false;

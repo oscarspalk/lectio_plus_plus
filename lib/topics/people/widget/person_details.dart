@@ -1,29 +1,32 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lectio_wrapper/types/message/meta/meta.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
 import 'package:lpp/topics/calendar/screens/schema.dart';
-import 'package:lpp/topics/messages/widgets/student_image.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/utils/formatters.dart';
 
 class PersonDetails extends StatelessWidget {
   const PersonDetails({super.key, required this.person});
-  final MetaDataEntry person;
+  final Student person;
   @override
   Widget build(BuildContext context) {
-    var wPerson = person;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 48.0),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            StudentImage(
-              entry: person,
-              size: 150.0,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12.0),
+              child: CircleAvatar(
+                radius: 70.0,
+                foregroundImage: getStudentBloc(context)
+                    .state
+                    .student!
+                    .getImage(person.imageId, fullsize: true),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),
@@ -33,10 +36,7 @@ class PersonDetails extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            Text(
-              wPerson.classOrInitials ?? "",
-              textAlign: TextAlign.center,
-            ),
+            Text(person.info ?? ""),
             ListTile(
               onTap: () {
                 Navigator.push(
@@ -44,8 +44,7 @@ class PersonDetails extends StatelessWidget {
                     adRoute(
                         SchemaScreen(
                             name: formatName(person.name),
-                            bloc: SchemaBloc(Student(person.id.substring(1),
-                                getStudentBloc(context).state.student!.gymId))
+                            bloc: SchemaBloc(person)
                               ..add(
                                 SwitchedDate(DateTime.now()),
                               )),

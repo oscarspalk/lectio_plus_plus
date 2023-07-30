@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:requests/requests.dart';
+import 'package:lectio_wrapper/utils/dio_client.dart';
 
 class FeatureRequestBloc extends Cubit<FeatureRequestState> {
   FeatureRequestBloc() : super(FeatureRequestState("", "", false));
@@ -13,8 +13,8 @@ class FeatureRequestBloc extends Cubit<FeatureRequestState> {
   }
 
   sendRequest() async {
-    await Requests.post("https://lpp.oscarspalk.com/api/feature",
-        json: {"topic": state.topic, "content": state.content});
+    await lppDio.post("https://lpp.oscarspalk.com/api/feature",
+        data: {"topic": state.topic, "content": state.content});
   }
 
   submit() {
