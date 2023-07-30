@@ -16,6 +16,9 @@ const notificationId = 0;
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) {
     switch (task) {
+      case "opgave-check":
+        notify();
+        break;
       case Workmanager.iOSBackgroundTask:
         stderr.writeln("The iOS background fetch was triggered");
         break;
@@ -37,6 +40,9 @@ Future<void> initializeNotifcations() async {
     )
   ]);
 
+  const AndroidInitializationSettings androidInitializationSettings =
+      AndroidInitializationSettings("@mipmap/ic_launcher");
+
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     notificationChannelId, // id
     'MY FOREGROUND SERVICE', // title
@@ -48,8 +54,9 @@ Future<void> initializeNotifcations() async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  await flutterLocalNotificationsPlugin.initialize(
-      const InitializationSettings(iOS: initializationSettingsDarwin));
+  await flutterLocalNotificationsPlugin.initialize(const InitializationSettings(
+      iOS: initializationSettingsDarwin,
+      android: androidInitializationSettings));
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
