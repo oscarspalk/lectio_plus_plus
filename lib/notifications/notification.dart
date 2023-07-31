@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lpp/constants.dart';
 import 'package:workmanager/workmanager.dart';
@@ -20,6 +18,7 @@ void callbackDispatcher() {
         notify();
         break;
       case Workmanager.iOSBackgroundTask:
+        notify();
         stderr.writeln("The iOS background fetch was triggered");
         break;
     }
@@ -70,7 +69,6 @@ Future<void> notify() async {
       FlutterLocalNotificationsPlugin();
 
   // bring to foreground
-  debugPrint("click");
   flutterLocalNotificationsPlugin.show(
     notificationId,
     appName,
