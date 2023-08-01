@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
 import 'package:lectio_wrapper/types/grades/subject.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
+import 'package:lpp/topics/state/empty.dart';
 import 'package:lpp/widgets/primitive/team_name.dart';
 
 class SpecificGradeScreen extends StatelessWidget {
@@ -11,6 +12,10 @@ class SpecificGradeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (grades.isEmpty) {
+      return const EmptyScreen();
+    }
+
     double totalWeight = 0.0;
     double totalGrade = 0.0;
     int basedOn = 0;

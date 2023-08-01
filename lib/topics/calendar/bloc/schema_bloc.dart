@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/rooms/room.dart';
+import 'package:lpp/logic/student/student_bloc.dart';
 
 import '../../../utils/helpers.dart';
 
@@ -32,17 +32,23 @@ final class UpdatedAppointment extends AppointmentEvent {
 class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
   final Student student;
   final Room? room;
+  final StudentBloc studentBloc;
   List<Week> weeks = [];
 
-  Future<Week> _getWeek(int year, int num) async {
-    Week fetchedWeek = await (room != null
-        ? student.rooms.get(room!, year, num)
-        : student.weeks.get(year, num));
-    weeks.add(fetchedWeek);
-    return fetchedWeek;
+  Future<Week?> _getWeek(int year, int num) async {
+    try {
+      Week fetchedWeek = await (room != null
+          ? student.rooms.get(room!, year, num)
+          : student.weeks.get(year, num));
+      weeks.add(fetchedWeek);
+      return fetchedWeek;
+    } catch (_) {
+      studentBloc.add(AutologinError());
+      return null;
+    }
   }
 
-  SchemaBloc(this.student, {this.room})
+  SchemaBloc(this.student, this.studentBloc, {this.room})
       : super(SchemaState(DateTime.now(), [])) {
     on<SwitchedDate>((event, emit) async {
       var weekNum = weekFromDateTime(event.time);
@@ -50,13 +56,15 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
           weeks.where((element) => element.weekNum == weekNum).toList();
       List<Week> weekCopy = state.weeks;
       if (availableWeeks.isEmpty) {
-        weekCopy.add(await _getWeek(event.time.year, weekNum));
+        var week = await _getWeek(event.time.year, weekNum);
+        if (week != null) {
+          weekCopy.add(week);
+        }
       }
       emit(SchemaState(event.time, weekCopy));
     });
 
     on<AddedAppointment>((event, emit) async {
-      debugPrint("Creating new");
       await student.events.private.create(event.event);
       int weekNum = weekFromDateTime(event.event.start);
       int availableWeeks =

@@ -1,5 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/style/typograhy.dart';
@@ -44,10 +45,11 @@ class PersonDetails extends StatelessWidget {
                     adRoute(
                         SchemaScreen(
                             name: formatName(person.name),
-                            bloc: SchemaBloc(person)
-                              ..add(
-                                SwitchedDate(DateTime.now()),
-                              )),
+                            bloc:
+                                SchemaBloc(person, context.read<StudentBloc>())
+                                  ..add(
+                                    SwitchedDate(DateTime.now()),
+                                  )),
                         onlyFromEdge: true));
               },
               title: Text("Se ${formatName(person.name)} skema"),

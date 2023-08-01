@@ -2,6 +2,7 @@ import 'package:accordion/accordion.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/note.dart';
+import 'package:lpp/topics/state/empty.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 import 'package:lpp/widgets/primitive/team_name.dart';
 
@@ -14,6 +15,9 @@ class GradeNoteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return StudentBlocBuilder<StudentCubit<List<GradeNote>>, List<GradeNote>?>(
       builder: (context, state) {
+        if (state!.isEmpty) {
+          return const EmptyScreen();
+        }
         var scheme = Theme.of(context).colorScheme;
         return Accordion(
             rightIcon:
@@ -22,7 +26,7 @@ class GradeNoteScreen extends StatelessWidget {
             headerBackgroundColor: scheme.background,
             contentBackgroundColor: scheme.background,
             maxOpenSections: 1,
-            children: state!.map((note) {
+            children: state.map((note) {
               var textStyle = TextStyle(color: scheme.onBackground);
               return AccordionSection(
                   headerPadding: const EdgeInsets.symmetric(horizontal: 12.0),

@@ -29,44 +29,47 @@ class AbsenceOverview extends StatelessWidget {
           totalModulesWritten += row.assignment.finalStudentTime.total;
           totalModulesAbsenceWritten += row.assignment.finalStudentTime.current;
         }
-
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: ListView(
             children: [
-              SizedBox(
-                  height: MediaQuery.of(context).size.height / 2,
-                  child: DChartBar(
-                    verticalDirection: false,
-                    domainLabelColor:
-                        Theme.of(context).colorScheme.onBackground,
-                    domainLabelPaddingToAxisLine: 16,
-                    measureLabelColor:
-                        Theme.of(context).colorScheme.onBackground,
-                    barColor: (barData, index, id) {
-                      var scheme = Theme.of(context).colorScheme;
-                      if (barData['domain'] == mostAbsence.team.displayName) {
-                        return scheme.primaryContainer;
-                      }
-                      return scheme.secondary;
-                    },
-                    xAxisTitle: "Modulers fravær",
-                    domainAxisTitleColor:
-                        Theme.of(context).colorScheme.onBackground,
-                    data: [
-                      {
-                        'id': 'bar',
-                        'data': absence
-                            .where((element) =>
-                                element.regular.currentModules.current > 0)
-                            .map((e) => {
-                                  'domain': e.team.displayName,
-                                  'measure': e.regular.currentModules.current
-                                })
-                            .toList()
-                      }
-                    ],
-                  )),
+              if (absence
+                  .where(
+                      (element) => element.regular.currentModules.current > 0)
+                  .isNotEmpty)
+                SizedBox(
+                    height: MediaQuery.of(context).size.height / 2,
+                    child: DChartBar(
+                      verticalDirection: false,
+                      domainLabelColor:
+                          Theme.of(context).colorScheme.onBackground,
+                      domainLabelPaddingToAxisLine: 16,
+                      measureLabelColor:
+                          Theme.of(context).colorScheme.onBackground,
+                      barColor: (barData, index, id) {
+                        var scheme = Theme.of(context).colorScheme;
+                        if (barData['domain'] == mostAbsence.team.displayName) {
+                          return scheme.primaryContainer;
+                        }
+                        return scheme.secondary;
+                      },
+                      xAxisTitle: "Modulers fravær",
+                      domainAxisTitleColor:
+                          Theme.of(context).colorScheme.onBackground,
+                      data: [
+                        {
+                          'id': 'bar',
+                          'data': absence
+                              .where((element) =>
+                                  element.regular.currentModules.current > 0)
+                              .map((e) => {
+                                    'domain': e.team.displayName,
+                                    'measure': e.regular.currentModules.current
+                                  })
+                              .toList()
+                        }
+                      ],
+                    )),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: GridView.count(
@@ -82,9 +85,10 @@ class AbsenceOverview extends StatelessWidget {
                         subtitle: "${totalAbsenceModules.round()} moduler"),
                     Statistic(
                       header: "Skriftligt",
-                      data:
-                          "${(totalModulesAbsenceWritten / totalModulesWritten * 100).toStringAsFixed(1)}%",
-                      subtitle: "${totalModulesAbsenceWritten.round()} moduler",
+                      data: totalModulesWritten == 0
+                          ? "0.0%"
+                          : "${(totalModulesAbsenceWritten / totalModulesWritten * 100).toStringAsFixed(1)}%",
+                      subtitle: "${totalModulesAbsenceWritten.round()} timer",
                     )
                   ],
                 ),

@@ -12,11 +12,12 @@ class RoomTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
+        var studentBloc = getStudentBloc(context);
         Navigator.push(
             context,
             adRoute(
                 SchemaScreen(
-                  bloc: SchemaBloc(getStudentBloc(context).state.student!,
+                  bloc: SchemaBloc(studentBloc.state.student!, studentBloc,
                       room: room)
                     ..add(SwitchedDate(DateTime.now())),
                 ),

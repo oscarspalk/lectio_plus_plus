@@ -21,7 +21,8 @@ class LectioProvider extends StatelessWidget {
   final Widget child;
   @override
   Widget build(BuildContext context) {
-    var student = getStudentBloc(context).state.student!;
+    var studentBloc = getStudentBloc(context);
+    var student = studentBloc.state.student!;
 
     return MultiBlocProvider(providers: [
       BlocProvider(
@@ -37,7 +38,7 @@ class LectioProvider extends StatelessWidget {
       ),
       BlocProvider(
         create: (context) =>
-            SchemaBloc(student)..add(SwitchedDate(DateTime.now())),
+            SchemaBloc(student, studentBloc)..add(SwitchedDate(DateTime.now())),
       ),
       BlocProvider(
           create: (context) => StudentCubit(student, (student) {

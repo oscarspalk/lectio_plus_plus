@@ -12,18 +12,18 @@ const notificationId = 0;
 @pragma(
     'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
 void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) {
+  Workmanager().executeTask((task, inputData) async {
     switch (task) {
       case "opgave-check":
-        notify();
+        await notify();
         break;
       case Workmanager.iOSBackgroundTask:
-        notify();
+        await notify();
         stderr.writeln("The iOS background fetch was triggered");
         break;
     }
     bool success = true;
-    return Future.value(success);
+    return success;
   });
 }
 
