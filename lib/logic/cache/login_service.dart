@@ -1,0 +1,102 @@
+import 'dart:io';
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:lectio_wrapper/lectio_wrapper.dart';
+
+const gymIdKey = "gym_id";
+const usernameKey = "username";
+const passwordKey = "password";
+const cookieKey = "cookie";
+const studentIdKey = "student_id";
+const expirationDateKey = "expiration";
+
+class LoginService {
+  var storage = const FlutterSecureStorage();
+
+  LoginService();
+
+  Future<bool> _containsMinimum() async {
+    return await storage.containsKey(key: gymIdKey) &&
+        await storage.containsKey(key: usernameKey) &&
+        await storage.containsKey(key: passwordKey);
+  }
+
+  Future<bool> _containsRequired() async {
+    return await _containsMinimum() &&
+        await storage.containsKey(key: cookieKey) &&
+        await storage.containsKey(key: studentIdKey) &&
+        await storage.containsKey(key: expirationDateKey);
+  }
+
+  Future<Account> _getSavedAccount() async {
+    String? gymIdValue = await storage.read(key: gymIdKey);
+    String? username = await storage.read(key: usernameKey);
+    String? password = await storage.read(key: passwordKey);
+    return Account(int.parse(gymIdValue!), username!, password!);
+  }
+
+  Future<List<Cookie>> _getSavedCookies() async {
+    String? cookieString = await storage.read(key: cookieKey);
+    if (cookieString != null) {
+      List<Cookie> cookies = cookieString.split(';').map((cookieStr) {
+        var cookie = cookieStr.split('=');
+        return Cookie(cookie[0], cookie[1]);
+      }).toList();
+      return cookies;
+    }
+    return [];
+  }
+
+  Future<Student?> loadSaved() async {
+    if (await _containsMinimum()) {
+      Account savedAccount = await _getSavedAccount();
+      if (await _containsRequired()) {
+        DateTime expirationDate =
+            DateTime.parse(await storage.read(key: expirationDateKey) ?? "");
+        if (expirationDate.isAfter(DateTime.now())) {
+          String studentId = await storage.read(key: studentIdKey) ?? "";
+          List<Cookie> cookies = await _getSavedCookies();
+          return savedAccount.loginWithCookies(cookies, studentId);
+        }
+      }
+      return login(savedAccount);
+    }
+    return null;
+  }
+
+  Future<Student?> loginFromSaved() async {
+    Account savedAccount = await _getSavedAccount();
+    return login(savedAccount);
+  }
+
+  Future<Student?> login(Account account) async {
+    var student = await account.login();
+    if (student != null) {
+      await save(account, student);
+      return student;
+    }
+    return null;
+  }
+
+  Future<void> save(Account account, Student student) async {
+    var cookies = await student.getCookies();
+    var cookieString =
+        cookies.map((cookie) => "${cookie.name}=${cookie.value}").join(';');
+    Cookie? autologinCookie =
+        cookies.where((element) => element.name == "autologinkey").firstOrNull;
+    if (autologinCookie != null && autologinCookie.expires != null) {
+      await storage.write(
+          key: expirationDateKey,
+          value: autologinCookie.expires!.toIso8601String());
+    }
+    await storage.write(key: usernameKey, value: account.username);
+    await storage.write(key: passwordKey, value: account.password);
+    await storage.write(key: gymIdKey, value: account.gymId.toString());
+    await storage.write(key: cookieKey, value: cookieString);
+    await storage.write(key: studentIdKey, value: student.studentId);
+  }
+
+  Future<void> delete() async {
+    await storage.deleteAll();
+  }
+}

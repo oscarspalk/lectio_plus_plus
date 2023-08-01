@@ -1,0 +1,109 @@
+import 'dart:async';
+
+import 'package:lectio_wrapper/lectio/student.dart';
+import 'package:lectio_wrapper/types/context/team.dart';
+import 'package:lectio_wrapper/types/gym.dart';
+import 'package:lectio_wrapper/types/primitives/team.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+const teamCachedDateKey = "teamCachedDate";
+const teamCacheKey = "teamCache";
+const gymNameKey = "gymName";
+
+class CacheState {
+  List<Team> teams;
+  String gymName;
+  CacheState(this.teams, this.gymName);
+}
+
+class CachingService {
+  late SharedPreferences prefs;
+  final Student student;
+  final List<Gym> gyms;
+  CachingService(this.student, this.gyms);
+
+  bool _containsTeamCache() {
+    return prefs.containsKey(teamCacheKey) &&
+        prefs.containsKey(teamCachedDateKey);
+  }
+
+  FutureOr<List<Team>> _getSavedTeams() async {
+    if (_containsTeamCache()) {
+      DateTime teamCachedDate =
+          DateTime.parse(prefs.getString(teamCachedDateKey)!);
+      if (!DateTime.now()
+          .add(const Duration(days: 7))
+          .isAfter(teamCachedDate)) {
+        return _fetchLocalTeams();
+      }
+    }
+    return await _fetchTeams();
+  }
+
+  List<Team> _fetchLocalTeams() {
+    var entries = prefs.getStringList(teamCacheKey)!;
+    return entries.map((entry) => stringToTeam(entry)).toList();
+  }
+
+  Future<List<Team>> _fetchTeams() async {
+    List<Team> teams = [];
+    var teamsRef = await student.teams.list();
+    for (var teamRef in teamsRef) {
+      var teamContext =
+          (await student.context.get("HE${teamRef.id}")) as TeamContext;
+      teams.add(Team(
+          name: teamRef.name,
+          id: teamRef.id,
+          displayName: teamContext.subject));
+    }
+    prefs.setStringList(
+        teamCacheKey, teams.map((team) => teamToString(team)).toList());
+    return teams;
+  }
+
+  String _getGymName() {
+    if (prefs.containsKey(gymNameKey)) {
+      return prefs.getString(gymNameKey)!;
+    }
+    var gymMatches = gyms.where((element) => element.id == student.gymId);
+    if (gymMatches.isNotEmpty) {
+      var gym = gymMatches.elementAt(0);
+      prefs.setString(gymNameKey, gym.name);
+      return gym.name;
+    }
+    return "";
+  }
+
+  Future<CacheState> loadSaved() async {
+    prefs = await SharedPreferences.getInstance();
+    var teams = await _getSavedTeams();
+    String gymName = _getGymName();
+    return CacheState(teams, gymName);
+  }
+}
+
+String teamToString(Team team) {
+  return "name=${team.name};id=${team.id};display=${team.displayName}";
+}
+
+Team stringToTeam(String team) {
+  var topics = team.split(";");
+  String name = "";
+  String id = "";
+  String display = "";
+  for (var topic in topics) {
+    var split = topic.split('=');
+    switch (split[0]) {
+      case 'name':
+        name = split[1];
+        break;
+      case 'id':
+        id = split[1];
+        break;
+      case 'display':
+        display = split[1];
+        break;
+    }
+  }
+  return Team(name: name, id: id, displayName: display);
+}
