@@ -9,11 +9,44 @@ import 'package:lpp/notifications/notification.dart';
 import 'package:lpp/notifications/services/event_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+const alreadyShownIdsKey = "alreadyShown";
+
+class ShownNotification {
+  DateTime shownAt;
+  String id;
+  ShownNotification(this.shownAt, this.id);
+
+  factory ShownNotification.fromString(String shownNotification) {
+    var topics = shownNotification.split(";");
+    DateTime shownAt = DateTime.now();
+    String id = "";
+    for (var topic in topics) {
+      var topicSplit = topic.split("=");
+      switch (topicSplit[0]) {
+        case "at":
+          shownAt = DateTime.parse(topicSplit[1]);
+          break;
+        case "id":
+          id = topicSplit[1];
+          break;
+      }
+    }
+    return ShownNotification(shownAt, id);
+  }
+
+  @override
+  String toString() {
+    return "id=$id;at=${shownAt.toIso8601String()}";
+  }
+}
+
 class PendingNotification {
   String id;
   String title;
   String? body;
-  PendingNotification({required this.id, this.body, required this.title});
+  String? payload;
+  PendingNotification(
+      {required this.id, this.body, required this.title, this.payload});
 }
 
 class NotificationService {
@@ -21,13 +54,41 @@ class NotificationService {
   late SharedPreferences prefs;
   List<PendingNotification> notifications = [];
 
+  List<ShownNotification> _getShownNotifications() {
+    var shownList = prefs.getStringList(alreadyShownIdsKey);
+    if (shownList != null) {
+      return shownList
+          .map((shown) => ShownNotification.fromString(shown))
+          .toList();
+    }
+    return [];
+  }
+
+  void _saveShownNotifications(List<ShownNotification> list) {
+    List<ShownNotification> combinedList = [...list];
+    for (var notification in notifications) {
+      combinedList.add(ShownNotification(DateTime.now(), notification.id));
+    }
+    DateTime now = DateTime.now().subtract(const Duration(days: 14));
+    List<ShownNotification> filteredUpdated =
+        combinedList.where((shown) => shown.shownAt.isAfter(now)).toList();
+    prefs.setStringList(alreadyShownIdsKey,
+        filteredUpdated.map((filtered) => filtered.toString()).toList());
+  }
+
   Future<bool> setup() async {
     prefs = await SharedPreferences.getInstance();
     bool? notifyEvents = prefs.getBool(notifyEventsKey);
     if (notifyEvents != null && notifyEvents) {
+      var shownNotifications = _getShownNotifications();
       var student = await loginService.loadSaved();
       if (student != null) {
-        notifications.addAll(await EventService(student).update());
+        var updatedNotifications = await EventService(student).update();
+        notifications.addAll(updatedNotifications.where((updatedNotification) =>
+            shownNotifications.indexWhere(
+                (element) => element.id == updatedNotification.id) ==
+            -1));
+        _saveShownNotifications(shownNotifications);
       }
     }
     return notifications.isNotEmpty;

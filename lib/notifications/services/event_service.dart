@@ -9,17 +9,30 @@ import 'package:lpp/utils/helpers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const eventsKey = "events";
-final CalendarEvent debugEvent = CalendarEvent(
-    type: CalendarEventType.regular,
-    status: "Uændret",
-    title: "Kig på stjernerne",
-    team: "1x FY",
-    teacher: "Adam Etches",
-    room: "3",
-    id: "60741009877",
-    note: "Medbring jeres computer",
-    start: DateTime(2023, 08, 14, 08, 45, 00),
-    end: DateTime(2023, 08, 14, 08, 15, 00));
+final List<CalendarEvent> debugEvents = [
+  CalendarEvent(
+      type: CalendarEventType.regular,
+      status: "Uændret",
+      title: "Kig på stjernerne",
+      team: "1x FY",
+      teacher: "Adam Etches",
+      room: "3",
+      id: "60741009877",
+      note: "Medbring jeres computer",
+      start: DateTime(2023, 08, 14, 08, 45, 00),
+      end: DateTime(2023, 08, 14, 08, 15, 00)),
+  CalendarEvent(
+      type: CalendarEventType.regular,
+      status: "Uændret",
+      title: "Da fuck",
+      team: "1x da",
+      teacher: "Pia",
+      room: "18",
+      id: "60741009833",
+      note: "Medbring jeres computer",
+      start: DateTime(2023, 08, 15, 08, 45, 00),
+      end: DateTime(2023, 08, 15, 08, 15, 00))
+];
 
 class EventService {
   final Student student;
@@ -41,7 +54,9 @@ class EventService {
     for (var day in week2.days) {
       events.addAll(day.events);
     }
-    return events;
+    return events
+        .where((element) => element.start.isAfter(DateTime.now()))
+        .toList();
   }
 
   List<CalendarEvent> _getLocalEvents() {
@@ -62,12 +77,19 @@ class EventService {
     var debugVar = prefs.getBool(notifyDebugKey);
     debug = debugVar != null && debugVar;
     if (debug) {
-      prefs.setStringList(eventsKey, [json.encode(debugEvent.toJson())]);
+      prefs.setStringList(
+          eventsKey,
+          debugEvents
+              .map((debugEvent) => json.encode(debugEvent.toJson()))
+              .toList());
     }
 
     var localEvents = _getLocalEvents();
     var fetchedEvents = debug
-        ? [debugEvent.copyWith(status: "Aflyst!")]
+        ? debugEvents
+            .map<CalendarEvent>(
+                (debugEvent) => debugEvent.copyWith(status: "Aflyst!"))
+            .toList()
         : await _getNewEvents();
     for (var fetchedEvent in fetchedEvents) {
       var matchingLocal = localEvents

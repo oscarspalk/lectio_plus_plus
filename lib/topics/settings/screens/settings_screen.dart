@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/topics/settings/widget/term_controller.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
+import 'package:lpp/widgets/layout/text_divider.dart';
 import '../../../logic/app/settings.dart';
 import '../../../logic/student/student_bloc.dart';
 import '../../welcome/screens/theming/theme_controller.dart';
@@ -46,6 +47,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ListView(
               shrinkWrap: true,
               children: [
+                const TextDivider(
+                  text: "Generelt",
+                  primary: true,
+                ),
                 ListTile(
                   title: Text("$version+$buildNumber"),
                   subtitle: const Text("Version"),
@@ -57,6 +62,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: const Text("Skift tema"),
                   subtitle: const Text("Tilpasning"),
                 ),
+                const TextDivider(
+                  text: "Lectio++",
+                  primary: true,
+                ),
                 CheckboxListTile(
                   value: state.hideExtraClasses,
                   onChanged: (_) =>
@@ -64,6 +73,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: const Text("Gem ekstra klasser"),
                   subtitle: const Text(
                       "Fjerner klasser som brogyggere fra klasselisten."),
+                ),
+                const TermsController(),
+                const TextDivider(
+                  text: "Notifikationer",
+                  primary: true,
                 ),
                 CheckboxListTile(
                   title: const Text(
@@ -80,7 +94,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     context.read<SettingsBloc>().add(ToggleNotifyDebug());
                   },
                 ),
-                const TermsController(),
               ],
             ),
             ListTile(
