@@ -1,26 +1,19 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:ui';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lpp/constants.dart';
+import 'package:lpp/notifications/service.dart';
 import 'package:workmanager/workmanager.dart';
 
 const notificationChannelId = 'lpp';
 const notificationId = 0;
-// this will be used for notification id, So you can update your custom notification with this id.
 
-@pragma(
-    'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
+@pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
-    switch (task) {
-      case "opgave-check":
-        await notify();
-        break;
-      case Workmanager.iOSBackgroundTask:
-        await notify();
-        stderr.writeln("The iOS background fetch was triggered");
-        break;
+    var notificationService = NotificationService();
+    var newData = await notificationService.setup();
+    if (newData) {
+      await notificationService.notify();
     }
     bool success = true;
     return success;
@@ -31,7 +24,7 @@ Future<void> initializeNotifcations() async {
   const DarwinInitializationSettings initializationSettingsDarwin =
       DarwinInitializationSettings(notificationCategories: [
     DarwinNotificationCategory(
-      'demoCategory',
+      appName,
       actions: [],
       options: <DarwinNotificationCategoryOption>{
         DarwinNotificationCategoryOption.hiddenPreviewShowTitle,
@@ -43,11 +36,10 @@ Future<void> initializeNotifcations() async {
       AndroidInitializationSettings("@mipmap/ic_launcher");
 
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    notificationChannelId, // id
-    'MY FOREGROUND SERVICE', // title
-    description:
-        'This channel is used for important notifications.', // description
-    importance: Importance.high, // importance must be at low or higher level
+    notificationChannelId,
+    appName,
+    description: 'Lectio++ opdateringer',
+    importance: Importance.high,
   );
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -60,28 +52,4 @@ Future<void> initializeNotifcations() async {
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
-}
-
-Future<void> notify() async {
-  DartPluginRegistrant.ensureInitialized();
-
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-
-  // bring to foreground
-  flutterLocalNotificationsPlugin.show(
-    notificationId,
-    appName,
-    'Awesome ${DateTime.now()}',
-    const NotificationDetails(
-        android: AndroidNotificationDetails(
-          notificationChannelId,
-          appName,
-          icon: 'ic_bg_service_small',
-          ongoing: true,
-        ),
-        iOS: DarwinNotificationDetails(
-            categoryIdentifier: 'demoCategory',
-            threadIdentifier: notificationChannelId)),
-  );
 }
