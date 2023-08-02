@@ -82,7 +82,8 @@ class CachingService {
   }
 
   Future<void> deleteAll() async {
-    await prefs.clear();
+    var lPrefs = await SharedPreferences.getInstance();
+    await lPrefs.clear();
   }
 }
 

@@ -1,15 +1,30 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
+import 'package:lpp/logic/app/settings.dart';
 import 'package:lpp/notifications/service.dart';
 import 'package:lpp/utils/helpers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const eventsKey = "events";
+final CalendarEvent debugEvent = CalendarEvent(
+    type: CalendarEventType.regular,
+    status: "Uændret",
+    title: "Kig på stjernerne",
+    team: "1x FY",
+    teacher: "Adam Etches",
+    room: "3",
+    id: "60741009877",
+    note: "Medbring jeres computer",
+    start: DateTime(2023, 08, 14, 08, 45, 00),
+    end: DateTime(2023, 08, 14, 08, 15, 00));
 
 class EventService {
   final Student student;
   late SharedPreferences prefs;
+  late bool debug;
   EventService(this.student);
 
   Future<List<CalendarEvent>> _getNewEvents() async {
@@ -44,18 +59,27 @@ class EventService {
   Future<List<PendingNotification>> update() async {
     List<PendingNotification> notifications = [];
     prefs = await SharedPreferences.getInstance();
+    var debugVar = prefs.getBool(notifyDebugKey);
+    debug = debugVar != null && debugVar;
+    if (debug) {
+      prefs.setStringList(eventsKey, [json.encode(debugEvent.toJson())]);
+    }
+
     var localEvents = _getLocalEvents();
-    var fetchedEvents = await _getNewEvents();
+    var fetchedEvents = debug
+        ? [debugEvent.copyWith(status: "Aflyst!")]
+        : await _getNewEvents();
     for (var fetchedEvent in fetchedEvents) {
       var matchingLocal = localEvents
           .where((localEvent) => localEvent.id == fetchedEvent.id)
           .firstOrNull;
       if (matchingLocal != null) {
         if (matchingLocal.status != fetchedEvent.status) {
-          String title =
-              "Modulet ${fetchedEvent.team} er blevet ${fetchedEvent.status}";
-          notifications
-              .add(PendingNotification(id: fetchedEvent.id, title: title));
+          String title = "Modul ${fetchedEvent.status.toLowerCase()}";
+          String body =
+              "Modulet ${fetchedEvent.team} d. ${DateFormat("dd/MM HH:mm").format(fetchedEvent.start)} er blevet ${fetchedEvent.status.toLowerCase()}";
+          notifications.add(PendingNotification(
+              id: fetchedEvent.id, title: title, body: body));
         }
       }
     }

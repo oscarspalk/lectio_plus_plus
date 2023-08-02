@@ -1,7 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/notifications/service.dart';
 import 'package:lpp/topics/settings/widget/term_controller.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
@@ -66,14 +65,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   subtitle: const Text(
                       "Fjerner klasser som brogyggere fra klasselisten."),
                 ),
+                CheckboxListTile(
+                  title: const Text(
+                      "Notifikationer ved aflyste og ændrede moduler"),
+                  value: state.notifyEvents,
+                  onChanged: (_) {
+                    context.read<SettingsBloc>().add(ToggleNotifyEvents());
+                  },
+                ),
+                CheckboxListTile(
+                  title: const Text("Debug notifikationer"),
+                  value: state.notifyDebug,
+                  onChanged: (_) {
+                    context.read<SettingsBloc>().add(ToggleNotifyDebug());
+                  },
+                ),
                 const TermsController(),
-                FilledButton(
-                    onPressed: () async {
-                      var service = NotificationService();
-                      await service.setup();
-                      await service.notify();
-                    },
-                    child: Text("Klik"))
               ],
             ),
             ListTile(

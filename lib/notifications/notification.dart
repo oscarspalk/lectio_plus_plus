@@ -15,25 +15,28 @@ void callbackDispatcher() {
     if (newData) {
       await notificationService.notify();
     }
-    bool success = true;
-    return success;
+    return true;
   });
 }
 
 Future<void> initializeNotifcations() async {
   const DarwinInitializationSettings initializationSettingsDarwin =
-      DarwinInitializationSettings(notificationCategories: [
-    DarwinNotificationCategory(
-      appName,
-      actions: [],
-      options: <DarwinNotificationCategoryOption>{
-        DarwinNotificationCategoryOption.hiddenPreviewShowTitle,
-      },
-    )
-  ]);
+      DarwinInitializationSettings(
+          requestAlertPermission: false,
+          requestBadgePermission: false,
+          requestSoundPermission: false,
+          notificationCategories: [
+        DarwinNotificationCategory(
+          appName,
+          actions: [],
+          options: <DarwinNotificationCategoryOption>{
+            DarwinNotificationCategoryOption.hiddenPreviewShowTitle,
+          },
+        )
+      ]);
 
   const AndroidInitializationSettings androidInitializationSettings =
-      AndroidInitializationSettings("@mipmap/ic_launcher");
+      AndroidInitializationSettings("@drawable/ic_lpp_notification_2");
 
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     notificationChannelId,

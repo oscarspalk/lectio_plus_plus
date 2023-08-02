@@ -1,11 +1,13 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lpp/constants.dart';
+import 'package:lpp/logic/app/settings.dart';
+import 'package:lpp/logic/cache/login_service.dart';
 import 'package:lpp/notifications/notification.dart';
+import 'package:lpp/notifications/services/event_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PendingNotification {
   String id;
@@ -15,12 +17,20 @@ class PendingNotification {
 }
 
 class NotificationService {
-  List<PendingNotification> notifications = [
-    if (kDebugMode) PendingNotification(id: '12', title: "Hello World")
-  ];
+  final LoginService loginService = LoginService();
+  late SharedPreferences prefs;
+  List<PendingNotification> notifications = [];
 
   Future<bool> setup() async {
-    return kDebugMode ? true : false;
+    prefs = await SharedPreferences.getInstance();
+    bool? notifyEvents = prefs.getBool(notifyEventsKey);
+    if (notifyEvents != null && notifyEvents) {
+      var student = await loginService.loadSaved();
+      if (student != null) {
+        notifications.addAll(await EventService(student).update());
+      }
+    }
+    return notifications.isNotEmpty;
   }
 
   Future<void> notify() async {
@@ -29,16 +39,13 @@ class NotificationService {
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
     for (var notification in notifications) {
-      stderr.writeln("Showing notification");
       await flutterLocalNotificationsPlugin.show(
         notificationId,
         notification.title,
         notification.body,
         NotificationDetails(
             android: AndroidNotificationDetails(notificationChannelId, appName,
-                icon: 'ic_bg_service_small',
-                ongoing: true,
-                tag: notification.id),
+                ongoing: true, tag: notification.id),
             iOS: DarwinNotificationDetails(
                 categoryIdentifier: appName,
                 threadIdentifier: notification.id)),

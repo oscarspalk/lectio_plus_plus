@@ -14,18 +14,17 @@ import 'routing/router.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
-  if (kDebugMode) {
-    await initializeNotifcations();
-    Workmanager().initialize(
-        callbackDispatcher, // The top level function, aka callbackDispatcher
-        isInDebugMode:
-            false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
-        );
-    if (Platform.isAndroid) {
-      Workmanager().registerPeriodicTask("opgave-check", "opgave-check",
-          frequency: const Duration(minutes: 15));
-    }
+  await initializeNotifcations();
+  Workmanager().initialize(
+      callbackDispatcher, // The top level function, aka callbackDispatcher
+      isInDebugMode:
+          kDebugMode // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+      );
+  if (Platform.isAndroid) {
+    Workmanager().registerPeriodicTask("opgave-check", "opgave-check",
+        frequency: const Duration(minutes: 15));
   }
+
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
       create: (_) => SettingsBloc()..add(CheckForTheme()),
