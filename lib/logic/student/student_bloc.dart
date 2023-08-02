@@ -138,7 +138,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<StudentLoggedOut>((event, emit) async {
       emit(state.copyWith(state: StudentStates.loading));
       await loginService.delete();
-      emit(state.copyWith(state: StudentStates.unauthorized));
+      await CachingService(state.student!, state.gyms).deleteAll();
+      emit(state.copyWith(state: StudentStates.unauthorized, student: null));
       add(ListGyms());
     });
 

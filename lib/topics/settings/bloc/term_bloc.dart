@@ -13,7 +13,7 @@ class TermBloc extends Cubit<List<Term>?> {
     emit(terms);
   }
 
-  set(Term term) async {
+  Future<void> set(Term term) async {
     await student.terms.set(term);
     await _load();
   }

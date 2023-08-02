@@ -80,6 +80,10 @@ class CachingService {
     String gymName = _getGymName();
     return CacheState(teams, gymName);
   }
+
+  Future<void> deleteAll() async {
+    await prefs.clear();
+  }
 }
 
 String teamToString(Team team) {

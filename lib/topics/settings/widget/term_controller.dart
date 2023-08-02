@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/terms/term.dart';
@@ -26,8 +28,7 @@ class _TermsControllerState extends State<TermsController> {
       bloc: bloc,
       builder: (context, state) {
         if (state == null) {
-          return const SizedBox(
-              height: 20.0, width: 20.0, child: CircularProgressIndicator());
+          return const SizedBox();
         }
         return InputDecorator(
           decoration: const InputDecoration(label: Text("Skoleår")),
@@ -40,9 +41,27 @@ class _TermsControllerState extends State<TermsController> {
                     DropdownMenuItem<Term>(value: term, child: Text(term.name)))
                 .toList(),
             onChanged: (value) {
-              if (value != null) {
-                bloc.set(value);
-              }
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return SimpleDialog(
+                    contentPadding: const EdgeInsets.all(16.0),
+                    title: const Text(
+                        "For at skifte skoleår, skal du genstarte appen"),
+                    children: [
+                      FilledButton(
+                        onPressed: () async {
+                          if (value != null) {
+                            await bloc.set(value);
+                          }
+                          exit(0);
+                        },
+                        child: const Text("Genstart"),
+                      )
+                    ],
+                  );
+                },
+              );
             },
           ),
         );

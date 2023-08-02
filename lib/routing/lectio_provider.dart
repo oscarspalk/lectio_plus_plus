@@ -29,13 +29,12 @@ class LectioProvider extends StatelessWidget {
         create: (context) => OpgaveDetailsBloc(student),
       ),
       BlocProvider(
-        create: (context) => StudentCubit<List<Homework>>(
-          student,
-          (student) {
-            return student.homework.list();
-          },
-        )..load(),
-      ),
+          create: (context) => StudentCubit<List<Homework>>(
+                student,
+                (student) {
+                  return student.homework.list();
+                },
+              )),
       BlocProvider(
         create: (context) =>
             SchemaBloc(student, studentBloc)..add(SwitchedDate(DateTime.now())),
@@ -43,8 +42,7 @@ class LectioProvider extends StatelessWidget {
       BlocProvider(
           create: (context) => StudentCubit(student, (student) {
                 return student.absence.list();
-              })
-                ..load()),
+              })),
       BlocProvider(
         create: (context) =>
             OpgaveBloc(student)..add(RequestedLoadAssignments()),
@@ -55,17 +53,14 @@ class LectioProvider extends StatelessWidget {
       ),
       BlocProvider(
           create: (context) => StudentCubit<List<GradeRow>>(
-              student, (student) => student.grades.list())
-            ..load()),
+              student, (student) => student.grades.list())),
       BlocProvider(
         create: (context) => StudentCubit<List<GradeNote>>(
-            student, (student) => student.grades.notes.list())
-          ..load(),
+            student, (student) => student.grades.notes.list()),
       ),
       BlocProvider(
         create: (context) => StudentCubit<List<ClassRef>>(
-            student, (student) => student.classes.list())
-          ..load(),
+            student, (student) => student.classes.list()),
       ),
       BlocProvider(
           create: (_) => NewMessageBloc(getStudentBloc(context).state.student!)
@@ -75,11 +70,11 @@ class LectioProvider extends StatelessWidget {
       ),
       BlocProvider(
         create: (context) =>
-            StudentCubit(student, (student) => student.rooms.list())..load(),
+            StudentCubit(student, (student) => student.rooms.list()),
       ),
       BlocProvider(
         create: (context) =>
-            StudentCubit(student, (student) => student.plans.list())..load(),
+            StudentCubit(student, (student) => student.plans.list()),
       ),
       BlocProvider(
         create: (context) => ModuleStatisticsBloc(student),
@@ -87,13 +82,11 @@ class LectioProvider extends StatelessWidget {
       BlocProvider(create: (_) => HomeworkManagerBloc()),
       BlocProvider(
           create: (_) =>
-              StudentCubit(student, (student) => student.getBasicInfo())
-                ..load()),
+              StudentCubit(student, (student) => student.getBasicInfo())),
       BlocProvider(
           create: (_) =>
-              StudentCubit(student, (student) => student.getBasicInfo())
-                ..load()),
-      BlocProvider(create: (_) => PeopleBloc(student)..load())
+              StudentCubit(student, (student) => student.getBasicInfo())),
+      BlocProvider(create: (_) => PeopleBloc(student))
     ], child: child);
   }
 }
