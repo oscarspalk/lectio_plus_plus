@@ -40,8 +40,7 @@ class DayView extends StatelessWidget {
         var firstEventStart =
             day.events.isNotEmpty ? day.events.first.start : null;
         return Scaffold(
-          body: Container(
-            color: Theme.of(context).colorScheme.onBackground,
+          body: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Column(

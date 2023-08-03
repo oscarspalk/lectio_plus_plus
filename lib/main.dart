@@ -40,6 +40,7 @@ class LectioApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
       return MaterialApp(
+        debugShowCheckedModeBanner: false,
         builder: (context, child) {
           return MediaQuery(
               data:
