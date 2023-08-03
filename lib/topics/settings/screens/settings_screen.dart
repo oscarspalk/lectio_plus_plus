@@ -1,4 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/topics/settings/widget/term_controller.dart';
@@ -44,57 +45,60 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ListView(
-              shrinkWrap: true,
-              children: [
-                const TextDivider(
-                  text: "Generelt",
-                  primary: true,
-                ),
-                ListTile(
-                  title: Text("$version+$buildNumber"),
-                  subtitle: const Text("Version"),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.push(context, adRoute(ThemeController()));
-                  },
-                  title: const Text("Skift tema"),
-                  subtitle: const Text("Tilpasning"),
-                ),
-                const TextDivider(
-                  text: "Lectio++",
-                  primary: true,
-                ),
-                CheckboxListTile(
-                  value: state.hideExtraClasses,
-                  onChanged: (_) =>
-                      context.read<SettingsBloc>().add(ToggleClass()),
-                  title: const Text("Gem ekstra klasser"),
-                  subtitle: const Text(
-                      "Fjerner klasser som brogyggere fra klasselisten."),
-                ),
-                const TermsController(),
-                const TextDivider(
-                  text: "Notifikationer",
-                  primary: true,
-                ),
-                CheckboxListTile(
-                  title: const Text(
-                      "Notifikationer ved aflyste og ændrede moduler"),
-                  value: state.notifyEvents,
-                  onChanged: (_) {
-                    context.read<SettingsBloc>().add(ToggleNotifyEvents());
-                  },
-                ),
-                CheckboxListTile(
-                  title: const Text("Debug notifikationer"),
-                  value: state.notifyDebug,
-                  onChanged: (_) {
-                    context.read<SettingsBloc>().add(ToggleNotifyDebug());
-                  },
-                ),
-              ],
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  const TextDivider(
+                    text: "Generelt",
+                    primary: true,
+                  ),
+                  ListTile(
+                    title: Text("$version+$buildNumber"),
+                    subtitle: const Text("Version"),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(context, adRoute(ThemeController()));
+                    },
+                    title: const Text("Skift tema"),
+                    subtitle: const Text("Tilpasning"),
+                  ),
+                  const TextDivider(
+                    text: "Lectio++",
+                    primary: true,
+                  ),
+                  CheckboxListTile(
+                    value: state.hideExtraClasses,
+                    onChanged: (_) =>
+                        context.read<SettingsBloc>().add(ToggleClass()),
+                    title: const Text("Gem ekstra klasser"),
+                    subtitle: const Text(
+                        "Fjerner klasser som brogyggere fra klasselisten."),
+                  ),
+                  const TermsController(),
+                  const TextDivider(
+                    text: "Notifikationer",
+                    primary: true,
+                  ),
+                  CheckboxListTile(
+                    title: const Text(
+                        "Notifikationer ved aflyste og ændrede moduler"),
+                    value: state.notifyEvents,
+                    onChanged: (_) {
+                      context.read<SettingsBloc>().add(ToggleNotifyEvents());
+                    },
+                  ),
+                  if (kDebugMode)
+                    CheckboxListTile(
+                      title: const Text("Debug notifikationer"),
+                      value: state.notifyDebug,
+                      onChanged: (_) {
+                        context.read<SettingsBloc>().add(ToggleNotifyDebug());
+                      },
+                    ),
+                ],
+              ),
             ),
             ListTile(
               textColor: Theme.of(context).colorScheme.onErrorContainer,
