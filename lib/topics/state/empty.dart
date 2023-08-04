@@ -16,6 +16,7 @@ class EmptyScreen extends StatelessWidget {
         Text(
           text ?? "Der var tomt",
           style: headerStyle,
+          textAlign: TextAlign.center,
         )
       ],
     );

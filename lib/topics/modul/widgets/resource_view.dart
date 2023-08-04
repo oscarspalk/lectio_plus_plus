@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
-import 'package:lectio_wrapper/utils/dio_client.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/state/empty.dart';
 import 'package:lpp/topics/state/loading.dart';
@@ -76,10 +75,11 @@ class _LectioResourceViewState extends State<LectioResourceView> {
       await webViewController
           .loadRequest(Uri.parse(url), headers: {"cookie": cookieString});
     } else {
-      var req = await lppDio.get(url);
-      var path = "${(await getTemporaryDirectory()).path}/file.$extension";
+      var bytes = await student.getFile(url);
+      var path =
+          "${(await getTemporaryDirectory()).path}/${widget.content.content.substring(0, widget.content.content.indexOf('.'))}.$extension";
       File tempFile = File(path);
-      await tempFile.writeAsBytes((req.data as String).codeUnits);
+      await tempFile.writeAsBytes(bytes);
       var result = await OpenFilex.open(path);
       setState(() {
         loading = false;

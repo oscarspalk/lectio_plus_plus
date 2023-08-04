@@ -109,7 +109,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         add(ListGyms());
       } catch (e) {
         add(AutologinError());
-        emit(state.copyWith(state: StudentStates.internetError));
+        //emit(state.copyWith(state: StudentStates.internetError));
       }
     });
 
