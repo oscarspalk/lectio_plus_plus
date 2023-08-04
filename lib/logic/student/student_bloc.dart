@@ -94,7 +94,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<LaunchedApp>((event, emit) async {
       emit(state.copyWith(state: StudentStates.loading));
       try {
-        var student = await loginService.loadSaved();
+        var student = await loginService.loginFromSaved();
         if (student != null) {
           emit(state.copyWith(student: student));
           var cacheState =
@@ -108,9 +108,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         emit(state.copyWith(state: StudentStates.unauthorized));
         add(ListGyms());
       } catch (e) {
-        add(ResetError());
-        add(AutologinError());
-        //emit(state.copyWith(state: StudentStates.internetError));
+        emit(state.copyWith(state: StudentStates.internetError));
       }
     });
 

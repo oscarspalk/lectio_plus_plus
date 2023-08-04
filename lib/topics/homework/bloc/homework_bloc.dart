@@ -31,12 +31,12 @@ class HomeworkManagerBloc extends Cubit<List<ManagedHomework>> {
   }
 
   toggle(Homework homework) {
-    var index =
-        state.indexWhere((element) => element.homeworkId == homework.classLink);
+    var index = state
+        .indexWhere((element) => element.homeworkId == homework.activity.id);
     var copiedState = state.take(state.length).toList();
     if (index == -1) {
       copiedState
-          .add(ManagedHomework(DateTime.now(), homework.classLink, true));
+          .add(ManagedHomework(DateTime.now(), homework.activity.id, true));
     } else {
       var newVal = !state[index].done;
       copiedState[index].done = newVal;

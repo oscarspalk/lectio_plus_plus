@@ -28,11 +28,14 @@ class LoginService {
         await storage.containsKey(key: expirationDateKey);
   }
 
-  Future<Account> _getSavedAccount() async {
+  Future<Account?> _getSavedAccount() async {
     String? gymIdValue = await storage.read(key: gymIdKey);
     String? username = await storage.read(key: usernameKey);
     String? password = await storage.read(key: passwordKey);
-    return Account(int.parse(gymIdValue!), username!, password!);
+    if (gymIdValue != null && username != null && password != null) {
+      return Account(int.parse(gymIdValue), username, password);
+    }
+    return null;
   }
 
   Future<List<Cookie>> _getSavedCookies() async {
@@ -49,8 +52,8 @@ class LoginService {
 
   Future<Student?> loadSaved() async {
     if (await _containsMinimum()) {
-      Account savedAccount = await _getSavedAccount();
-      if (await _containsRequired()) {
+      Account? savedAccount = await _getSavedAccount();
+      if (await _containsRequired() && savedAccount != null) {
         DateTime expirationDate =
             DateTime.parse(await storage.read(key: expirationDateKey) ?? "");
         if (expirationDate.isAfter(DateTime.now())) {
@@ -59,18 +62,23 @@ class LoginService {
           return savedAccount.loginWithCookies(cookies, studentId);
         }
       }
-      return login(savedAccount);
+      if (savedAccount != null) {
+        return login(savedAccount);
+      }
     }
     return null;
   }
 
   Future<Student?> loginFromSaved() async {
-    Account savedAccount = await _getSavedAccount();
-    return login(savedAccount);
+    Account? savedAccount = await _getSavedAccount();
+    if (savedAccount != null) {
+      return login(savedAccount);
+    }
+    return null;
   }
 
   Future<Student?> login(Account account) async {
-    var student = await account.login();
+    var student = await account.login(autologin: false);
     if (student != null) {
       await save(account, student);
       return student;

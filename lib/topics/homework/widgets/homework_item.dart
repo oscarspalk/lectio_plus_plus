@@ -18,7 +18,7 @@ class HomeworkItem extends StatelessWidget {
     return BlocBuilder<HomeworkManagerBloc, List<ManagedHomework>>(
         builder: (context, state) {
       var index = state
-          .indexWhere((element) => element.homeworkId == homework.classLink);
+          .indexWhere((element) => element.homeworkId == homework.activity.id);
       var checked = index != -1 && state[index].done;
 
       return TeamName(
