@@ -6,6 +6,7 @@ import 'package:lpp/topics/settings/widget/term_controller.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../logic/app/settings.dart';
 import '../../../logic/student/student_bloc.dart';
 import '../../welcome/screens/theming/theme_controller.dart';
@@ -63,6 +64,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                     title: const Text("Skift tema"),
                     subtitle: const Text("Tilpasning"),
+                  ),
+                  ListTile(
+                    trailing: const Icon(Icons.help),
+                    onTap: () async {
+                      var uri = Uri.parse("https://www.spalk.io/lectio++/help");
+                      if (await canLaunchUrl(uri)) {
+                        await launchUrl(uri);
+                      }
+                    },
+                    title: const Text("Hjælp"),
+                    subtitle: const Text(
+                        "Se, hvad der er af hjælpeartikler på vores hjemmeside"),
                   ),
                   const TextDivider(
                     text: "Lectio++",
