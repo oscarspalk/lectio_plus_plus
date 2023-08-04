@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/homework/homework.dart';
-import 'package:lectio_wrapper/types/homework/link_detail.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
@@ -21,16 +19,7 @@ class HomeworkScreen extends StatelessWidget {
       ),
       body: StudentBlocBuilder<StudentCubit<List<Homework>>, List<Homework>?>(
         builder: (context, state) {
-          List<Homework> fakeHomework = kDebugMode
-              ? [
-                  Homework(
-                      "1bx da",
-                      "",
-                      DateTime.now(),
-                      [LinkDetail("f", "Systematic A")],
-                      "Læs side 5-9 i mat bogen")
-                ]
-              : state!;
+          List<Homework> fakeHomework = state!;
           if (fakeHomework.isEmpty) {
             return const EmptyScreen();
           }
