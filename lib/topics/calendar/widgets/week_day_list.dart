@@ -7,20 +7,24 @@ class WeekDayList extends StatelessWidget {
   final Week? week;
   @override
   Widget build(BuildContext context) {
-    return week != null
-        ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: week!.days
-                  .where((element) =>
-                      element.events.isNotEmpty ||
-                      element.informations.isNotEmpty)
-                  .map((day) => ExperimentalModuleList(day: day))
-                  .toList(),
-            ),
-          )
-        : const SizedBox();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: week == null
+            ? const [
+                ExperimentalModuleList(day: null),
+                ExperimentalModuleList(day: null),
+                ExperimentalModuleList(day: null)
+              ]
+            : week!.days
+                .where((element) =>
+                    element.events.isNotEmpty ||
+                    element.informations.isNotEmpty)
+                .map((day) => ExperimentalModuleList(day: day))
+                .toList(),
+      ),
+    );
   }
 }

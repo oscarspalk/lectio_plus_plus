@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/utils/helpers.dart';
+import 'package:lpp/widgets/primitive/text_shimmer.dart';
 
 class WeekHeader extends StatelessWidget implements PreferredSizeWidget {
   const WeekHeader({super.key, required this.week});
@@ -27,11 +28,14 @@ class WeekHeader extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  loading ? "" : months[week!.days[0].date.month - 1],
-                  style: headerStyle,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4.0),
+                  child: TextShimmer(
+                    loading ? "" : months[week!.days[0].date.month - 1],
+                    style: headerStyle,
+                  ),
                 ),
-                Text(
+                TextShimmer(
                   loading ? "" : "${week!.days[0].date.year}",
                   style: headerStyle,
                 )
@@ -40,12 +44,10 @@ class WeekHeader extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         titlePadding:
-            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         centerTitle: false,
-        title: Text(
-          "Uge ${loading ? "" : week!.weekNum.toString()}",
-          style: headerStyle,
-        ),
+        title: TextShimmer(loading ? "" : "Uge ${week!.weekNum.toString()}",
+            style: headerStyle.copyWith(color: colorScheme.onBackground)),
       ),
     );
   }

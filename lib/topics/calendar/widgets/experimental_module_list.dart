@@ -3,6 +3,7 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/topics/calendar/widgets/modul_tile.dart';
 import 'package:lpp/utils/helpers.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
+import 'package:lpp/widgets/primitive/text_shimmer.dart';
 
 class ExperimentalModuleList extends StatelessWidget {
   const ExperimentalModuleList({super.key, required this.day});
@@ -13,14 +14,20 @@ class ExperimentalModuleList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextDivider(
-          text: day != null ? formatDateReadable(day!.date) : "",
+          text: "",
           primary: true,
+          customText:
+              TextShimmer(day != null ? formatDateReadable(day!.date) : ""),
         ),
         ...day != null
             ? day!.events
                 .map((event) => ModulTile(calendarEvent: event))
                 .toList()
-            : []
+            : const [
+                ModulTile(calendarEvent: null),
+                ModulTile(calendarEvent: null),
+                ModulTile(calendarEvent: null)
+              ]
       ],
     );
   }
