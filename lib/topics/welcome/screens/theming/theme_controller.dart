@@ -1,7 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
 
 import '../../../../logic/app/settings.dart';
@@ -30,26 +29,10 @@ class ThemeController extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
-        return Scaffold(
-          appBar: LppAppbar(
-            title: "Vælg et tema",
-            hideMenu: true,
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    context.read<SettingsBloc>().add(SwitchedTheme(
-                        state.color,
-                        state.brightness == Brightness.dark
-                            ? Brightness.light
-                            : Brightness.dark));
-                  },
-                  icon: Icon(state.brightness == Brightness.dark
-                      ? EvaIcons.moon
-                      : EvaIcons.sun))
-            ],
-          ),
-          body: ListView(
-            padding: const EdgeInsets.all(16.0),
+        var light = state.brightness == Brightness.light;
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
             children: [
               const TextDivider(
                 text: "Temaer",
@@ -66,6 +49,13 @@ class ThemeController extends StatelessWidget {
                             color: color,
                           ))
                       .toList()),
+              FilledButton.icon(
+                  icon: Icon(!light ? EvaIcons.moon : EvaIcons.sun),
+                  onPressed: () {
+                    context.read<SettingsBloc>().add(SwitchedTheme(state.color,
+                        light ? Brightness.dark : Brightness.light));
+                  },
+                  label: Text("Skift til ${light ? "mørk" : "lys"}"))
             ],
           ),
         );

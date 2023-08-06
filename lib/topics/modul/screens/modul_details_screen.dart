@@ -167,9 +167,11 @@ class ModulDetailsScreen extends StatelessWidget {
                       ? () {
                           Navigator.push(
                               context,
-                              adRoute(ModulLektieScreen(
-                                content: e,
-                              )));
+                              adRoute(
+                                  ModulLektieScreen(
+                                    content: e,
+                                  ),
+                                  onlyFromEdge: true));
                         }
                       : null,
                 ),

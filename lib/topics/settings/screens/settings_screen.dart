@@ -60,7 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   ListTile(
                     onTap: () {
-                      Navigator.push(context, adRoute(ThemeController()));
+                      adSheet(ThemeController(), context);
                     },
                     title: const Text("Skift tema"),
                     subtitle: const Text("Tilpasning"),

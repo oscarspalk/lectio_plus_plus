@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
+import 'package:lpp/utils/ad_route.dart';
 import 'package:ms_undraw/ms_undraw.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 import 'theming/theme_controller.dart';
 
@@ -40,14 +40,7 @@ class ThemeScreen extends StatelessWidget {
                 children: [
                   FilledButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            SwipeablePageRoute(
-                              fullscreenDialog: true,
-                              builder: (context) {
-                                return ThemeController();
-                              },
-                            ));
+                        adSheet(ThemeController(), context, ad: false);
                       },
                       child: const Text("Vælg tema")),
                   FilledButton.tonal(

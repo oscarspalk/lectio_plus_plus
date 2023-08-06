@@ -11,7 +11,7 @@ Route adRoute(Widget screen, {bool onlyFromEdge = false}) {
   );
 }
 
-void adSheet(Widget sheet, BuildContext context) {
+void adSheet(Widget sheet, BuildContext context, {bool ad = true}) {
   showModalBottomSheet(
     clipBehavior: Clip.hardEdge,
     isScrollControlled: true,
@@ -19,7 +19,7 @@ void adSheet(Widget sheet, BuildContext context) {
     builder: (context) {
       return Column(mainAxisSize: MainAxisSize.min, children: [
         sheet,
-        const AdBar(),
+        if (ad) const AdBar(),
       ]);
     },
   );
