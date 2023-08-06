@@ -19,7 +19,7 @@ class ExperimentalSchemaState {
   }
 
   factory ExperimentalSchemaState.initial() {
-    return ExperimentalSchemaState(
-        weeks: [], time: DateTime.now(), startTime: DateTime.now());
+    var now = DateTime.now();
+    return ExperimentalSchemaState(weeks: [], time: now, startTime: now);
   }
 }

@@ -9,9 +9,27 @@ import 'package:lpp/topics/calendar/widgets/week_day_list.dart';
 import 'package:lpp/topics/calendar/widgets/week_header.dart';
 
 const length = 100;
+final middle = (length / 2).floor();
 
-class ExperimentalSchemaScreen extends StatelessWidget {
-  const ExperimentalSchemaScreen({super.key});
+class ExperimentalSchemaScreen extends StatefulWidget {
+  const ExperimentalSchemaScreen({super.key, this.bloc});
+  final ExperimentalSchemaBloc? bloc;
+  @override
+  State<ExperimentalSchemaScreen> createState() =>
+      _ExperimentalSchemaScreenState();
+}
+
+class _ExperimentalSchemaScreenState extends State<ExperimentalSchemaScreen> {
+  late PageController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    var bloc = widget.bloc ?? context.read<ExperimentalSchemaBloc>();
+    var diff =
+        (bloc.state.time.difference(bloc.state.startTime).inDays / 7).floor();
+    _controller = PageController(initialPage: middle + diff);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +39,14 @@ class ExperimentalSchemaScreen extends StatelessWidget {
         builder: (context, state) {
           return PageView.builder(
             onPageChanged: (value) {
-              int difference = value - (length / 2).floor();
+              int difference = value - middle;
               context.read<ExperimentalSchemaBloc>().add(SwitchDate(
                   state.startTime.add(Duration(days: 7 * difference))));
             },
-            controller: PageController(initialPage: (length / 2).floor()),
+            controller: _controller,
             itemCount: length,
             itemBuilder: (context, index) {
-              int difference = index - (length / 2).floor();
+              int difference = index - middle;
               DateTime diffTime =
                   state.startTime.add(Duration(days: 7 * difference));
               int selectedWeekNum = weekFromDateTime(diffTime);
