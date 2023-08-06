@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/class.dart';
 import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/topics/classes/screens/klasse_members_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
-
-import '../klasse_members_screen.dart';
 
 class ClassListItem extends StatelessWidget {
   final ClassRef klasse;

@@ -91,8 +91,10 @@ class OpgaveScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                       context,
-                      adRoute(ModulLektieScreen(
-                          content: Content(e.name, href: e.href))));
+                      adRoute(
+                          ModulLektieScreen(
+                              content: Content(e.name, href: e.href)),
+                          onlyFromEdge: true));
                 },
               ))
           .toList()
@@ -124,9 +126,11 @@ class AssignmentEntryRow extends StatelessWidget {
         debugPrint(entry.resource.href);
         Navigator.push(
             context,
-            adRoute(ModulLektieScreen(
-                content:
-                    Content(entry.resource.name, href: entry.resource.href))));
+            adRoute(
+                ModulLektieScreen(
+                    content: Content(entry.resource.name,
+                        href: entry.resource.href)),
+                onlyFromEdge: true));
       },
       title: Text(entry.resource.name),
       subtitle: Text(
