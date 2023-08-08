@@ -81,14 +81,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     text: "Lectio++",
                     primary: true,
                   ),
-                  CheckboxListTile(
-                    value: state.hideExtraClasses,
-                    onChanged: (_) =>
-                        context.read<SettingsBloc>().add(ToggleClass()),
-                    title: const Text("Gem ekstra klasser"),
-                    subtitle: const Text(
-                        "Fjerner klasser som brogyggere fra klasselisten."),
-                  ),
                   const TermsController(),
                   const TextDivider(
                     text: "Notifikationer",

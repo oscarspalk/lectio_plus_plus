@@ -21,7 +21,7 @@ class HomeworkDetail extends StatelessWidget {
                   context,
                   adRoute(
                       ModulLektieScreen(
-                          content: Content(detail.text, href: detail.href)),
+                          content: Link(detail.text, detail.href!, [])),
                       onlyFromEdge: true));
             }
           : null,

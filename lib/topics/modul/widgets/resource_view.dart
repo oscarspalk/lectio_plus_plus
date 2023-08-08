@@ -11,18 +11,18 @@ import 'package:path_provider/path_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ResourceWebview extends StatelessWidget {
-  final Content content;
+  final Link content;
 
   const ResourceWebview({super.key, required this.content});
   @override
   Widget build(BuildContext context) {
     return WebViewWidget(
-        controller: WebViewController()..loadRequest(Uri.parse(content.href!)));
+        controller: WebViewController()..loadRequest(Uri.parse(content.href)));
   }
 }
 
 class LectioResourceView extends StatefulWidget {
-  final Content content;
+  final Link content;
 
   const LectioResourceView({super.key, required this.content});
 
@@ -46,18 +46,18 @@ class _LectioResourceViewState extends State<LectioResourceView> {
 
   Future<void> getData() async {
     var student = getStudentBloc(context).state.student!;
-    url = widget.content.href!.startsWith("/lectio")
+    url = widget.content.href.startsWith("/lectio")
         ? "https://www.lectio.dk${widget.content.href}"
-        : student.buildUrl(widget.content.href!);
+        : student.buildUrl(widget.content.href);
     var cookieJar = await student.getCookies();
     cookieString =
         cookieJar.map((e) => "${e.name}=${e.value}").toList().join(";");
     var indexOfLast = url.lastIndexOf('.');
     var extension = url.substring(indexOfLast + 1);
     if (extension.length > 4) {
-      var indexOfLast2 = widget.content.content.lastIndexOf('.');
+      var indexOfLast2 = widget.content.text.lastIndexOf('.');
       if (indexOfLast2 != -1) {
-        extension = widget.content.content.substring(indexOfLast2 + 1);
+        extension = widget.content.text.substring(indexOfLast2 + 1);
         var indexOfBrackets = extension.indexOf('(');
         if (indexOfBrackets != -1) {
           extension = extension.substring(0, indexOfBrackets).trim();
@@ -77,7 +77,7 @@ class _LectioResourceViewState extends State<LectioResourceView> {
     } else {
       var bytes = await student.getFile(url);
       var path =
-          "${(await getTemporaryDirectory()).path}/${widget.content.content.substring(0, widget.content.content.indexOf('.'))}.$extension";
+          "${(await getTemporaryDirectory()).path}/${widget.content.text.substring(0, widget.content.text.indexOf('.'))}.$extension";
       File tempFile = File(path);
       await tempFile.writeAsBytes(bytes);
       var result = await OpenFilex.open(path);

@@ -2,7 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lpp/routing/menu.dart';
 import 'package:lpp/topics/absence/screens/absence_screen.dart';
-import 'package:lpp/topics/calendar/screens/experimental_schema.dart';
+import 'package:lpp/topics/calendar/screens/schema.dart';
 import 'package:lpp/widgets/layout/bottombar.dart';
 import 'package:lpp/widgets/layout/drawer.dart';
 
@@ -30,7 +30,7 @@ class _PrimaryActivitiesState extends State<PrimaryActivities> {
         icon: EvaIcons.calendarOutline,
         selectedIcon: EvaIcons.calendar,
         name: "Skema",
-        screen: const ExperimentalSchemaScreen()),
+        screen: const SchemaScreen()),
     Destination(
         icon: EvaIcons.bookOpenOutline,
         name: "Lektier",

@@ -7,6 +7,7 @@ import 'package:lpp/topics/opgaver/bloc/opgaver_details_bloc.dart';
 import 'package:lpp/topics/opgaver/screens/opgave_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/utils/helpers.dart';
+import 'package:lpp/widgets/primitive/team_name.dart';
 
 class OpgaveListItem extends StatelessWidget {
   final AssignmentRef opgave;
@@ -55,7 +56,12 @@ class OpgaveListItem extends StatelessWidget {
                 ? Colors.red
                 : Theme.of(context).colorScheme.primary,
       ),
-      title: Text(opgave.title),
+      title: TeamName(
+        teamName: opgave.team,
+        builder: (name) {
+          return Text("${opgave.title} - $name");
+        },
+      ),
       subtitle: Text("${opgave.status} - $timeText"),
     );
   }

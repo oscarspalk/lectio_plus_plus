@@ -2,7 +2,8 @@ import 'package:date_format/date_format.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:lectio_wrapper/types/events/calendar_event_details.dart' as ce;
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
 import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
 import 'package:lpp/topics/calendar/screens/create.dart';
@@ -16,7 +17,6 @@ import 'package:lpp/widgets/primitive/team_name.dart';
 
 import '../../../logic/student/student_bloc.dart';
 import '../../../logic/student/student_cubit.dart';
-import '../../../utils/formatters.dart';
 
 bool ine(String input) {
   return input.isNotEmpty;
@@ -56,8 +56,8 @@ class ModulDetailsScreen extends StatelessWidget {
                 ]
               : [Container()],
         ),
-        body: StudentBlocBuilder<StudentCubit<CalendarEventDetails>,
-            CalendarEventDetails?>(
+        body: StudentBlocBuilder<StudentCubit<ce.CalendarEventDetails>,
+            ce.CalendarEventDetails?>(
           bloc: StudentCubit(getStudentBloc(context).state.student!,
               (student) => student.events.expand(event))
             ..load(),
@@ -90,7 +90,7 @@ class ModulDetailsScreen extends StatelessWidget {
                 ),
                 ine(event.team)
                     ? ListTile(
-                        title: Text(checkForFormat(event.team)),
+                        title: TeamName(teamName: event.team),
                         subtitle: const Text("Hold"),
                       )
                     : Container(),
@@ -104,17 +104,23 @@ class ModulDetailsScreen extends StatelessWidget {
                   title: Text(event.status),
                   subtitle: const Text("Status"),
                 ),
-                ...getSpecific(context, data!)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.start,
+                      children: getSpecific(context, data!)),
+                )
               ],
             );
           },
         ));
   }
 
-  List<Widget> getSpecific(BuildContext context, CalendarEventDetails details) {
+  List<Widget> getSpecific(
+      BuildContext context, ce.CalendarEventDetails details) {
     switch (event.type) {
       case CalendarEventType.test:
-        var examDetails = details as TestCalendarEventDetails;
+        var examDetails = details as ce.TestCalendarEventDetails;
         return [
           const TextDivider(
             text: "Eksamen",
@@ -143,42 +149,47 @@ class ModulDetailsScreen extends StatelessWidget {
           )
         ];
       case CalendarEventType.regular:
-        var regDetails = details as RegularCalendarEventDetails;
+        var regDetails = details as ce.RegularCalendarEventDetails;
         return [
           if (regDetails.note != null && regDetails.note!.isNotEmpty)
             Statement(topic: "Note", content: regDetails.note!),
-          ...(regDetails.content.isNotEmpty
-              ? [
-                  const TextDivider(
-                    text: "Lektier",
-                    primary: true,
-                  )
-                ]
-              : []),
-          ...regDetails.content.map((e) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  leading:
-                      e.href != null ? const Icon(EvaIcons.link2Outline) : null,
-                  title: Text(e.content),
-                  onTap: e.href != null
-                      ? () {
-                          Navigator.push(
-                              context,
-                              adRoute(
-                                  ModulLektieScreen(
-                                    content: e,
-                                  ),
-                                  onlyFromEdge: true));
-                        }
-                      : null,
-                ),
-                if (e.note != null) ListTile(title: Text(e.note!))
-              ],
-            );
-          })
+          const TextDivider(
+            text: "Lektier",
+            primary: true,
+          ),
+          Html(
+            shrinkWrap: true,
+            style: {
+              "h1": Style(fontSize: FontSize.large),
+              "a": Style(textDecoration: TextDecoration.none),
+              "hr": Style(display: Display.none),
+            },
+            data: regDetails.htmlContent,
+            onLinkTap: (url, attributes, element) {
+              if (url != null) {
+                Navigator.push(
+                    context,
+                    adRoute(ModulLektieScreen(
+                        content:
+                            ce.Link(element?.text.trim() ?? "", url, []))));
+              }
+            },
+            extensions: [
+              TagExtension(
+                tagsToExtend: {"img"},
+                builder: (ctx) {
+                  var student = context.read<StudentBloc>().state.student;
+                  var src = ctx.attributes['src'];
+                  if (src != null) {
+                    return Image(
+                      image: student!.getImage(ctx.attributes['src'] ?? ""),
+                    );
+                  }
+                  return Container();
+                },
+              )
+            ],
+          )
         ];
       case CalendarEventType.private:
         return [

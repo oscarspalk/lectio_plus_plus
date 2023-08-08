@@ -114,6 +114,9 @@ class LppDrawer extends StatelessWidget {
               icon: Icon(e.icon),
               label: Text(e.name));
         }),
+        const SizedBox(
+          height: 20.0,
+        )
       ],
     );
   }

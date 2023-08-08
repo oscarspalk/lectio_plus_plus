@@ -11,6 +11,7 @@ import 'package:lpp/topics/opgaver/bloc/opgaver_details_bloc.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
+import 'package:lpp/widgets/primitive/team_name.dart';
 
 import '../../state/loading.dart';
 
@@ -39,6 +40,12 @@ class OpgaveScreen extends StatelessWidget {
                   ListTile(
                     title: Text(assignment.title),
                     subtitle: const Text("Titel"),
+                  ),
+                  ListTile(
+                    title: TeamName(
+                      teamName: assignment.team.name,
+                    ),
+                    subtitle: const Text("Hold"),
                   ),
                   ine(assignment.note)
                       ? ListTile(
@@ -92,8 +99,7 @@ class OpgaveScreen extends StatelessWidget {
                   Navigator.push(
                       context,
                       adRoute(
-                          ModulLektieScreen(
-                              content: Content(e.name, href: e.href)),
+                          ModulLektieScreen(content: Link(e.name, e.href, [])),
                           onlyFromEdge: true));
                 },
               ))
@@ -128,8 +134,8 @@ class AssignmentEntryRow extends StatelessWidget {
             context,
             adRoute(
                 ModulLektieScreen(
-                    content: Content(entry.resource.name,
-                        href: entry.resource.href)),
+                    content:
+                        Link(entry.resource.name, entry.resource.href, [])),
                 onlyFromEdge: true));
       },
       title: Text(entry.resource.name),

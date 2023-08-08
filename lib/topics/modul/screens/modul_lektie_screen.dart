@@ -9,7 +9,7 @@ import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
 class ModulLektieScreen extends StatefulWidget {
-  final Content content;
+  final Link content;
   const ModulLektieScreen({super.key, required this.content});
 
   @override
@@ -26,7 +26,7 @@ class _ModulLektieScreenState extends State<ModulLektieScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: LppAppbar(
-          title: widget.content.content,
+          title: widget.content.text,
           hideMenu: true,
         ),
         body: StudentBlocBuilder<StudentCubit<List<Cookie>>, List<Cookie>?>(
@@ -34,7 +34,7 @@ class _ModulLektieScreenState extends State<ModulLektieScreen> {
                 (student) => student.getCookies())
               ..load(),
             builder: (context, state) {
-              return widget.content.href!.startsWith("https://")
+              return widget.content.href.startsWith("https://")
                   ? ResourceWebview(content: widget.content)
                   : LectioResourceView(
                       content: widget.content,

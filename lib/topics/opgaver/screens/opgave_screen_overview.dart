@@ -61,7 +61,7 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
                           .contains(element.status);
                 }).toList()
                   ..sort(
-                    (b, a) => a.deadline.compareTo(b.deadline),
+                    (a, b) => a.deadline.compareTo(b.deadline),
                   );
                 if (assignments.isEmpty) {
                   return const EmptyScreen();
