@@ -49,13 +49,17 @@ class ThemeController extends StatelessWidget {
                             color: color,
                           ))
                       .toList()),
-              FilledButton.icon(
-                  icon: Icon(!light ? EvaIcons.moon : EvaIcons.sun),
-                  onPressed: () {
-                    context.read<SettingsBloc>().add(SwitchedTheme(state.color,
-                        light ? Brightness.dark : Brightness.light));
-                  },
-                  label: Text("Skift til ${light ? "mørk" : "lys"}"))
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: FilledButton.icon(
+                    icon: Icon(!light ? EvaIcons.moon : EvaIcons.sun),
+                    onPressed: () {
+                      context.read<SettingsBloc>().add(SwitchedTheme(
+                          state.color,
+                          light ? Brightness.dark : Brightness.light));
+                    },
+                    label: Text("Skift til ${light ? "mørk" : "lys"}")),
+              )
             ],
           ),
         );
