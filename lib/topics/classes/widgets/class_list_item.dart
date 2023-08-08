@@ -27,6 +27,8 @@ class ClassListItem extends StatelessWidget {
               Text(
                 klasse.name,
                 style: headerStyle,
+                textAlign: TextAlign.end,
+                maxLines: 2,
               ),
               const Text("Stamklasse")
             ],
