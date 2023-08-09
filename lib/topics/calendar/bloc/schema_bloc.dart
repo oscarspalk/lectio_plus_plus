@@ -91,19 +91,14 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
     );
 
     on<RemovedAppointment>(
-      (event, emit) {
+      (event, emit) async {
         student.events.private.delete(event.event);
         int weekNum = weekFromDateTime(event.event.start);
         int availableWeeks =
             weeks.indexWhere((element) => element.weekNum == weekNum);
         if (availableWeeks != -1) {
-          weeks
-              .elementAt(availableWeeks)
-              .days
-              .firstWhere(
-                  (element) => element.date.day == event.event.start.day)
-              .events
-              .remove(event.event);
+          weeks.removeAt(availableWeeks);
+          await _getWeek(event.event.start.year, weekNum);
         }
         emit(SchemaState(state.selectedTime, weeks));
       },

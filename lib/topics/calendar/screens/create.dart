@@ -95,7 +95,9 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                               .add(AddedAppointment(event));
                         }
                         FocusScope.of(context).unfocus();
-                        Navigator.pop(context);
+                        for (var i = 0; i < (updating ? 2 : 1); i++) {
+                          Navigator.pop(context);
+                        }
                       }
                     : null,
                 child: Text(updating ? "Opdater" : "Opret"))

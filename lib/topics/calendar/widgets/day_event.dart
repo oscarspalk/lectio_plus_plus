@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_week_view/flutter_week_view.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
 import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/primitive/team_name.dart';
@@ -19,7 +20,8 @@ FlutterWeekViewEvent buildDayEvent(
         return dayEventWidget(width, dayEvent, context);
       },
       onTap: () {
-        Navigator.push(context, adRoute(ModulDetailsScreen(event: dayEvent)));
+        Navigator.push(context,
+            adRoute(ModulDetailsScreen(event: dayEvent), onlyFromEdge: true));
       },
       margin: const EdgeInsets.all(8.0),
       backgroundColor: canceled

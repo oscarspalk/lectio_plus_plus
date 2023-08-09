@@ -25,8 +25,10 @@ class ModulTile extends StatelessWidget {
           child: calendarEvent != null
               ? InkWell(
                   onTap: () {
-                    Navigator.push(context,
-                        adRoute(ModulDetailsScreen(event: calendarEvent!)));
+                    Navigator.push(
+                        context,
+                        adRoute(ModulDetailsScreen(event: calendarEvent!),
+                            onlyFromEdge: true));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
