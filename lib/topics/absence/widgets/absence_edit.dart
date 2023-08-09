@@ -58,7 +58,7 @@ class _EditAbsenceState extends State<EditAbsence> {
       padding: const EdgeInsets.all(24.0),
       child: Column(
         children: [
-          dayEventWidget(double.infinity, widget.cause.module, context),
+          dayEventWidget(double.infinity, widget.cause.module, context, 100.0),
           InputDecorator(
               decoration: const InputDecoration(label: Text("Årsag")),
               child: DropdownButtonHideUnderline(

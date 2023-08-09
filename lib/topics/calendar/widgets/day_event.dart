@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_week_view/flutter_week_view.dart';
+import 'package:intl/intl.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
 import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
@@ -31,6 +32,8 @@ Color textColorFromStatus(String status, BuildContext context) {
   }
 }
 
+final DateFormat hF = DateFormat("HH:mm");
+
 FlutterWeekViewEvent buildDayEvent(
     BuildContext context, CalendarEvent dayEvent) {
   var diff = dayEvent.end
@@ -40,14 +43,14 @@ FlutterWeekViewEvent buildDayEvent(
   return FlutterWeekViewEvent(
       padding: null,
       eventTextBuilder: (event, context, dayView, height, width) {
-        return dayEventWidget(width, dayEvent, context);
+        return dayEventWidget(width, dayEvent, context, height);
       },
       onTap: () {
         Navigator.push(context,
             adRoute(ModulDetailsScreen(event: dayEvent), onlyFromEdge: true));
       },
       margin: const EdgeInsets.all(8.0),
-      backgroundColor: colorFromStatus(dayEvent.status, context),
+      backgroundColor: Colors.transparent,
       title: '',
       description: dayEvent.teacher,
       start: dayEvent.start,
@@ -57,7 +60,7 @@ FlutterWeekViewEvent buildDayEvent(
 }
 
 Widget dayEventWidget(
-    double width, CalendarEvent dayEvent, BuildContext context) {
+    double width, CalendarEvent dayEvent, BuildContext context, double height) {
   var canceled = dayEvent.status == "Aflyst!";
   var textColor = textColorFromStatus(dayEvent.status, context);
   TextStyle style = TextStyle(
@@ -68,34 +71,47 @@ Widget dayEventWidget(
   );
   return Container(
     decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(6.0),
       color: colorFromStatus(dayEvent.status, context),
     ),
     width: width,
+    height: height,
     clipBehavior: Clip.hardEdge,
     alignment: Alignment.topLeft,
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: DefaultTextStyle(
         style: style,
-        child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ine(dayEvent.title)
-                  ? Text(dayEvent.title)
-                  : TeamName(teamName: dayEvent.team),
-              if (dayEvent.room.isNotEmpty)
-                Column(
-                  children: [
-                    Icon(
-                      EvaIcons.pinOutline,
-                      size: 18.0,
-                      color: textColor,
-                    ),
-                    Text(dayEvent.room)
-                  ],
+        child:
+            ListView(physics: const NeverScrollableScrollPhysics(), children: [
+          TeamName(
+            teamName: dayEvent.team,
+            builder: (name) {
+              return Text(
+                ine(dayEvent.title) ? dayEvent.title : name,
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              );
+            },
+          ),
+          if (dayEvent.room.isNotEmpty)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  EvaIcons.pinOutline,
+                  size: 14.0,
+                  color: textColor,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 2.0),
+                  child: Text(
+                    dayEvent.room,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 )
-            ]),
+              ],
+            )
+        ]),
       ),
     ),
   );

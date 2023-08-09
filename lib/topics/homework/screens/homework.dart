@@ -24,6 +24,7 @@ class HomeworkScreen extends StatelessWidget {
             return const EmptyScreen();
           }
           return ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
             itemCount: fakeHomework.length,
             itemBuilder: (context, index) {
               var homework = fakeHomework[index];
