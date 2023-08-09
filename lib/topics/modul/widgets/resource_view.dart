@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
@@ -35,6 +36,7 @@ class _LectioResourceViewState extends State<LectioResourceView> {
   ResultType resultType = ResultType.done;
   String url = "";
   bool loading = true;
+  double? progress;
   WebViewController webViewController = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted);
 
@@ -75,11 +77,24 @@ class _LectioResourceViewState extends State<LectioResourceView> {
       await webViewController
           .loadRequest(Uri.parse(url), headers: {"cookie": cookieString});
     } else {
-      var bytes = await student.getFile(url);
       var path =
           "${(await getTemporaryDirectory()).path}/${widget.content.text.substring(0, widget.content.text.indexOf('.'))}.$extension";
       File tempFile = File(path);
-      await tempFile.writeAsBytes(bytes);
+      bool exists = await tempFile.exists();
+      if (kDebugMode || !exists) {
+        var bytes = await student.getFile(
+          url,
+          onReceiveProgress: (send, total) {
+            if (total != null) {
+              setState(() {
+                progress = send / total;
+              });
+            }
+          },
+        );
+
+        await tempFile.writeAsBytes(bytes);
+      }
       var result = await OpenFilex.open(path);
       setState(() {
         loading = false;
@@ -91,7 +106,9 @@ class _LectioResourceViewState extends State<LectioResourceView> {
   @override
   Widget build(BuildContext context) {
     if (loading) {
-      return const LoadingScreen();
+      return LoadingScreen(
+        progress: progress,
+      );
     }
     if (Platform.isAndroid) {
       return FailReason(type: resultType);
