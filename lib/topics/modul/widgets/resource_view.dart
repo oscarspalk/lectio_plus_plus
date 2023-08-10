@@ -18,7 +18,9 @@ class ResourceWebview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WebViewWidget(
-        controller: WebViewController()..loadRequest(Uri.parse(content.href)));
+        controller: WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..loadRequest(Uri.parse(content.href)));
   }
 }
 
