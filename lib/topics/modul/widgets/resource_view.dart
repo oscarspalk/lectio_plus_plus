@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
@@ -9,6 +10,7 @@ import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/topics/state/success.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ResourceWebview extends StatelessWidget {
@@ -17,10 +19,20 @@ class ResourceWebview extends StatelessWidget {
   const ResourceWebview({super.key, required this.content});
   @override
   Widget build(BuildContext context) {
-    return WebViewWidget(
-        controller: WebViewController()
-          ..setJavaScriptMode(JavaScriptMode.unrestricted)
-          ..loadRequest(Uri.parse(content.href)));
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          if (await canLaunchUrlString(content.href)) {
+            await launchUrlString(content.href);
+          }
+        },
+        child: const Icon(EvaIcons.link2),
+      ),
+      body: WebViewWidget(
+          controller: WebViewController()
+            ..setJavaScriptMode(JavaScriptMode.unrestricted)
+            ..loadRequest(Uri.parse(content.href))),
+    );
   }
 }
 
