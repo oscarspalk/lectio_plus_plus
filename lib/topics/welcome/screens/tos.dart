@@ -41,9 +41,9 @@ class TermsOfService extends StatelessWidget {
                   FilledButton.tonal(
                       onPressed: () async {
                         Uri uri =
-                            Uri.parse("https://lpp.oscarspalk.com/privacy");
+                            Uri.parse("https://spalk.io/lectio++/privacy");
                         if (await canLaunchUrl(uri)) {
-                          launchUrl(uri);
+                          launchUrl(uri, mode: LaunchMode.externalApplication);
                         }
                       },
                       child: const Text("Privatlivserklæring")),

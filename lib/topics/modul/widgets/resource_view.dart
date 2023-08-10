@@ -23,7 +23,8 @@ class ResourceWebview extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           if (await canLaunchUrlString(content.href)) {
-            await launchUrlString(content.href);
+            await launchUrlString(content.href,
+                mode: LaunchMode.externalApplication);
           }
         },
         child: const Icon(EvaIcons.link2),

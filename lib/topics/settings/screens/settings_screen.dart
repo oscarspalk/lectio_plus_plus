@@ -70,7 +70,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onTap: () async {
                       var uri = Uri.parse("https://www.spalk.io/lectio++/help");
                       if (await canLaunchUrl(uri)) {
-                        await launchUrl(uri);
+                        await launchUrl(uri,
+                            mode: LaunchMode.externalApplication);
                       }
                     },
                     title: const Text("Hjælp"),
