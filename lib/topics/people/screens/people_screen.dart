@@ -24,8 +24,10 @@ class PeopleScreen extends StatelessWidget {
         ),
         body: BlocBuilder<PeopleBloc, PeopleState>(
           builder: (context, state) {
-            if (state.people.isEmpty) {
-              return const LoadingScreen();
+            if (state.progress != finalPeopleProgress) {
+              return LoadingScreen(
+                progress: state.progress / finalPeopleProgress,
+              );
             }
             return AlphabeticList(
               list:

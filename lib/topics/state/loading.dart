@@ -14,14 +14,9 @@ class LoadingScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (progress != null)
-                SizedBox(
-                    width: 200.0,
-                    child: LinearProgressIndicator(value: progress))
-              else
-                CircularProgressIndicator(
-                  value: progress,
-                ),
+              CircularProgressIndicator(
+                value: progress,
+              ),
               BlocBuilder<StudentBloc, StudentState>(
                 builder: (context, state) {
                   if (state.loadingState == LoadingStates.caching) {
