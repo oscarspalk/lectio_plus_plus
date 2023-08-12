@@ -52,7 +52,7 @@ FlutterWeekViewEvent buildDayEvent(
       margin: const EdgeInsets.all(8.0),
       backgroundColor: Colors.transparent,
       title: '',
-      description: dayEvent.teacher,
+      description: "",
       start: dayEvent.start,
       end: diff.isNegative
           ? dayEvent.start.add(const Duration(minutes: 50))

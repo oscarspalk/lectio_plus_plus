@@ -9,6 +9,7 @@ import 'package:lpp/topics/calendar/screens/create.dart';
 import 'package:lpp/topics/modul/bloc/event_details_bloc.dart';
 import 'package:lpp/topics/modul/widgets/information_details.dart';
 import 'package:lpp/topics/modul/widgets/module_homework_display.dart';
+import 'package:lpp/topics/modul/widgets/participant_list.dart';
 import 'package:lpp/topics/modul/widgets/test_participants.dart';
 import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/utils/ad_route.dart';
@@ -35,11 +36,22 @@ class _ModulDetailsScreenState extends State<ModulDetailsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
   late Widget? specificWidget;
-
+  List<String> tabs = ["Information"];
   @override
   void initState() {
     super.initState();
-    int length = widget.event.type == CalendarEventType.private ? 1 : 2;
+    int length = 2;
+    if (widget.event.type == CalendarEventType.private) {
+      length--;
+    } else {
+      tabs.add(
+          widget.event.type == CalendarEventType.regular ? "Lektier" : "Tider");
+    }
+    if (widget.event.teamObjs.isNotEmpty ||
+        widget.event.teacherObjs.isNotEmpty) {
+      length++;
+      tabs.add("Deltagere");
+    }
     _controller = TabController(
         length: length, vsync: this, initialIndex: widget.homework ? 1 : 0);
   }
@@ -56,14 +68,8 @@ class _ModulDetailsScreenState extends State<ModulDetailsScreen>
                     ? null
                     : LppTabBar(
                         controller: _controller,
-                        tabs: _controller.length == 1
-                            ? const ["Information"]
-                            : [
-                                "Information",
-                                widget.event.type == CalendarEventType.regular
-                                    ? "Lektier"
-                                    : "Tider"
-                              ]),
+                        tabs: tabs,
+                      ),
                 hideMenu: true,
                 title: "",
                 titleWidget: widget.event.team.isNotEmpty
@@ -96,6 +102,7 @@ class _ModulDetailsScreenState extends State<ModulDetailsScreen>
                       children: [
                         InformationDetails(event: widget.event, state: state),
                         getSpecificScreen(context, state),
+                        getMembers(context)
                       ].whereType<Widget>().toList())
                   : const LoadingScreen());
         });
@@ -115,6 +122,15 @@ class _ModulDetailsScreenState extends State<ModulDetailsScreen>
       case CalendarEventType.private:
         return null;
     }
+  }
+
+  Widget? getMembers(BuildContext context) {
+    if (widget.event.teamObjs.isNotEmpty ||
+        widget.event.teacherObjs.isNotEmpty) {
+      return ParticipantList(
+          teachers: widget.event.teacherObjs, teams: widget.event.teamObjs);
+    }
+    return null;
   }
 
   @override

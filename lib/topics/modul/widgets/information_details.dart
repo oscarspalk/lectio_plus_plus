@@ -46,9 +46,11 @@ class InformationDetails extends StatelessWidget {
                 subtitle: const Text("Hold"),
               )
             : Container(),
-        ine(event.teacher)
+        event.teachers.isNotEmpty
             ? ListTile(
-                title: Text(event.teacher),
+                title: Text(event.teachers.length == 1
+                    ? event.teachers.first
+                    : event.teachers.map((e) => e.trim()).join(", ")),
                 subtitle: const Text("Lærer"),
               )
             : Container(),

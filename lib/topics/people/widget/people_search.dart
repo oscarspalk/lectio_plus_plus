@@ -31,7 +31,9 @@ class SearchPeople extends SearchDelegate<Student> {
           return const LoadingScreen();
         }
         var matching = state.people
-            .where((element) => search(query, element.name))
+            .where((element) =>
+                search(query, element.name) ||
+                search(query, element.info ?? ""))
             .toList();
         if (matching.isEmpty) {
           return const EmptyScreen();

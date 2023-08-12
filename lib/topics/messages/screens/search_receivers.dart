@@ -34,7 +34,9 @@ class SearchReceivers extends SearchDelegate<MetaDataEntry> {
         ];
 
         List<MetaDataEntry> matching = concatenated
-            .where((element) => search(query, element.name))
+            .where((element) =>
+                search(query, element.name) ||
+                search(query, element.classOrInitials ?? ""))
             .toList();
         return ListView.builder(
           itemCount: matching.length,
