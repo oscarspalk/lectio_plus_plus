@@ -58,7 +58,7 @@ class _ModulDetailsScreenState extends State<ModulDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EventDetailsBloc, ce.CalendarEventDetails?>(
+    return BlocBuilder<EventDetailsBloc, EventDetailsState>(
         bloc: EventDetailsBloc(
             getStudentBloc(context).state.student!, widget.event),
         builder: (context, state) {
@@ -96,12 +96,15 @@ class _ModulDetailsScreenState extends State<ModulDetailsScreen>
                       ]
                     : [Container()],
               ),
-              body: state != null
+              body: state.details != null
                   ? TabBarView(
                       controller: _controller,
                       children: [
-                        InformationDetails(event: widget.event, state: state),
-                        getSpecificScreen(context, state),
+                        InformationDetails(
+                            teachers: state.teachers,
+                            event: widget.event,
+                            state: state.details!),
+                        getSpecificScreen(context, state.details!),
                         getMembers(context)
                       ].whereType<Widget>().toList())
                   : const LoadingScreen());

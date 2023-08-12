@@ -1,17 +1,23 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
 import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
+import 'package:lpp/topics/people/widget/person_tile.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
 import 'package:lpp/widgets/primitive/statement.dart';
 import 'package:lpp/widgets/primitive/team_name.dart';
 
 class InformationDetails extends StatelessWidget {
   const InformationDetails(
-      {super.key, required this.event, required this.state});
+      {super.key,
+      required this.event,
+      required this.state,
+      required this.teachers});
   final CalendarEvent event;
   final CalendarEventDetails state;
+  final List<Student>? teachers;
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -46,19 +52,28 @@ class InformationDetails extends StatelessWidget {
                 subtitle: const Text("Hold"),
               )
             : Container(),
-        event.teachers.isNotEmpty
+        event.teachers.isNotEmpty && (teachers == null || teachers!.isEmpty)
             ? ListTile(
                 title: Text(event.teachers.length == 1
                     ? event.teachers.first
                     : event.teachers.map((e) => e.trim()).join(", ")),
-                subtitle: const Text("Lærer"),
+                subtitle: Text(event.teachers.length > 1 ? "Lærere" : "Lærer"),
               )
             : Container(),
         ListTile(
           title: Text(event.status),
           subtitle: const Text("Status"),
         ),
-        ...getSpecific(context, state)
+        ...getSpecific(context, state),
+        ...(teachers != null && teachers!.isNotEmpty
+            ? [
+                TextDivider(
+                  text: teachers!.length > 1 ? "Lærere" : "Lærer",
+                  primary: true,
+                ),
+                ...teachers!.map((teacher) => PersonTile(person: teacher))
+              ]
+            : [Container()]),
       ],
     );
   }
