@@ -4,13 +4,12 @@ import 'package:flutter_week_view/flutter_week_view.dart' as wv;
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
 import 'package:lectio_wrapper/utils/dating.dart';
 import 'package:lpp/topics/calendar/widgets/day_event.dart';
-import 'package:lpp/topics/calendar/widgets/modul_box.dart';
 import 'package:lpp/topics/state/empty.dart';
 import '../bloc/schema_bloc.dart';
 import '../../state/loading.dart';
 
-const double columnWidth = 45.0;
-const double hourRowHeight = 70.0;
+const double columnWidth = 55.0;
+const double hourRowHeight = 85.0;
 
 class DayView extends StatelessWidget {
   final DateTime daySelected;
@@ -56,25 +55,12 @@ class DayView extends StatelessWidget {
             child: wv.DayView(
               style: wv.DayViewStyle(
                 hourRowHeight: hourRowHeight,
-                backgroundRulesColor: Colors
-                    .transparent, // Theme.of(context).colorScheme.outline,
+                backgroundRulesColor: Theme.of(context).colorScheme.outline,
                 backgroundColor: colorScheme.background,
                 headerSize: 0.0,
               ),
               userZoomable: false,
               date: day.date,
-              hoursColumnTimeBuilder: (dayViewStyle, time) {
-                var week = availableWeeks[0];
-                var rangeIndex = week.modulRanges.indexWhere((element) {
-                  var start = element.start;
-                  return start.minute == time.minute && start.hour == time.hour;
-                });
-                if (rangeIndex != -1) {
-                  var modulRange = week.modulRanges[rangeIndex];
-                  return ModulRangeBox(modulRange: modulRange);
-                }
-                return null;
-              },
               hoursColumnStyle: wv.HoursColumnStyle(
                   textStyle: TextStyle(color: colorScheme.onBackground),
                   color: colorScheme.background,
@@ -82,7 +68,7 @@ class DayView extends StatelessWidget {
                   timeFormatter: (time) {
                     return "${time.hour}:${time.minute > 9 ? time.minute : "${time.minute}0"}";
                   },
-                  interval: const Duration(minutes: 1)),
+                  interval: const Duration(minutes: 30)),
               minimumTime: firstEventStart != null && firstEventStart.hour < 8
                   ? wv.HourMinute(
                       hour: firstEventStart.hour - 1,

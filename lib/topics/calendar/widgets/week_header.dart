@@ -23,6 +23,7 @@ class _WeekHeaderState extends State<WeekHeader> {
   late PageController _controller;
   late int _startWeek;
   late DateTime _startTime;
+  late int _startYear;
   late DateTime _startMonday;
   late SchemaBloc bloc;
   int _selected = 0;
@@ -32,11 +33,27 @@ class _WeekHeaderState extends State<WeekHeader> {
     bloc = (widget.bloc ?? context.read<SchemaBloc>());
     _startIndex = (itemCount / 2).floor();
     _controller = PageController(initialPage: _startIndex);
-    _startTime = bloc.state.selectedTime.copyWith(hour: 0, minute: 0);
+    _startTime = bloc.state.selectedTime.copyWith(
+        hour: 0, minute: 0, microsecond: 0, millisecond: 0, second: 0);
     var diffFromMon = _startTime.weekday - 1;
     _startMonday = _startTime.subtract(Duration(days: diffFromMon));
     _startWeek = weekFromDateTime(_startMonday);
     _selected = _startIndex;
+    _startYear = _startTime.year;
+  }
+
+  void jumpToYearAndWeek(DateTime time) {
+    int newWeek = weekFromDateTime(time.copyWith(
+        hour: 0, minute: 0, microsecond: 0, millisecond: 0, second: 0));
+    var difference = newWeek - _startWeek;
+    int pageIndex = (_startIndex + difference);
+
+    if ((pageIndex - _selected).abs() > 1) {
+      _controller.jumpToPage(pageIndex);
+    } else {
+      _controller.animateToPage(pageIndex,
+          duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
+    }
   }
 
   @override
@@ -46,16 +63,7 @@ class _WeekHeaderState extends State<WeekHeader> {
       child: BlocConsumer<SchemaBloc, SchemaState?>(
           listener: (context, state) {
             if (state != null && state.mode == SwitchMode.slider) {
-              int newWeek = weekFromDateTime(
-                  state.selectedTime.copyWith(hour: 0, minute: 0));
-              int difference = newWeek - _startWeek;
-              if ((_startIndex + difference - _selected).abs() > 1) {
-                _controller.jumpToPage(_startIndex + difference);
-              } else {
-                _controller.animateToPage(_startIndex + difference,
-                    duration: const Duration(milliseconds: 250),
-                    curve: Curves.easeInOut);
-              }
+              jumpToYearAndWeek(state.selectedTime);
             }
           },
           bloc: widget.bloc,
@@ -69,9 +77,20 @@ class _WeekHeaderState extends State<WeekHeader> {
                 itemCount: itemCount,
                 itemBuilder: (context, index) {
                   var weekNum = _startWeek + (index - _startIndex);
+
                   var weekDiff = weekNum - _startWeek;
-                  var thisWeeksMonday =
-                      _startMonday.add(Duration(days: 7 * weekDiff));
+                  debugPrint(weekDiff.toString());
+                  DateTime thisWeeksMonday = _startMonday.copyWith(
+                      hour: 0,
+                      minute: 0,
+                      microsecond: 0,
+                      millisecond: 0,
+                      second: 0);
+                  for (int i = 0; i < weekDiff; i++) {
+                    thisWeeksMonday =
+                        thisWeeksMonday.add(const Duration(days: 7));
+                  }
+                  //debugPrint(weekNum.toString());
                   List<DateTime> days = [
                     for (var i = 0; i < 7; i++)
                       thisWeeksMonday.add(Duration(days: i))

@@ -12,6 +12,7 @@ class PlanTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      tileColor: Theme.of(context).colorScheme.background,
       onTap: () {
         Navigator.push(
             context,

@@ -45,7 +45,7 @@ FlutterWeekViewEvent buildDayEvent(
       eventTextBuilder: (event, context, dayView, height, width) {
         return dayEventWidget(width, dayEvent, context, height);
       },
-      margin: const EdgeInsets.all(8.0).copyWith(top: 0),
+      margin: const EdgeInsets.all(8.0).copyWith(top: 0, bottom: 0),
       backgroundColor: Colors.transparent,
       title: '',
       description: "",
