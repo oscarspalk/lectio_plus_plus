@@ -4,7 +4,6 @@ import 'package:lectio_wrapper/types/class.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
 import 'package:lectio_wrapper/types/grades/note.dart';
 import 'package:lectio_wrapper/types/homework/homework.dart';
-import 'package:lpp/topics/calendar/bloc/experimental_schema_bloc.dart';
 import 'package:lpp/topics/homework/bloc/homework_bloc.dart';
 import 'package:lpp/topics/messages/bloc/message_bloc.dart';
 import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
@@ -88,7 +87,6 @@ class LectioProvider extends StatelessWidget {
           create: (_) =>
               StudentCubit(student, (student) => student.getBasicInfo())),
       BlocProvider(create: (_) => PeopleBloc(student)..load()),
-      BlocProvider(create: (_) => ExperimentalSchemaBloc(student))
     ], child: child);
   }
 }

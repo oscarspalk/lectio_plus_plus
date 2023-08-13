@@ -49,7 +49,7 @@ FlutterWeekViewEvent buildDayEvent(
         Navigator.push(context,
             adRoute(ModulDetailsScreen(event: dayEvent), onlyFromEdge: true));
       },
-      margin: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0).copyWith(top: 0),
       backgroundColor: Colors.transparent,
       title: '',
       description: "",
@@ -93,6 +93,7 @@ Widget dayEventWidget(
               );
             },
           ),
+          Text("${hF.format(dayEvent.start)}-${hF.format(dayEvent.end)}"),
           if (dayEvent.room.isNotEmpty)
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,

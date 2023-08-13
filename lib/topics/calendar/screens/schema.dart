@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/topics/calendar/screens/create.dart';
+import 'package:lpp/topics/calendar/widgets/week_header.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 
@@ -54,54 +55,57 @@ class _SchemaScreenState extends State<SchemaScreen> {
       bloc: widget.bloc,
       builder: (context, state) {
         return Scaffold(
-            appBar: LppAppbar(
-              title: "",
-              titleWidget: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Uge ${weekFromDateTime(state!.selectedTime)}",
-                  ),
-                  Text(
-                    " - ${widget.name != null ? "${widget.name} " : ""}${months[state.selectedTime.month - 1]} ${state.selectedTime.year.toString()}",
-                    style: const TextStyle(fontWeight: FontWeight.normal),
-                    overflow: TextOverflow.ellipsis,
-                  )
-                ],
-              ),
-            ),
-            floatingActionButton:
-                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              FloatingActionButton(
-                tooltip: "Vælg dato",
-                onPressed: showPicker,
-                child: const Icon(EvaIcons.calendar),
-              ),
-              if (widget.bloc == null)
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: FloatingActionButton(
-                      heroTag: 2,
-                      onPressed: () {
-                        adSheet(const CreateAppointmentScreen(), context);
-                      },
-                      child: const Icon(EvaIcons.plus)),
+          appBar: LppAppbar(
+            title: "",
+            titleWidget: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Uge ${weekFromDateTime(state!.selectedTime)}",
                 ),
-            ]),
-            body: PageView.builder(
-                controller: _pageController,
-                scrollDirection: Axis.horizontal,
-                onPageChanged: (value) {
-                  (widget.bloc ?? context.read<SchemaBloc>()).add(SwitchedDate(
-                      start.add(Duration(days: value - startIndex))));
-                },
-                itemBuilder: (context, index) {
-                  return DayView(
-                      bloc: widget.bloc,
-                      daySelected:
-                          start.add(Duration(days: index - startIndex)));
-                }));
+                Text(
+                  " - ${widget.name != null ? "${widget.name} " : ""}${months[state.selectedTime.month - 1]} ${state.selectedTime.year.toString()}",
+                  style: const TextStyle(fontWeight: FontWeight.normal),
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
+            bottom: WeekHeader(
+              bloc: widget.bloc,
+            ),
+          ),
+          floatingActionButton:
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            FloatingActionButton(
+              tooltip: "Vælg dato",
+              onPressed: showPicker,
+              child: const Icon(EvaIcons.calendar),
+            ),
+            if (widget.bloc == null)
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: FloatingActionButton(
+                    heroTag: 2,
+                    onPressed: () {
+                      adSheet(const CreateAppointmentScreen(), context);
+                    },
+                    child: const Icon(EvaIcons.plus)),
+              ),
+          ]),
+          body: PageView.builder(
+              controller: _pageController,
+              scrollDirection: Axis.horizontal,
+              onPageChanged: (value) {
+                (widget.bloc ?? context.read<SchemaBloc>()).add(SwitchedDate(
+                    start.add(Duration(days: value - startIndex))));
+              },
+              itemBuilder: (context, index) {
+                return DayView(
+                    bloc: widget.bloc,
+                    daySelected: start.add(Duration(days: index - startIndex)));
+              }),
+        );
       },
     );
   }
