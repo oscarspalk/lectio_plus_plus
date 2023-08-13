@@ -23,7 +23,6 @@ class _WeekHeaderState extends State<WeekHeader> {
   late PageController _controller;
   late int _startWeek;
   late DateTime _startTime;
-  late int _startYear;
   late DateTime _startMonday;
   late SchemaBloc bloc;
   int _selected = 0;
@@ -33,18 +32,15 @@ class _WeekHeaderState extends State<WeekHeader> {
     bloc = (widget.bloc ?? context.read<SchemaBloc>());
     _startIndex = (itemCount / 2).floor();
     _controller = PageController(initialPage: _startIndex);
-    _startTime = bloc.state.selectedTime.copyWith(
-        hour: 0, minute: 0, microsecond: 0, millisecond: 0, second: 0);
+    _startTime = bloc.state.selectedTime;
     var diffFromMon = _startTime.weekday - 1;
     _startMonday = _startTime.subtract(Duration(days: diffFromMon));
     _startWeek = weekFromDateTime(_startMonday);
     _selected = _startIndex;
-    _startYear = _startTime.year;
   }
 
   void jumpToYearAndWeek(DateTime time) {
-    int newWeek = weekFromDateTime(time.copyWith(
-        hour: 0, minute: 0, microsecond: 0, millisecond: 0, second: 0));
+    int newWeek = weekFromDateTime(time);
     var difference = newWeek - _startWeek;
     int pageIndex = (_startIndex + difference);
 
@@ -77,20 +73,11 @@ class _WeekHeaderState extends State<WeekHeader> {
                 itemCount: itemCount,
                 itemBuilder: (context, index) {
                   var weekNum = _startWeek + (index - _startIndex);
-
+                  debugPrint("$weekNum");
                   var weekDiff = weekNum - _startWeek;
-                  debugPrint(weekDiff.toString());
-                  DateTime thisWeeksMonday = _startMonday.copyWith(
-                      hour: 0,
-                      minute: 0,
-                      microsecond: 0,
-                      millisecond: 0,
-                      second: 0);
-                  for (int i = 0; i < weekDiff; i++) {
-                    thisWeeksMonday =
-                        thisWeeksMonday.add(const Duration(days: 7));
-                  }
-                  //debugPrint(weekNum.toString());
+                  DateTime thisWeeksMonday =
+                      _startMonday.add(Duration(days: weekDiff * 7));
+
                   List<DateTime> days = [
                     for (var i = 0; i < 7; i++)
                       thisWeeksMonday.add(Duration(days: i))
