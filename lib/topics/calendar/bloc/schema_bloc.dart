@@ -1,15 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/rooms/room.dart';
+import 'package:lectio_wrapper/utils/dating.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
-
-import '../../../utils/helpers.dart';
 
 sealed class SchemaEvent {}
 
 final class SwitchedDate extends SchemaEvent {
   final DateTime time;
   SwitchedDate(this.time);
+}
+
+final class SliderSwitchedDate extends SchemaEvent {
+  final DateTime time;
+  SliderSwitchedDate(this.time);
 }
 
 final class AppointmentEvent extends SchemaEvent {
@@ -48,21 +52,33 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
     }
   }
 
-  SchemaBloc(this.student, this.studentBloc, {this.room})
-      : super(SchemaState(DateTime.now(), [])) {
-    on<SwitchedDate>((event, emit) async {
-      var weekNum = weekFromDateTime(event.time);
-      List<Week> availableWeeks =
-          weeks.where((element) => element.weekNum == weekNum).toList();
-      List<Week> weekCopy = state.weeks;
-      if (availableWeeks.isEmpty) {
-        var week = await _getWeek(event.time.year, weekNum);
-        if (week != null) {
-          weekCopy.add(week);
-        }
+  Future<List<Week>> switchTime(DateTime time) async {
+    var weekNum = weekFromDateTime(time);
+    List<Week> availableWeeks =
+        weeks.where((element) => element.weekNum == weekNum).toList();
+    List<Week> weekCopy = state.weeks;
+    if (availableWeeks.isEmpty) {
+      var week = await _getWeek(time.year, weekNum);
+      if (week != null) {
+        weekCopy.add(week);
       }
-      emit(SchemaState(event.time, weekCopy));
+    }
+    return weekCopy;
+  }
+
+  SchemaBloc(this.student, this.studentBloc, {this.room})
+      : super(SchemaState(DateTime.now(), [], SwitchMode.picker)) {
+    on<SwitchedDate>((event, emit) async {
+      var weekCopy = await switchTime(event.time);
+      emit(SchemaState(event.time, weekCopy, SwitchMode.selector));
     });
+
+    on<SliderSwitchedDate>(
+      (event, emit) async {
+        var weekCopy = await switchTime(event.time);
+        emit(SchemaState(event.time, weekCopy, SwitchMode.slider));
+      },
+    );
 
     on<AddedAppointment>((event, emit) async {
       await student.events.private.create(event.event);
@@ -73,7 +89,7 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
         weeks.removeAt(availableWeeks);
         await _getWeek(event.event.start.year, weekNum);
       }
-      emit(SchemaState(state.selectedTime, weeks));
+      emit(SchemaState(state.selectedTime, weeks, SwitchMode.picker));
     });
 
     on<UpdatedAppointment>(
@@ -86,7 +102,7 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
           weeks.removeAt(availableWeeks);
           await _getWeek(event.event.start.year, weekNum);
         }
-        emit(SchemaState(state.selectedTime, weeks));
+        emit(SchemaState(state.selectedTime, weeks, SwitchMode.picker));
       },
     );
 
@@ -100,14 +116,17 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
           weeks.removeAt(availableWeeks);
           await _getWeek(event.event.start.year, weekNum);
         }
-        emit(SchemaState(state.selectedTime, weeks));
+        emit(SchemaState(state.selectedTime, weeks, SwitchMode.picker));
       },
     );
   }
 }
 
+enum SwitchMode { slider, picker, selector }
+
 class SchemaState {
   final DateTime selectedTime;
+  SwitchMode mode;
   final List<Week> weeks;
-  SchemaState(this.selectedTime, this.weeks);
+  SchemaState(this.selectedTime, this.weeks, this.mode);
 }

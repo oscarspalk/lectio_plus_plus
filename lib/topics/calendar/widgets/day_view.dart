@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_week_view/flutter_week_view.dart' as wv;
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
+import 'package:lectio_wrapper/utils/dating.dart';
 import 'package:lpp/topics/calendar/widgets/day_event.dart';
 import 'package:lpp/topics/calendar/widgets/modul_box.dart';
+import 'package:lpp/topics/state/empty.dart';
 import '../bloc/schema_bloc.dart';
-import '../../../utils/helpers.dart';
 import '../../state/loading.dart';
 
 const double columnWidth = 45.0;
@@ -37,9 +38,16 @@ class DayView extends StatelessWidget {
         } else {
           day = availableDays[0];
         }
+        if (day.events.isEmpty) {
+          return const EmptyScreen(
+            noEvents: true,
+            text: "Der sker ingenting i dag",
+          );
+        }
 
         var firstEventStart =
             day.events.isNotEmpty ? day.events.first.start : null;
+        var lastEventEnd = day.events.isNotEmpty ? day.events.last.end : null;
         var colorScheme = Theme.of(context).colorScheme;
         return Scaffold(
           body: SizedBox(
@@ -80,6 +88,9 @@ class DayView extends StatelessWidget {
                       hour: firstEventStart.hour - 1,
                       minute: firstEventStart.minute)
                   : const wv.HourMinute(hour: 7, minute: 30),
+              maximumTime: lastEventEnd != null
+                  ? wv.HourMinute(hour: lastEventEnd.hour + 1, minute: 30)
+                  : wv.HourMinute.max,
               events: day.events.map((dayEvent) {
                 return buildDayEvent(context, dayEvent);
               }).toList(),

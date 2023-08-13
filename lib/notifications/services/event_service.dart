@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
+import 'package:lectio_wrapper/utils/dating.dart';
 import 'package:lpp/logic/app/settings.dart';
 import 'package:lpp/notifications/service.dart';
-import 'package:lpp/utils/helpers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const eventsKey = "events";

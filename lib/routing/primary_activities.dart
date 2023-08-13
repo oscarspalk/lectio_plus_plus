@@ -58,8 +58,8 @@ class _PrimaryActivitiesState extends State<PrimaryActivities> {
       return;
     }
     _controller.animateToPage(n,
-        duration: Duration(milliseconds: (_selectedScreen - n).abs() * 150),
-        curve: Curves.easeInOutCirc);
+        duration: Duration(milliseconds: (_selectedScreen - n).abs() * 250),
+        curve: Curves.easeInOut);
     setState(() {
       _selectedScreen = n;
     });

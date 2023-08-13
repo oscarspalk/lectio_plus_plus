@@ -45,10 +45,6 @@ FlutterWeekViewEvent buildDayEvent(
       eventTextBuilder: (event, context, dayView, height, width) {
         return dayEventWidget(width, dayEvent, context, height);
       },
-      onTap: () {
-        Navigator.push(context,
-            adRoute(ModulDetailsScreen(event: dayEvent), onlyFromEdge: true));
-      },
       margin: const EdgeInsets.all(8.0).copyWith(top: 0),
       backgroundColor: Colors.transparent,
       title: '',
@@ -76,43 +72,48 @@ Widget dayEventWidget(
     ),
     width: width,
     height: height,
-    clipBehavior: Clip.hardEdge,
-    alignment: Alignment.topLeft,
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: DefaultTextStyle(
-        style: style,
-        child:
-            ListView(physics: const NeverScrollableScrollPhysics(), children: [
-          TeamName(
-            teamName: dayEvent.team,
-            builder: (name) {
-              return Text(
-                ine(dayEvent.title) ? dayEvent.title : name,
-                style: const TextStyle(fontWeight: FontWeight.w500),
-              );
-            },
-          ),
-          Text("${hF.format(dayEvent.start)}-${hF.format(dayEvent.end)}"),
-          if (dayEvent.room.isNotEmpty)
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+    child: InkWell(
+      onTap: () {
+        Navigator.push(context,
+            adRoute(ModulDetailsScreen(event: dayEvent), onlyFromEdge: true));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DefaultTextStyle(
+          style: style,
+          child: ListView(
+              physics: const NeverScrollableScrollPhysics(),
               children: [
-                Icon(
-                  EvaIcons.pinOutline,
-                  size: 14.0,
-                  color: textColor,
+                TeamName(
+                  teamName: dayEvent.team,
+                  builder: (name) {
+                    return Text(
+                      ine(dayEvent.title) ? dayEvent.title : name,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    );
+                  },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 2.0),
-                  child: Text(
-                    dayEvent.room,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )
-              ],
-            )
-        ]),
+                Text("${hF.format(dayEvent.start)}-${hF.format(dayEvent.end)}"),
+                if (dayEvent.room.isNotEmpty)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        EvaIcons.pinOutline,
+                        size: 14.0,
+                        color: textColor,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 2.0),
+                        child: Text(
+                          dayEvent.room,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      )
+                    ],
+                  )
+              ]),
+        ),
       ),
     ),
   );

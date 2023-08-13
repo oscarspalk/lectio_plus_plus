@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
+import 'package:lectio_wrapper/utils/dating.dart';
 import 'package:lpp/topics/opgaver/widgets/opgave_list_item.dart';
-import 'package:lpp/utils/helpers.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
 
 class OpgaveList extends StatelessWidget {
