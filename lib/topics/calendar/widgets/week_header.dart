@@ -5,7 +5,7 @@ import 'package:lpp/topics/calendar/widgets/day_header_entry.dart';
 import 'package:lpp/topics/state/loading.dart';
 
 const itemCount = 100;
-const headerHeight = 70.0;
+const headerHeight = 65.0;
 
 class WeekHeader extends StatefulWidget implements PreferredSizeWidget {
   const WeekHeader({super.key, required this.bloc});

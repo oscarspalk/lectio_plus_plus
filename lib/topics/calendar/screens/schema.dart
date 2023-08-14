@@ -1,8 +1,10 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:lectio_wrapper/utils/dating.dart';
 import 'package:lpp/topics/calendar/screens/create.dart';
+import 'package:lpp/topics/calendar/widgets/information_dialog.dart';
 import 'package:lpp/topics/calendar/widgets/week_header.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
@@ -24,6 +26,7 @@ class SchemaScreen extends StatefulWidget {
 const int startIndex = 700;
 
 class _SchemaScreenState extends State<SchemaScreen> {
+  final GlobalKey<ExpandableFabState> _fabKey = GlobalKey();
   late DateTime start =
       (widget.bloc ?? context.read<SchemaBloc>()).state.selectedTime;
   late PageController _pageController;
@@ -60,6 +63,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var today = DateTime.now();
     var colorScheme = Theme.of(context).colorScheme;
     return BlocConsumer<SchemaBloc, SchemaState?>(
       listener: (context, state) {
@@ -69,15 +73,41 @@ class _SchemaScreenState extends State<SchemaScreen> {
       },
       bloc: widget.bloc,
       builder: (context, state) {
+        int? weekNum =
+            state != null ? weekFromDateTime(state.selectedTime) : null;
+        var matchingWeek = state!.weeks[state.selectedTime.year]
+            ?.indexWhere((week) => week.weekNum == weekNum);
+        var matchingDay = matchingWeek != null && matchingWeek != -1
+            ? state.weeks[state.selectedTime.year]
+                ?.elementAt(matchingWeek)
+                .days
+                .where((day) => day.date.day == state.selectedTime.day)
+                .firstOrNull
+            : null;
         return Scaffold(
           appBar: LppAppbar(
             title: "",
+            actions: [
+              if (matchingDay != null && matchingDay.informations.isNotEmpty)
+                IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return InformationsDialog(
+                            informations: matchingDay.informations,
+                          );
+                        },
+                      );
+                    },
+                    icon: const Icon(Icons.bookmark_outline))
+            ],
             titleWidget: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Uge ${weekFromDateTime(state!.selectedTime.copyWith(hour: 0, minute: 0))}",
+                  "Uge ${weekFromDateTime(state.selectedTime.copyWith(hour: 0, minute: 0))}",
                 ),
                 Text(
                   " - ${widget.name != null ? "${widget.name} " : ""}${months[state.selectedTime.month - 1]} ${state.selectedTime.year.toString()}",
@@ -90,28 +120,58 @@ class _SchemaScreenState extends State<SchemaScreen> {
               bloc: widget.bloc,
             ),
           ),
-          floatingActionButton:
-              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            FloatingActionButton(
-              foregroundColor: colorScheme.onPrimary,
-              backgroundColor: colorScheme.primary,
-              tooltip: "Vælg dato",
-              onPressed: showPicker,
-              child: const Icon(EvaIcons.calendar),
-            ),
-            if (widget.bloc == null)
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: FloatingActionButton(
-                    foregroundColor: colorScheme.onPrimary,
-                    backgroundColor: colorScheme.primary,
-                    heroTag: 2,
-                    onPressed: () {
-                      adSheet(const CreateAppointmentScreen(), context);
-                    },
-                    child: const Icon(EvaIcons.plus)),
-              ),
-          ]),
+          floatingActionButtonLocation: ExpandableFab.location,
+          floatingActionButton: ExpandableFab(
+              key: _fabKey,
+              distance: 90.0,
+              openButtonBuilder: DefaultFloatingActionButtonBuilder(
+                  foregroundColor: colorScheme.onPrimary,
+                  backgroundColor: colorScheme.primary,
+                  child: const Icon(EvaIcons.moreVertical)),
+              closeButtonBuilder: DefaultFloatingActionButtonBuilder(
+                  foregroundColor: colorScheme.onPrimary,
+                  backgroundColor: colorScheme.primary,
+                  child: const Icon(EvaIcons.close)),
+              children: [
+                FloatingActionButton(
+                  onPressed: state.selectedTime.day == today.day &&
+                          state.selectedTime.month == today.month &&
+                          state.selectedTime.year == today.year
+                      ? null
+                      : () {
+                          (widget.bloc ?? context.read<SchemaBloc>())
+                              .add(SwitchedDate(today));
+                          _fabKey.currentState?.toggle();
+                        },
+                  foregroundColor: colorScheme.onPrimary,
+                  backgroundColor: colorScheme.primary,
+                  child: const Icon(Icons.today),
+                ),
+                FloatingActionButton(
+                  heroTag: 3,
+                  foregroundColor: colorScheme.onPrimary,
+                  backgroundColor: colorScheme.primary,
+                  child: const Icon(Icons.date_range),
+                  onPressed: () async {
+                    await showPicker();
+                    _fabKey.currentState?.toggle();
+                  },
+                ),
+                if (widget.bloc == null)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12.0),
+                    child: FloatingActionButton(
+                        foregroundColor: colorScheme.onPrimary,
+                        backgroundColor: colorScheme.primary,
+                        heroTag: 2,
+                        onPressed: () {
+                          _fabKey.currentState?.toggle();
+
+                          adSheet(const CreateAppointmentScreen(), context);
+                        },
+                        child: const Icon(EvaIcons.plus)),
+                  ),
+              ]),
           body: PageView.builder(
               controller: _pageController,
               scrollDirection: Axis.horizontal,

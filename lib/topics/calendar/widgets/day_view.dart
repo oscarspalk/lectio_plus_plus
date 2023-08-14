@@ -11,6 +11,20 @@ import '../../state/loading.dart';
 const double columnWidth = 55.0;
 const double hourRowHeight = 85.0;
 
+CalendarEvent? maxOrMin(List<CalendarEvent> events,
+    bool Function(CalendarEvent a, CalendarEvent b) compare) {
+  if (events.isEmpty) {
+    return null;
+  }
+  var current = events.elementAt(0);
+  for (var event in events) {
+    if (compare(event, current)) {
+      current = event;
+    }
+  }
+  return current;
+}
+
 class DayView extends StatelessWidget {
   final DateTime daySelected;
   final SchemaBloc? bloc;
@@ -46,8 +60,9 @@ class DayView extends StatelessWidget {
         }
 
         var firstEventStart =
-            day.events.isNotEmpty ? day.events.first.start : null;
-        var lastEventEnd = day.events.isNotEmpty ? day.events.last.end : null;
+            maxOrMin(day.events, (a, b) => a.start.isBefore(b.start))?.start;
+        var lastEventEnd =
+            maxOrMin(day.events, (a, b) => a.end.isAfter(b.end))?.end;
         var colorScheme = Theme.of(context).colorScheme;
         return Scaffold(
           body: SizedBox(
