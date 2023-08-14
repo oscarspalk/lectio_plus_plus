@@ -21,13 +21,12 @@ class SchemaScreen extends StatefulWidget {
   State<SchemaScreen> createState() => _SchemaScreenState();
 }
 
-const int startIndex = 200;
+const int startIndex = 700;
 
 class _SchemaScreenState extends State<SchemaScreen> {
   late DateTime start =
       (widget.bloc ?? context.read<SchemaBloc>()).state.selectedTime;
   late PageController _pageController;
-  //int _index = startIndex;
   @override
   void initState() {
     super.initState();
@@ -39,8 +38,8 @@ class _SchemaScreenState extends State<SchemaScreen> {
     DateTime? maybeDate = await showDatePicker(
         context: context,
         initialDate: bloc.state.selectedTime,
-        firstDate: start.subtract(const Duration(days: 150)),
-        lastDate: start.add(const Duration(days: 150)));
+        firstDate: start.subtract(const Duration(days: 365)),
+        lastDate: start.add(const Duration(days: 365)));
     if (maybeDate != null) {
       jumpDate(maybeDate);
     }
@@ -65,9 +64,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
     return BlocConsumer<SchemaBloc, SchemaState?>(
       listener: (context, state) {
         if (state != null && state.mode == SwitchMode.selector) {
-          /*var currentDate = start.add(Duration(days: _index - startIndex));
-          var diff = currentDate.difference(state.selectedTime).inDays.abs();*/
-          jumpDate(state.selectedTime); //animMillis: (diff - 1) * 150 + 250);
+          jumpDate(state.selectedTime);
         }
       },
       bloc: widget.bloc,
@@ -119,7 +116,6 @@ class _SchemaScreenState extends State<SchemaScreen> {
               controller: _pageController,
               scrollDirection: Axis.horizontal,
               onPageChanged: (value) {
-                //_index = value;
                 (widget.bloc ?? context.read<SchemaBloc>()).add(
                     SliderSwitchedDate(
                         start.add(Duration(days: value - startIndex))));

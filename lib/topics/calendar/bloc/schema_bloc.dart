@@ -37,14 +37,23 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
   final Student student;
   final Room? room;
   final StudentBloc studentBloc;
-  List<Week> weeks = [];
+  Map<int, List<Week>> weeksByYear = {};
 
   Future<Week?> _getWeek(int year, int num) async {
+    var matchWeeks =
+        weeksByYear[year]?.indexWhere((element) => element.weekNum == num);
+    if (matchWeeks != null && matchWeeks != -1) {
+      return weeksByYear[year]![matchWeeks];
+    }
     try {
       Week fetchedWeek = await (room != null
           ? student.rooms.get(room!, year, num)
           : student.weeks.get(year, num));
-      weeks.add(fetchedWeek);
+      if (weeksByYear.containsKey(year)) {
+        weeksByYear[year] = weeksByYear[year]!.toList()..add(fetchedWeek);
+      } else {
+        weeksByYear.putIfAbsent(year, () => [fetchedWeek]);
+      }
       return fetchedWeek;
     } catch (_) {
       studentBloc.add(AutologinError());
@@ -52,22 +61,26 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
     }
   }
 
-  Future<List<Week>> switchTime(DateTime time) async {
+  Future<Map<int, List<Week>>> switchTime(DateTime time) async {
     var weekNum = weekFromDateTime(time);
-    List<Week> availableWeeks =
-        weeks.where((element) => element.weekNum == weekNum).toList();
-    List<Week> weekCopy = state.weeks;
-    if (availableWeeks.isEmpty) {
-      var week = await _getWeek(time.year, weekNum);
-      if (week != null) {
-        weekCopy.add(week);
-      }
+    await _getWeek(time.year, weekNum);
+    return weeksByYear;
+  }
+
+  Future<Map<int, List<Week>>> replaceTime(DateTime time) async {
+    var weekNum = weekFromDateTime(time);
+    var matchWeeks = weeksByYear[time.year]
+        ?.indexWhere((element) => element.weekNum == weekNum);
+    if (matchWeeks != null && matchWeeks != -1) {
+      weeksByYear[time.year] = weeksByYear[time.year]!
+          .where((element) => element.weekNum != weekNum)
+          .toList();
     }
-    return weekCopy;
+    return weeksByYear;
   }
 
   SchemaBloc(this.student, this.studentBloc, {this.room})
-      : super(SchemaState(DateTime.now(), [], SwitchMode.picker)) {
+      : super(SchemaState(DateTime.now(), {}, SwitchMode.picker)) {
     on<SwitchedDate>((event, emit) async {
       var weekCopy = await switchTime(event.time);
       emit(SchemaState(event.time, weekCopy, SwitchMode.selector));
@@ -82,26 +95,14 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
 
     on<AddedAppointment>((event, emit) async {
       await student.events.private.create(event.event);
-      int weekNum = weekFromDateTime(event.event.start);
-      int availableWeeks =
-          weeks.indexWhere((element) => element.weekNum == weekNum);
-      if (availableWeeks != -1) {
-        weeks.removeAt(availableWeeks);
-        await _getWeek(event.event.start.year, weekNum);
-      }
+      var weeks = await replaceTime(event.event.start);
       emit(SchemaState(state.selectedTime, weeks, SwitchMode.picker));
     });
 
     on<UpdatedAppointment>(
       (event, emit) async {
         await student.events.private.update(event.event);
-        int weekNum = weekFromDateTime(event.event.start);
-        int availableWeeks =
-            weeks.indexWhere((element) => element.weekNum == weekNum);
-        if (availableWeeks != -1) {
-          weeks.removeAt(availableWeeks);
-          await _getWeek(event.event.start.year, weekNum);
-        }
+        var weeks = await replaceTime(event.event.start);
         emit(SchemaState(state.selectedTime, weeks, SwitchMode.picker));
       },
     );
@@ -109,13 +110,7 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
     on<RemovedAppointment>(
       (event, emit) async {
         student.events.private.delete(event.event);
-        int weekNum = weekFromDateTime(event.event.start);
-        int availableWeeks =
-            weeks.indexWhere((element) => element.weekNum == weekNum);
-        if (availableWeeks != -1) {
-          weeks.removeAt(availableWeeks);
-          await _getWeek(event.event.start.year, weekNum);
-        }
+        var weeks = await replaceTime(event.event.start);
         emit(SchemaState(state.selectedTime, weeks, SwitchMode.picker));
       },
     );
@@ -127,6 +122,6 @@ enum SwitchMode { slider, picker, selector }
 class SchemaState {
   final DateTime selectedTime;
   SwitchMode mode;
-  final List<Week> weeks;
+  Map<int, List<Week>> weeks;
   SchemaState(this.selectedTime, this.weeks, this.mode);
 }

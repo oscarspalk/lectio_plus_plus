@@ -22,9 +22,10 @@ class DayView extends StatelessWidget {
       bloc: bloc,
       builder: (context, state) {
         var weekNum = weekFromDateTime(daySelected);
-        var availableWeeks =
-            state.weeks.where((element) => element.weekNum == weekNum).toList();
-        if (availableWeeks.isEmpty) {
+        var availableWeeks = state.weeks[daySelected.year]
+            ?.where((element) => element.weekNum == weekNum)
+            .toList();
+        if (availableWeeks == null || availableWeeks.isEmpty) {
           return const LoadingScreen();
         }
         var availableDays = availableWeeks[0]

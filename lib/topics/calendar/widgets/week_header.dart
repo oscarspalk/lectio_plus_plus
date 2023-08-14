@@ -5,7 +5,7 @@ import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
 import 'package:lpp/topics/calendar/widgets/day_header_entry.dart';
 import 'package:lpp/topics/state/loading.dart';
 
-const itemCount = 200;
+const itemCount = 100;
 const headerHeight = 70.0;
 
 class WeekHeader extends StatefulWidget implements PreferredSizeWidget {
@@ -72,9 +72,7 @@ class _WeekHeaderState extends State<WeekHeader> {
                 controller: _controller,
                 itemCount: itemCount,
                 itemBuilder: (context, index) {
-                  var weekNum = _startWeek + (index - _startIndex);
-                  debugPrint("$weekNum");
-                  var weekDiff = weekNum - _startWeek;
+                  var weekDiff = index - _startIndex;
                   DateTime thisWeeksMonday =
                       _startMonday.add(Duration(days: weekDiff * 7));
 
