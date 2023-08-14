@@ -25,8 +25,6 @@ class ThreadContext extends StatelessWidget {
             },
             itemBuilder: (_) {
               return [
-                if (entry.files != null && entry.files!.isNotEmpty)
-                  const PopupMenuItem(child: Text("Filer")),
                 if (createdByCurrent)
                   PopupMenuItem(
                     value: EditMessageScreen(

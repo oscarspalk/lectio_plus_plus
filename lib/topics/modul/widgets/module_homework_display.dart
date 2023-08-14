@@ -16,43 +16,56 @@ class ModuleHomeworkDisplay extends StatelessWidget {
       return const EmptyScreen();
     }
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Html(
-        style: {
-          "h1": Style(fontSize: FontSize.large),
-          "a": Style(textDecoration: TextDecoration.none),
-          "hr": Style(display: Display.none),
-          ".ls-paper-section-heading": Style(
-              fontWeight: FontWeight.w500,
-              fontSize: FontSize(
-                  Theme.of(context).textTheme.titleSmall?.fontSize ?? 0.0),
-              color: Theme.of(context).colorScheme.primary)
-        },
-        data: details.htmlContent,
-        onLinkTap: (url, attributes, element) {
-          if (url != null) {
-            Navigator.push(
-                context,
-                adRoute(ModulLektieScreen(
-                    content: ce.Link(element?.text.trim() ?? "", url, []))));
-          }
-        },
-        extensions: [
-          TagExtension(
-            tagsToExtend: {"img"},
-            builder: (ctx) {
-              var student = context.read<StudentBloc>().state.student;
-              var src = ctx.attributes['src'];
-              if (src != null) {
-                return Image(
-                  image: student!.getImage(ctx.attributes['src'] ?? ""),
-                );
-              }
-              return Container();
-            },
-          )
-        ],
-      ),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: LppHtml(content: details.htmlContent));
+  }
+}
+
+class LppHtml extends StatelessWidget {
+  const LppHtml({super.key, required this.content});
+  final String content;
+  @override
+  Widget build(BuildContext context) {
+    return Html(
+      style: {
+        "span.bb_b": Style(fontWeight: FontWeight.bold),
+        "span.bb_i": Style(fontStyle: FontStyle.italic),
+        "span.bb_u": Style(textDecoration: TextDecoration.underline),
+        "h1": Style(fontSize: FontSize.large),
+        "a": Style(textDecoration: TextDecoration.none),
+        "hr": Style(display: Display.none),
+        ".ls-paper-section-heading": Style(
+            fontWeight: FontWeight.w500,
+            fontSize: FontSize(
+                Theme.of(context).textTheme.titleSmall?.fontSize ?? 0.0),
+            color: Theme.of(context).colorScheme.primary)
+      },
+      data: content,
+      onLinkTap: (url, attributes, element) {
+        if (url != null) {
+          Navigator.push(
+              context,
+              adRoute(
+                  ModulLektieScreen(
+                      content: ce.Link(element?.text.trim() ?? "", url, [])),
+                  onlyFromEdge: true));
+        }
+      },
+      extensions: [
+        TagExtension(
+          tagsToExtend: {"img"},
+          builder: (ctx) {
+            var student = context.read<StudentBloc>().state.student;
+            var src = ctx.attributes['src'];
+            if (src != null) {
+              return Image(
+                image: student!.getImage(ctx.attributes['src'] ?? ""),
+              );
+            }
+            return Container();
+          },
+        )
+      ],
     );
   }
 }
