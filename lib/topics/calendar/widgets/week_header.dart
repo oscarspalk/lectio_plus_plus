@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lectio_wrapper/utils/dating.dart';
 import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
 import 'package:lpp/topics/calendar/widgets/day_header_entry.dart';
 import 'package:lpp/topics/state/loading.dart';
@@ -21,7 +20,6 @@ class WeekHeader extends StatefulWidget implements PreferredSizeWidget {
 class _WeekHeaderState extends State<WeekHeader> {
   late int _startIndex;
   late PageController _controller;
-  late int _startWeek;
   late DateTime _startTime;
   late DateTime _startMonday;
   late SchemaBloc bloc;
@@ -35,14 +33,13 @@ class _WeekHeaderState extends State<WeekHeader> {
     _startTime = bloc.state.selectedTime;
     var diffFromMon = _startTime.weekday - 1;
     _startMonday = _startTime.subtract(Duration(days: diffFromMon));
-    _startWeek = weekFromDateTime(_startMonday);
     _selected = _startIndex;
   }
 
   void jumpToYearAndWeek(DateTime time) {
-    int newWeek = weekFromDateTime(time);
-    var difference = newWeek - _startWeek;
-    int pageIndex = (_startIndex + difference);
+    int dayDifference = time.difference(_startMonday).inDays;
+    int weekDifference = (dayDifference / 7).floor();
+    int pageIndex = (_startIndex + weekDifference);
 
     if ((pageIndex - _selected).abs() > 1) {
       _controller.jumpToPage(pageIndex);
@@ -73,8 +70,9 @@ class _WeekHeaderState extends State<WeekHeader> {
                 itemCount: itemCount,
                 itemBuilder: (context, index) {
                   var weekDiff = index - _startIndex;
-                  DateTime thisWeeksMonday =
-                      _startMonday.add(Duration(days: weekDiff * 7));
+                  DateTime thisWeeksMonday = _startMonday
+                      .copyWith(hour: 12)
+                      .add(Duration(days: weekDiff * 7));
 
                   List<DateTime> days = [
                     for (var i = 0; i < 7; i++)
@@ -94,7 +92,9 @@ class _WeekHeaderState extends State<WeekHeader> {
                                         .add(SwitchedDate(day));
                                   },
                                   day: day,
-                                  selected: day.day == state.selectedTime.day,
+                                  selected: day.day == state.selectedTime.day &&
+                                      day.month == state.selectedTime.month &&
+                                      day.year == state.selectedTime.year,
                                 ))
                             .toList()),
                   );
