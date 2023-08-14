@@ -5,7 +5,6 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/topics/homework/bloc/homework_bloc.dart';
 import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
-import 'package:lpp/utils/helpers.dart';
 import 'package:lpp/widgets/primitive/team_name.dart';
 
 final DateFormat hourFormats = DateFormat("HH:mm");
@@ -56,10 +55,11 @@ class HomeworkItem extends StatelessWidget {
                                   .textTheme
                                   .titleMedium!
                                   .merge(throughStyle)),
-                          Text(
-                            "${formatDateReadable(homework.dato)} - ${homework.module}. modul",
-                            style: throughStyle,
-                          ),
+                          if (homework.module != 0)
+                            Text(
+                              "${homework.module}. modul",
+                              style: throughStyle,
+                            ),
                         ],
                       ),
                       Checkbox(
