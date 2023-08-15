@@ -1,7 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lpp/topics/modul/screens/modul_lektie_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
 
@@ -21,7 +20,7 @@ class HomeworkDetail extends StatelessWidget {
                   context,
                   adRoute(
                       ModulLektieScreen(
-                          content: Link(detail.text, detail.href!, [])),
+                          content: FileDetails(detail.text, detail.href!)),
                       onlyFromEdge: true));
             }
           : null,

@@ -47,7 +47,7 @@ class LppHtml extends StatelessWidget {
               context,
               adRoute(
                   ModulLektieScreen(
-                      content: ce.Link(element?.text.trim() ?? "", url, [])),
+                      content: FileDetails(element?.text.trim() ?? "", url)),
                   onlyFromEdge: true));
         }
       },

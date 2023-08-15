@@ -1,6 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lectio_wrapper/types/primitives/file.dart';
 import 'package:lpp/topics/modul/screens/modul_lektie_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
@@ -46,7 +45,8 @@ class FileChip extends StatelessWidget {
           Navigator.push(
               context,
               adRoute(
-                  ModulLektieScreen(content: Link(file.name, file.href, [])),
+                  ModulLektieScreen(
+                      content: FileDetails(file.name, file.href, isFile: true)),
                   onlyFromEdge: true));
         },
         label: Text(file.name));
