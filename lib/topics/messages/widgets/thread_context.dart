@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio/basic_info.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
@@ -25,9 +26,7 @@ class ThreadContext extends StatelessWidget {
             },
             itemBuilder: (_) {
               return [
-                if (entry.files != null && entry.files!.isNotEmpty)
-                  const PopupMenuItem(child: Text("Filer")),
-                if (createdByCurrent)
+                if (createdByCurrent && kDebugMode)
                   PopupMenuItem(
                     value: EditMessageScreen(
                       entry: entry,

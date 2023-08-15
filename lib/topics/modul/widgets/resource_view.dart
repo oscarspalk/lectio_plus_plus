@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
+import 'package:lpp/topics/modul/screens/modul_lektie_screen.dart';
 import 'package:lpp/topics/state/empty.dart';
 import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/topics/state/success.dart';
@@ -14,7 +14,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ResourceWebview extends StatelessWidget {
-  final Link content;
+  final FileDetails content;
 
   const ResourceWebview({super.key, required this.content});
   @override
@@ -38,7 +38,7 @@ class ResourceWebview extends StatelessWidget {
 }
 
 class LectioResourceView extends StatefulWidget {
-  final Link content;
+  final FileDetails content;
 
   const LectioResourceView({super.key, required this.content});
 
@@ -72,16 +72,16 @@ class _LectioResourceViewState extends State<LectioResourceView> {
     var indexOfLast = url.lastIndexOf('.');
     var extension = url.substring(indexOfLast + 1);
     if (extension.length > 4) {
-      var indexOfLast2 = widget.content.text.lastIndexOf('.');
+      var indexOfLast2 = widget.content.name.lastIndexOf('.');
       if (indexOfLast2 != -1) {
-        extension = widget.content.text.substring(indexOfLast2 + 1);
+        extension = widget.content.name.substring(indexOfLast2 + 1);
         var indexOfBrackets = extension.indexOf('(');
         if (indexOfBrackets != -1) {
           extension = extension.substring(0, indexOfBrackets).trim();
         }
       }
     }
-    if (Platform.isIOS) {
+    if (Platform.isIOS && !widget.content.isFile) {
       webViewController.setNavigationDelegate(NavigationDelegate(
         onPageFinished: (url) {
           setState(() {
@@ -93,7 +93,7 @@ class _LectioResourceViewState extends State<LectioResourceView> {
           .loadRequest(Uri.parse(url), headers: {"cookie": cookieString});
     } else {
       var path =
-          "${(await getTemporaryDirectory()).path}/${widget.content.text.substring(0, widget.content.text.indexOf('.'))}.$extension";
+          "${(await getTemporaryDirectory()).path}/${widget.content.name.substring(0, widget.content.name.indexOf('.'))}.$extension";
       File tempFile = File(path);
       bool exists = await tempFile.exists();
       if (kDebugMode || !exists) {
@@ -125,7 +125,7 @@ class _LectioResourceViewState extends State<LectioResourceView> {
         progress: progress,
       );
     }
-    if (Platform.isAndroid) {
+    if (Platform.isAndroid || widget.content.isFile) {
       return FailReason(type: resultType);
     }
     return WebViewWidget(controller: webViewController);

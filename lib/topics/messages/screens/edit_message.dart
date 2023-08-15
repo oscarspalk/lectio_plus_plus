@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
+import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/messages/bloc/edit_message_bloc.dart';
+import 'package:lpp/topics/messages/widgets/message_editor.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:ms_undraw/illustrations.g.dart';
@@ -18,15 +20,12 @@ class EditMessageScreen extends StatefulWidget {
 
 class _EditMessageScreenState extends State<EditMessageScreen> {
   late EditMessageBloc bloc;
-  late TextEditingController topic;
-  late TextEditingController content;
 
   @override
   void initState() {
     super.initState();
-    bloc = EditMessageBloc(widget.entry, widget.message);
-    topic = TextEditingController(text: bloc.state.topic);
-    content = TextEditingController(text: bloc.state.content);
+    bloc = EditMessageBloc(
+        widget.entry, widget.message, getStudentBloc(context).state.student!);
   }
 
   @override
@@ -43,17 +42,11 @@ class _EditMessageScreenState extends State<EditMessageScreen> {
             children: [
               const Illustration(illustration: UnDrawIllustration.writer),
               TextField(
-                controller: topic,
+                controller: TextEditingController(text: state.topic),
                 decoration: const InputDecoration(label: Text("Emne")),
                 onChanged: bloc.setTopic,
               ),
-              TextField(
-                controller: content,
-                minLines: 1,
-                maxLines: 4,
-                decoration: const InputDecoration(label: Text("Indhold")),
-                onChanged: bloc.setContent,
-              ),
+              MessageEditor(value: state.content, onChange: bloc.setContent),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: FilledButton(
@@ -74,8 +67,6 @@ class _EditMessageScreenState extends State<EditMessageScreen> {
 
   @override
   void dispose() {
-    topic.dispose();
-    content.dispose();
     bloc.close();
     super.dispose();
   }

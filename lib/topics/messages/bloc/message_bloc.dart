@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
+import 'package:lectio_wrapper/types/message/threads/edit.dart';
 
 part 'message_bloc.freezed.dart';
 
@@ -28,7 +29,8 @@ class DeleteMessage extends MessageEvent {
 
 class EditMessage extends MessageEvent {
   Edit edit;
-  EditMessage(this.edit);
+  OpenedEdit openedEdit;
+  EditMessage(this.edit, this.openedEdit);
 }
 
 class ReplyMessage extends MessageEvent {
@@ -81,7 +83,8 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
     on<EditMessage>(
       (event, emit) async {
         emit(state.copyWith(loading: true));
-        await student.messages.edit(event.edit);
+        await student.messages.threads
+            .edit(event.edit, event.openedEdit.stateData);
         await refreshMessage(emit, event.edit.message);
       },
     );

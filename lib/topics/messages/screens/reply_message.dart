@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lpp/topics/messages/bloc/reply_message_bloc.dart';
+import 'package:lpp/topics/messages/widgets/message_editor.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:ms_undraw/illustrations.g.dart';
@@ -45,13 +46,7 @@ class _ReplyMessageScreenState extends State<ReplyMessageScreen> {
                 decoration: const InputDecoration(label: Text("Emne")),
                 onChanged: bloc.setTopic,
               ),
-              TextField(
-                minLines: 1,
-                maxLines: 4,
-                controller: content,
-                decoration: const InputDecoration(label: Text("Indhold")),
-                onChanged: bloc.setContent,
-              ),
+              MessageEditor(value: state.content, onChange: bloc.setContent),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: FilledButton(

@@ -15,29 +15,26 @@ class AbsenceRegistrationsBloc
     extends Bloc<AbsenceRegistrationEvent, AbsenceRegistrationsState> {
   final Student student;
 
+  Future<List<AbsenceCauseEntry>> _getCauses() async {
+    var items = await student.absence.registrations.list();
+    return items;
+  }
+
   AbsenceRegistrationsBloc(this.student)
       : super(AbsenceRegistrationsState([], true)) {
     on<RequestedLoad>((event, emit) async {
-      var items = await student.absence.registrations.list();
-
+      var items = await _getCauses();
       emit(AbsenceRegistrationsState(items, false));
     });
 
     on<UpdatedRegistration>((event, emit) async {
+      emit(AbsenceRegistrationsState([], true));
       await student.absence.registrations.update(
           event.absenceCauseEntry,
           event.absenceCauseEntry.cause!,
           event.absenceCauseEntry.expandedCause);
-      var registration = event.absenceCauseEntry;
-      var beforeRegistration =
-          state.entries.indexWhere((element) => element.id == registration.id);
-      if (beforeRegistration != -1) {
-        List<AbsenceCauseEntry> copy =
-            state.entries.take(state.entries.length).toList();
-        copy.removeAt(beforeRegistration);
-        copy.add(registration);
-        emit(AbsenceRegistrationsState(copy, false));
-      }
+      var items = await _getCauses();
+      emit(AbsenceRegistrationsState(items, false));
     });
   }
 }

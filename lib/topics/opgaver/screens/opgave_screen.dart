@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/topics/assignments/scraping.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
-import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lectio_wrapper/types/primitives/file.dart';
 import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
 import 'package:lpp/topics/modul/screens/modul_lektie_screen.dart';
@@ -99,7 +98,8 @@ class OpgaveScreen extends StatelessWidget {
                   Navigator.push(
                       context,
                       adRoute(
-                          ModulLektieScreen(content: Link(e.name, e.href, [])),
+                          ModulLektieScreen(
+                              content: FileDetails(e.name, e.href)),
                           onlyFromEdge: true));
                 },
               ))
@@ -135,7 +135,7 @@ class AssignmentEntryRow extends StatelessWidget {
             adRoute(
                 ModulLektieScreen(
                     content:
-                        Link(entry.resource.name, entry.resource.href, [])),
+                        FileDetails(entry.resource.name, entry.resource.href)),
                 onlyFromEdge: true));
       },
       title: Text(entry.resource.name),

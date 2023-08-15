@@ -1,15 +1,21 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/logic/student/student_cubit.dart';
 import 'package:lpp/topics/modul/widgets/resource_view.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 
+class FileDetails {
+  String name;
+  String href;
+  bool isFile;
+  FileDetails(this.name, this.href, {this.isFile = false});
+}
+
 class ModulLektieScreen extends StatefulWidget {
-  final Link content;
+  final FileDetails content;
   const ModulLektieScreen({super.key, required this.content});
 
   @override
@@ -26,7 +32,7 @@ class _ModulLektieScreenState extends State<ModulLektieScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: LppAppbar(
-          title: widget.content.text,
+          title: widget.content.name,
           hideMenu: true,
         ),
         body: StudentBlocBuilder<StudentCubit<List<Cookie>>, List<Cookie>?>(

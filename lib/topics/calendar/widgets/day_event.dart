@@ -95,8 +95,8 @@ Widget dayEventWidget(
                 ),
                 Text("${hF.format(dayEvent.start)}-${hF.format(dayEvent.end)}"),
                 if (dayEvent.room.isNotEmpty)
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Icon(
                         EvaIcons.pinOutline,

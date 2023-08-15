@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
+import 'package:lpp/topics/messages/widgets/message_files.dart';
 import 'package:lpp/topics/messages/widgets/student_image.dart';
 import 'package:lpp/topics/messages/widgets/thread_context.dart';
+import 'package:lpp/topics/modul/widgets/module_homework_display.dart';
 
 class ThreadEntryWidget extends StatelessWidget {
   const ThreadEntryWidget(
@@ -53,7 +55,8 @@ class ThreadEntryWidget extends StatelessWidget {
                 ThreadContext(entry: entry, message: message)
               ],
             ),
-            Text(entry.content)
+            LppHtml(content: entry.content),
+            MessageFileRow(files: entry.files)
           ],
         ),
       ),

@@ -19,6 +19,7 @@ mixin _$EditState {
   String get topic => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   ThreadEntry get entry => throw _privateConstructorUsedError;
+  OpenedEdit? get openedEdit => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $EditStateCopyWith<EditState> get copyWith =>
@@ -30,7 +31,11 @@ abstract class $EditStateCopyWith<$Res> {
   factory $EditStateCopyWith(EditState value, $Res Function(EditState) then) =
       _$EditStateCopyWithImpl<$Res, EditState>;
   @useResult
-  $Res call({String topic, String content, ThreadEntry entry});
+  $Res call(
+      {String topic,
+      String content,
+      ThreadEntry entry,
+      OpenedEdit? openedEdit});
 }
 
 /// @nodoc
@@ -49,6 +54,7 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
     Object? topic = null,
     Object? content = null,
     Object? entry = null,
+    Object? openedEdit = freezed,
   }) {
     return _then(_value.copyWith(
       topic: null == topic
@@ -63,6 +69,10 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
           ? _value.entry
           : entry // ignore: cast_nullable_to_non_nullable
               as ThreadEntry,
+      openedEdit: freezed == openedEdit
+          ? _value.openedEdit
+          : openedEdit // ignore: cast_nullable_to_non_nullable
+              as OpenedEdit?,
     ) as $Val);
   }
 }
@@ -74,7 +84,11 @@ abstract class _$$_EditStateCopyWith<$Res> implements $EditStateCopyWith<$Res> {
       __$$_EditStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String topic, String content, ThreadEntry entry});
+  $Res call(
+      {String topic,
+      String content,
+      ThreadEntry entry,
+      OpenedEdit? openedEdit});
 }
 
 /// @nodoc
@@ -91,6 +105,7 @@ class __$$_EditStateCopyWithImpl<$Res>
     Object? topic = null,
     Object? content = null,
     Object? entry = null,
+    Object? openedEdit = freezed,
   }) {
     return _then(_$_EditState(
       topic: null == topic
@@ -105,6 +120,10 @@ class __$$_EditStateCopyWithImpl<$Res>
           ? _value.entry
           : entry // ignore: cast_nullable_to_non_nullable
               as ThreadEntry,
+      openedEdit: freezed == openedEdit
+          ? _value.openedEdit
+          : openedEdit // ignore: cast_nullable_to_non_nullable
+              as OpenedEdit?,
     ));
   }
 }
@@ -113,7 +132,10 @@ class __$$_EditStateCopyWithImpl<$Res>
 
 class _$_EditState extends _EditState {
   const _$_EditState(
-      {required this.topic, required this.content, required this.entry})
+      {required this.topic,
+      required this.content,
+      required this.entry,
+      required this.openedEdit})
       : super._();
 
   @override
@@ -122,10 +144,12 @@ class _$_EditState extends _EditState {
   final String content;
   @override
   final ThreadEntry entry;
+  @override
+  final OpenedEdit? openedEdit;
 
   @override
   String toString() {
-    return 'EditState(topic: $topic, content: $content, entry: $entry)';
+    return 'EditState(topic: $topic, content: $content, entry: $entry, openedEdit: $openedEdit)';
   }
 
   @override
@@ -135,11 +159,14 @@ class _$_EditState extends _EditState {
             other is _$_EditState &&
             (identical(other.topic, topic) || other.topic == topic) &&
             (identical(other.content, content) || other.content == content) &&
-            (identical(other.entry, entry) || other.entry == entry));
+            (identical(other.entry, entry) || other.entry == entry) &&
+            (identical(other.openedEdit, openedEdit) ||
+                other.openedEdit == openedEdit));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, topic, content, entry);
+  int get hashCode =>
+      Object.hash(runtimeType, topic, content, entry, openedEdit);
 
   @JsonKey(ignore: true)
   @override
@@ -152,7 +179,8 @@ abstract class _EditState extends EditState {
   const factory _EditState(
       {required final String topic,
       required final String content,
-      required final ThreadEntry entry}) = _$_EditState;
+      required final ThreadEntry entry,
+      required final OpenedEdit? openedEdit}) = _$_EditState;
   const _EditState._() : super._();
 
   @override
@@ -161,6 +189,8 @@ abstract class _EditState extends EditState {
   String get content;
   @override
   ThreadEntry get entry;
+  @override
+  OpenedEdit? get openedEdit;
   @override
   @JsonKey(ignore: true)
   _$$_EditStateCopyWith<_$_EditState> get copyWith =>

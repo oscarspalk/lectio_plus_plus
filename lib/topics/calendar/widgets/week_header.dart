@@ -83,7 +83,7 @@ class _WeekHeaderState extends State<WeekHeader> {
                     child: GridView(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                                mainAxisExtent: headerHeight,
+                                mainAxisExtent: headerHeight - 4.0,
                                 crossAxisCount: 7),
                         children: days
                             .map((day) => DayHeaderEntry(
