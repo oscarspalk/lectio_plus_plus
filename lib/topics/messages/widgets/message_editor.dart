@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:flutter_quill/quill_delta.dart';
 
 class MessageEditor extends StatefulWidget {
   const MessageEditor({super.key, required this.value, required this.onChange});
@@ -17,55 +16,58 @@ class _MessageEditorState extends State<MessageEditor> {
   @override
   void initState() {
     super.initState();
-    controller = quill.QuillController(
-        document: quill.Document.fromDelta(Delta.fromOperations([])),
-        selection: const TextSelection.collapsed(offset: 0));
+    controller = quill.QuillController.basic();
     controller.addListener(() {
       var plainText = controller.document.toDelta().map((delta) {
         if (delta.attributes == null) {
           return delta.value;
         }
         List<String> whatToAdd = [];
-        List<String> whatToAppend = [];
         bool bold = delta.attributes?["bold"] ?? false;
         bool italic = delta.attributes?["italic"] ?? false;
         bool underline = delta.attributes?["underline"] ?? false;
         String? link = delta.attributes?["link"];
         if (bold) {
-          whatToAdd.add("[b]");
-          whatToAppend.add("[/b]");
+          whatToAdd.add("b");
         }
         if (italic) {
-          whatToAdd.add("[i]");
-          whatToAppend.add("[/i]");
+          whatToAdd.add("i");
         }
         if (underline) {
-          whatToAdd.add("[u]");
-          whatToAppend.add("[/u]");
+          whatToAdd.add("u");
         }
         if (link != null && link.isNotEmpty) {
-          whatToAdd.add("[url=$link]");
-          whatToAppend.add("[/url]");
+          whatToAdd.add("url=$link");
         }
-        return "${whatToAdd.join()}${delta.value}${whatToAppend.join()}";
-      }).join();
+        var output = "${delta.value}";
 
+        for (var add in whatToAdd) {
+          output = "[$add]$output[/${add.startsWith("url") ? "url" : add}]";
+        }
+        return output;
+      }).join();
       widget.onChange(plainText);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 150.0,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          InputDecorator(
-              decoration: const InputDecoration(label: Text("Indhold")),
-              child: quill.QuillEditor.basic(
-                  controller: controller, readOnly: false)),
-          quill.QuillToolbar.basic(
+    var colorScheme = Theme.of(context).colorScheme;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        InputDecorator(
+            decoration: const InputDecoration(label: Text("Indhold")),
+            child: quill.QuillEditor.basic(
+                controller: controller, readOnly: false)),
+        Padding(
+          padding: const EdgeInsets.only(top: 4.0),
+          child: quill.QuillToolbar.basic(
+            iconTheme: quill.QuillIconTheme(
+                iconSelectedFillColor: colorScheme.background,
+                iconUnselectedFillColor: colorScheme.background,
+                iconSelectedColor: colorScheme.primary,
+                iconUnselectedColor: colorScheme.onBackground),
             controller: controller,
             showBackgroundColorButton: false,
             showAlignmentButtons: false,
@@ -98,9 +100,9 @@ class _MessageEditorState extends State<MessageEditor> {
             showSuperscript: false,
             showUnderLineButton: true,
             showUndo: true,
-          )
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 

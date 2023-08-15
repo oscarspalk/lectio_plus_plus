@@ -3,33 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/primitives/file.dart';
 import 'package:lpp/topics/modul/screens/modul_lektie_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
-import 'package:lpp/widgets/layout/text_divider.dart';
 
 class MessageFileRow extends StatelessWidget {
   const MessageFileRow({super.key, required this.files});
   final List<File>? files;
   @override
   Widget build(BuildContext context) {
-    if (files == null) {
+    if (files == null || (files != null && files!.isEmpty)) {
       return Container();
     }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const TextDivider(
-          text: "Filer",
-          primary: true,
-        ),
-        SizedBox(
-          height: 40.0,
-          child: ListView(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            children: files!.map((file) => FileChip(file: file)).toList(),
-          ),
-        ),
-      ],
+    return SizedBox(
+      height: 40.0,
+      child: ListView(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        children: files!.map((file) => FileChip(file: file)).toList(),
+      ),
     );
   }
 }

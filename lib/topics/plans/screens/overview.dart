@@ -25,6 +25,9 @@ class PlanOverview extends StatelessWidget {
               state.where((element) => element.entries.isNotEmpty).toList();
           var colorScheme = Theme.of(context).colorScheme;
           return Accordion(
+              initialOpeningSequenceDelay: 0,
+              scaleWhenAnimating: false,
+              headerBackgroundColor: colorScheme.background,
               contentBorderColor: Colors.transparent,
               contentBorderRadius: 0.0,
               headerBorderRadius: 0.0,
