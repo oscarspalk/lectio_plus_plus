@@ -5,6 +5,7 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/topics/gyms/controller.dart';
 import 'package:lectio_wrapper/types/gym.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
+import 'package:lectio_wrapper/utils/dio_client.dart';
 import 'package:lpp/logic/cache/caching_service.dart';
 import 'package:lpp/logic/cache/login_service.dart';
 
@@ -78,6 +79,11 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
             teams: [],
             loadingState: LoadingStates.normal,
             gymName: "")) {
+    setCookieCallback(() {
+      if (state.student != null) {
+        loginService.syncCookies(state.student!);
+      }
+    });
     on<ListGyms>(
       (event, emit) async {
         var startState = state.state;
@@ -94,7 +100,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<LaunchedApp>((event, emit) async {
       emit(state.copyWith(state: StudentStates.loading));
       try {
-        var student = await loginService.loginFromSaved();
+        var student = await loginService.loadSaved();
         if (student != null) {
           emit(state.copyWith(student: student));
           var cacheState =

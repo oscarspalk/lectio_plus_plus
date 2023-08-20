@@ -86,7 +86,7 @@ class LectioProvider extends StatelessWidget {
       BlocProvider(
           create: (_) =>
               StudentCubit(student, (student) => student.getBasicInfo())),
-      BlocProvider(create: (_) => PeopleBloc(student)..load()),
+      BlocProvider(lazy: false, create: (_) => PeopleBloc(student)..load()),
     ], child: child);
   }
 }

@@ -38,6 +38,13 @@ class LoginService {
     return null;
   }
 
+  Future<void> syncCookies(Student student) async {
+    var savedAccount = await _getSavedAccount();
+    if (savedAccount != null) {
+      await save(savedAccount, student);
+    }
+  }
+
   Future<List<Cookie>> _getSavedCookies() async {
     String? cookieString = await storage.read(key: cookieKey);
     if (cookieString != null) {
@@ -78,7 +85,7 @@ class LoginService {
   }
 
   Future<Student?> login(Account account) async {
-    var student = await account.login(autologin: false);
+    var student = await account.login(autologin: true);
     if (student != null) {
       await save(account, student);
       return student;
