@@ -114,7 +114,11 @@ class OpgaveScreen extends StatelessWidget {
         primary: true,
       ),
       ...(entries.isEmpty
-          ? [const Center(child: Text("Der er ingen indlæg 😒"))]
+          ? [
+              const SizedBox(
+                  height: 100.0,
+                  child: Center(child: Text("Der er ingen indlæg 😒")))
+            ]
           : entries.map((e) => AssignmentEntryRow(entry: e)).toList())
     ];
   }

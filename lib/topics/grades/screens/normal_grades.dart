@@ -30,21 +30,19 @@ class SpecificGradeScreen extends StatelessWidget {
     return ListView(children: [
       ...entries
           .map((entry) => ListTile(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TeamName(teamName: entry.key.$1.name),
-                        Text(
-                            ", ${entry.key.$2.type == SubjectTypes.oral ? "Mundtlig" : "Skriftlig"}"),
-                      ],
-                    ),
-                    Text(entry.value != null
-                        ? entry.value!.grade.toString()
-                        : "-")
-                  ],
+                trailing: Text(
+                  entry.value != null ? entry.value!.grade.toString() : "-",
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                title: TeamName(
+                  teamName: entry.key.$1.name,
+                  builder: (name) {
+                    return Text(
+                      "$name, ${entry.key.$2.type == SubjectTypes.oral ? "Mundtlig" : "Skriftlig"}",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    );
+                  },
                 ),
               ))
           .toList(),
