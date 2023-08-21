@@ -20,7 +20,7 @@ class ThemeController extends StatelessWidget {
     Colors.teal,
     Colors.lime,
     Colors.amber,
-    Colors.deepPurple
+    Colors.deepPurple,
   ];
 
   final double spacing = 10.0;

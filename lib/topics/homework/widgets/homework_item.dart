@@ -46,21 +46,26 @@ class HomeworkItem extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(name,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              name,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium!
-                                  .merge(throughStyle)),
-                          if (homework.module != 0)
-                            Text(
-                              "${homework.module}. modul",
-                              style: throughStyle,
+                                  .merge(throughStyle),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                        ],
+                            if (homework.module != 0)
+                              Text(
+                                "${homework.module}. modul",
+                                style: throughStyle,
+                              ),
+                          ],
+                        ),
                       ),
                       Checkbox(
                           value: checked,

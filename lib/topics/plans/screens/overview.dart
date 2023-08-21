@@ -1,4 +1,3 @@
-import 'package:accordion/accordion.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/plan/study_plan.dart';
 import 'package:lpp/logic/student/student_cubit.dart';
@@ -24,45 +23,37 @@ class PlanOverview extends StatelessWidget {
           var nonEmpty =
               state.where((element) => element.entries.isNotEmpty).toList();
           var colorScheme = Theme.of(context).colorScheme;
-          return Accordion(
-              initialOpeningSequenceDelay: 0,
-              scaleWhenAnimating: false,
-              headerBackgroundColor: colorScheme.background,
-              contentBorderColor: Colors.transparent,
-              contentBorderRadius: 0.0,
-              headerBorderRadius: 0.0,
-              paddingListTop: 8.0,
-              contentHorizontalPadding: 0.0,
-              rightIcon: Icon(
-                Icons.expand_more,
-                color: colorScheme.primary,
-              ),
-              paddingListHorizontal: 16.0,
-              children: nonEmpty
-                  .map((plan) => AccordionSection(
-                      contentBackgroundColor: colorScheme.background,
-                      headerPadding: const EdgeInsets.all(0.0),
-                      header: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: TeamName(
-                          teamName: plan.team.name,
-                          builder: (name) {
-                            return Text(
-                              name,
-                              style: TextStyle(
-                                  color: colorScheme.primary,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16.0),
-                            );
-                          },
-                        ),
-                      ),
-                      content: Column(
-                        children: plan.entries
-                            .map((entry) => PlanTile(ref: entry))
-                            .toList(),
-                      )))
-                  .toList());
+          return SingleChildScrollView(
+            child: ExpansionPanelList.radio(
+                elevation: 0.0,
+                expandedHeaderPadding: EdgeInsets.zero,
+                children: nonEmpty
+                    .map((plan) => ExpansionPanelRadio(
+                        canTapOnHeader: true,
+                        value: plan,
+                        headerBuilder: (context, isExpanded) {
+                          return ListTile(
+                            title: TeamName(
+                              teamName: plan.team.name,
+                              builder: (name) {
+                                return Text(
+                                  name,
+                                  style: TextStyle(
+                                      color: colorScheme.primary,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16.0),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        body: Column(
+                          children: plan.entries
+                              .map((entry) => PlanTile(ref: entry))
+                              .toList(),
+                        )))
+                    .toList()),
+          );
         },
       ),
     );

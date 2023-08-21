@@ -19,9 +19,11 @@ class PrimaryMessage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              StudentImage(entry: entry.user),
+              StudentImage(
+                entry: entry.user,
+                quality: true,
+              ),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Column(
@@ -32,7 +34,11 @@ class PrimaryMessage extends StatelessWidget {
                       Text(DateFormat("HH:mm dd/MM").format(entry.at))
                     ],
                   )),
-              ThreadContext(entry: entry, message: message)
+              Expanded(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [ThreadContext(entry: entry, message: message)]),
+              )
             ],
           ),
           Padding(

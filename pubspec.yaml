@@ -39,7 +39,6 @@ dependencies:
   ms_undraw: ^3.1.0+3
   google_mobile_ads: ^3.0.0
   d_chart: ^2.2.11
-  accordion: ^2.5.1
   webview_flutter: ^4.2.2
   salomon_bottom_bar: ^3.3.2
   freezed_annotation: ^2.4.1
@@ -52,6 +51,7 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
   flutter_expandable_fab: ^2.0.0
   flutter_quill: ^7.3.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

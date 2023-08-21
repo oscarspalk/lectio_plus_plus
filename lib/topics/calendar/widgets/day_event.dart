@@ -67,7 +67,7 @@ Widget dayEventWidget(
   );
   return Container(
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(6.0),
+      borderRadius: BorderRadius.circular(8.0),
       color: colorFromStatus(dayEvent.status, context),
     ),
     width: width,
@@ -88,7 +88,7 @@ Widget dayEventWidget(
                   teamName: dayEvent.team,
                   builder: (name) {
                     return Text(
-                      ine(dayEvent.title) ? dayEvent.title : name,
+                      "$name${ine(dayEvent.title) ? " - ${dayEvent.title}" : ""}",
                       style: const TextStyle(fontWeight: FontWeight.w500),
                     );
                   },

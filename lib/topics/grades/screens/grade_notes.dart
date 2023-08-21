@@ -1,5 +1,3 @@
-import 'package:accordion/accordion.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/note.dart';
 import 'package:lpp/topics/state/empty.dart';
@@ -19,40 +17,48 @@ class GradeNoteScreen extends StatelessWidget {
           return const EmptyScreen();
         }
         var scheme = Theme.of(context).colorScheme;
-        return Accordion(
-            rightIcon:
-                Icon(EvaIcons.arrowDownOutline, color: scheme.onBackground),
-            contentBorderWidth: 0.0,
-            headerBackgroundColor: scheme.background,
-            contentBackgroundColor: scheme.background,
-            maxOpenSections: 1,
-            children: state.map((note) {
-              var textStyle = TextStyle(color: scheme.onBackground);
-              return AccordionSection(
-                  headerPadding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  contentBorderRadius: 0.0,
-                  headerBorderRadius: 0.0,
-                  contentBorderWidth: 0.0,
-                  leftIcon: CircleAvatar(
-                    child: Text(note.teacherInitials.toUpperCase()),
-                  ),
-                  header: ListTile(
-                    title: TeamName(
-                      teamName: note.team.name,
-                      builder: (name) {
-                        return Text(
-                          name,
+        return SingleChildScrollView(
+          child: ExpansionPanelList.radio(
+              expandedHeaderPadding: EdgeInsets.zero,
+              elevation: 0.0,
+              children: state.map((note) {
+                var textStyle = TextStyle(
+                    color: scheme.onBackground, fontWeight: FontWeight.w500);
+                return ExpansionPanelRadio(
+                    canTapOnHeader: true,
+                    headerBuilder: (context, isExpanded) {
+                      return ListTile(
+                        title: TeamName(
+                          teamName: note.team.name,
+                          builder: (name) {
+                            return Text(
+                              name,
+                              style: textStyle,
+                            );
+                          },
+                        ),
+                        subtitle: Text(
+                          note.gradeType,
                           style: textStyle,
-                        );
-                      },
+                        ),
+                      );
+                    },
+                    body: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 12.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              note.note.trim(),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    subtitle: Text(
-                      note.gradeType,
-                      style: textStyle,
-                    ),
-                  ),
-                  content: ListTile(title: Text(note.note.trim())));
-            }).toList());
+                    value: note);
+              }).toList()),
+        );
       },
     );
   }
