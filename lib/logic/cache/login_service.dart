@@ -85,7 +85,7 @@ class LoginService {
   }
 
   Future<Student?> login(Account account) async {
-    var student = await account.login(autologin: true);
+    var student = await account.login();
     if (student != null) {
       await save(account, student);
       return student;

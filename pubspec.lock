@@ -490,10 +490,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_quill
-      sha256: e5d517b957e839579ad44bb73e3ac1b315c9ce2d10eee6f2df44e38cb5e13510
+      sha256: c6ceba58f8f63e26b69162c99b0d835e92abd92844209f50683d1d4a0e9b0b2b
       url: "https://pub.dev"
     source: hosted
-    version: "7.4.1"
+    version: "7.2.1"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -700,10 +700,10 @@ packages:
     dependency: "direct main"
     description:
       name: lectio_wrapper
-      sha256: bbfe39192fe98278f8ec9a467e803810a9cdf18360c5a23990111b65f844385f
+      sha256: "39356679fa620828b03c33916e993f9735318272c8cda0b904040bbe537e8eab"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.28"
+    version: "0.6.2"
   lints:
     dependency: transitive
     description:
@@ -1358,5 +1358,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">3.0.0 <4.0.0"
+  dart: ">=3.0.0 <4.0.0"
   flutter: ">=3.10.0"

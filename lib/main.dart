@@ -11,10 +11,10 @@ import 'logic/app/settings.dart';
 import 'logic/student/student_bloc.dart';
 import 'routing/router.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
-  await initializeNotifcations();
+  initializeNotifcations();
   Workmanager().initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher
       isInDebugMode:
@@ -24,7 +24,6 @@ Future<void> main() async {
     Workmanager().registerPeriodicTask("opgave-check", "opgave-check",
         frequency: const Duration(minutes: 15));
   }
-
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
       create: (_) => SettingsBloc()..add(CheckForTheme()),
@@ -40,7 +39,7 @@ class LectioApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
       return MaterialApp(
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: true,
         builder: (context, child) {
           return MediaQuery(
               data:

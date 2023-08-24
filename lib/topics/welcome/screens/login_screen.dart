@@ -21,6 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
   late TextEditingController usernameController;
   late TextEditingController passwordController;
 
+  bool hidden = true;
+
   @override
   void initState() {
     super.initState();
@@ -47,13 +49,21 @@ class _LoginScreenState extends State<LoginScreen> {
             TextField(
               controller: usernameController,
               decoration: const InputDecoration(
-                  label: Text("Brugernavn"), icon: Icon(EvaIcons.person)),
+                  label: Text("Brugernavn"), prefixIcon: Icon(EvaIcons.person)),
             ),
             TextField(
               controller: passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                  label: Text("Kodeord"), icon: Icon(Icons.key_outlined)),
+              obscureText: hidden,
+              decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          hidden = !hidden;
+                        });
+                      },
+                      icon: Icon(hidden ? EvaIcons.eyeOff : EvaIcons.eye)),
+                  label: const Text("Kodeord"),
+                  prefixIcon: const Icon(Icons.key_outlined)),
             ),
             ButtonBar(
                 buttonPadding: const EdgeInsets.all(12.0),

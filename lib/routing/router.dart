@@ -13,7 +13,7 @@ class AppRouter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<StudentBloc, StudentState>(
+    return BlocBuilder<StudentBloc, StudentState>(
       builder: (context, state) {
         switch (state.state) {
           case StudentStates.loading:
@@ -28,7 +28,6 @@ class AppRouter extends StatelessWidget {
             return const WelcomeCarousel();
         }
       },
-      listener: (context, state) {},
     );
   }
 }

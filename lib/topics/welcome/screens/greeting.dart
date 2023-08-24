@@ -8,6 +8,7 @@ class GreetingsScreen extends StatelessWidget {
 
   final Function() next;
   final Function() skip;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
