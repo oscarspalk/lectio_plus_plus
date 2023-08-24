@@ -4,13 +4,20 @@ import 'package:lectio_wrapper/utils/dating.dart';
 import 'package:lpp/topics/opgaver/widgets/opgave_list_item.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
 
-class OpgaveList extends StatelessWidget {
+class OpgaveList extends StatefulWidget {
   const OpgaveList({super.key, required this.opgaver});
   final List<AssignmentRef> opgaver;
+
   @override
-  Widget build(BuildContext context) {
-    Map<int, List<AssignmentRef>> withWeeks = {};
-    for (var opgave in opgaver) {
+  State<OpgaveList> createState() => _OpgaveListState();
+}
+
+class _OpgaveListState extends State<OpgaveList> {
+  Map<int, List<AssignmentRef>> withWeeks = {};
+
+  void _splitWeeks() {
+    withWeeks = {};
+    for (var opgave in widget.opgaver) {
       int week = weekFromDateTime(opgave.deadline);
       if (withWeeks.containsKey(week)) {
         withWeeks[week]!.add(opgave);
@@ -18,6 +25,22 @@ class OpgaveList extends StatelessWidget {
         withWeeks.putIfAbsent(week, () => [opgave]);
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _splitWeeks();
+  }
+
+  @override
+  void didUpdateWidget(covariant OpgaveList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _splitWeeks();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: withWeeks.entries.length,
         itemBuilder: (context, index) {

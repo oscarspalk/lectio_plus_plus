@@ -3,16 +3,24 @@ import 'package:lectio_wrapper/types/absence/cause.dart';
 import 'package:lpp/topics/absence/widgets/absence_registration_group.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
 
-class AbsenceRegistrationList extends StatelessWidget {
+class AbsenceRegistrationList extends StatefulWidget {
   const AbsenceRegistrationList(
       {super.key, required this.entries, required this.missing});
 
   final List<AbsenceCauseEntry> entries;
   final bool missing;
+
   @override
-  Widget build(BuildContext context) {
-    Map<DateTime, List<AbsenceCauseEntry>> daysAndEntries = {};
-    for (var entry in entries) {
+  State<AbsenceRegistrationList> createState() =>
+      _AbsenceRegistrationListState();
+}
+
+class _AbsenceRegistrationListState extends State<AbsenceRegistrationList> {
+  Map<DateTime, List<AbsenceCauseEntry>> daysAndEntries = {};
+
+  void _buildDays() {
+    daysAndEntries = {};
+    for (var entry in widget.entries) {
       var date = DateTime(entry.module.start.year, entry.module.start.month,
           entry.module.start.day);
       if (daysAndEntries.containsKey(date)) {
@@ -21,12 +29,28 @@ class AbsenceRegistrationList extends StatelessWidget {
         daysAndEntries.putIfAbsent(date, () => [entry]);
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _buildDays();
+  }
+
+  @override
+  void didUpdateWidget(covariant AbsenceRegistrationList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _buildDays();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         TextDivider(
-          text: missing ? "Mangler" : "Udfyldte",
+          text: widget.missing ? "Mangler" : "Udfyldte",
           primary: true,
         ),
         ...daysAndEntries.entries

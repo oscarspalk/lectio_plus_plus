@@ -14,8 +14,8 @@ class AbsenceScreen extends StatefulWidget {
 class _AbsenceScreenState extends State<AbsenceScreen>
     with SingleTickerProviderStateMixin {
   final List<Widget> screens = [
-    const AbsenceOverview(),
-    const AbsenceRegistrations()
+    const AbsenceOverviewScreen(),
+    const AbsenceRegistrationsScreen()
   ];
 
   late TabController tabController;

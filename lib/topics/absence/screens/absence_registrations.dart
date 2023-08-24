@@ -7,46 +7,69 @@ import 'package:lpp/topics/state/empty.dart';
 import '../bloc/registation.dart';
 import '../../state/loading.dart';
 
-class AbsenceRegistrations extends StatelessWidget {
-  const AbsenceRegistrations({super.key});
+class AbsenceRegistrations extends StatefulWidget {
+  const AbsenceRegistrations({super.key, required this.registrationState});
+  final AbsenceRegistrationsState registrationState;
+  @override
+  State<AbsenceRegistrations> createState() => _AbsenceRegistrationsState();
+}
+
+class _AbsenceRegistrationsState extends State<AbsenceRegistrations> {
+  List<AbsenceCauseEntry> filledCauses = [];
+  List<AbsenceCauseEntry> missingCauses = [];
+  List<AbsenceCauseEntry> causes = [];
+  void _buildRegistrationSections() {
+    causes = widget.registrationState.entries
+      ..sort(
+        (b, a) {
+          return a.module.start.compareTo(b.module.start);
+        },
+      );
+
+    filledCauses = causes.where((element) => element.cause != null).toList();
+    missingCauses = causes.where((element) => element.cause == null).toList();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _buildRegistrationSections();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (causes.isEmpty) {
+      return const EmptyScreen();
+    }
+    return ListView(children: [
+      if (missingCauses.isNotEmpty)
+        AbsenceRegistrationList(
+          entries: missingCauses,
+          missing: true,
+        ),
+      if (filledCauses.isNotEmpty)
+        AbsenceRegistrationList(
+          entries: filledCauses,
+          missing: false,
+        )
+    ]);
+  }
+}
+
+class AbsenceRegistrationsScreen extends StatelessWidget {
+  const AbsenceRegistrationsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AbsenceRegistrationsBloc, AbsenceRegistrationsState>(
-      builder: (context, state) {
-        if (state.loading) {
-          return const LoadingScreen();
-        }
-        if (state.entries.isEmpty) {
-          return const EmptyScreen();
-        }
-        List<AbsenceCauseEntry> causes = state.entries
-          ..sort(
-            (b, a) {
-              return a.module.start.compareTo(b.module.start);
-            },
-          );
-
-        List<AbsenceCauseEntry> filledCauses =
-            causes.where((element) => element.cause != null).toList();
-        List<AbsenceCauseEntry> missingCauses =
-            causes.where((element) => element.cause == null).toList();
-        if (causes.isEmpty) {
-          return const EmptyScreen();
-        }
-        return ListView(children: [
-          if (missingCauses.isNotEmpty)
-            AbsenceRegistrationList(
-              entries: missingCauses,
-              missing: true,
-            ),
-          if (filledCauses.isNotEmpty)
-            AbsenceRegistrationList(
-              entries: filledCauses,
-              missing: false,
-            )
-        ]);
-      },
-    );
+        builder: (context, state) {
+      if (state.loading) {
+        return const LoadingScreen();
+      }
+      if (state.entries.isEmpty) {
+        return const EmptyScreen();
+      }
+      return AbsenceRegistrations(registrationState: state);
+    });
   }
 }

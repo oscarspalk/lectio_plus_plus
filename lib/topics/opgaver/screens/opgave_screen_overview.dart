@@ -19,20 +19,6 @@ class OpgaveScreenOverview extends StatefulWidget {
 }
 
 class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
-  final List<String> filters = ["Venter", "Afleveret", "Mangler"];
-
-  Set<String> appliedFilters = {"Venter"};
-
-  void apply(String filter) {
-    setState(() {
-      if (appliedFilters.contains(filter)) {
-        appliedFilters.remove(filter);
-      } else {
-        appliedFilters.add(filter);
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,24 +40,59 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
                 if (!state.loaded) {
                   return const LoadingScreen();
                 }
-                List<AssignmentRef> assignments = state.refs.where((element) {
-                  return state.appliedFilters.isEmpty ||
-                      state.appliedFilters
-                          .map((e) => e.name)
-                          .contains(element.status);
-                }).toList()
-                  ..sort(
-                    (a, b) => a.deadline.compareTo(b.deadline),
-                  );
-                if (assignments.isEmpty) {
-                  return const EmptyScreen();
-                }
-                return OpgaveList(opgaver: assignments);
+
+                return OpgaveScreenFilterWidget(
+                  assignmentState: state,
+                );
               },
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+class OpgaveScreenFilterWidget extends StatefulWidget {
+  const OpgaveScreenFilterWidget({super.key, required this.assignmentState});
+  final AssignmentState assignmentState;
+  @override
+  State<OpgaveScreenFilterWidget> createState() =>
+      _OpgaveScreenFilterWidgetState();
+}
+
+class _OpgaveScreenFilterWidgetState extends State<OpgaveScreenFilterWidget> {
+  List<AssignmentRef> assignments = [];
+
+  void _filterAssignments() {
+    assignments = widget.assignmentState.refs.where((element) {
+      return widget.assignmentState.appliedFilters.isEmpty ||
+          widget.assignmentState.appliedFilters
+              .map((e) => e.name)
+              .contains(element.status);
+    }).toList()
+      ..sort(
+        (a, b) => a.deadline.compareTo(b.deadline),
+      );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _filterAssignments();
+  }
+
+  @override
+  void didUpdateWidget(covariant OpgaveScreenFilterWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _filterAssignments();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (assignments.isEmpty) {
+      return const EmptyScreen();
+    }
+    return OpgaveList(opgaver: assignments);
   }
 }

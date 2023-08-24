@@ -9,11 +9,16 @@ import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/utils/helpers.dart';
 import 'package:lpp/widgets/primitive/team_name.dart';
 
-class OpgaveListItem extends StatelessWidget {
+class OpgaveListItem extends StatefulWidget {
   final AssignmentRef opgave;
 
   const OpgaveListItem({super.key, required this.opgave});
 
+  @override
+  State<OpgaveListItem> createState() => _OpgaveListItemState();
+}
+
+class _OpgaveListItemState extends State<OpgaveListItem> {
   String futureOrLate(DateTime time) {
     var now = DateTime.now();
     var days = now.difference(time).inDays.abs();
@@ -30,20 +35,39 @@ class OpgaveListItem extends StatelessWidget {
     return "${hours > 0 ? hours == 1 ? "$hours time og " : "$hours timer og " : ""}${minutes == 1 ? "$minutes minut" : "$minutes minutter"} $text";
   }
 
+  late bool delivered;
+  late String timeText;
+  late bool missing;
+
+  void _buildState() {
+    delivered = widget.opgave.status == "Afleveret";
+    timeText = delivered
+        ? "${formatDateReadable(widget.opgave.deadline)} ${DateFormat.Hm().format(widget.opgave.deadline)}"
+        : futureOrLate(widget.opgave.deadline);
+    missing = widget.opgave.status == "Mangler";
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _buildState();
+  }
+
+  @override
+  void didUpdateWidget(covariant OpgaveListItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _buildState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var delivered = opgave.status == "Afleveret";
-    var timeText = delivered
-        ? "${formatDateReadable(opgave.deadline)} ${DateFormat.Hm().format(opgave.deadline)}"
-        : futureOrLate(opgave.deadline);
-    var missing = opgave.status == "Mangler";
     return ListTile(
       onTap: () {
-        context.read<OpgaveDetailsBloc>().load(opgave);
+        context.read<OpgaveDetailsBloc>().load(widget.opgave);
         Navigator.push(
             context,
             adRoute(OpgaveScreen(
-              ref: opgave,
+              ref: widget.opgave,
             )));
       },
       leading: Icon(
@@ -57,12 +81,12 @@ class OpgaveListItem extends StatelessWidget {
                 : Theme.of(context).colorScheme.primary,
       ),
       title: TeamName(
-        teamName: opgave.team,
+        teamName: widget.opgave.team,
         builder: (name) {
-          return Text("${opgave.title} - $name");
+          return Text("${widget.opgave.title} - $name");
         },
       ),
-      subtitle: Text("${opgave.status} - $timeText"),
+      subtitle: Text("${widget.opgave.status} - $timeText"),
     );
   }
 }

@@ -23,33 +23,52 @@ class AlphabeticList<T> extends StatefulWidget {
 }
 
 class _AlphabeticListState<T> extends State<AlphabeticList<T>> {
+  Map<String, List<AssociatedObject<T>>> lettersAndObjs = {};
+
+  void _buildAssociations() {
+    lettersAndObjs = {};
+    for (var obj in widget.list) {
+      String startCharacter = obj.key.characters.first.toLowerCase();
+      if (lettersAndObjs.containsKey(startCharacter)) {
+        lettersAndObjs[startCharacter] =
+            lettersAndObjs[startCharacter]!.toList()..add(obj);
+      } else {
+        lettersAndObjs.putIfAbsent(startCharacter, () => [obj]);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _buildAssociations();
+  }
+
+  @override
+  void didUpdateWidget(covariant AlphabeticList<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _buildAssociations();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: widget.list.isEmpty
             ? const EmptyScreen()
             : ListView(
-                children: letters.map((e) {
-                  var matching = widget.list
-                      .where((obj) => obj.key.toLowerCase().startsWith(e));
-                  if (matching.isEmpty) {
-                    return const SizedBox(
-                      height: 0.0,
-                    );
-                  }
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextDivider(
-                        primary: true,
-                        text: e.toUpperCase(),
-                        large: true,
-                      ),
-                      ...matching
-                          .map((e) => widget.itemBuilder(context, e.object))
-                    ],
-                  );
-                }).toList(),
-              ));
+                children: lettersAndObjs.entries.map((letterAndObj) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextDivider(
+                      primary: true,
+                      text: letterAndObj.key.toUpperCase(),
+                      large: true,
+                    ),
+                    ...letterAndObj.value
+                        .map((e) => widget.itemBuilder(context, e.object))
+                  ],
+                );
+              }).toList()));
   }
 }
