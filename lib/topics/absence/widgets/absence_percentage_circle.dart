@@ -4,13 +4,13 @@ import 'package:lectio_wrapper/types/absence/cause.dart';
 Color colorFromCause(AbsenceCauses? cause, BuildContext context) {
   switch (cause) {
     case AbsenceCauses.late:
-      return Colors.orange.shade300;
+      return Colors.orange.shade900;
     case AbsenceCauses.sick:
-      return Colors.red.shade300;
+      return Colors.red.shade900;
     case AbsenceCauses.privateRelations:
-      return Colors.pink.shade300;
+      return Colors.pink.shade900;
     case AbsenceCauses.schoolRelated:
-      return Colors.green.shade300;
+      return Colors.green.shade900;
     default:
       return Theme.of(context).colorScheme.primary;
   }
@@ -19,13 +19,13 @@ Color colorFromCause(AbsenceCauses? cause, BuildContext context) {
 Color textColorFromCause(AbsenceCauses? cause, BuildContext context) {
   switch (cause) {
     case AbsenceCauses.late:
-      return Colors.orange.shade900;
+      return Colors.orange.shade50;
     case AbsenceCauses.sick:
-      return Colors.red.shade900;
+      return Colors.red.shade50;
     case AbsenceCauses.privateRelations:
-      return Colors.pink.shade900;
+      return Colors.pink.shade50;
     case AbsenceCauses.schoolRelated:
-      return Colors.green.shade900;
+      return Colors.green.shade50;
     default:
       return Theme.of(context).colorScheme.onPrimary;
   }
