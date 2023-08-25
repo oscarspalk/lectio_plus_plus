@@ -2,9 +2,27 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
+import 'package:lpp/topics/absence/widgets/absence_cause_card.dart';
+import 'package:lpp/topics/absence/widgets/causes_sheet.dart';
 import 'package:lpp/topics/calendar/widgets/day_event.dart';
+import 'package:lpp/utils/ad_route.dart';
 
 import '../bloc/registation.dart';
+
+IconData iconFromCause(AbsenceCauses cause) {
+  switch (cause) {
+    case AbsenceCauses.sick:
+      return EvaIcons.thermometerOutline;
+    case AbsenceCauses.schoolRelated:
+      return EvaIcons.bookOpenOutline;
+    case AbsenceCauses.late:
+      return EvaIcons.clockOutline;
+    case AbsenceCauses.privateRelations:
+      return EvaIcons.peopleOutline;
+    case AbsenceCauses.other:
+      return EvaIcons.moreVerticalOutline;
+  }
+}
 
 class EditAbsence extends StatefulWidget {
   const EditAbsence({super.key, required this.cause});
@@ -37,21 +55,6 @@ class _EditAbsenceState extends State<EditAbsence> {
             _absenceCause != widget.cause.cause);
   }
 
-  IconData iconFromCause(AbsenceCauses cause) {
-    switch (cause) {
-      case AbsenceCauses.sick:
-        return EvaIcons.thermometerOutline;
-      case AbsenceCauses.schoolRelated:
-        return EvaIcons.bookOpenOutline;
-      case AbsenceCauses.late:
-        return EvaIcons.clockOutline;
-      case AbsenceCauses.privateRelations:
-        return EvaIcons.peopleOutline;
-      case AbsenceCauses.other:
-        return EvaIcons.moreVerticalOutline;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -60,28 +63,19 @@ class _EditAbsenceState extends State<EditAbsence> {
         children: [
           dayEventWidget(double.infinity, widget.cause.module, context, 100.0),
           InputDecorator(
-              decoration: const InputDecoration(label: Text("Årsag")),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<AbsenceCauses>(
-                    value: _absenceCause,
-                    items: AbsenceCauses.values
-                        .map((e) => DropdownMenuItem<AbsenceCauses>(
-                            value: e,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: Icon(iconFromCause(e)),
-                                ),
-                                Text(e.name)
-                              ],
-                            )))
-                        .toList(),
-                    onChanged: (e) {
+              decoration: const InputDecoration(
+                  label: Text("Årsag"), border: InputBorder.none),
+              child: AbsenceCauseCard(
+                cause: _absenceCause,
+                onTap: () {
+                  adSheet(CausesSheet(
+                    onSelect: (selectedCause) {
                       setState(() {
-                        _absenceCause = e!;
+                        _absenceCause = selectedCause;
                       });
-                    }),
+                    },
+                  ), context);
+                },
               )),
           TextField(
             controller: explanationController,

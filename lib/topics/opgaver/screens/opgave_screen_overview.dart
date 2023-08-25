@@ -31,23 +31,28 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
       appBar: const LppAppbar(
         title: "Opgaver",
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: BlocBuilder<OpgaveBloc, AssignmentState>(
-              builder: (context, state) {
-                if (!state.loaded) {
-                  return const LoadingScreen();
-                }
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context.read<OpgaveBloc>().add(RequestedLoadAssignments());
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: BlocBuilder<OpgaveBloc, AssignmentState>(
+                builder: (context, state) {
+                  if (!state.loaded) {
+                    return const LoadingScreen();
+                  }
 
-                return OpgaveScreenFilterWidget(
-                  assignmentState: state,
-                );
-              },
+                  return OpgaveScreenFilterWidget(
+                    assignmentState: state,
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
