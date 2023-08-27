@@ -4,6 +4,7 @@ import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
 import 'package:lpp/topics/calendar/screens/schema.dart';
 import 'package:lpp/utils/ad_route.dart';
+import 'package:lpp/utils/formatters.dart';
 
 class RoomTile extends StatelessWidget {
   const RoomTile({super.key, required this.room, this.lokale = false});
@@ -18,6 +19,8 @@ class RoomTile extends StatelessWidget {
             context,
             adRoute(
                 SchemaScreen(
+                  room: true,
+                  name: formatName(room.short),
                   bloc: SchemaBloc(studentBloc.state.student!, studentBloc,
                       room: room)
                     ..add(SwitchedDate(DateTime.now())),

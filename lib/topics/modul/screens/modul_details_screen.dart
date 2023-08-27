@@ -36,6 +36,7 @@ class _ModulDetailsScreenState extends State<ModulDetailsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
   late Widget? specificWidget;
+  Widget? participantsWidget;
   List<String> tabs = ["Information"];
   @override
   void initState() {
@@ -50,6 +51,7 @@ class _ModulDetailsScreenState extends State<ModulDetailsScreen>
     if (widget.event.teamObjs.isNotEmpty ||
         widget.event.teacherObjs.isNotEmpty) {
       length++;
+      participantsWidget = getMembers(context);
       tabs.add("Deltagere");
     }
     _controller = TabController(
@@ -105,7 +107,7 @@ class _ModulDetailsScreenState extends State<ModulDetailsScreen>
                             event: widget.event,
                             state: state.details!),
                         getSpecificScreen(context, state.details!),
-                        getMembers(context)
+                        participantsWidget
                       ].whereType<Widget>().toList())
                   : const LoadingScreen());
         });

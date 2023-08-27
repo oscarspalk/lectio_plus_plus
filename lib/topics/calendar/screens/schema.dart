@@ -14,10 +14,11 @@ import '../../../utils/helpers.dart';
 import '../widgets/day_view.dart';
 
 class SchemaScreen extends StatefulWidget {
-  const SchemaScreen({super.key, this.bloc, this.name});
+  const SchemaScreen({super.key, this.bloc, this.name, this.room = false});
 
   final SchemaBloc? bloc;
   final String? name;
+  final bool room;
 
   @override
   State<SchemaScreen> createState() => _SchemaScreenState();
@@ -102,18 +103,33 @@ class _SchemaScreenState extends State<SchemaScreen> {
                     },
                     icon: const Icon(Icons.bookmark_outline))
             ],
-            titleWidget: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
+            titleWidget: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Uge ${weekFromDateTime(state.selectedTime.copyWith(hour: 0, minute: 0))}",
+                Center(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Uge ${weekFromDateTime(state.selectedTime.copyWith(hour: 0, minute: 0))}",
+                      ),
+                      Text(
+                        " - ${months[state.selectedTime.month - 1]} ${state.selectedTime.year.toString()}",
+                        style: const TextStyle(fontWeight: FontWeight.normal),
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ],
+                  ),
                 ),
-                Text(
-                  " - ${widget.name != null ? "${widget.name} " : ""}${months[state.selectedTime.month - 1]} ${state.selectedTime.year.toString()}",
-                  style: const TextStyle(fontWeight: FontWeight.normal),
-                  overflow: TextOverflow.ellipsis,
-                )
+                if (widget.name != null)
+                  Text(
+                    "${widget.room ? "Lokale " : ""}${widget.name} skema",
+                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary),
+                    textAlign: TextAlign.start,
+                  )
               ],
             ),
             bottom: WeekHeader(

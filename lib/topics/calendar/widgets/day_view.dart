@@ -35,71 +35,124 @@ class DayView extends StatelessWidget {
     return BlocBuilder<SchemaBloc, SchemaState>(
       bloc: bloc,
       builder: (context, state) {
-        var weekNum = weekFromDateTime(daySelected);
-        var availableWeeks = state.weeks[daySelected.year]
-            ?.where((element) => element.weekNum == weekNum)
-            .toList();
-        if (availableWeeks == null || availableWeeks.isEmpty) {
-          return const LoadingScreen();
-        }
-        var availableDays = availableWeeks[0]
-            .days
-            .where((element) => element.date.day == daySelected.day)
-            .toList();
-        late Day day;
-        if (availableDays.isEmpty) {
-          day = Day(informations: [], events: [], date: state.selectedTime);
-        } else {
-          day = availableDays[0];
-        }
-        if (day.events.isEmpty) {
-          return const EmptyScreen(
-            noEvents: true,
-            text: "Der sker ingenting i dag",
-          );
-        }
-
-        var firstEventStart =
-            maxOrMin(day.events, (a, b) => a.start.isBefore(b.start))?.start;
-        var lastEventEnd =
-            maxOrMin(day.events, (a, b) => a.end.isAfter(b.end))?.end;
-        var colorScheme = Theme.of(context).colorScheme;
-        return Scaffold(
-          body: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: wv.DayView(
-              style: wv.DayViewStyle(
-                hourRowHeight: hourRowHeight,
-                backgroundRulesColor: Theme.of(context).colorScheme.outline,
-                backgroundColor: colorScheme.background,
-                headerSize: 0.0,
-              ),
-              userZoomable: false,
-              date: day.date,
-              hoursColumnStyle: wv.HoursColumnStyle(
-                  textStyle: TextStyle(color: colorScheme.onBackground),
-                  color: colorScheme.background,
-                  width: columnWidth,
-                  timeFormatter: (time) {
-                    return "${time.hour}:${time.minute > 9 ? time.minute : "${time.minute}0"}";
-                  },
-                  interval: const Duration(minutes: 30)),
-              minimumTime: firstEventStart != null && firstEventStart.hour < 8
-                  ? wv.HourMinute(
-                      hour: firstEventStart.hour - 1,
-                      minute: firstEventStart.minute)
-                  : const wv.HourMinute(hour: 7, minute: 30),
-              maximumTime: lastEventEnd != null
-                  ? wv.HourMinute(hour: lastEventEnd.hour + 1, minute: 30)
-                  : wv.HourMinute.max,
-              events: day.events.map((dayEvent) {
-                return buildDayEvent(context, dayEvent);
-              }).toList(),
-            ),
-          ),
+        return DayViewDisplay(
+          dateSelected: daySelected,
+          weeks: state.weeks,
         );
       },
+    );
+  }
+}
+
+class DayViewDisplay extends StatefulWidget {
+  const DayViewDisplay({
+    super.key,
+    required this.dateSelected,
+    required this.weeks,
+  });
+
+  final DateTime dateSelected;
+  final Map<int, List<Week>> weeks;
+
+  @override
+  State<DayViewDisplay> createState() => _DayViewDisplayState();
+}
+
+class _DayViewDisplayState extends State<DayViewDisplay> {
+  bool isEmpty = true;
+  bool loading = true;
+  late wv.HourMinute minimumTime;
+  late wv.HourMinute maximumTime;
+  late Day day;
+  late List<wv.FlutterWeekViewEvent> events;
+
+  void _buildState() {
+    DateTime? firstEventStart;
+    DateTime? lastEventEnd;
+    DateTime dateSelected = widget.dateSelected;
+    var weekNum = weekFromDateTime(dateSelected);
+    var availableWeeks = widget.weeks[dateSelected.year]
+        ?.where((element) => element.weekNum == weekNum)
+        .toList();
+    if (availableWeeks == null || availableWeeks.isEmpty) {
+      loading = true;
+    } else {
+      var availableDays = availableWeeks[0]
+          .days
+          .where((element) => element.date.day == dateSelected.day)
+          .toList();
+      if (availableDays.isEmpty) {
+        day = Day(informations: [], events: [], date: dateSelected);
+      } else {
+        day = availableDays[0];
+      }
+      if (day.events.isEmpty) {
+        isEmpty = true;
+      } else {
+        isEmpty = false;
+        events = day.events.map((dayEvent) {
+          return buildDayEvent(context, dayEvent);
+        }).toList();
+      }
+
+      firstEventStart =
+          maxOrMin(day.events, (a, b) => a.start.isBefore(b.start))?.start;
+      lastEventEnd = maxOrMin(day.events, (a, b) => a.end.isAfter(b.end))?.end;
+    }
+    minimumTime = firstEventStart != null && firstEventStart.hour < 8
+        ? wv.HourMinute(
+            hour: firstEventStart.hour - 1, minute: firstEventStart.minute)
+        : const wv.HourMinute(hour: 7, minute: 30);
+    maximumTime = lastEventEnd != null
+        ? wv.HourMinute(hour: lastEventEnd.hour + 1, minute: 30)
+        : wv.HourMinute.max;
+    loading = false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _buildState();
+  }
+
+  @override
+  void didUpdateWidget(covariant DayViewDisplay oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _buildState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var colorScheme = Theme.of(context).colorScheme;
+    if (loading) {
+      return const LoadingScreen();
+    }
+    if (isEmpty) {
+      return const EmptyScreen(
+        noEvents: true,
+        text: "Der sker ingenting i dag",
+      );
+    }
+    return wv.DayView(
+      style: wv.DayViewStyle(
+        hourRowHeight: hourRowHeight,
+        backgroundRulesColor: colorScheme.outline,
+        backgroundColor: colorScheme.background,
+        headerSize: 0.0,
+      ),
+      userZoomable: false,
+      date: widget.dateSelected,
+      hoursColumnStyle: wv.HoursColumnStyle(
+          textStyle: TextStyle(color: colorScheme.onBackground),
+          color: colorScheme.background,
+          width: columnWidth,
+          timeFormatter: (time) {
+            return "${time.hour}:${time.minute > 9 ? time.minute : "${time.minute}0"}";
+          },
+          interval: const Duration(minutes: 30)),
+      minimumTime: minimumTime,
+      maximumTime: maximumTime,
+      events: events,
     );
   }
 }

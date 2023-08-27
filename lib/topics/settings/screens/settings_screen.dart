@@ -2,7 +2,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/topics/settings/widget/term_controller.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
@@ -78,11 +77,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     subtitle: const Text(
                         "Se, hvad der er af hjælpeartikler på vores hjemmeside"),
                   ),
-                  const TextDivider(
+                  /*const TextDivider(
                     text: "Lectio++",
                     primary: true,
                   ),
-                  const TermsController(),
+                  const TermsController(),*/
                   const TextDivider(
                     text: "Notifikationer",
                     primary: true,

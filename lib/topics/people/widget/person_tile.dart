@@ -4,20 +4,44 @@ import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/people/widget/person_details.dart';
 import 'package:lpp/utils/ad_route.dart';
 
-class PersonTile extends StatelessWidget {
+class PersonTile extends StatefulWidget {
   const PersonTile({super.key, required this.person});
   final Student person;
+
+  @override
+  State<PersonTile> createState() => _PersonTileState();
+}
+
+class _PersonTileState extends State<PersonTile> {
+  late ImageProvider image;
+
+  void _getImage() {
+    image =
+        getStudentBloc(context).state.student!.getImage(widget.person.imageId);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getImage();
+  }
+
+  @override
+  void didUpdateWidget(covariant PersonTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _getImage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        foregroundImage:
-            getStudentBloc(context).state.student!.getImage(person.imageId),
+        foregroundImage: image,
       ),
-      title: Text(person.name),
-      subtitle: Text(person.info ?? ""),
+      title: Text(widget.person.name),
+      subtitle: Text(widget.person.info ?? ""),
       onTap: () {
-        adSheet(PersonDetails(person: person), context);
+        adSheet(PersonDetails(person: widget.person), context);
       },
     );
   }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lpp/topics/classes/screens/klasse_screen.dart';
 import 'package:lpp/topics/grades/screens/grade.dart';
 import 'package:lpp/topics/messages/screens/message_screen.dart';
-import 'package:lpp/topics/opgaver/screens/opgave_screen_overview.dart';
 import 'package:lpp/topics/people/screens/people_screen.dart';
 import 'package:lpp/topics/plans/screens/overview.dart';
 import 'package:lpp/topics/rooms/screens/overview.dart';
@@ -17,11 +16,6 @@ class Menu extends StatelessWidget {
   Menu({super.key});
 
   final List<Destination> destinations = [
-    Destination(
-        icon: EvaIcons.archiveOutline,
-        selectedIcon: EvaIcons.archive,
-        name: "Opgaver",
-        screen: const OpgaveScreenOverview()),
     Destination(
         icon: EvaIcons.folderOutline,
         selectedIcon: EvaIcons.folder,

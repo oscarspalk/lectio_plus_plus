@@ -21,12 +21,12 @@ class LoginService {
         await storage.containsKey(key: passwordKey);
   }
 
-  Future<bool> _containsRequired() async {
+  /*Future<bool> _containsRequired() async {
     return await _containsMinimum() &&
         await storage.containsKey(key: cookieKey) &&
         await storage.containsKey(key: studentIdKey) &&
         await storage.containsKey(key: expirationDateKey);
-  }
+  }*/
 
   Future<Account?> _getSavedAccount() async {
     String? gymIdValue = await storage.read(key: gymIdKey);
@@ -45,7 +45,7 @@ class LoginService {
     }
   }
 
-  Future<List<Cookie>> _getSavedCookies() async {
+  /*Future<List<Cookie>> _getSavedCookies() async {
     String? cookieString = await storage.read(key: cookieKey);
     if (cookieString != null) {
       List<Cookie> cookies = cookieString.split(';').map((cookieStr) {
@@ -55,11 +55,13 @@ class LoginService {
       return cookies;
     }
     return [];
-  }
+  }*/
 
   Future<Student?> loadSaved() async {
     if (await _containsMinimum()) {
       Account? savedAccount = await _getSavedAccount();
+      /*
+      @ disabled autologin
       if (await _containsRequired() && savedAccount != null) {
         DateTime expirationDate =
             DateTime.parse(await storage.read(key: expirationDateKey) ?? "");
@@ -68,7 +70,7 @@ class LoginService {
           List<Cookie> cookies = await _getSavedCookies();
           return savedAccount.loginWithCookies(cookies, studentId);
         }
-      }
+      }*/
       if (savedAccount != null) {
         return login(savedAccount);
       }
@@ -84,13 +86,17 @@ class LoginService {
     return null;
   }
 
+  Future<Account> _getSavedAccount_() {
+    return _getSavedAccount() as Future<Account>;
+  }
+
   Future<Student?> login(Account account) async {
     var accountWithAutologin = Account(
       account.gymId,
       account.username,
       account.password,
-      loginError: () async {
-        return (await _getSavedAccount())!;
+      loginError: () {
+        return _getSavedAccount_();
       },
     );
     var student = await accountWithAutologin.login(autologin: false);

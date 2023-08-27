@@ -9,9 +9,36 @@ import 'package:lpp/topics/calendar/screens/schema.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/utils/formatters.dart';
 
-class PersonDetails extends StatelessWidget {
+class PersonDetails extends StatefulWidget {
   const PersonDetails({super.key, required this.person});
   final Student person;
+
+  @override
+  State<PersonDetails> createState() => _PersonDetailsState();
+}
+
+class _PersonDetailsState extends State<PersonDetails> {
+  late ImageProvider image;
+
+  void _getImage() {
+    image = getStudentBloc(context)
+        .state
+        .student!
+        .getImage(widget.person.imageId, fullsize: true);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getImage();
+  }
+
+  @override
+  void didUpdateWidget(covariant PersonDetails oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _getImage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,38 +48,32 @@ class PersonDetails extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 12.0),
-              child: CircleAvatar(
-                radius: 70.0,
-                foregroundImage: getStudentBloc(context)
-                    .state
-                    .student!
-                    .getImage(person.imageId, fullsize: true),
-              ),
+              child: CircleAvatar(radius: 70.0, foregroundImage: image),
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Text(
-                person.name,
+                widget.person.name,
                 style: headerStyle,
                 textAlign: TextAlign.center,
               ),
             ),
-            Text(person.info ?? ""),
+            Text(widget.person.info ?? ""),
             ListTile(
               onTap: () {
                 Navigator.push(
                     context,
                     adRoute(
                         SchemaScreen(
-                            name: formatName(person.name),
-                            bloc:
-                                SchemaBloc(person, context.read<StudentBloc>())
-                                  ..add(
-                                    SwitchedDate(DateTime.now()),
-                                  )),
+                            name: formatName(widget.person.name),
+                            bloc: SchemaBloc(
+                                widget.person, context.read<StudentBloc>())
+                              ..add(
+                                SwitchedDate(DateTime.now()),
+                              )),
                         onlyFromEdge: true));
               },
-              title: Text("Se ${formatName(person.name)} skema"),
+              title: Text("Se ${formatName(widget.person.name)} skema"),
               leading: const Icon(EvaIcons.calendarOutline),
             )
           ],
