@@ -1,13 +1,14 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/topics/assignments/scraping.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
 import 'package:lectio_wrapper/types/primitives/file.dart';
+import 'package:lpp/topics/calendar/widgets/day_event.dart';
 import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
 import 'package:lpp/topics/modul/screens/modul_lektie_screen.dart';
 import 'package:lpp/topics/opgaver/bloc/opgaver_details_bloc.dart';
 import 'package:lpp/utils/ad_route.dart';
+import 'package:lpp/utils/helpers.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
 import 'package:lpp/widgets/primitive/team_name.dart';
@@ -62,10 +63,8 @@ class OpgaveScreen extends StatelessWidget {
                   ),
                   ListTile(
                     subtitle: const Text("Deadline"),
-                    title: Text(formatDate(
-                      assignment.deadline,
-                      ['HH', ':', 'mm', ' ', 'dd', '. ', 'MM', ' ', 'yyyy'],
-                    )),
+                    title: Text(
+                        "${formatDateReadable(assignment.deadline)} - ${hF.format(assignment.deadline)}"),
                   ),
                   ListTile(
                     title: Text(

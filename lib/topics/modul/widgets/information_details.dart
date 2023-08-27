@@ -2,10 +2,14 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart';
+import 'package:lectio_wrapper/types/rooms/room.dart';
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
+import 'package:lpp/logic/student/student_cubit.dart';
 import 'package:lpp/topics/modul/screens/modul_details_screen.dart';
 import 'package:lpp/topics/people/widget/person_tile.dart';
+import 'package:lpp/topics/rooms/widgets/room_tile.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
+import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 import 'package:lpp/widgets/primitive/statement.dart';
 import 'package:lpp/widgets/primitive/team_name.dart';
 
@@ -33,9 +37,22 @@ class InformationDetails extends StatelessWidget {
               )
             : Container(),
         ine(event.room)
-            ? ListTile(
-                title: Text(event.room),
-                subtitle: const Text("Lokale"),
+            ? StudentBlocBuilder<StudentCubit<List<Room>>, List<Room>?>(
+                builder: (context, state) {
+                  var matchingRoom = state!.where((room) =>
+                      room.name.startsWith(event.room) ||
+                      room.short.startsWith(event.room));
+                  if (matchingRoom.isNotEmpty) {
+                    return RoomTile(
+                      room: matchingRoom.first,
+                      lokale: true,
+                    );
+                  }
+                  return ListTile(
+                    title: Text(event.room),
+                    subtitle: const Text("Lokale"),
+                  );
+                },
               )
             : Container(),
         ListTile(

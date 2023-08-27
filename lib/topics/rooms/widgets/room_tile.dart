@@ -6,8 +6,9 @@ import 'package:lpp/topics/calendar/screens/schema.dart';
 import 'package:lpp/utils/ad_route.dart';
 
 class RoomTile extends StatelessWidget {
-  const RoomTile({super.key, required this.room});
+  const RoomTile({super.key, required this.room, this.lokale = false});
   final Room room;
+  final bool lokale;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -24,7 +25,7 @@ class RoomTile extends StatelessWidget {
                 onlyFromEdge: true));
       },
       title: Text(room.short),
-      subtitle: Text(room.name),
+      subtitle: Text(lokale ? "Lokale" : room.name),
     );
   }
 }

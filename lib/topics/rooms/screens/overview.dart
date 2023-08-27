@@ -20,7 +20,11 @@ class RoomOverview extends StatelessWidget {
         },
         child: const Icon(EvaIcons.searchOutline),
       ),
-      appBar: const LppAppbar(title: "Lokaler"),
+      appBar: const LppAppbar(
+        title: "Lokaler",
+        bottom: PreferredSize(
+            preferredSize: Size.fromHeight(0.0), child: SizedBox()),
+      ),
       body: StudentBlocBuilder<StudentCubit<List<Room>>, List<Room>?>(
         builder: (context, state) {
           if (state!.isEmpty) {

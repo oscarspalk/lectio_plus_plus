@@ -32,6 +32,7 @@ class OpgaveBloc extends Bloc<AssignmentEvent, AssignmentState> {
   OpgaveBloc(this.student)
       : super(AssignmentState([], null, false, [AssignmentFilters.awaiting])) {
     on<RequestedLoadAssignments>((event, emit) async {
+      emit(state.copyWith(loaded: false));
       var references = await student.assignments.list();
       emit(state.copyWith(refs: references, loaded: true));
     });

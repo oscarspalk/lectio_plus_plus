@@ -1,6 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
 
+Color colorFromCause(AbsenceCauses? cause, BuildContext context) {
+  switch (cause) {
+    case AbsenceCauses.late:
+      return Colors.orange.shade900;
+    case AbsenceCauses.sick:
+      return Colors.red.shade900;
+    case AbsenceCauses.privateRelations:
+      return Colors.pink.shade900;
+    case AbsenceCauses.schoolRelated:
+      return Colors.green.shade900;
+    default:
+      return Theme.of(context).colorScheme.primary;
+  }
+}
+
+Color textColorFromCause(AbsenceCauses? cause, BuildContext context) {
+  switch (cause) {
+    case AbsenceCauses.late:
+      return Colors.orange.shade50;
+    case AbsenceCauses.sick:
+      return Colors.red.shade50;
+    case AbsenceCauses.privateRelations:
+      return Colors.pink.shade50;
+    case AbsenceCauses.schoolRelated:
+      return Colors.green.shade50;
+    default:
+      return Theme.of(context).colorScheme.onPrimary;
+  }
+}
+
 class AbsencePercentageCircle extends StatefulWidget {
   const AbsencePercentageCircle(
       {super.key, required this.percentage, required this.cause});
@@ -15,20 +45,6 @@ class AbsencePercentageCircle extends StatefulWidget {
 class _AbsencePercentageCircleState extends State<AbsencePercentageCircle> {
   late Color causeColor;
   late String percentage;
-  Color colorFromCause(AbsenceCauses? cause, BuildContext context) {
-    switch (cause) {
-      case AbsenceCauses.late:
-        return Colors.orange.shade400;
-      case AbsenceCauses.sick:
-        return Colors.red.shade500;
-      case AbsenceCauses.privateRelations:
-        return Colors.pink;
-      case AbsenceCauses.schoolRelated:
-        return Colors.green;
-      default:
-        return Theme.of(context).colorScheme.primary;
-    }
-  }
 
   void _buildState() {
     causeColor = colorFromCause(widget.cause, context);
