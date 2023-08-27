@@ -24,12 +24,21 @@ void main() {
     Workmanager().registerPeriodicTask("opgave-check", "opgave-check",
         frequency: const Duration(minutes: 15));
   }
-  runApp(MultiBlocProvider(providers: [
-    BlocProvider(
-      create: (_) => SettingsBloc()..add(CheckForTheme()),
-    ),
-    BlocProvider(create: (_) => StudentBloc()..add(LaunchedApp()))
-  ], child: const LectioApp()));
+  runApp(const LectioBase());
+}
+
+class LectioBase extends StatelessWidget {
+  const LectioBase({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(providers: [
+      BlocProvider(
+        create: (_) => SettingsBloc()..add(CheckForTheme()),
+      ),
+      BlocProvider(create: (_) => StudentBloc()..add(LaunchedApp()))
+    ], child: const LectioApp());
+  }
 }
 
 class LectioApp extends StatelessWidget {
