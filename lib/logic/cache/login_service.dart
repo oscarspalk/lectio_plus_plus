@@ -85,7 +85,15 @@ class LoginService {
   }
 
   Future<Student?> login(Account account) async {
-    var student = await account.login();
+    var accountWithAutologin = Account(
+      account.gymId,
+      account.username,
+      account.password,
+      loginError: () async {
+        return (await _getSavedAccount())!;
+      },
+    );
+    var student = await accountWithAutologin.login(autologin: false);
     if (student != null) {
       await save(account, student);
       return student;
