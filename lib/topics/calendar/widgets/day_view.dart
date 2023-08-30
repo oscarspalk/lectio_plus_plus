@@ -98,6 +98,7 @@ class _DayViewDisplayState extends State<DayViewDisplay> {
       firstEventStart =
           maxOrMin(day.events, (a, b) => a.start.isBefore(b.start))?.start;
       lastEventEnd = maxOrMin(day.events, (a, b) => a.end.isAfter(b.end))?.end;
+      loading = false;
     }
     minimumTime = firstEventStart != null && firstEventStart.hour < 8
         ? wv.HourMinute(
@@ -106,7 +107,6 @@ class _DayViewDisplayState extends State<DayViewDisplay> {
     maximumTime = lastEventEnd != null
         ? wv.HourMinute(hour: lastEventEnd.hour + 1, minute: 30)
         : wv.HourMinute.max;
-    loading = false;
   }
 
   @override
