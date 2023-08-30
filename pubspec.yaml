@@ -37,8 +37,6 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
   flutter_expandable_fab: ^2.0.0
   flutter_quill: ^7.4.3
-  firebase_core: ^2.15.1
-  firebase_analytics: ^10.4.5
 
 dev_dependencies:
   flutter_test:
