@@ -26,6 +26,7 @@ void main() {
           frequency: const Duration(minutes: 15));
     }
   }
+
   runApp(const LectioBase());
 }
 
