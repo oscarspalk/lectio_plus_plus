@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -12,7 +14,9 @@ class AdConsentCheckerState extends State<AdConsentChecker> {
   @override
   void initState() {
     super.initState();
-    _checkConsent();
+    if (Platform.isIOS || Platform.isAndroid) {
+      _checkConsent();
+    }
   }
 
   Future<void> _checkConsent() async {

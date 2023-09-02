@@ -50,6 +50,11 @@ class _AdBarState extends State<AdBar> {
 
   @override
   Widget build(BuildContext context) {
+    if (!(Platform.isAndroid || Platform.isIOS)) {
+      return const SizedBox(
+        height: 0.0,
+      );
+    }
     return !kDebugMode && _bannerAd != null
         ? SizedBox(
             width: double.infinity,

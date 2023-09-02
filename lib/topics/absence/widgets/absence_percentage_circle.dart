@@ -65,16 +65,20 @@ class _AbsencePercentageCircleState extends State<AbsencePercentageCircle> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(fit: StackFit.expand, alignment: Alignment.center, children: [
+    return Stack(fit: StackFit.loose, alignment: Alignment.center, children: [
       Center(
         child: Text(
           percentage,
           style: const TextStyle(fontSize: 16.0),
         ),
       ),
-      CircularProgressIndicator(
-        color: causeColor,
-        value: widget.percentage,
+      SizedBox(
+        height: 90.0,
+        width: 90.0,
+        child: CircularProgressIndicator(
+          color: causeColor,
+          value: widget.percentage,
+        ),
       ),
     ]);
   }

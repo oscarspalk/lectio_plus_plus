@@ -71,19 +71,36 @@ class _PrimaryActivitiesState extends State<PrimaryActivities> {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context);
+    if (media.size.width > 900) {
+      return Scaffold(
+        body: Row(
+          children: [
+            LppBottombar(
+                destinations: bottomDestinations,
+                onSelected: setScreen,
+                selectedIndex: _selectedScreen),
+            Expanded(child: _body())
+          ],
+        ),
+      );
+    }
     return Scaffold(
-      bottomNavigationBar: LppBottombar(
-          onSelected: setScreen,
-          selectedIndex: _selectedScreen,
-          destinations: bottomDestinations),
-      body: PageView.builder(
-        controller: _controller,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: bottomDestinations.length,
-        itemBuilder: (context, index) {
-          return bottomDestinations.elementAt(index).screen;
-        },
-      ),
+        bottomNavigationBar: LppBottombar(
+            onSelected: setScreen,
+            selectedIndex: _selectedScreen,
+            destinations: bottomDestinations),
+        body: _body());
+  }
+
+  Widget _body() {
+    return PageView.builder(
+      controller: _controller,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: bottomDestinations.length,
+      itemBuilder: (context, index) {
+        return bottomDestinations.elementAt(index).screen;
+      },
     );
   }
 

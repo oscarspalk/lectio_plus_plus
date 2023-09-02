@@ -13,16 +13,18 @@ import 'routing/router.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
-  initializeNotifcations();
-  Workmanager().initialize(
-      callbackDispatcher, // The top level function, aka callbackDispatcher
-      isInDebugMode:
-          kDebugMode // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
-      );
-  if (Platform.isAndroid) {
-    Workmanager().registerPeriodicTask("opgave-check", "opgave-check",
-        frequency: const Duration(minutes: 15));
+  if (Platform.isAndroid || Platform.isIOS) {
+    MobileAds.instance.initialize();
+    initializeNotifcations();
+    Workmanager().initialize(
+        callbackDispatcher, // The top level function, aka callbackDispatcher
+        isInDebugMode:
+            kDebugMode // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+        );
+    if (Platform.isAndroid) {
+      Workmanager().registerPeriodicTask("opgave-check", "opgave-check",
+          frequency: const Duration(minutes: 15));
+    }
   }
   runApp(const LectioBase());
 }

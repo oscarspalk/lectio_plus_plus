@@ -8,9 +8,10 @@ class Illustration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width / 2;
+    double tSize = MediaQuery.of(context).size.width / 2;
+    double size = tSize > 350 ? 350 : tSize;
     return SizedBox(
-      width: MediaQuery.of(context).size.height,
+      width: size,
       height: size,
       child: UnDraw(
         height: size,

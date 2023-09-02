@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:rich_text_editor_controller/rich_text_editor_controller.dart';
 
 class MessageEditor extends StatefulWidget {
   const MessageEditor({super.key, required this.value, required this.onChange});
@@ -11,14 +11,15 @@ class MessageEditor extends StatefulWidget {
 }
 
 class _MessageEditorState extends State<MessageEditor> {
-  late quill.QuillController controller;
+  late RichTextEditorController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = quill.QuillController.basic();
+    controller = RichTextEditorController();
+
     controller.addListener(() {
-      var plainText = controller.document.toDelta().map((delta) {
+      /*var plainText = controller.document.toDelta().map((delta) {
         if (delta.attributes == null) {
           return delta.value;
         }
@@ -46,64 +47,13 @@ class _MessageEditorState extends State<MessageEditor> {
         }
         return output;
       }).join();
-      widget.onChange(plainText);
+      widget.onChange(plainText);*/
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var colorScheme = Theme.of(context).colorScheme;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        InputDecorator(
-            decoration: const InputDecoration(label: Text("Indhold")),
-            child: quill.QuillEditor.basic(
-                controller: controller, readOnly: false)),
-        Padding(
-          padding: const EdgeInsets.only(top: 4.0),
-          child: quill.QuillToolbar.basic(
-            iconTheme: quill.QuillIconTheme(
-                iconSelectedFillColor: colorScheme.background,
-                iconUnselectedFillColor: colorScheme.background,
-                iconSelectedColor: colorScheme.primary,
-                iconUnselectedColor: colorScheme.onBackground),
-            controller: controller,
-            showBackgroundColorButton: false,
-            showAlignmentButtons: false,
-            showBoldButton: true,
-            showCenterAlignment: false,
-            showCodeBlock: false,
-            showClearFormat: false,
-            showColorButton: false,
-            showDirection: false,
-            showDividers: false,
-            showFontFamily: false,
-            showFontSize: false,
-            showHeaderStyle: false,
-            showIndent: false,
-            showInlineCode: false,
-            showItalicButton: true,
-            showJustifyAlignment: false,
-            showLeftAlignment: false,
-            showLink: true,
-            showListBullets: false,
-            showListCheck: false,
-            showListNumbers: false,
-            showQuote: false,
-            showRedo: false,
-            showRightAlignment: false,
-            showSearchButton: false,
-            showSmallButton: false,
-            showStrikeThrough: false,
-            showSubscript: false,
-            showSuperscript: false,
-            showUnderLineButton: true,
-            showUndo: true,
-          ),
-        ),
-      ],
-    );
+    return RichTextField(controller: controller);
   }
 
   @override

@@ -36,7 +36,7 @@ dependencies:
   shimmer: ^3.0.0
   flutter_html: ^3.0.0-beta.2
   flutter_expandable_fab: ^2.0.0
-  flutter_quill: ^7.4.3
+  rich_text_editor_controller: ^0.0.4
 
 dev_dependencies:
   flutter_test:
