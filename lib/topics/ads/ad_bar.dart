@@ -16,7 +16,7 @@ class AdBar extends StatelessWidget {
         height: 0.0,
       );
     }
-    return kDebugMode
+    return !kDebugMode
         ? SizedBox(
             width: double.infinity,
             height: 50.0,
