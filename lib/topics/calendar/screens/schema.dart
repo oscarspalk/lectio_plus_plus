@@ -114,11 +114,14 @@ class _SchemaScreenState extends State<SchemaScreen> {
                     children: [
                       Text(
                         "Uge ${weekFromDateTime(state.selectedTime.copyWith(hour: 0, minute: 0))}",
-                      ),
-                      Text(
-                        " - ${months[state.selectedTime.month - 1]} ${state.selectedTime.year.toString()}",
-                        style: const TextStyle(fontWeight: FontWeight.normal),
                         overflow: TextOverflow.ellipsis,
+                      ),
+                      Expanded(
+                        child: Text(
+                          " - ${months[state.selectedTime.month - 1]} ${state.selectedTime.year.toString()}",
+                          style: const TextStyle(fontWeight: FontWeight.normal),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       )
                     ],
                   ),
@@ -129,6 +132,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary),
                     textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
                   )
               ],
             ),

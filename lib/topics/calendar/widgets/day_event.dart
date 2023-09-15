@@ -81,38 +81,69 @@ Widget dayEventWidget(
         padding: const EdgeInsets.all(8.0),
         child: DefaultTextStyle(
           style: style,
-          child: ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                TeamName(
-                  teamName: dayEvent.team,
-                  builder: (name) {
-                    return Text(
-                      "$name${ine(dayEvent.title) ? " - ${dayEvent.title}" : ""}",
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                    );
-                  },
-                ),
-                Text("${hF.format(dayEvent.start)}-${hF.format(dayEvent.end)}"),
-                if (dayEvent.room.isNotEmpty)
-                  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: ListView(
+                    physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      Icon(
-                        EvaIcons.pinOutline,
-                        size: 14.0,
-                        color: textColor,
+                      TeamName(
+                        teamName: dayEvent.team,
+                        builder: (name) {
+                          return Text(
+                            "$name${ine(dayEvent.title) ? " - ${dayEvent.title}" : ""}",
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          );
+                        },
                       ),
+                      Text(
+                          "${hF.format(dayEvent.start)}-${hF.format(dayEvent.end)}"),
+                      if (dayEvent.room.isNotEmpty)
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Icon(
+                              EvaIcons.pinOutline,
+                              size: 14.0,
+                              color: textColor,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 2.0),
+                              child: Text(
+                                dayEvent.room,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        )
+                    ]),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 4.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (dayEvent.hasNote)
                       Padding(
-                        padding: const EdgeInsets.only(left: 2.0),
-                        child: Text(
-                          dayEvent.room,
-                          overflow: TextOverflow.ellipsis,
+                        padding: const EdgeInsets.only(bottom: 4.0),
+                        child: Icon(
+                          EvaIcons.alertCircleOutline,
+                          size: 16.0,
+                          color: textColor,
                         ),
+                      ),
+                    if (dayEvent.hasHomework)
+                      Icon(
+                        EvaIcons.bookmarkOutline,
+                        size: 16.0,
+                        color: textColor,
                       )
-                    ],
-                  )
-              ]),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     ),

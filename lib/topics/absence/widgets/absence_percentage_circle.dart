@@ -43,11 +43,9 @@ class AbsencePercentageCircle extends StatefulWidget {
 }
 
 class _AbsencePercentageCircleState extends State<AbsencePercentageCircle> {
-  late Color causeColor;
   late String percentage;
 
   void _buildState() {
-    causeColor = colorFromCause(widget.cause, context);
     percentage = "${(widget.percentage * 100).round()}%";
   }
 
@@ -76,7 +74,7 @@ class _AbsencePercentageCircleState extends State<AbsencePercentageCircle> {
         height: 90.0,
         width: 90.0,
         child: CircularProgressIndicator(
-          color: causeColor,
+          color: colorFromCause(widget.cause, context),
           value: widget.percentage,
         ),
       ),

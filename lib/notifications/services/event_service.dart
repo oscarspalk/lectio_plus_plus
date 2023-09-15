@@ -11,6 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 const eventsKey = "events";
 final List<CalendarEvent> debugEvents = [
   CalendarEvent(
+      hasHomework: false,
+      hasNote: false,
       type: CalendarEventType.regular,
       status: "Uændret",
       title: "Kig på stjernerne",
@@ -24,6 +26,8 @@ final List<CalendarEvent> debugEvents = [
       start: DateTime(2023, 08, 14, 08, 45, 00),
       end: DateTime(2023, 08, 14, 08, 15, 00)),
   CalendarEvent(
+      hasHomework: false,
+      hasNote: false,
       type: CalendarEventType.regular,
       status: "Uændret",
       title: "Da fuck",
