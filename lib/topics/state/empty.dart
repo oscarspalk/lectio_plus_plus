@@ -9,20 +9,22 @@ class EmptyScreen extends StatelessWidget {
   final bool noEvents;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Illustration(
-            illustration: noEvents
-                ? UnDrawIllustration.staying_in
-                : UnDrawIllustration.empty),
-        Text(
-          text ?? "Der var tomt",
-          style: headerStyle,
-          textAlign: TextAlign.center,
-        )
-      ],
+    return SizedBox.expand(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Illustration(
+              illustration: noEvents
+                  ? UnDrawIllustration.staying_in
+                  : UnDrawIllustration.empty),
+          Text(
+            text ?? "Der var tomt",
+            style: headerStyle,
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
     );
   }
 }

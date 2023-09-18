@@ -19,7 +19,7 @@ class AdBloc extends Cubit<AdState> {
           ? 'ca-app-pub-4763369128964093/1205778337'
           : 'ca-app-pub-3940256099942544/2934735716')
       : (Platform.isAndroid
-          ? "ca-app-pub-4763369128964093/1205778337"
+          ? "ca-app-pub-7673030582142706/1265058826"
           : "ca-app-pub-4763369128964093/2170963928");
 
   void loadThisAndNext() {

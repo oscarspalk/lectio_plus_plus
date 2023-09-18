@@ -40,7 +40,7 @@ class LectioBase extends StatelessWidget {
       BlocProvider(
         create: (_) => SettingsBloc()..add(CheckForTheme()),
       ),
-      BlocProvider(create: (_) => AdBloc(AdState(null, null))),
+      BlocProvider(lazy: false, create: (_) => AdBloc(AdState(null, null))),
       BlocProvider(create: (_) => StudentBloc()..add(LaunchedApp()))
     ], child: const LectioApp());
   }

@@ -36,7 +36,7 @@
         </activity>
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-4763369128964093~3831941671"/>
+            android:value="ca-app-pub-7673030582142706~2236764686"/>
                 <meta-data
             android:name="com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT"
             android:value="true"/>
