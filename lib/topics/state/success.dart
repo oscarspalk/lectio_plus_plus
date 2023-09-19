@@ -8,16 +8,18 @@ class SuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const Illustration(illustration: UnDrawIllustration.order_confirmed),
-        Text(
-          "Det virkede",
-          style: headerStyle,
-        )
-      ],
+    return SizedBox.expand(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Illustration(illustration: UnDrawIllustration.order_confirmed),
+          Text(
+            "Det virkede",
+            style: headerStyle,
+          )
+        ],
+      ),
     );
   }
 }

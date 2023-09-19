@@ -6,7 +6,6 @@ import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lpp/logic/student/student_cubit.dart';
 import 'package:lpp/topics/messages/bloc/message_bloc.dart';
 import 'package:lpp/topics/messages/screens/confirm_action.dart';
-import 'package:lpp/topics/messages/widgets/primary_message.dart';
 import 'package:lpp/topics/messages/widgets/thread_entry.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
@@ -64,12 +63,7 @@ class MessageDetails extends StatelessWidget {
             itemCount: msg.thread.length,
             itemBuilder: (context, index) {
               var threadItem = msg.thread.elementAt(index);
-              if (threadItem.indent == 0) {
-                return PrimaryMessage(
-                  entry: threadItem,
-                  message: msg,
-                );
-              }
+
               return ThreadEntryWidget(
                 entry: threadItem,
                 message: msg,

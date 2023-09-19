@@ -2,6 +2,8 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lectio_wrapper/types/context/student.dart';
+import 'package:lectio_wrapper/types/message/meta/meta.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
@@ -10,33 +12,57 @@ import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/utils/formatters.dart';
 
 class PersonDetails extends StatefulWidget {
-  const PersonDetails({super.key, required this.person});
-  final Student person;
-
+  const PersonDetails({super.key, this.person, this.entry});
+  final Student? person;
+  final MetaDataEntry? entry;
   @override
   State<PersonDetails> createState() => _PersonDetailsState();
 }
 
 class _PersonDetailsState extends State<PersonDetails> {
-  late ImageProvider image;
-
+  ImageProvider? image;
+  Student? student;
   void _getImage() {
     image = getStudentBloc(context)
         .state
         .student!
-        .getImage(widget.person.imageId, fullsize: true);
+        .getImage(student!.imageId, fullsize: true);
+    setState(() {});
+  }
+
+  _initIds() async {
+    if (widget.person != null) {
+      student = widget.person;
+    }
+    if (widget.entry != null) {
+      var blocStudent = getStudentBloc(context).state.student!;
+      var studentContext = await blocStudent.context.get(widget.entry!.id);
+      var studentCtx = studentContext as StudentContext;
+      String info = "";
+      int pS = widget.entry!.name.indexOf('(');
+      int pE = widget.entry!.name.indexOf(')', pS);
+      if (pS != -1 && pE != -1) {
+        info = widget.entry!.name.substring(pS + 1, pE);
+      }
+      String normalizedId = studentCtx.id.replaceAll(RegExp("U|T|S"), "");
+      student = Student(normalizedId, blocStudent.gymId)
+        ..name = studentCtx.name
+        ..imageId = studentCtx.imageId
+        ..info = info;
+    }
+    _getImage();
   }
 
   @override
   void initState() {
     super.initState();
-    _getImage();
+    _initIds();
   }
 
   @override
   void didUpdateWidget(covariant PersonDetails oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _getImage();
+    _initIds();
   }
 
   @override
@@ -53,27 +79,29 @@ class _PersonDetailsState extends State<PersonDetails> {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Text(
-                widget.person.name,
+                student?.name ?? "",
                 style: headerStyle,
                 textAlign: TextAlign.center,
               ),
             ),
-            Text(widget.person.info ?? ""),
+            Text(student?.info ?? ""),
             ListTile(
               onTap: () {
-                Navigator.push(
-                    context,
-                    adRoute(
-                        SchemaScreen(
-                            name: formatName(widget.person.name),
-                            bloc: SchemaBloc(
-                                widget.person, context.read<StudentBloc>())
-                              ..add(
-                                SwitchedDate(DateTime.now()),
-                              )),
-                        onlyFromEdge: true));
+                if (student != null) {
+                  Navigator.push(
+                      context,
+                      adRoute(
+                          SchemaScreen(
+                              name: formatName(student?.name ?? ""),
+                              bloc: SchemaBloc(
+                                  student!, context.read<StudentBloc>())
+                                ..add(
+                                  SwitchedDate(DateTime.now()),
+                                )),
+                          onlyFromEdge: true));
+                }
               },
-              title: Text("Se ${formatName(widget.person.name)} skema"),
+              title: Text("Se ${formatName(student?.name ?? "")} skema"),
               leading: const Icon(EvaIcons.calendarOutline),
             )
           ],

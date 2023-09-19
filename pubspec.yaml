@@ -37,6 +37,7 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
   flutter_expandable_fab: ^2.0.0
   rich_text_editor_controller: ^0.0.4
+  google_fonts: ^4.0.4
 
 dev_dependencies:
   flutter_test:
