@@ -5,10 +5,15 @@ import 'package:lpp/utils/ad_route.dart';
 
 class ThreadContext extends StatelessWidget {
   const ThreadContext(
-      {super.key, required this.entry, required this.message, this.color});
+      {super.key,
+      required this.entry,
+      required this.message,
+      this.color,
+      this.textColor});
   final ThreadEntry entry;
   final Message message;
   final Color? color;
+  final Color? textColor;
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<Widget>(
@@ -23,7 +28,11 @@ class ThreadContext extends StatelessWidget {
                 entry: entry,
                 message: message,
               ),
-              child: const Text("Besvar"))
+              child: Text(
+                "Besvar",
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              ))
         ];
       },
     );

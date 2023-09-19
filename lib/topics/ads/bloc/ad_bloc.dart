@@ -23,12 +23,14 @@ class AdBloc extends Cubit<AdState> {
           : "ca-app-pub-4763369128964093/2170963928");
 
   void loadThisAndNext() {
-    if (state.current == null) {
-      _loadAd((ad) => emit(AdState(ad, state.next)));
-      _loadAd((ad) => emit(AdState(state.current, ad)));
-    } else {
-      emit(AdState(state.next, null));
-      _loadAd((ad) => emit(AdState(state.current, ad)));
+    if (Platform.isAndroid || Platform.isIOS) {
+      if (state.current == null) {
+        _loadAd((ad) => emit(AdState(ad, state.next)));
+        _loadAd((ad) => emit(AdState(state.current, ad)));
+      } else {
+        emit(AdState(state.next, null));
+        _loadAd((ad) => emit(AdState(state.current, ad)));
+      }
     }
   }
 

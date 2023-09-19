@@ -12,12 +12,15 @@ class MessageFileRow extends StatelessWidget {
     if (files == null || (files != null && files!.isEmpty)) {
       return Container();
     }
-    return SizedBox(
-      height: 40.0,
-      child: ListView(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        children: files!.map((file) => FileChip(file: file)).toList(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: SizedBox(
+        height: 40.0,
+        child: ListView(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          children: files!.map((file) => FileChip(file: file)).toList(),
+        ),
       ),
     );
   }

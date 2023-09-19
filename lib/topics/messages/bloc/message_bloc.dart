@@ -59,6 +59,11 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
             ...state.messages,
             await student.messages.get(event.ref)
           ], loading: false));
+        } else {
+          refreshMessage(
+              emit,
+              Message(
+                  event.ref.id, [], MetaDataEntry(id: "", name: ""), "", ""));
         }
       },
     );
