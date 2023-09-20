@@ -65,9 +65,21 @@ class _OpgaveListState extends State<OpgaveList> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextDivider(
-                text:
-                    "Uge ${entry.key} - ${entry.value.hours.toStringAsFixed(1)} timer",
+                text: "",
                 primary: true,
+                customText: Row(
+                  children: [
+                    Text(
+                      "Uge ${entry.key}",
+                    ),
+                    Text(
+                      " - ${entry.value.hours.toStringAsFixed(1)} timer",
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
+                    )
+                  ],
+                ),
               ),
               ...entry.value.refs.map((opgave) {
                 return OpgaveListItem(opgave: opgave);

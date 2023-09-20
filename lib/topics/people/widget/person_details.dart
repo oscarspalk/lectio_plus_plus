@@ -85,25 +85,26 @@ class _PersonDetailsState extends State<PersonDetails> {
               ),
             ),
             Text(student?.info ?? ""),
-            ListTile(
-              onTap: () {
-                if (student != null) {
-                  Navigator.push(
-                      context,
-                      adRoute(
-                          SchemaScreen(
-                              name: formatName(student?.name ?? ""),
-                              bloc: SchemaBloc(
-                                  student!, context.read<StudentBloc>())
-                                ..add(
-                                  SwitchedDate(DateTime.now()),
-                                )),
-                          onlyFromEdge: true));
-                }
-              },
-              title: Text("Se ${formatName(student?.name ?? "")} skema"),
-              leading: const Icon(EvaIcons.calendarOutline),
-            )
+            if (widget.person != null)
+              ListTile(
+                onTap: () {
+                  if (student != null) {
+                    Navigator.push(
+                        context,
+                        adRoute(
+                            SchemaScreen(
+                                name: formatName(student?.name ?? ""),
+                                bloc: SchemaBloc(
+                                    student!, context.read<StudentBloc>())
+                                  ..add(
+                                    SwitchedDate(DateTime.now()),
+                                  )),
+                            onlyFromEdge: true));
+                  }
+                },
+                title: Text("Se ${formatName(student?.name ?? "")} skema"),
+                leading: const Icon(EvaIcons.calendarOutline),
+              )
           ],
         ),
       ),

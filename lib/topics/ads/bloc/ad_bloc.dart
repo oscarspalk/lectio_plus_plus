@@ -10,17 +10,31 @@ class AdState {
   AdState(this.current, this.next);
 }
 
+const _androidTestId = "ca-app-pub-3940256099942544/6300978111";
+const _iosTestId = "ca-app-pub-3940256099942544/2934735716";
+const _androidProdId = "ca-app-pub-7673030582142706/1265058826";
+const _iosProdId = "ca-app-pub-7673030582142706/8851904802";
+
+String _decideId() {
+  var isAndroid = Platform.isAndroid;
+  if (kDebugMode) {
+    if (isAndroid) {
+      return _androidTestId;
+    } else {
+      return _iosTestId;
+    }
+  }
+  if (isAndroid) {
+    return _androidProdId;
+  }
+  return _iosProdId;
+}
+
 class AdBloc extends Cubit<AdState> {
   AdBloc(super.initialState) {
     loadThisAndNext();
   }
-  final String _adUnitId = kDebugMode
-      ? (Platform.isAndroid
-          ? 'ca-app-pub-4763369128964093/1205778337'
-          : 'ca-app-pub-3940256099942544/2934735716')
-      : (Platform.isAndroid
-          ? "ca-app-pub-7673030582142706/1265058826"
-          : "ca-app-pub-7673030582142706/8851904802");
+  final String _adUnitId = _decideId();
 
   void loadThisAndNext() {
     if (Platform.isAndroid || Platform.isIOS) {
@@ -40,9 +54,7 @@ class AdBloc extends Cubit<AdState> {
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
-        // Called when an ad is successfully received.
         onAdLoaded: (ad) => onLoaded(ad as BannerAd),
-        // Called when an ad request failed.
         onAdFailedToLoad: (ad, err) {
           ad.dispose();
         },

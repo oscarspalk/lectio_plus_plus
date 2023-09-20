@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -10,7 +11,7 @@ class AdBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!(Platform.isAndroid || Platform.isIOS)) {
+    if (kDebugMode || !(Platform.isAndroid || Platform.isIOS)) {
       return const SizedBox(
         height: 0.0,
       );

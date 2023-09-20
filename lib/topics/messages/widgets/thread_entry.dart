@@ -45,7 +45,7 @@ class _ThreadEntryWidgetState extends State<ThreadEntryWidget> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: const EdgeInsets.only(left: 12.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -62,7 +62,9 @@ class _ThreadEntryWidgetState extends State<ThreadEntryWidget> {
                   ],
                 ),
               ),
-              LppHtml(content: widget.entry.entry.content),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: LppHtml(content: widget.entry.entry.content)),
               MessageFileRow(files: widget.entry.entry.files),
               Divider(
                 color: theme.colorScheme.onSurface,
