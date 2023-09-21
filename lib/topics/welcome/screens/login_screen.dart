@@ -1,17 +1,13 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lectio_wrapper/lectio/account.dart';
-import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:ms_undraw/ms_undraw.dart';
 
-import '../../../logic/student/student_bloc.dart';
-
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, required this.selectedGym, required this.back});
-  final int selectedGym;
+  const LoginScreen({super.key, required this.back});
   final Function() back;
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -20,19 +16,26 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late TextEditingController usernameController;
   late TextEditingController passwordController;
-
+  late LoginBloc loginBloc;
   bool hidden = true;
 
   @override
   void initState() {
     super.initState();
-    usernameController = TextEditingController();
-    passwordController = TextEditingController();
+    loginBloc = context.read<LoginBloc>();
+
+    usernameController = TextEditingController(text: loginBloc.state.username);
+    passwordController = TextEditingController(text: loginBloc.state.password);
+    usernameController.addListener(() {
+      loginBloc.setUsername(usernameController.text);
+    });
+    passwordController.addListener(() {
+      loginBloc.setPassword(passwordController.text);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    var gyms = context.read<StudentBloc>().state.gyms;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(36.0),
@@ -72,11 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   FilledButton.tonal(
                       onPressed: widget.back, child: const Text("Tilbage")),
                   FilledButton(
-                      onPressed: () => context.read<StudentBloc>().add(
-                          StudentLoggedIn(Account(
-                              gyms[widget.selectedGym].id,
-                              usernameController.text,
-                              passwordController.text))),
+                      onPressed: () => loginBloc.login(context),
                       child: const Text("Log ind")),
                 ]),
           ],

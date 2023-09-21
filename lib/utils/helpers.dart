@@ -1,20 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
-Future<String> readResponse(HttpClientResponse response) {
-  final completer = Completer<String>();
-  final contents = StringBuffer();
-  response.transform(utf8.decoder).listen((data) {
-    contents.write(data);
-  }, onDone: () => completer.complete(contents.toString()));
-  return completer.future;
-}
-
-int millisPerDay = 1000 * 3600 * 24;
-int millisPerWeek = millisPerDay * 7;
-int millisPerYear = millisPerDay * 365;
-
 String formatDateReadable(DateTime input) {
   return "${weekDays[input.weekday - 1]} ${input.day}. ${months[input.month - 1]}";
 }

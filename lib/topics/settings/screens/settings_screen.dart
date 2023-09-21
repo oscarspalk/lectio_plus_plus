@@ -77,6 +77,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     subtitle: const Text(
                         "Se, hvad der er af hjælpeartikler på vores hjemmeside"),
                   ),
+                  ListTile(
+                    title: const Text("Privatlivspolitik"),
+                    subtitle: const Text("Læs privatlivspolitikken"),
+                    onTap: () async {
+                      var uri =
+                          Uri.parse("https://www.spalk.io/lectio++/privacy");
+                      if (await canLaunchUrl(uri)) {
+                        await launchUrl(uri,
+                            mode: LaunchMode.externalApplication);
+                      }
+                    },
+                  ),
                   /*const TextDivider(
                     text: "Lectio++",
                     primary: true,

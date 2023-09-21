@@ -10,12 +10,13 @@ import 'root_controller.dart';
 
 class AppRouter extends StatelessWidget {
   const AppRouter({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StudentBloc, StudentState>(
       builder: (context, state) {
         switch (state.state) {
+          case StudentStates.unauthorized:
+            return const WelcomeCarousel();
           case StudentStates.loading:
             return const LoadingScreen();
           case StudentStates.authorized:
@@ -24,8 +25,6 @@ class AppRouter extends StatelessWidget {
             return const InternetErrorScreen();
           case StudentStates.loginError:
             return const LoginErrorScreen();
-          case StudentStates.unauthorized:
-            return const WelcomeCarousel();
         }
       },
     );

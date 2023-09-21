@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/state/loading.dart';
+import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/topics/welcome/screens/greeting.dart';
 import 'package:lpp/topics/welcome/screens/gym.dart';
 import 'package:lpp/topics/welcome/screens/login_screen.dart';
-import 'package:lpp/topics/welcome/screens/money.dart';
-import 'package:lpp/topics/welcome/screens/safety.dart';
 import 'package:lpp/topics/welcome/screens/theme.dart';
-import 'package:lpp/topics/welcome/screens/tos.dart';
 
 class WelcomeCarousel extends StatefulWidget {
   const WelcomeCarousel({super.key});
@@ -19,7 +17,6 @@ class WelcomeCarousel extends StatefulWidget {
 
 class _WelcomeCarouselState extends State<WelcomeCarousel> {
   late PageController carousel;
-  int _selectedGym = 0;
 
   final Duration animDuration = const Duration(milliseconds: 500);
   final Curve animCurve = Curves.easeInOut;
@@ -27,7 +24,16 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
   @override
   void initState() {
     super.initState();
-    carousel = PageController();
+    var loginBloc = context.read<LoginBloc>();
+    loginBloc.setGymSubmittedCallback(() {
+      next();
+    });
+    int initial = 0;
+    if (loginBloc.state.password.isNotEmpty &&
+        loginBloc.state.username.isNotEmpty) {
+      initial = 3;
+    }
+    carousel = PageController(initialPage: initial);
   }
 
   void next() {
@@ -36,10 +42,6 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
 
   void back() {
     carousel.previousPage(duration: animDuration, curve: animCurve);
-  }
-
-  void skip() {
-    carousel.animateToPage(5, duration: animDuration, curve: animCurve);
   }
 
   @override
@@ -53,25 +55,13 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
         controller: carousel,
         children: [
           GreetingsScreen(
-            skip: skip,
             next: next,
           ),
-          MoneyScreen(next: next),
           ThemeScreen(next: next),
-          Safety(next: next),
-          TermsOfService(next: next),
           GymScreen(
             next: next,
-            selectGym: (n) {
-              next();
-              setState(() {
-                _selectedGym = n;
-              });
-              Navigator.pop(context);
-            },
           ),
           LoginScreen(
-            selectedGym: _selectedGym,
             back: back,
           ),
         ],

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/gym.dart';
+import 'package:lpp/topics/welcome/bloc/login.dart';
 
 import '../../../logic/student/student_bloc.dart';
 
 class SelectGym extends SearchDelegate<Gym> {
-  final Function(int n) selectGym;
-
-  SelectGym(this.selectGym);
+  final LoginBloc loginBloc;
+  SelectGym(this.loginBloc);
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -37,8 +37,9 @@ class SelectGym extends SearchDelegate<Gym> {
           itemBuilder: (context, index) {
             return ListTile(
               onTap: () {
-                int id = state.gyms.indexOf(matching[index]);
-                selectGym(id);
+                debugPrint("klik");
+                loginBloc.setGym(matching[index].id);
+                close(context, matching[index]);
               },
               title: Text(matching[index].name),
             );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/topics/welcome/screens/gym_select.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:ms_undraw/ms_undraw.dart';
@@ -41,7 +43,8 @@ class GymScreen extends StatelessWidget {
                   FilledButton(
                     onPressed: () async {
                       await showSearch(
-                          context: context, delegate: SelectGym(selectGym));
+                          context: context,
+                          delegate: SelectGym(context.read<LoginBloc>()));
                     },
                     child: const Text("Vælg"),
                   ),
