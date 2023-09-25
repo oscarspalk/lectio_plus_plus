@@ -101,7 +101,7 @@ class LoginService {
     );
     var student = await accountWithAutologin.login(autologin: false);
     if (student != null) {
-      await save(account, student);
+      save(account, student);
       return student;
     }
     return null;

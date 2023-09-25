@@ -49,16 +49,18 @@ class AdBloc extends Cubit<AdState> {
   }
 
   void _loadAd(Function(BannerAd ad) onLoaded) {
-    BannerAd(
-      adUnitId: _adUnitId,
-      request: const AdRequest(),
-      size: AdSize.banner,
-      listener: BannerAdListener(
-        onAdLoaded: (ad) => onLoaded(ad as BannerAd),
-        onAdFailedToLoad: (ad, err) {
-          ad.dispose();
-        },
-      ),
-    ).load();
+    if (!kDebugMode) {
+      BannerAd(
+        adUnitId: _adUnitId,
+        request: const AdRequest(),
+        size: AdSize.banner,
+        listener: BannerAdListener(
+          onAdLoaded: (ad) => onLoaded(ad as BannerAd),
+          onAdFailedToLoad: (ad, err) {
+            ad.dispose();
+          },
+        ),
+      ).load();
+    }
   }
 }
