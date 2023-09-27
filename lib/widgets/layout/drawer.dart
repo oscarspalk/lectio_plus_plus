@@ -36,6 +36,7 @@ class LppDrawer extends StatelessWidget {
     var combinedDestinations = destinations.take(destinations.length).toList()
       ..addAll(relatedDestinations);
     return NavigationDrawer(
+      elevation: 0.0,
       selectedIndex: 99,
       onDestinationSelected: (int x) {
         Navigator.push(

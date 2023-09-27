@@ -129,8 +129,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
                 if (widget.name != null)
                   Text(
                     "${widget.room ? "Lokale " : ""}${widget.name} skema",
-                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary),
+                    style: Theme.of(context).textTheme.labelMedium!,
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
                   )
