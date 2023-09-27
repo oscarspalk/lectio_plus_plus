@@ -65,8 +65,15 @@ class _AlphabeticListState<T> extends State<AlphabeticList<T>> {
                       text: letterAndObj.key.toUpperCase(),
                       large: true,
                     ),
-                    ...letterAndObj.value
-                        .map((e) => widget.itemBuilder(context, e.object))
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: letterAndObj.value.length,
+                      itemBuilder: (context, index) {
+                        return widget.itemBuilder(
+                            context, letterAndObj.value[index].object);
+                      },
+                    )
                   ],
                 );
               }).toList()));

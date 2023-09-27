@@ -57,7 +57,14 @@ class PeopleList extends StatelessWidget {
           text: name,
           primary: true,
         ),
-        ...people.map((person) => PersonTile(person: person))
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: people.length,
+          itemBuilder: (context, index) {
+            return PersonTile(person: people[index]);
+          },
+        )
       ],
     );
   }

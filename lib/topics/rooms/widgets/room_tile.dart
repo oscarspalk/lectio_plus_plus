@@ -29,6 +29,30 @@ class RoomTile extends StatelessWidget {
       },
       title: Text(room.short),
       subtitle: Text(lokale ? "Lokale" : room.name),
+      trailing: lokale ? InUseWidget(inUse: room.inUse) : null,
+    );
+  }
+}
+
+class InUseWidget extends StatelessWidget {
+  const InUseWidget({super.key, required this.inUse});
+  final bool inUse;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4.0),
+        color: inUse ? Colors.red : Colors.green,
+      ),
+      height: 30.0,
+      alignment: Alignment.center,
+      width: 60.0,
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        inUse ? "Optaget" : "Ledigt",
+        style:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
     );
   }
 }
