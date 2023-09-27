@@ -39,6 +39,7 @@ dependencies:
   rich_text_editor_controller: ^0.0.4
   google_fonts: ^4.0.4
   flutter_quill: ^7.4.6
+  bloc_event_transformers: ^1.0.1
 
 dev_dependencies:
   flutter_test:

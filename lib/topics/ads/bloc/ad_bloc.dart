@@ -1,14 +1,9 @@
 import 'dart:io';
 
+import 'package:bloc_event_transformers/bloc_event_transformers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-
-class AdState {
-  BannerAd? current;
-  BannerAd? next;
-  AdState(this.current, this.next);
-}
 
 const _androidTestId = "ca-app-pub-3940256099942544/6300978111";
 const _iosTestId = "ca-app-pub-3940256099942544/2934735716";
@@ -30,23 +25,17 @@ String _decideId() {
   return _iosProdId;
 }
 
-class AdBloc extends Cubit<AdState> {
+sealed class AdEvent {}
+
+final class DisposeAd extends AdEvent {}
+
+class AdBloc extends Bloc<AdEvent, BannerAd?> {
   AdBloc(super.initialState) {
-    loadThisAndNext();
+    on<DisposeAd>((event, emit) {
+      _loadAd((ad) => emit(ad));
+    }, transformer: debounce(const Duration(milliseconds: 500)));
   }
   final String _adUnitId = _decideId();
-
-  void loadThisAndNext() {
-    if (Platform.isAndroid || Platform.isIOS) {
-      if (state.current == null) {
-        _loadAd((ad) => emit(AdState(ad, state.next)));
-        _loadAd((ad) => emit(AdState(state.current, ad)));
-      } else {
-        emit(AdState(state.next, null));
-        _loadAd((ad) => emit(AdState(state.current, ad)));
-      }
-    }
-  }
 
   void _loadAd(Function(BannerAd ad) onLoaded) {
     if (!kDebugMode) {
