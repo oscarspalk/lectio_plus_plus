@@ -10,15 +10,16 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
   final bool noStyle;
-  const LppAppbar(
-      {super.key,
-      required this.title,
-      this.titleWidget,
-      this.hideMenu = false,
-      this.actions,
-      this.bottom,
-      this.noStyle = false,
-      this.hideLeading = false});
+  const LppAppbar({
+    super.key,
+    required this.title,
+    this.titleWidget,
+    this.hideMenu = false,
+    this.actions,
+    this.bottom,
+    this.noStyle = false,
+    this.hideLeading = false,
+  });
 
   @override
   Widget build(BuildContext context) {

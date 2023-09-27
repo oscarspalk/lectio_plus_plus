@@ -79,8 +79,10 @@ class _EditAbsenceState extends State<EditAbsence> {
               )),
           TextField(
             controller: explanationController,
-            decoration:
-                const InputDecoration(label: Text("Forklaring (valgfri)")),
+            decoration: InputDecoration(
+                label: const Text("Forklaring (valgfri)"),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0))),
           ),
           Padding(
               padding: const EdgeInsets.all(16.0),

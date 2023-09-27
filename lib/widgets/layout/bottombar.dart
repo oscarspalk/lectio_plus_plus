@@ -16,7 +16,6 @@ class LppBottombar extends StatelessWidget {
     var colorScheme = Theme.of(context).colorScheme;
 
     return SalomonBottomBar(
-      unselectedItemColor: colorScheme.onBackground,
       selectedItemColor: colorScheme.primary,
       backgroundColor: colorScheme.background,
       currentIndex: selectedIndex,

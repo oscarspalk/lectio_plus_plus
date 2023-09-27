@@ -68,7 +68,7 @@ Widget dayEventWidget(
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8.0),
-      color: colorFromStatus(dayEvent.status, context),
+      color: colorFromStatus(dayEvent.status, context).withAlpha(220),
     ),
     width: width,
     height: height,
