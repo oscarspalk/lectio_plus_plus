@@ -29,7 +29,7 @@ class RoomTile extends StatelessWidget {
       },
       title: Text(room.short),
       subtitle: Text(lokale ? "Lokale" : room.name),
-      trailing: lokale ? InUseWidget(inUse: room.inUse) : null,
+      trailing: !lokale ? InUseWidget(inUse: room.inUse) : null,
     );
   }
 }
@@ -46,7 +46,7 @@ class InUseWidget extends StatelessWidget {
       ),
       height: 30.0,
       alignment: Alignment.center,
-      width: 60.0,
+      width: 70.0,
       padding: const EdgeInsets.all(8.0),
       child: Text(
         inUse ? "Optaget" : "Ledigt",
