@@ -71,13 +71,13 @@ class _OpgaveScreenFilterWidgetState extends State<OpgaveScreenFilterWidget> {
 
   void _filterAssignments() {
     assignments = widget.assignmentState.refs.where((element) {
-      return widget.assignmentState.appliedFilters.isEmpty ||
-          widget.assignmentState.appliedFilters
-              .map((e) => e.name)
-              .contains(element.status);
+      return widget.assignmentState.appliedFilter.name.contains(element.status);
     }).toList()
       ..sort(
-        (a, b) => a.deadline.compareTo(b.deadline),
+        (a, b) =>
+            widget.assignmentState.appliedFilter != AssignmentFilters.awaiting
+                ? b.deadline.compareTo(a.deadline)
+                : a.deadline.compareTo(b.deadline),
       );
   }
 

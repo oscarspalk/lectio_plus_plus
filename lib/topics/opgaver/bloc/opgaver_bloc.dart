@@ -30,7 +30,7 @@ class OpgaveBloc extends Bloc<AssignmentEvent, AssignmentState> {
   final Student student;
 
   OpgaveBloc(this.student)
-      : super(AssignmentState([], null, false, [AssignmentFilters.awaiting])) {
+      : super(AssignmentState([], null, false, AssignmentFilters.awaiting)) {
     on<RequestedLoadAssignments>((event, emit) async {
       emit(state.copyWith(loaded: false));
       var references = await student.assignments.list();
@@ -39,13 +39,7 @@ class OpgaveBloc extends Bloc<AssignmentEvent, AssignmentState> {
 
     on<ToggleFilter>(
       (event, emit) {
-        if (!state.appliedFilters.contains(event.filter)) {
-          emit(state.copyWith(
-              appliedFilters: state.appliedFilters..add(event.filter)));
-        } else {
-          emit(state.copyWith(
-              appliedFilters: state.appliedFilters..remove(event.filter)));
-        }
+        emit(state.copyWith(appliedFilter: event.filter));
       },
     );
   }
@@ -53,21 +47,21 @@ class OpgaveBloc extends Bloc<AssignmentEvent, AssignmentState> {
 
 class AssignmentState {
   List<AssignmentRef> refs;
-  List<AssignmentFilters> appliedFilters;
+  AssignmentFilters appliedFilter;
   Assignment? activeAssignment;
   bool loaded;
   AssignmentState(
-      this.refs, this.activeAssignment, this.loaded, this.appliedFilters);
+      this.refs, this.activeAssignment, this.loaded, this.appliedFilter);
 
   AssignmentState copyWith(
       {List<AssignmentRef>? refs,
       Assignment? activeAssignment,
       bool? loaded,
-      List<AssignmentFilters>? appliedFilters}) {
+      AssignmentFilters? appliedFilter}) {
     return AssignmentState(
         refs ?? this.refs,
         activeAssignment ?? this.activeAssignment,
         loaded ?? this.loaded,
-        appliedFilters ?? this.appliedFilters);
+        appliedFilter ?? this.appliedFilter);
   }
 }

@@ -23,15 +23,17 @@ class FilterSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OpgaveBloc, AssignmentState>(
       builder: (context, state) {
+        debugPrint("changed");
         return Column(
           children: AssignmentFilters.values.map((filter) {
-            return CheckboxListTile(
+            return RadioListTile(
               secondary: Icon(iconFromFilter(filter)),
               title: Text(filter.name),
-              value: state.appliedFilters.contains(filter),
+              value: filter,
               onChanged: (value) {
                 context.read<OpgaveBloc>().add(ToggleFilter(filter));
               },
+              groupValue: state.appliedFilter,
             );
           }).toList(),
         );
