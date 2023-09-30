@@ -25,52 +25,65 @@ class StudiekortScreen extends StatelessWidget {
             child: StudentBlocBuilder<StudentCubit<BasicInfo>, BasicInfo?>(
                 small: true,
                 builder: (context, state) {
-                  return Row(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          height: 150,
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.0)),
-                          child: StudentBlocBuilder<StudentCubit<DioImage>,
-                                  DioImage?>(
-                              bloc: StudentCubit(
-                                  getStudentBloc(context).state.student!,
-                                  (student) async => student.getImage(
-                                      state!.pictureId,
-                                      fullsize: true))
-                                ..load(),
-                              builder: (context, state) {
-                                if (state == null) {
-                                  return Container();
-                                }
-                                return Image(height: 150, image: state);
-                              })),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                state?.name ?? "",
-                                style: headerStyle.copyWith(
-                                    color: colorscheme.onSecondary),
-                              ),
-                              Text(
-                                studentState.gymName,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium!
-                                    .copyWith(color: colorscheme.onSecondary),
-                              ),
-                              const TimerWidget()
-                            ]),
-                      ),
-                    ],
+                  return IntrinsicHeight(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                            width: 100,
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12.0)),
+                            child: StudentBlocBuilder<StudentCubit<DioImage>,
+                                    DioImage?>(
+                                bloc: StudentCubit(
+                                    getStudentBloc(context).state.student!,
+                                    (student) async => student.getImage(
+                                        state!.pictureId,
+                                        fullsize: true))
+                                  ..load(),
+                                builder: (context, state) {
+                                  if (state == null) {
+                                    return Container(
+                                      width: 100,
+                                    );
+                                  }
+                                  return Image(image: state);
+                                })),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Flexible(
+                                        fit: FlexFit.tight,
+                                        child: Text(
+                                          state?.name ?? "",
+                                          style: headerStyle.copyWith(
+                                              color: colorscheme.onSecondary),
+                                        ),
+                                      ),
+                                      Text(
+                                        studentState.gymName,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium!
+                                            .copyWith(
+                                                color: colorscheme.onSecondary),
+                                      ),
+                                    ]),
+                                const TimerWidget()
+                              ]),
+                        ),
+                      ],
+                    ),
                   );
                 })),
       );
