@@ -21,14 +21,7 @@ class StudentBlocBuilder<T extends StateStreamable<StatePattern<V>>, V>
           return const InternetErrorScreen();
         }
         if (state.status == States.loading) {
-          return small
-              ? const Center(
-                  child: SizedBox(
-                      height: 30.0,
-                      width: 30.0,
-                      child: CircularProgressIndicator()),
-                )
-              : const LoadingScreen();
+          return small ? Container() : const LoadingScreen();
         }
         return builder(context, state.state);
       },

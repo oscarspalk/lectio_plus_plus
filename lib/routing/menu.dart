@@ -8,7 +8,9 @@ import 'package:lpp/topics/plans/screens/overview.dart';
 import 'package:lpp/topics/rooms/screens/overview.dart';
 import 'package:lpp/topics/settings/screens/settings_screen.dart';
 import 'package:lpp/topics/settings/screens/wish_a_feature.dart';
+import 'package:lpp/topics/studiekort/kort.dart';
 import 'package:lpp/topics/teams/screens/module_statistics_overview.dart';
+import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/drawer.dart';
 
@@ -55,6 +57,14 @@ class Menu extends StatelessWidget {
   ];
 
   final List<Destination> relatedDestinations = [
+    Destination(
+        icon: EvaIcons.creditCardOutline,
+        name: "Studiekort",
+        selectedIcon: EvaIcons.creditCard,
+        screen: const StudiekortScreen(),
+        onTap: (ctx) {
+          adSheet(const StudiekortScreen(), ctx);
+        }),
     Destination(
         icon: EvaIcons.bulbOutline,
         name: "Ønsk",

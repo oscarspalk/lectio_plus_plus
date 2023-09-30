@@ -15,11 +15,13 @@ class Destination {
       required this.name,
       required this.selectedIcon,
       required this.screen,
-      this.onlyFromEdge = false});
+      this.onlyFromEdge = false,
+      this.onTap});
   IconData icon;
   IconData selectedIcon;
   String name;
   Widget screen;
+  Function(BuildContext context)? onTap;
   bool onlyFromEdge;
 }
 
@@ -39,10 +41,16 @@ class LppDrawer extends StatelessWidget {
       elevation: 0.0,
       selectedIndex: 99,
       onDestinationSelected: (int x) {
-        Navigator.push(
-            context,
-            adRoute(combinedDestinations.elementAt(x).screen,
-                onlyFromEdge: combinedDestinations.elementAt(x).onlyFromEdge));
+        var destination = combinedDestinations.elementAt(x);
+        if (destination.onTap != null) {
+          destination.onTap!(context);
+        } else {
+          Navigator.push(
+              context,
+              adRoute(combinedDestinations.elementAt(x).screen,
+                  onlyFromEdge:
+                      combinedDestinations.elementAt(x).onlyFromEdge));
+        }
       },
       children: [
         const TextDivider(
@@ -51,7 +59,7 @@ class LppDrawer extends StatelessWidget {
         ),
         SizedBox(
           height: 70.0,
-          child: BlocConsumer<StudentBloc, StudentState>(
+          child: BlocBuilder<StudentBloc, StudentState>(
             builder: (context, studentState) {
               return StudentBlocBuilder<StudentCubit<BasicInfo>, BasicInfo?>(
                   small: true,
@@ -92,7 +100,6 @@ class LppDrawer extends StatelessWidget {
                     );
                   });
             },
-            listener: (context, state) {},
           ),
         ),
         const TextDivider(
