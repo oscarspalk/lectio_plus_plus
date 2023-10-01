@@ -85,8 +85,8 @@ Widget dayEventWidget(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: ListView(
-                    physics: const NeverScrollableScrollPhysics(),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TeamName(
                         teamName: dayEvent.team,
