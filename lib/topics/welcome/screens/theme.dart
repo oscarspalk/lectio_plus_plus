@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/utils/ad_route.dart';
-import 'package:ms_undraw/ms_undraw.dart';
 
 import 'theming/theme_controller.dart';
 
@@ -20,7 +19,7 @@ class ThemeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Illustration(
-                illustration: UnDrawIllustration.adjustments,
+                illustration: "adjustments",
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),

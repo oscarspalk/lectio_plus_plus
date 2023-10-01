@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
-import 'package:ms_undraw/ms_undraw.dart';
 
 class GreetingsScreen extends StatelessWidget {
   const GreetingsScreen({super.key, required this.next});
@@ -19,7 +18,7 @@ class GreetingsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Illustration(
-                  illustration: UnDrawIllustration.accept_request,
+                  illustration: "accept_request",
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),

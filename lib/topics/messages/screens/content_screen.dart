@@ -7,7 +7,6 @@ import 'package:lpp/topics/messages/widgets/message_editor.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
-import 'package:ms_undraw/illustrations.g.dart';
 
 class MessageContentScreen extends StatelessWidget {
   const MessageContentScreen({super.key});
@@ -24,7 +23,7 @@ class MessageContentScreen extends StatelessWidget {
               shrinkWrap: true,
               padding: const EdgeInsets.all(24.0),
               children: [
-                const Illustration(illustration: UnDrawIllustration.text_field),
+                const Illustration(illustration: "text_field"),
                 TextField(
                   onChanged: (value) {
                     bloc.add(UpdateTopic(value));

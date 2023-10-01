@@ -4,7 +4,6 @@ import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/topics/welcome/screens/gym_select.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
-import 'package:ms_undraw/ms_undraw.dart';
 
 class GymScreen extends StatelessWidget {
   const GymScreen({super.key, required this.next, required this.selectGym});
@@ -22,7 +21,7 @@ class GymScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Illustration(
-                illustration: UnDrawIllustration.current_location,
+                illustration: "current_location",
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),

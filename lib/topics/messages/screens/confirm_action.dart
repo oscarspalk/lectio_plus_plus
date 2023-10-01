@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
-import 'package:ms_undraw/ms_undraw.dart';
 
 class ConfirmAction extends StatelessWidget {
   const ConfirmAction(
@@ -19,7 +18,7 @@ class ConfirmAction extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Illustration(illustration: UnDrawIllustration.verified),
+          const Illustration(illustration: "verified"),
           Text(
             confirmText,
             style: headerStyle,

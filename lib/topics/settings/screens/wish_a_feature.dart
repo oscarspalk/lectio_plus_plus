@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
-import 'package:ms_undraw/ms_undraw.dart';
 
 import '../bloc/feature_request.dart';
 
@@ -36,8 +35,7 @@ class _WishAFeatureScreenState extends State<WishAFeatureScreen> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Illustration(
-                      illustration: UnDrawIllustration.a_whole_year),
+                  const Illustration(illustration: "a_whole_year"),
                   Text(
                     "Tusind tak",
                     style: headerStyle,
@@ -47,7 +45,7 @@ class _WishAFeatureScreenState extends State<WishAFeatureScreen> {
             }
 
             return ListView(padding: const EdgeInsets.all(24.0), children: [
-              const Illustration(illustration: UnDrawIllustration.wishes),
+              const Illustration(illustration: "wishes"),
               TextField(
                 onChanged: bloc.setTopic,
                 decoration: const InputDecoration(label: Text("Emne")),

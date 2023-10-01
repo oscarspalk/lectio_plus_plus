@@ -6,7 +6,6 @@ import 'package:lpp/topics/messages/bloc/edit_message_bloc.dart';
 import 'package:lpp/topics/messages/widgets/message_editor.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
-import 'package:ms_undraw/illustrations.g.dart';
 
 class EditMessageScreen extends StatefulWidget {
   const EditMessageScreen(
@@ -40,7 +39,7 @@ class _EditMessageScreenState extends State<EditMessageScreen> {
           return ListView(
             padding: const EdgeInsets.all(24.0),
             children: [
-              const Illustration(illustration: UnDrawIllustration.writer),
+              const Illustration(illustration: "writer"),
               TextField(
                 controller: TextEditingController(text: state.topic),
                 decoration: const InputDecoration(label: Text("Emne")),

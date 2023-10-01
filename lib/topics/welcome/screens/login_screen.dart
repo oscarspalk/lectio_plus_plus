@@ -5,7 +5,6 @@ import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
-import 'package:ms_undraw/ms_undraw.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key, required this.back});
@@ -44,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: ListView(
           children: [
             const Illustration(
-              illustration: UnDrawIllustration.login,
+              illustration: "login",
             ),
             Text(
               "Login",
