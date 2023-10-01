@@ -18,74 +18,85 @@ class StudiekortScreen extends StatelessWidget {
     return BlocBuilder<StudentBloc, StudentState>(
         builder: (context, studentState) {
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-        child: Card(
-            clipBehavior: Clip.hardEdge,
-            color: colorscheme.secondary,
-            child: StudentBlocBuilder<StudentCubit<BasicInfo>, BasicInfo?>(
-                small: true,
-                builder: (context, state) {
-                  return IntrinsicHeight(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                            width: 100,
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12.0)),
-                            child: StudentBlocBuilder<StudentCubit<DioImage>,
-                                    DioImage?>(
-                                bloc: StudentCubit(
-                                    getStudentBloc(context).state.student!,
-                                    (student) async => student.getImage(
-                                        state!.pictureId,
-                                        fullsize: true))
-                                  ..load(),
-                                builder: (context, state) {
-                                  if (state == null) {
-                                    return Container(
-                                      width: 100,
-                                    );
-                                  }
-                                  return Image(image: state);
-                                })),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                    mainAxisSize: MainAxisSize.min,
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            Card(
+                clipBehavior: Clip.hardEdge,
+                color: colorscheme.secondary,
+                child: SizedBox(
+                  height: 140.0,
+                  child: StudentBlocBuilder<StudentCubit<BasicInfo>,
+                          BasicInfo?>(
+                      small: true,
+                      builder: (context, state) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12.0)),
+                                child: StudentBlocBuilder<
+                                        StudentCubit<DioImage>, DioImage?>(
+                                    bloc: StudentCubit(
+                                        getStudentBloc(context).state.student!,
+                                        (student) async => student.getImage(
+                                            state!.pictureId,
+                                            fullsize: true))
+                                      ..load(),
+                                    builder: (context, state) {
+                                      if (state == null) {
+                                        return Container();
+                                      }
+                                      return Image(
+                                        image: state,
+                                        height: 140,
+                                      );
+                                    })),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                    mainAxisSize: MainAxisSize.max,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Flexible(
-                                        fit: FlexFit.tight,
-                                        child: Text(
-                                          state?.name ?? "",
-                                          style: headerStyle.copyWith(
-                                              color: colorscheme.onSecondary),
-                                        ),
-                                      ),
-                                      Text(
-                                        studentState.gymName,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium!
-                                            .copyWith(
-                                                color: colorscheme.onSecondary),
-                                      ),
+                                      Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              state?.name ?? "",
+                                              style: headerStyle.copyWith(
+                                                  color:
+                                                      colorscheme.onSecondary),
+                                            ),
+                                            Text(
+                                              studentState.gymName,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelMedium!
+                                                  .copyWith(
+                                                      color: colorscheme
+                                                          .onSecondary),
+                                            ),
+                                          ]),
+                                      const TimerWidget()
                                     ]),
-                                const TimerWidget()
-                              ]),
-                        ),
-                      ],
-                    ),
-                  );
-                })),
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                ))
+          ],
+        ),
       );
     });
   }
@@ -116,13 +127,15 @@ class _TimerState extends State<TimerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      "${DateFormat("HH:mm:ss").format(time)} - Lectio++",
-      style: Theme.of(context)
-          .textTheme
-          .labelMedium!
-          .copyWith(color: Theme.of(context).colorScheme.onSecondary),
-    );
+    return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+      Text(
+        "${DateFormat("HH:mm:ss").format(time)} - Lectio++",
+        style: Theme.of(context)
+            .textTheme
+            .labelMedium!
+            .copyWith(color: Theme.of(context).colorScheme.onSecondary),
+      ),
+    ]);
   }
 
   @override
