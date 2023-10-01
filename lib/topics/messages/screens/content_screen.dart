@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
 import 'package:lpp/topics/messages/screens/confirm_action.dart';
+import 'package:lpp/topics/messages/widgets/message_editor.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
@@ -28,15 +29,16 @@ class MessageContentScreen extends StatelessWidget {
                   onChanged: (value) {
                     bloc.add(UpdateTopic(value));
                   },
-                  decoration: const InputDecoration(label: Text("Emne")),
+                  decoration: InputDecoration(
+                      label: const Text("Emne"),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0))),
                 ),
-                TextField(
-                  onChanged: (value) {
+                MessageEditor(
+                  value: state.content,
+                  onChange: (value) {
                     bloc.add(UpdateContent(value));
                   },
-                  minLines: 1,
-                  maxLines: 4,
-                  decoration: const InputDecoration(label: Text("Indhold")),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24.0),

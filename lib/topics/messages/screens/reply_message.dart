@@ -43,7 +43,10 @@ class _ReplyMessageScreenState extends State<ReplyMessageScreen> {
               const Illustration(illustration: UnDrawIllustration.writer),
               TextField(
                 controller: topic,
-                decoration: const InputDecoration(label: Text("Emne")),
+                decoration: InputDecoration(
+                    label: const Text("Emne"),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0))),
                 onChanged: bloc.setTopic,
               ),
               MessageEditor(value: state.content, onChange: bloc.setContent),

@@ -31,10 +31,11 @@ class _AdBarState extends State<AdBar> {
     return SizedBox(
         width: double.infinity,
         height: 50.0,
-        child: BlocBuilder<AdBloc, BannerAd?>(
-          builder: (BuildContext context, BannerAd? ad) {
-            if (ad != null) {
-              return AdWidget(ad: ad);
+        child: BlocBuilder<AdBloc, AdState>(
+          bloc: _adBloc,
+          builder: (BuildContext context, AdState state) {
+            if (!state.loading && state.ad != null) {
+              return AdWidget(ad: state.ad!);
             }
             return const SizedBox(
               height: 0.0,

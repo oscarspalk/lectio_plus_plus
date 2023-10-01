@@ -12,11 +12,18 @@ class MessageEditor extends StatefulWidget {
 
 class _MessageEditorState extends State<MessageEditor> {
   late quill.QuillController controller;
-
+  late FocusNode _focusNode;
+  bool focused = false;
   @override
   void initState() {
     super.initState();
+    _focusNode = FocusNode();
     controller = quill.QuillController.basic();
+    _focusNode.addListener(() {
+      setState(() {
+        focused = _focusNode.hasFocus;
+      });
+    });
     controller.addListener(() {
       var plainText = controller.document.toDelta().map((delta) {
         if (delta.attributes == null) {
@@ -53,61 +60,76 @@ class _MessageEditorState extends State<MessageEditor> {
   @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        InputDecorator(
-            decoration: const InputDecoration(label: Text("Indhold")),
-            child: quill.QuillEditor.basic(
-                controller: controller, readOnly: false)),
-        Padding(
-          padding: const EdgeInsets.only(top: 4.0),
-          child: quill.QuillToolbar.basic(
-            iconTheme: quill.QuillIconTheme(
-                iconSelectedFillColor: colorScheme.background,
-                iconUnselectedFillColor: colorScheme.background,
-                iconSelectedColor: colorScheme.primary,
-                iconUnselectedColor: colorScheme.onBackground),
-            controller: controller,
-            showBackgroundColorButton: false,
-            showAlignmentButtons: false,
-            showBoldButton: true,
-            showCenterAlignment: false,
-            showCodeBlock: false,
-            showClearFormat: false,
-            showColorButton: false,
-            showDirection: false,
-            showDividers: false,
-            showFontFamily: false,
-            showFontSize: false,
-            showHeaderStyle: false,
-            showIndent: false,
-            showInlineCode: false,
-            showItalicButton: true,
-            showJustifyAlignment: false,
-            showLeftAlignment: false,
-            showLink: true,
-            showListBullets: false,
-            showListCheck: false,
-            showListNumbers: false,
-            showQuote: false,
-            showRedo: false,
-            showRightAlignment: false,
-            showSearchButton: false,
-            showSmallButton: false,
-            showStrikeThrough: false,
-            showSubscript: false,
-            showSuperscript: false,
-            showUnderLineButton: true,
-            showUndo: true,
-          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: GestureDetector(
+        onTap: () {
+          _focusNode.requestFocus();
+        },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InputDecorator(
+                isFocused: focused,
+                decoration: InputDecoration(
+                    label: const Text("Indhold"),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0))),
+                child: quill.QuillEditor.basic(
+                    focusNode: _focusNode,
+                    controller: controller,
+                    readOnly: false)),
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: quill.QuillToolbar.basic(
+                iconTheme: quill.QuillIconTheme(
+                    iconSelectedFillColor: colorScheme.background,
+                    iconUnselectedFillColor: colorScheme.background,
+                    iconSelectedColor: colorScheme.primary,
+                    iconUnselectedColor: colorScheme.onBackground),
+                controller: controller,
+                showBackgroundColorButton: false,
+                showAlignmentButtons: false,
+                showBoldButton: true,
+                showCenterAlignment: false,
+                showCodeBlock: false,
+                showClearFormat: false,
+                showColorButton: false,
+                showDirection: false,
+                showDividers: false,
+                showFontFamily: false,
+                showFontSize: false,
+                showHeaderStyle: false,
+                showIndent: false,
+                showInlineCode: false,
+                showItalicButton: true,
+                showJustifyAlignment: false,
+                showLeftAlignment: false,
+                showLink: true,
+                showListBullets: false,
+                showListCheck: false,
+                showListNumbers: false,
+                showQuote: false,
+                showRedo: false,
+                showRightAlignment: false,
+                showSearchButton: false,
+                showSmallButton: false,
+                showStrikeThrough: false,
+                showSubscript: false,
+                showSuperscript: false,
+                showUnderLineButton: true,
+                showUndo: true,
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
   @override
   void dispose() {
+    _focusNode.dispose();
     controller.dispose();
     super.dispose();
   }

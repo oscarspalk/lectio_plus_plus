@@ -29,27 +29,35 @@ sealed class AdEvent {}
 
 final class DisposeAd extends AdEvent {}
 
-class AdBloc extends Bloc<AdEvent, BannerAd?> {
+class AdState {
+  bool loading;
+  BannerAd? ad;
+  AdState(this.loading, this.ad);
+}
+
+class AdBloc extends Bloc<AdEvent, AdState> {
   AdBloc(super.initialState) {
     on<DisposeAd>((event, emit) {
-      _loadAd((ad) => emit(ad));
+      emit(state..loading = true);
+      _loadAd((ad) {
+        debugPrint("loaded ad");
+        emit(AdState(false, ad));
+      });
     }, transformer: debounce(const Duration(milliseconds: 500)));
   }
   final String _adUnitId = _decideId();
 
   void _loadAd(Function(BannerAd ad) onLoaded) {
-    if (!kDebugMode) {
-      BannerAd(
-        adUnitId: _adUnitId,
-        request: const AdRequest(),
-        size: AdSize.banner,
-        listener: BannerAdListener(
-          onAdLoaded: (ad) => onLoaded(ad as BannerAd),
-          onAdFailedToLoad: (ad, err) {
-            ad.dispose();
-          },
-        ),
-      ).load();
-    }
+    BannerAd(
+      adUnitId: _adUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) => onLoaded(ad as BannerAd),
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+      ),
+    ).load();
   }
 }
