@@ -50,17 +50,25 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                   : "Ny privat begivenhed",
               style: headerStyle,
             ),
-            TextField(
-              controller: titleController,
-              decoration: InputDecoration(
-                  label: const Text("Titel"),
-                  errorText: titleController.text.isEmpty
-                      ? "Skal være udfyldt"
-                      : null),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0)),
+                    label: const Text("Titel"),
+                    errorText: titleController.text.isEmpty
+                        ? "Skal være udfyldt"
+                        : null),
+              ),
             ),
             TextField(
               controller: noteController,
-              decoration: const InputDecoration(label: Text("Note (valgfri)")),
+              decoration: InputDecoration(
+                  label: const Text("Note (valgfri)"),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0))),
             ),
             TimeSelect(
                 errorText: state.start.isAfter(state.end)
