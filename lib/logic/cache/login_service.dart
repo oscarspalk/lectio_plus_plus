@@ -15,11 +15,11 @@ class LoginService {
 
   LoginService();
 
-  Future<bool> _containsMinimum() async {
+  /*Future<bool> _containsMinimum() async {
     return await storage.containsKey(key: gymIdKey) &&
         await storage.containsKey(key: usernameKey) &&
         await storage.containsKey(key: passwordKey);
-  }
+  }*/
 
   /*Future<bool> _containsRequired() async {
     return await _containsMinimum() &&
