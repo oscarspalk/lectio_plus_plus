@@ -18,86 +18,80 @@ class StudiekortScreen extends StatelessWidget {
     return BlocBuilder<StudentBloc, StudentState>(
         builder: (context, studentState) {
       return Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            Card(
-                clipBehavior: Clip.hardEdge,
-                color: colorscheme.secondary,
-                child: SizedBox(
-                  height: 140.0,
-                  child: StudentBlocBuilder<StudentCubit<BasicInfo>,
-                          BasicInfo?>(
-                      small: true,
-                      builder: (context, state) {
-                        return Row(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12.0)),
-                                child: StudentBlocBuilder<
-                                        StudentCubit<DioImage>, DioImage?>(
-                                    bloc: StudentCubit(
-                                        getStudentBloc(context).state.student!,
-                                        (student) async => student.getImage(
-                                            state!.pictureId,
-                                            fullsize: true))
-                                      ..load(),
-                                    builder: (context, state) {
-                                      if (state == null) {
-                                        return Container();
-                                      }
-                                      return Image(
-                                        image: state,
-                                        height: 140,
+          padding: const EdgeInsets.all(12.0),
+          child: Card(
+              clipBehavior: Clip.hardEdge,
+              color: colorscheme.secondary,
+              child: SizedBox(
+                height: 140.0,
+                child: StudentBlocBuilder<StudentCubit<BasicInfo>, BasicInfo?>(
+                    small: true,
+                    builder: (context, state) {
+                      return Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.0)),
+                              child: StudentBlocBuilder<StudentCubit<DioImage>,
+                                      DioImage?>(
+                                  small: true,
+                                  bloc: StudentCubit(
+                                      getStudentBloc(context).state.student!,
+                                      (student) async => student.getImage(
+                                          state!.pictureId,
+                                          fullsize: true))
+                                    ..load(),
+                                  builder: (context, state) {
+                                    if (state == null) {
+                                      return Container(
+                                        height: 140.0,
                                       );
-                                    })),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              state?.name ?? "",
-                                              style: headerStyle.copyWith(
-                                                  color:
-                                                      colorscheme.onSecondary),
-                                            ),
-                                            Text(
-                                              studentState.gymName,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .labelMedium!
-                                                  .copyWith(
-                                                      color: colorscheme
-                                                          .onSecondary),
-                                            ),
-                                          ]),
-                                      const TimerWidget()
-                                    ]),
-                              ),
+                                    }
+                                    return Image(
+                                      image: state,
+                                      height: 140,
+                                    );
+                                  })),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            state?.name ?? "",
+                                            style: headerStyle.copyWith(
+                                                color: colorscheme.onSecondary),
+                                          ),
+                                          Text(
+                                            studentState.gymName,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelMedium!
+                                                .copyWith(
+                                                    color: colorscheme
+                                                        .onSecondary),
+                                          ),
+                                        ]),
+                                    const TimerWidget()
+                                  ]),
                             ),
-                          ],
-                        );
-                      }),
-                ))
-          ],
-        ),
-      );
+                          ),
+                        ],
+                      );
+                    }),
+              )));
     });
   }
 }
