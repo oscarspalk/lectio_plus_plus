@@ -37,7 +37,6 @@ class SelectGym extends SearchDelegate<Gym> {
           itemBuilder: (context, index) {
             return ListTile(
               onTap: () {
-                debugPrint("klik");
                 loginBloc.setGym(matching[index].id);
                 close(context, matching[index]);
               },

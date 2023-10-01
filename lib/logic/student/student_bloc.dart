@@ -92,18 +92,14 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     });
 
     on<LaunchedApp>((event, emit) async {
-      var start = Stopwatch()..start();
       emit(state.copyWith(state: StudentStates.loading));
       try {
-        var startSave = Stopwatch()..start();
         var student = await loginService.loadSaved();
-        debugPrint("save took: ${startSave.elapsedMilliseconds} ms");
         if (student != null) {
           emit(state.copyWith(
               student: student, state: StudentStates.authorized));
           var cacheState =
               await CachingService(student, state.gyms).loadSaved();
-          debugPrint("${start.elapsedMilliseconds} ms");
           return emit(state.copyWith(
               teams: cacheState.teams, gymName: cacheState.gymName));
         }
@@ -121,14 +117,13 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         var student = await loginService.login(account);
         if (student != null) {
           emit(state.copyWith(
+            state: StudentStates.authorized,
             student: student,
           ));
           var cacheState =
               await CachingService(student, state.gyms).loadSaved();
           return emit(state.copyWith(
-              state: StudentStates.authorized,
-              teams: cacheState.teams,
-              gymName: cacheState.gymName));
+              teams: cacheState.teams, gymName: cacheState.gymName));
         }
         return emit(state.copyWith(state: StudentStates.loginError));
       } catch (e) {

@@ -40,7 +40,6 @@ class AdBloc extends Bloc<AdEvent, AdState> {
     on<DisposeAd>((event, emit) {
       emit(state..loading = true);
       _loadAd((ad) {
-        debugPrint("loaded ad");
         emit(AdState(false, ad));
       });
     }, transformer: debounce(const Duration(milliseconds: 500)));

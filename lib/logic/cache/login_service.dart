@@ -58,9 +58,8 @@ class LoginService {
   }*/
 
   Future<Student?> loadSaved() async {
-    if (await _containsMinimum()) {
-      Account? savedAccount = await _getSavedAccount();
-      /*
+    Account? savedAccount = await _getSavedAccount();
+    /*
       @ disabled autologin
       if (await _containsRequired() && savedAccount != null) {
         DateTime expirationDate =
@@ -71,10 +70,10 @@ class LoginService {
           return savedAccount.loginWithCookies(cookies, studentId);
         }
       }*/
-      if (savedAccount != null) {
-        return login(savedAccount);
-      }
+    if (savedAccount != null) {
+      return login(savedAccount);
     }
+
     return null;
   }
 
