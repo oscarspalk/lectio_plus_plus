@@ -28,6 +28,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Er nødvendig for levering af personlige reklamer.</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-7673030582142706~5862531961</string>
 	<key>LSRequiresIPhoneOS</key>

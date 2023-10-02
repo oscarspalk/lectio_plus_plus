@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -15,7 +16,21 @@ class AdConsentCheckerState extends State<AdConsentChecker> {
   void initState() {
     super.initState();
     if (Platform.isIOS || Platform.isAndroid) {
-      _checkConsent();
+      _check();
+    }
+  }
+
+  _check() async {
+    if (Platform.isIOS) {
+      await _checkNativeConsent();
+    }
+    await _checkConsent();
+  }
+
+  Future<void> _checkNativeConsent() async {
+    var status = await AppTrackingTransparency.trackingAuthorizationStatus;
+    if (status != TrackingStatus.authorized) {
+      await AppTrackingTransparency.requestTrackingAuthorization();
     }
   }
 
@@ -32,7 +47,6 @@ class AdConsentCheckerState extends State<AdConsentChecker> {
     ConsentForm.loadConsentForm(
       (ConsentForm consentForm) async {
         var status = await ConsentInformation.instance.getConsentStatus();
-        debugPrint("$status");
         if (status == ConsentStatus.required) {
           consentForm.show((formError) {
             _showForm();
