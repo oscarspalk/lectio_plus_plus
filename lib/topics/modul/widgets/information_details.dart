@@ -40,8 +40,9 @@ class InformationDetails extends StatelessWidget {
             ? StudentBlocBuilder<StudentCubit<List<Room>>, List<Room>?>(
                 builder: (context, state) {
                   var matchingRoom = state!.where((room) =>
-                      room.name.startsWith(event.room) ||
-                      room.short.startsWith(event.room));
+                      room.short.startsWith(event.room) &&
+                      room.short.isNotEmpty &&
+                      event.room.isNotEmpty);
                   if (matchingRoom.isNotEmpty) {
                     return RoomTile(
                       room: matchingRoom.first,
