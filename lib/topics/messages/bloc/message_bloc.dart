@@ -55,15 +55,17 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
                 .indexWhere((element) => element.id == event.ref.id) ==
             -1) {
           emit(state.copyWith(loading: true));
-          emit(state.copyWith(messages: [
-            ...state.messages,
-            await student.messages.get(event.ref)
-          ], loading: false));
+          var loadedMessage = await student.messages.get(event.ref);
+          if (loadedMessage != null) {
+            emit(state.copyWith(
+                messages: [...state.messages, loadedMessage], loading: false));
+          }
         } else {
           refreshMessage(
-              emit,
-              Message(
-                  event.ref.id, [], MetaDataEntry(id: "", name: ""), "", ""));
+            emit,
+            Message(event.ref.id, [], MetaDataEntry(id: "", name: ""), "", "",
+                event.ref),
+          );
         }
       },
     );
@@ -76,8 +78,8 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
     );
     on<DeleteMessage>(
       (event, emit) async {
-        await student.messages.delete(
-            Message(event.ref.id, [], MetaDataEntry(name: "", id: ""), "", ""));
+        await student.messages.delete(Message(event.ref.id, [],
+            MetaDataEntry(name: "", id: ""), "", "", event.ref));
         emit(state.copyWith(messages: [
           ...state.messages.where((element) => element.id != event.ref.id)
         ]));
@@ -97,7 +99,7 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
     on<ReplyMessage>(
       (event, emit) async {
         emit(state.copyWith(loading: true));
-        await student.messages.reply(event.reply);
+        await student.messages.threads.reply(event.reply);
         await refreshMessage(emit, event.reply.message);
       },
     );
@@ -109,7 +111,7 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
         messages: state.messages
             .where((element) => element.id != message.id)
             .toList()));
-    add(LoadMessage(MessageRef(message.id, DateTime(2023), "", "")));
+    add(LoadMessage(message.ref));
   }
 }
 
