@@ -19,10 +19,13 @@ class ConfirmAction extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Illustration(illustration: "verified"),
-          Text(
-            confirmText,
-            style: headerStyle,
-            textAlign: TextAlign.center,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              confirmText,
+              style: headerStyle,
+              textAlign: TextAlign.center,
+            ),
           ),
           if (children != null)
             Column(

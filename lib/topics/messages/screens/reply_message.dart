@@ -7,9 +7,7 @@ import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 
 class ReplyMessageScreen extends StatefulWidget {
-  const ReplyMessageScreen(
-      {super.key, required this.entry, required this.message});
-  final ThreadEntry entry;
+  const ReplyMessageScreen({super.key, required this.message});
   final Message message;
 
   @override
@@ -24,7 +22,7 @@ class _ReplyMessageScreenState extends State<ReplyMessageScreen> {
   @override
   void initState() {
     super.initState();
-    bloc = ReplyMessageBloc(widget.entry, widget.message);
+    bloc = ReplyMessageBloc(widget.message);
     topic = TextEditingController(text: bloc.state.topic);
     content = TextEditingController(text: bloc.state.content);
   }

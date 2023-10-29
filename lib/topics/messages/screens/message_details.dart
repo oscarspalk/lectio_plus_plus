@@ -6,6 +6,7 @@ import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lpp/logic/student/student_cubit.dart';
 import 'package:lpp/topics/messages/bloc/message_bloc.dart';
 import 'package:lpp/topics/messages/screens/confirm_action.dart';
+import 'package:lpp/topics/messages/screens/reply_message.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
@@ -58,13 +59,22 @@ class MessageDetails extends StatelessWidget {
             return const EmptyScreen();
           }
           var msg = state.messages.elementAt(msgIndex);
-          return RefreshIndicator(
-            onRefresh: () async {
-              context.read<MessageBloc>().add(LoadMessage(ref));
-            },
-            child: ThreadList(
-              msg: msg,
-              indent: 0,
+          return Scaffold(
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.push(
+                    context, adRoute(ReplyMessageScreen(message: msg)));
+              },
+              label: const Text("Svar"),
+              icon: const Icon(EvaIcons.paperPlaneOutline),
+            ),
+            body: RefreshIndicator(
+              onRefresh: () async {
+                context.read<MessageBloc>().add(LoadMessage(ref));
+              },
+              child: ThreadList(
+                msg: msg,
+              ),
             ),
           );
         },

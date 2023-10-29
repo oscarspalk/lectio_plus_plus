@@ -19,12 +19,11 @@ class ReplyState with _$ReplyState {
 }
 
 class ReplyMessageBloc extends Cubit<ReplyState> {
-  final ThreadEntry entry;
   final Message message;
-  ReplyMessageBloc(this.entry, this.message)
+  ReplyMessageBloc(this.message)
       : super(ReplyState(
           content: "",
-          topic: entry.topic,
+          topic: message.thread[0].topic,
         ));
 
   setTopic(String topic) {
