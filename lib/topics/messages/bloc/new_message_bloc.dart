@@ -70,7 +70,7 @@ class NewMessageBloc extends Bloc<NewMessageEvent, NewMessageState> {
     on<Send>(
       (event, emit) {
         event.context.read<MessageBloc>().add(NewMessage(
-            CreateMessage(state.topic, state.content, true, state.receivers)));
+            CreateMessage(state.topic, state.content, state.receivers)));
 
         emit(state.copyWith(receivers: [], topic: "", content: ""));
       },

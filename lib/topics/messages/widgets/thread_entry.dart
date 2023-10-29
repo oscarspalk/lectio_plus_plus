@@ -73,7 +73,7 @@ class _ThreadEntryWidgetState extends State<ThreadEntryWidget> {
                 AnswersAndDividerMessage(
                   entries: widget.entry.children,
                   msg: widget.message,
-                  indent: widget.entry.entry.indent + 1,
+                  indent: 0,
                 ),
               UserAndTimeDetails(widget: widget, name: name, theme: theme),
             ])),

@@ -25,17 +25,16 @@ class _ThreadListState extends State<ThreadList> {
   late List<ThreadParent> threads;
   _makeThreads() {
     threads = [];
-    List<ThreadEntry> possible = widget.msg.thread
-        .where((element) => element.indent >= widget.indent)
-        .toList();
+    List<ThreadEntry> possible =
+        widget.msg.thread.where((element) => 0 >= widget.indent).toList();
     if (possible.isNotEmpty) {
       ThreadParent? threadParent = ThreadParent(possible.first, []);
       for (var thread in possible.sublist(1)) {
-        if (thread.indent >= widget.indent) {
-          if (thread.indent == widget.indent && threadParent != null) {
+        if (0 >= widget.indent) {
+          if (0 == widget.indent && threadParent != null) {
             threads.add(threadParent);
             threadParent = ThreadParent(thread, []);
-          } else if (threadParent != null && thread.indent > widget.indent) {
+          } else if (threadParent != null && 0 > widget.indent) {
             threadParent.children.add(thread);
           }
         }

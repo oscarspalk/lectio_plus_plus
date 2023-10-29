@@ -37,6 +37,6 @@ class ReplyMessageBloc extends Cubit<ReplyState> {
 
   submit(BuildContext context) {
     var bloc = context.read<MessageBloc>();
-    bloc.add(ReplyMessage(Reply(entry, state.topic, message, state.content)));
+    bloc.add(ReplyMessage(Reply(state.topic, message, state.content)));
   }
 }

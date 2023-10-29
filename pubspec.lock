@@ -716,10 +716,10 @@ packages:
     dependency: "direct main"
     description:
       name: lectio_wrapper
-      sha256: "29de6fa55cdab96935c9d785e1df6d43fccdf930c0d7c45e3988e76cc57722c5"
+      sha256: "7ebd7b3cab5a8fdf31f74458ac3603a2c38bf77d817a80ea8545c30d44ee2a0a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.12"
+    version: "0.6.13"
   lints:
     dependency: transitive
     description:

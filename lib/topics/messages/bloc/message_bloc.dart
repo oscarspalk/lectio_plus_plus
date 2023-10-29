@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
-import 'package:lectio_wrapper/types/message/meta/meta.dart';
-import 'package:lectio_wrapper/types/message/threads/edit.dart';
 
 part 'message_bloc.freezed.dart';
 
@@ -25,12 +23,6 @@ class NewMessage extends MessageEvent {
 class DeleteMessage extends MessageEvent {
   MessageRef ref;
   DeleteMessage(this.ref);
-}
-
-class EditMessage extends MessageEvent {
-  Edit edit;
-  OpenedEdit openedEdit;
-  EditMessage(this.edit, this.openedEdit);
 }
 
 class ReplyMessage extends MessageEvent {
@@ -63,8 +55,7 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
         } else {
           refreshMessage(
             emit,
-            Message(event.ref.id, [], MetaDataEntry(id: "", name: ""), "", "",
-                event.ref),
+            Message(event.ref.id, [], [], event.ref),
           );
         }
       },
@@ -78,21 +69,11 @@ class MessageBloc extends Bloc<MessageEvent, MessagesState> {
     );
     on<DeleteMessage>(
       (event, emit) async {
-        await student.messages.delete(Message(event.ref.id, [],
-            MetaDataEntry(name: "", id: ""), "", "", event.ref));
+        await student.messages.delete(Message(event.ref.id, [], [], event.ref));
         emit(state.copyWith(messages: [
           ...state.messages.where((element) => element.id != event.ref.id)
         ]));
         add(LoadRefs());
-      },
-    );
-
-    on<EditMessage>(
-      (event, emit) async {
-        emit(state.copyWith(loading: true));
-        await student.messages.threads
-            .edit(event.edit, event.openedEdit.stateData);
-        await refreshMessage(emit, event.edit.message);
       },
     );
 
