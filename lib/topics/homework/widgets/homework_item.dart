@@ -59,11 +59,6 @@ class HomeworkItem extends StatelessWidget {
                                   .merge(throughStyle),
                               overflow: TextOverflow.ellipsis,
                             ),
-                            if (homework.module != 0)
-                              Text(
-                                "${homework.module}. modul",
-                                style: throughStyle,
-                              ),
                           ],
                         ),
                       ),

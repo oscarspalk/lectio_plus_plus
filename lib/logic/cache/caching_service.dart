@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio/student.dart';
 import 'package:lectio_wrapper/types/context/team.dart';
 import 'package:lectio_wrapper/types/gym.dart';
@@ -31,9 +32,7 @@ class CachingService {
     if (_containsTeamCache()) {
       DateTime teamCachedDate =
           DateTime.parse(prefs.getString(teamCachedDateKey)!);
-      if (!DateTime.now()
-          .add(const Duration(days: 7))
-          .isAfter(teamCachedDate)) {
+      if (teamCachedDate.difference(DateTime.now()).inDays < 7) {
         return _fetchLocalTeams();
       }
     }
@@ -49,15 +48,21 @@ class CachingService {
     List<Team> teams = [];
     var teamsRef = await student.teams.list();
     for (var teamRef in teamsRef) {
-      var teamContext =
-          (await student.context.get("HE${teamRef.id}")) as TeamContext;
-      teams.add(Team(
-          name: teamRef.name,
-          id: teamRef.id,
-          displayName: teamContext.subject));
+      try {
+        await Future.delayed(const Duration(milliseconds: 500));
+        var teamContext =
+            (await student.context.get("HE${teamRef.id}")) as TeamContext;
+        teams.add(Team(
+            name: teamRef.name,
+            id: teamRef.id,
+            displayName: teamContext.subject));
+      } catch (e) {
+        debugPrint("failed at ${teamRef.displayName}");
+      }
     }
     prefs.setStringList(
         teamCacheKey, teams.map((team) => teamToString(team)).toList());
+    prefs.setString(teamCachedDateKey, DateTime.now().toIso8601String());
     return teams;
   }
 
@@ -76,7 +81,7 @@ class CachingService {
 
   Future<CacheState> loadSaved() async {
     prefs = await SharedPreferences.getInstance();
-    var teams = await _getSavedTeams();
+    List<Team> teams = await _getSavedTeams();
     String gymName = _getGymName();
     return CacheState(teams, gymName);
   }
