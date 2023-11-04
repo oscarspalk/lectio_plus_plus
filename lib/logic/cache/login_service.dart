@@ -33,7 +33,14 @@ class LoginService {
     String? username = await storage.read(key: usernameKey);
     String? password = await storage.read(key: passwordKey);
     if (gymIdValue != null && username != null && password != null) {
-      return Account(int.parse(gymIdValue), username, password);
+      return Account(
+        int.parse(gymIdValue),
+        username,
+        password,
+        loginError: () {
+          return _getSavedAccount_();
+        },
+      );
     }
     return null;
   }

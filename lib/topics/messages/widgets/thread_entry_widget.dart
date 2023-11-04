@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lpp/topics/messages/widgets/message_files.dart';
 import 'package:lpp/topics/modul/widgets/module_homework_display.dart';
@@ -14,8 +15,12 @@ class ThreadEntryWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        CircleAvatar(
+        Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(double.infinity)),
           child: InkWell(
+            customBorder: const CircleBorder(),
             onTap: () {
               adSheet(
                   PersonDetails(
@@ -23,11 +28,13 @@ class ThreadEntryWidget extends StatelessWidget {
                   ),
                   context);
             },
-            child: Text(entry.user.name
-                .split(" ")
-                .map((e) => e.characters.first)
-                .take(2)
-                .join()),
+            child: CircleAvatar(
+              child: Text(entry.user.name
+                  .split(" ")
+                  .map((e) => e.characters.first)
+                  .take(2)
+                  .join()),
+            ),
           ),
         ),
         Expanded(
@@ -40,9 +47,16 @@ class ThreadEntryWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      entry.topic,
-                      style: Theme.of(context).textTheme.labelLarge,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          entry.topic,
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                        Text(DateFormat("d/M HH:mm").format(entry.at),
+                            style: Theme.of(context).textTheme.labelMedium)
+                      ],
                     ),
                     LppHtml(content: entry.content),
                     MessageFileRow(files: entry.files)

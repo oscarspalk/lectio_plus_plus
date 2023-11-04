@@ -93,17 +93,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       }
                     },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 16.0),
-                    child: BlocBuilder<TermBloc, List<Term>?>(
-                      bloc: TermBloc(getStudentBloc(context).state.student!),
-                      builder: (context, state) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            DropdownMenu<Term>(
-                                onSelected: (value) {
+                  ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(right: 12.0),
+                          child: Text("Årgang"),
+                        ),
+                        BlocBuilder<TermBloc, List<Term>?>(
+                          bloc:
+                              TermBloc(getStudentBloc(context).state.student!),
+                          builder: (context, state) {
+                            return DropdownButton<Term>(
+                                alignment: Alignment.center,
+                                onChanged: (value) {
                                   if (value != null && !value.active) {
                                     bloc.set(value);
                                     Navigator.pushReplacement(context,
@@ -114,17 +118,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     ));
                                   }
                                 },
-                                initialSelection: state
+                                value: state
                                     ?.firstWhere((element) => element.active),
-                                label: const Text("Lectio årgang"),
-                                dropdownMenuEntries: state
-                                        ?.map((e) => DropdownMenuEntry(
-                                            value: e, label: e.name))
+                                items: state
+                                        ?.map((e) => DropdownMenuItem(
+                                            alignment: Alignment.center,
+                                            value: e,
+                                            child: Text(
+                                              e.name,
+                                            )))
                                         .toList() ??
-                                    []),
-                          ],
-                        );
-                      },
+                                    []);
+                          },
+                        ),
+                      ],
                     ),
                   ),
                   const TextDivider(
