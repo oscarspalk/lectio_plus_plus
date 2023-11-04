@@ -25,7 +25,7 @@ class AlphabeticList<T> extends StatefulWidget {
 class _AlphabeticListState<T> extends State<AlphabeticList<T>> {
   Map<String, List<AssociatedObject<T>>> lettersAndObjs = {};
 
-  void _buildAssociations() {
+  void _buildAssociations() async {
     lettersAndObjs = {};
     for (var obj in widget.list) {
       String startCharacter = obj.key.characters.first.toLowerCase();

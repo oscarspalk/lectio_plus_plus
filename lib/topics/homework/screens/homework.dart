@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/homework/homework.dart';
+import 'package:lpp/logic/student/student_cubit_refresh.dart';
 import 'package:lpp/topics/homework/widgets/homework_group_list.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
@@ -17,14 +18,17 @@ class HomeworkScreen extends StatelessWidget {
       appBar: const LppAppbar(
         title: "Lektier",
       ),
-      body: StudentBlocBuilder<StudentCubit<List<Homework>>, List<Homework>?>(
-        builder: (context, state) {
-          List<Homework> fakeHomework = state!;
-          if (fakeHomework.isEmpty) {
-            return const EmptyScreen();
-          }
-          return HomeworkGroupList(homework: fakeHomework);
-        },
+      body: StudentCubitRefresh<StudentCubit<List<Homework>>>(
+        child:
+            StudentBlocBuilder<StudentCubit<List<Homework>>, List<Homework>?>(
+          builder: (context, state) {
+            List<Homework> fakeHomework = state!;
+            if (fakeHomework.isEmpty) {
+              return const EmptyScreen();
+            }
+            return HomeworkGroupList(homework: fakeHomework);
+          },
+        ),
       ),
     );
   }

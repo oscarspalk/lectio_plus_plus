@@ -2,6 +2,9 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lectio_wrapper/types/terms/term.dart';
+import 'package:lpp/routing/router.dart';
+import 'package:lpp/topics/settings/bloc/term_bloc.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
@@ -24,10 +27,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String version = "";
 
   String buildNumber = "";
-
+  late TermBloc bloc;
   @override
   void initState() {
     super.initState();
+    bloc = TermBloc(getStudentBloc(context).state.student!);
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
       setState(() {
         appName = packageInfo.appName;
@@ -89,11 +93,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       }
                     },
                   ),
-                  /*const TextDivider(
-                    text: "Lectio++",
-                    primary: true,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 16.0),
+                    child: BlocBuilder<TermBloc, List<Term>?>(
+                      bloc: TermBloc(getStudentBloc(context).state.student!),
+                      builder: (context, state) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            DropdownMenu<Term>(
+                                onSelected: (value) {
+                                  if (value != null && !value.active) {
+                                    bloc.set(value);
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(
+                                      builder: (context) {
+                                        return const AppRouter();
+                                      },
+                                    ));
+                                  }
+                                },
+                                initialSelection: state
+                                    ?.firstWhere((element) => element.active),
+                                label: const Text("Lectio årgang"),
+                                dropdownMenuEntries: state
+                                        ?.map((e) => DropdownMenuEntry(
+                                            value: e, label: e.name))
+                                        .toList() ??
+                                    []),
+                          ],
+                        );
+                      },
+                    ),
                   ),
-                  const TermsController(),*/
                   const TextDivider(
                     text: "Notifikationer",
                     primary: true,
