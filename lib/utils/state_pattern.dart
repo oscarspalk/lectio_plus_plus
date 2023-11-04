@@ -1,7 +1,17 @@
-enum States { ready, loading, unready, error }
+enum States { okay, loading, error }
 
 class StatePattern<T> {
-  final T state;
-  final States status;
-  StatePattern(this.state, this.status);
+  T state;
+  final Error? error;
+  States status;
+
+  StatePattern(this.state, this.status, {this.error});
+
+  StatePattern<T> loading() {
+    return this..status = States.loading;
+  }
+
+  StatePattern<T> finish(T state) {
+    return StatePattern<T>(state, States.okay);
+  }
 }

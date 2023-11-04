@@ -95,8 +95,8 @@ class _EditAbsenceState extends State<EditAbsence> {
                               expandedCause: _explanation);
 
                           context
-                              .read<AbsenceRegistrationsBloc>()
-                              .add(UpdatedRegistration(newEntry));
+                              .read<AbsenceRegistrationsCubit>()
+                              .update(newEntry);
                         }
                       : null,
                   icon: const Icon(EvaIcons.save),

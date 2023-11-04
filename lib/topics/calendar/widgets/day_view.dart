@@ -66,7 +66,7 @@ class _DayViewDisplayState extends State<DayViewDisplay> {
   late Day day;
   late List<wv.FlutterWeekViewEvent> events;
 
-  void _buildState() {
+  void _buildState() async {
     DateTime? firstEventStart;
     DateTime? lastEventEnd;
     DateTime dateSelected = widget.dateSelected;

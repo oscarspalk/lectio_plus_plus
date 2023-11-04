@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
+import 'package:lpp/logic/student/student_cubit_refresh.dart';
 import 'package:lpp/topics/absence/widgets/absence_registration_list.dart';
 import 'package:lpp/topics/state/empty.dart';
+import 'package:lpp/utils/state_pattern.dart';
 
 import '../bloc/registation.dart';
 import '../../state/loading.dart';
 
 class AbsenceRegistrations extends StatefulWidget {
-  const AbsenceRegistrations({super.key, required this.registrationState});
-  final AbsenceRegistrationsState registrationState;
+  const AbsenceRegistrations({super.key, required this.registrations});
+  final List<AbsenceCauseEntry> registrations;
   @override
   State<AbsenceRegistrations> createState() => _AbsenceRegistrationsState();
 }
@@ -19,7 +21,7 @@ class _AbsenceRegistrationsState extends State<AbsenceRegistrations> {
   List<AbsenceCauseEntry> missingCauses = [];
   List<AbsenceCauseEntry> causes = [];
   void _buildRegistrationSections() {
-    causes = widget.registrationState.entries
+    causes = widget.registrations
       ..sort(
         (b, a) {
           return a.module.start.compareTo(b.module.start);
@@ -33,6 +35,12 @@ class _AbsenceRegistrationsState extends State<AbsenceRegistrations> {
   @override
   void initState() {
     super.initState();
+    _buildRegistrationSections();
+  }
+
+  @override
+  void didUpdateWidget(covariant AbsenceRegistrations oldWidget) {
+    super.didUpdateWidget(oldWidget);
     _buildRegistrationSections();
   }
 
@@ -61,15 +69,16 @@ class AbsenceRegistrationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AbsenceRegistrationsBloc, AbsenceRegistrationsState>(
-        builder: (context, state) {
-      if (state.loading) {
+    return BlocBuilder<AbsenceRegistrationsCubit,
+        StatePattern<List<AbsenceCauseEntry>?>>(builder: (context, state) {
+      if (state.status == States.loading || state.state == null) {
         return const LoadingScreen();
       }
-      if (state.entries.isEmpty) {
+      if (state.state!.isEmpty) {
         return const EmptyScreen();
       }
-      return AbsenceRegistrations(registrationState: state);
+      return StudentCubitRefresh<AbsenceRegistrationsCubit>(
+          child: AbsenceRegistrations(registrations: state.state!));
     });
   }
 }

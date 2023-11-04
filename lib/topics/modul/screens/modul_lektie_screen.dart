@@ -36,8 +36,9 @@ class _ModulLektieScreenState extends State<ModulLektieScreen> {
           hideMenu: true,
         ),
         body: StudentBlocBuilder<StudentCubit<List<Cookie>>, List<Cookie>?>(
-            bloc: StudentCubit(getStudentBloc(context).state.student!,
-                (student) => student.getCookies())
+            bloc: StudentCubit(
+                student: getStudentBloc(context).state.student!,
+                selector: (student) => student.getCookies())
               ..load(),
             builder: (context, state) {
               return widget.content.href.startsWith("https://")

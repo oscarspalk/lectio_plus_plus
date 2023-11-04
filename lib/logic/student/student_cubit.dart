@@ -5,18 +5,20 @@ import '../../utils/state_pattern.dart';
 
 class StudentCubit<T> extends Cubit<StatePattern<T?>> {
   final Student student;
-  final Future<T> Function(Student student) selector;
-  StudentCubit(this.student, this.selector)
+  final Future<T> Function(Student student)? selector;
+  StudentCubit({required this.student, this.selector})
       : super(StatePattern(null, States.loading)) {
     load();
   }
 
   load() async {
-    var list = await selector(student).timeout(const Duration(seconds: 20));
-    emit(StatePattern(list, States.ready));
+    if (selector != null) {
+      var list = await selector!(student).timeout(const Duration(seconds: 20));
+      emit(StatePattern(list, States.okay));
+    }
   }
 
-  refresh() {
+  refresh() async {
     emit(StatePattern(null, States.loading));
     load();
   }

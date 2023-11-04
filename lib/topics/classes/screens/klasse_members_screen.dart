@@ -17,8 +17,9 @@ class KlasseMembersScreen extends StatelessWidget {
     return Scaffold(
       appBar: LppAppbar(title: klasseRef.name, hideMenu: true),
       body: StudentBlocBuilder<StudentCubit<Class>, Class?>(
-        bloc: StudentCubit(getStudentBloc(context).state.student!,
-            (student) => student.classes.get(klasseRef))
+        bloc: StudentCubit(
+            student: getStudentBloc(context).state.student!,
+            selector: (student) => student.classes.get(klasseRef))
           ..load(),
         builder: (context, state) {
           return StudentList(klasse: state!);

@@ -18,7 +18,7 @@ class AbsenceRegistrationList extends StatefulWidget {
 class _AbsenceRegistrationListState extends State<AbsenceRegistrationList> {
   Map<DateTime, List<AbsenceCauseEntry>> daysAndEntries = {};
 
-  void _buildDays() {
+  void _buildDays() async {
     daysAndEntries = {};
     for (var entry in widget.entries) {
       var date = DateTime(entry.module.start.year, entry.module.start.month,

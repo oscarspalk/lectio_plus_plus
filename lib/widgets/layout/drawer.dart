@@ -73,8 +73,8 @@ class LppDrawer extends StatelessWidget {
                         child: StudentBlocBuilder<StudentCubit<DioImage>,
                                 DioImage?>(
                             bloc: StudentCubit(
-                                getStudentBloc(context).state.student!,
-                                (student) async =>
+                                student: getStudentBloc(context).state.student!,
+                                selector: (student) async =>
                                     student.getImage(state!.pictureId))
                               ..load(),
                             builder: (context, state) {

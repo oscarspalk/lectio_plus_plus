@@ -16,8 +16,9 @@ class PlanDetails extends StatelessWidget {
     return Scaffold(
       appBar: LppAppbar(title: ref.title),
       body: StudentBlocBuilder<StudentCubit<StudyPlanEntry>, StudyPlanEntry?>(
-        bloc: StudentCubit(getStudentBloc(context).state.student!,
-            (student) => student.plans.get(ref))
+        bloc: StudentCubit(
+            student: getStudentBloc(context).state.student!,
+            selector: (student) => student.plans.get(ref))
           ..load(),
         builder: (context, state) {
           return ListView(

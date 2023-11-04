@@ -21,16 +21,16 @@ class _AbsenceOverviewState extends State<AbsenceOverview> {
   double totalModulesWritten = 0.0;
   double totalModulesAbsenceWritten = 0.0;
   bool hasNonNull = false;
-  late AbsenceEntry mostAbsence;
-  late List<Map<String, Object>> data;
-  void _buildStats() {
+  AbsenceEntry? mostAbsence;
+  List<Map<String, Object>>? data;
+  void _buildStats() async {
     hasNonNull = widget.absence
         .where((element) => element.regular.currentModules.current > 0)
         .isNotEmpty;
     mostAbsence = widget.absence[0];
     for (var row in widget.absence) {
       if (row.regular.finalModules.current >
-          mostAbsence.regular.finalModules.current) {
+          (mostAbsence?.regular.finalModules.current ?? 0)) {
         mostAbsence = row;
       }
       totalModules += row.regular.finalModules.total;
@@ -75,7 +75,8 @@ class _AbsenceOverviewState extends State<AbsenceOverview> {
                   measureLabelColor: Theme.of(context).colorScheme.onBackground,
                   barColor: (barData, index, id) {
                     var scheme = Theme.of(context).colorScheme;
-                    if (barData['domain'] == mostAbsence.team.displayName) {
+                    if (mostAbsence != null &&
+                        barData['domain'] == mostAbsence!.team.displayName) {
                       return scheme.primaryContainer;
                     }
                     return scheme.secondary;

@@ -31,8 +31,9 @@ class CachingService {
   FutureOr<List<Team>> _getSavedTeams() async {
     if (_containsTeamCache()) {
       DateTime teamCachedDate =
-          DateTime.parse(prefs.getString(teamCachedDateKey)!);
-      if (teamCachedDate.difference(DateTime.now()).inDays < 7) {
+          DateTime.parse(prefs.getString(teamCachedDateKey) ?? "");
+      Duration timeSinceCache = DateTime.now().difference(teamCachedDate);
+      if (timeSinceCache.inDays < 7) {
         return _fetchLocalTeams();
       }
     }

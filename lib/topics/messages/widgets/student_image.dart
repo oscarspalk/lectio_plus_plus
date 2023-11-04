@@ -28,8 +28,8 @@ class StudentImage extends StatelessWidget {
       child: entry != null
           ? StudentBlocBuilder<StudentCubit<DioImage>, DioImage?>(
               bloc: StudentCubit(
-                  getStudentBloc(context).state.student!,
-                  (primaryStudent) async => primaryStudent.getImage(
+                  student: getStudentBloc(context).state.student!,
+                  selector: (primaryStudent) async => primaryStudent.getImage(
                       (await primaryStudent.context.get(entry!.id)
                               as StudentContext)
                           .imageId,

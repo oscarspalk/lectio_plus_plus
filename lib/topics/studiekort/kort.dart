@@ -39,10 +39,12 @@ class StudiekortScreen extends StatelessWidget {
                                       DioImage?>(
                                   small: true,
                                   bloc: StudentCubit(
-                                      getStudentBloc(context).state.student!,
-                                      (student) async => student.getImage(
-                                          state!.pictureId,
-                                          fullsize: true))
+                                      student: getStudentBloc(context)
+                                          .state
+                                          .student!,
+                                      selector: (student) async =>
+                                          student.getImage(state!.pictureId,
+                                              fullsize: true))
                                     ..load(),
                                   builder: (context, state) {
                                     if (state == null) {
