@@ -105,8 +105,7 @@ class LoginService {
         return _getSavedAccount_();
       },
     );
-    var student = await accountWithAutologin.loginWithCookies(
-        [], "54299107744"); //accountWithAutologin.login(autologin: false);
+    var student = await accountWithAutologin.login(autologin: false);
     if (student != null) {
       save(account, student);
       return student;
