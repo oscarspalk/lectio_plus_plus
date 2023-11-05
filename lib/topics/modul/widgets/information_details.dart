@@ -38,6 +38,7 @@ class InformationDetails extends StatelessWidget {
             : Container(),
         ine(event.room)
             ? StudentBlocBuilder<StudentCubit<List<Room>>, List<Room>?>(
+                small: true,
                 builder: (context, state) {
                   var matchingRoom = state!.where((room) =>
                       room.short.startsWith(event.room) &&
