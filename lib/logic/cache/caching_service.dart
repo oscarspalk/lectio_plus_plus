@@ -47,7 +47,7 @@ class CachingService {
 
   Future<List<Team>> _fetchTeams() async {
     List<Team> teams = [];
-    var teamsRef = await student.teams.list();
+    /*var teamsRef = await student.teams.list();
     for (var teamRef in teamsRef) {
       try {
         await Future.delayed(const Duration(milliseconds: 500));
@@ -60,7 +60,7 @@ class CachingService {
       } catch (e) {
         debugPrint("failed at ${teamRef.displayName}");
       }
-    }
+    }*/
     prefs.setStringList(
         teamCacheKey, teams.map((team) => teamToString(team)).toList());
     prefs.setString(teamCachedDateKey, DateTime.now().toIso8601String());
