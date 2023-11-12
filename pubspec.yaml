@@ -40,6 +40,8 @@ dependencies:
   bloc_event_transformers: ^1.0.1
   flutter_svg: ^1.1.6
   app_tracking_transparency: ^2.0.4
+  upgrader: ^8.2.0
+  flutter_sanity: ^1.1.0
 
 dev_dependencies:
   flutter_test:

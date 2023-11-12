@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/routing/upgrader.dart';
 import 'package:lpp/topics/welcome/screens/welcome_carousel.dart';
 
 import '../logic/student/student_bloc.dart';
@@ -12,21 +13,23 @@ class AppRouter extends StatelessWidget {
   const AppRouter({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StudentBloc, StudentState>(
-      builder: (context, state) {
-        switch (state.state) {
-          case StudentStates.unauthorized:
-            return const WelcomeCarousel();
-          case StudentStates.loading:
-            return const LoadingScreen();
-          case StudentStates.authorized:
-            return const RootController();
-          case StudentStates.internetError:
-            return const InternetErrorScreen();
-          case StudentStates.loginError:
-            return const LoginErrorScreen();
-        }
-      },
+    return LppUpgrader(
+      child: BlocBuilder<StudentBloc, StudentState>(
+        builder: (context, state) {
+          switch (state.state) {
+            case StudentStates.unauthorized:
+              return const WelcomeCarousel();
+            case StudentStates.loading:
+              return const LoadingScreen();
+            case StudentStates.authorized:
+              return const RootController();
+            case StudentStates.internetError:
+              return const InternetErrorScreen();
+            case StudentStates.loginError:
+              return const LoginErrorScreen();
+          }
+        },
+      ),
     );
   }
 }
