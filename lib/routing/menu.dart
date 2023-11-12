@@ -23,11 +23,11 @@ class Menu extends StatelessWidget {
         selectedIcon: EvaIcons.folder,
         name: "Klasser",
         screen: const KlasseScreen()),
-    Destination(
+    /*Destination(
         icon: EvaIcons.peopleOutline,
         name: "Personer",
         selectedIcon: EvaIcons.people,
-        screen: const PeopleScreen()),
+        screen: const PeopleScreen()),*/
     Destination(
         icon: EvaIcons.bookmarkOutline,
         name: "Karakterer",
