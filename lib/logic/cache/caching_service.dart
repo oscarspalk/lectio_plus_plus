@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio/student.dart';
-import 'package:lectio_wrapper/types/context/team.dart';
 import 'package:lectio_wrapper/types/gym.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
 import 'package:shared_preferences/shared_preferences.dart';
