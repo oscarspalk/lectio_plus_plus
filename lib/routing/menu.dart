@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lpp/topics/classes/screens/klasse_screen.dart';
 import 'package:lpp/topics/grades/screens/grade.dart';
 import 'package:lpp/topics/messages/screens/message_screen.dart';
-import 'package:lpp/topics/people/screens/people_screen.dart';
 import 'package:lpp/topics/plans/screens/overview.dart';
 import 'package:lpp/topics/rooms/screens/overview.dart';
 import 'package:lpp/topics/settings/screens/settings_screen.dart';
