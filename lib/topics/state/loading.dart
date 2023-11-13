@@ -10,7 +10,7 @@ class LoadingScreen extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Center(
           child: CircularProgressIndicator(
-            value: progress,
+            value: progress == 0 ? null : progress,
           ),
         ),
       ),

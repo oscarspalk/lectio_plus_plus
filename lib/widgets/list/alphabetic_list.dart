@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lpp/topics/state/empty.dart';
-import 'package:lpp/widgets/layout/text_divider.dart';
 
 class AssociatedObject<T> {
   String key;
   T object;
   AssociatedObject(this.key, this.object);
 }
-
-final List<String> letters = "abcdefghijklmnopqrstuvxyzæøå".split("");
 
 class AlphabeticList<T> extends StatefulWidget {
   const AlphabeticList({
@@ -57,24 +54,14 @@ class _AlphabeticListState<T> extends State<AlphabeticList<T>> {
             ? const EmptyScreen()
             : ListView(
                 children: lettersAndObjs.entries.map((letterAndObj) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextDivider(
-                      primary: true,
-                      text: letterAndObj.key.toUpperCase(),
-                      large: true,
-                    ),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: letterAndObj.value.length,
-                      itemBuilder: (context, index) {
-                        return widget.itemBuilder(
-                            context, letterAndObj.value[index].object);
-                      },
-                    )
-                  ],
+                return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: letterAndObj.value.length,
+                  itemBuilder: (context, index) {
+                    return widget.itemBuilder(
+                        context, letterAndObj.value[index].object);
+                  },
                 );
               }).toList()));
   }
