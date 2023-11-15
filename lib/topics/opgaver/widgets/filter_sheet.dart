@@ -23,7 +23,6 @@ class FilterSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OpgaveBloc, AssignmentState>(
       builder: (context, state) {
-        debugPrint("changed");
         return Column(
           children: AssignmentFilters.values.map((filter) {
             return RadioListTile(
