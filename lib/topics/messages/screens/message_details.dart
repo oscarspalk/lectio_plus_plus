@@ -8,8 +8,8 @@ import 'package:lpp/topics/messages/bloc/message_bloc.dart';
 import 'package:lpp/topics/messages/screens/confirm_action.dart';
 import 'package:lpp/topics/messages/screens/reply_message.dart';
 import 'package:lpp/utils/ad_route.dart';
+import 'package:lpp/utils/state_pattern.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
-import 'package:lpp/widgets/loading/student_bloc_builder.dart';
 import '../../state/empty.dart';
 import '../../state/loading.dart';
 import '../widgets/thread_list.dart';
@@ -25,9 +25,12 @@ class MessageDetails extends StatelessWidget {
       appBar: LppAppbar(
         title: ref.topic,
         actions: [
-          StudentBlocBuilder<StudentCubit<BasicInfo>, BasicInfo?>(
+          BlocBuilder<StudentCubit<BasicInfo>, StatePattern<BasicInfo?>>(
               builder: (context, state) {
-            if (state!.name ==
+            if (state.state == null) {
+              return Container();
+            }
+            if (state.state!.name ==
                 ref.sender.substring(0, ref.sender.indexOf('(')).trim()) {
               return IconButton(
                   onPressed: () {
