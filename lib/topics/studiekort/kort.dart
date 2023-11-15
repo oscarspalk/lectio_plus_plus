@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:lectio_wrapper/lectio/basic_info.dart';
+import 'package:lectio_wrapper/types/studiekort/kort.dart';
 import 'package:lectio_wrapper/utils/dio_image_provider.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
-import 'package:lpp/logic/student/student_cubit.dart';
 import 'package:lpp/style/typograhy.dart';
-import 'package:lpp/widgets/loading/student_bloc_builder.dart';
+import 'package:lpp/topics/studiekort/studiekort_bloc.dart';
+import 'package:lpp/utils/state_pattern.dart';
 import 'dart:async';
 
 class StudiekortScreen extends StatelessWidget {
@@ -19,14 +19,20 @@ class StudiekortScreen extends StatelessWidget {
         builder: (context, studentState) {
       return Padding(
           padding: const EdgeInsets.all(12.0),
-          child: Card(
-              clipBehavior: Clip.hardEdge,
-              color: colorscheme.secondary,
-              child: SizedBox(
-                height: 140.0,
-                child: StudentBlocBuilder<StudentCubit<BasicInfo>, BasicInfo?>(
-                    small: true,
-                    builder: (context, state) {
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Card(
+                  clipBehavior: Clip.hardEdge,
+                  color: colorscheme.secondary,
+                  child: SizedBox(
+                    height: 140.0,
+                    child: BlocBuilder<StudiekortBloc,
+                            StatePattern<(Kort?, DioImage?)?>>(
+                        builder: (context, state) {
+                      if (state.state == null || state.state!.$1 == null) {
+                        return Container();
+                      }
                       return Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -35,28 +41,12 @@ class StudiekortScreen extends StatelessWidget {
                               clipBehavior: Clip.hardEdge,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12.0)),
-                              child: StudentBlocBuilder<StudentCubit<DioImage>,
-                                      DioImage?>(
-                                  small: true,
-                                  bloc: StudentCubit(
-                                      student: getStudentBloc(context)
-                                          .state
-                                          .student!,
-                                      selector: (student) async =>
-                                          student.getImage(state!.pictureId,
-                                              fullsize: true))
-                                    ..load(),
-                                  builder: (context, state) {
-                                    if (state == null) {
-                                      return Container(
-                                        height: 140.0,
-                                      );
-                                    }
-                                    return Image(
-                                      image: state,
+                              child: state.state?.$2 != null
+                                  ? Image(
+                                      image: state.state!.$1!.picture,
                                       height: 140,
-                                    );
-                                  })),
+                                    )
+                                  : Container()),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -72,7 +62,7 @@ class StudiekortScreen extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            state?.name ?? "",
+                                            state.state!.$1!.name,
                                             style: headerStyle.copyWith(
                                                 color: colorscheme.onSecondary),
                                           ),
@@ -93,7 +83,48 @@ class StudiekortScreen extends StatelessWidget {
                         ],
                       );
                     }),
-              )));
+                  )),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  FilledButton.icon(
+                      onPressed: () {
+                        var bloc = context.read<StudiekortBloc>();
+                        bloc.qr();
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return SimpleDialog(
+                                title: null,
+                                insetPadding: EdgeInsets.zero,
+                                titlePadding: EdgeInsets.zero,
+                                contentPadding: EdgeInsets.zero,
+                                children: [
+                                  SizedBox(
+                                    width: 220,
+                                    height: 220,
+                                    child: BlocBuilder<StudiekortBloc,
+                                        StatePattern<(Kort?, DioImage?)?>>(
+                                      bloc: bloc,
+                                      builder: (context, state) {
+                                        if (state.state != null &&
+                                            state.state!.$2 != null) {
+                                          return Image(image: state.state!.$2!);
+                                        }
+                                        return const CircularProgressIndicator();
+                                      },
+                                    ),
+                                  ),
+                                ]);
+                          },
+                        );
+                      },
+                      icon: const Icon(Icons.qr_code),
+                      label: const Text("Vis QR")),
+                ],
+              )
+            ],
+          ));
     });
   }
 }
