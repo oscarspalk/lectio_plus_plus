@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:lectio_wrapper/types/studiekort/kort.dart';
 import 'package:lectio_wrapper/utils/dio_image_provider.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/topics/studiekort/date_text.dart';
+import 'package:lpp/topics/studiekort/qr_kode_dialog.dart';
 import 'package:lpp/topics/studiekort/studiekort_bloc.dart';
 import 'package:lpp/utils/state_pattern.dart';
-import 'dart:async';
 
 class StudiekortScreen extends StatelessWidget {
   const StudiekortScreen({super.key});
@@ -41,7 +41,7 @@ class StudiekortScreen extends StatelessWidget {
                               clipBehavior: Clip.hardEdge,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12.0)),
-                              child: state.state?.$2 != null
+                              child: state.state?.$1 != null
                                   ? Image(
                                       image: state.state!.$1!.picture,
                                       height: 140,
@@ -65,6 +65,9 @@ class StudiekortScreen extends StatelessWidget {
                                             state.state!.$1!.name,
                                             style: headerStyle.copyWith(
                                                 color: colorscheme.onSecondary),
+                                          ),
+                                          BirthdayText(
+                                            birthday: state.state!.$1!.birthday,
                                           ),
                                           Text(
                                             studentState.gymName,
@@ -94,28 +97,7 @@ class StudiekortScreen extends StatelessWidget {
                         showDialog(
                           context: context,
                           builder: (context) {
-                            return SimpleDialog(
-                                title: null,
-                                insetPadding: EdgeInsets.zero,
-                                titlePadding: EdgeInsets.zero,
-                                contentPadding: EdgeInsets.zero,
-                                children: [
-                                  SizedBox(
-                                    width: 220,
-                                    height: 220,
-                                    child: BlocBuilder<StudiekortBloc,
-                                        StatePattern<(Kort?, DioImage?)?>>(
-                                      bloc: bloc,
-                                      builder: (context, state) {
-                                        if (state.state != null &&
-                                            state.state!.$2 != null) {
-                                          return Image(image: state.state!.$2!);
-                                        }
-                                        return const CircularProgressIndicator();
-                                      },
-                                    ),
-                                  ),
-                                ]);
+                            return QrKodeDialog(bloc: bloc);
                           },
                         );
                       },
@@ -126,48 +108,5 @@ class StudiekortScreen extends StatelessWidget {
             ],
           ));
     });
-  }
-}
-
-class TimerWidget extends StatefulWidget {
-  const TimerWidget({super.key});
-
-  @override
-  State<TimerWidget> createState() => _TimerState();
-}
-
-class _TimerState extends State<TimerWidget> {
-  late DateTime time;
-  late Timer timer;
-  @override
-  void initState() {
-    super.initState();
-    updateTime();
-    timer = Timer.periodic(const Duration(seconds: 1), (t) => updateTime());
-  }
-
-  void updateTime() {
-    setState(() {
-      time = DateTime.now();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-      Text(
-        "${DateFormat("HH:mm:ss").format(time)} - Lectio++",
-        style: Theme.of(context)
-            .textTheme
-            .labelMedium!
-            .copyWith(color: Theme.of(context).colorScheme.onSecondary),
-      ),
-    ]);
-  }
-
-  @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
   }
 }
