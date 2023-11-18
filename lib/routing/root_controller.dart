@@ -25,13 +25,8 @@ class _RootControllerState extends State<RootController> {
     return Scaffold(
       body: AdConsentChecker(
         child: LectioProvider(
-          child: WillPopScope(
-            onWillPop: () async {
-              if (_navKey.currentState!.canPop()) {
-                _navKey.currentState!.pop();
-              }
-              return false;
-            },
+          child: PopScope(
+            canPop: _navKey.currentState!.canPop(),
             child: Navigator(
               key: _navKey,
               onPopPage: (route, result) {
