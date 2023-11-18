@@ -26,7 +26,11 @@ class _RootControllerState extends State<RootController> {
       body: AdConsentChecker(
         child: LectioProvider(
           child: PopScope(
-            canPop: _navKey.currentState!.canPop(),
+            onPopInvoked: (didPop) {
+              if (_navKey.currentState!.canPop()) {
+                _navKey.currentState!.pop();
+              }
+            },
             child: Navigator(
               key: _navKey,
               onPopPage: (route, result) {
