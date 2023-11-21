@@ -70,6 +70,8 @@ final class AutologinError extends StudentEvent {}
 
 final class ListGyms extends StudentEvent {}
 
+final class RefreshTeams extends StudentEvent {}
+
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
   final LoginService loginService = LoginService();
   StudentBloc()
@@ -144,6 +146,14 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         emit(state.copyWith(state: StudentStates.unauthorized));
       },
     );
+
+    on<RefreshTeams>((event, emit) async {
+      if (state.student != null) {
+        var newTeams =
+            await CachingService(state.student!, state.gyms).fetchTeams();
+        emit(state.copyWith(teams: newTeams));
+      }
+    });
   }
 }
 

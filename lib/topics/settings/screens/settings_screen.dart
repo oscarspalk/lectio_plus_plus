@@ -94,6 +94,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                   ),
                   ListTile(
+                    title: const Text("Hold cache"),
+                    subtitle: const Text(
+                        "Genopfrisk hold cachen, hvis holdnavne ikke dukker op automatisk"),
+                    onTap: () {
+                      context.read<StudentBloc>().add(RefreshTeams());
+                    },
+                  ),
+                  ListTile(
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

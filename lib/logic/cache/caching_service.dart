@@ -38,7 +38,7 @@ class CachingService {
         return _fetchLocalTeams();
       }
     }
-    return await _fetchTeams();
+    return await fetchTeams();
   }
 
   List<Team> _fetchLocalTeams() {
@@ -46,7 +46,7 @@ class CachingService {
     return entries.map((entry) => stringToTeam(entry)).toList();
   }
 
-  Future<List<Team>> _fetchTeams() async {
+  Future<List<Team>> fetchTeams() async {
     List<Team> teams = [];
     var teamsRef = await student.teams.list();
     for (var teamRef in teamsRef) {
