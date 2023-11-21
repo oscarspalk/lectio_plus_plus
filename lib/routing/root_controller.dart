@@ -20,17 +20,23 @@ class _RootControllerState extends State<RootController> {
     super.initState();
   }
 
+  bool canExit() {
+    var canPop = _navKey.currentState?.canPop();
+    if (canPop != null) {
+      debugPrint("can exit");
+      return !canPop;
+    }
+    debugPrint("cannot exit");
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: AdConsentChecker(
         child: LectioProvider(
-          child: PopScope(
-            onPopInvoked: (didPop) {
-              if (_navKey.currentState!.canPop()) {
-                _navKey.currentState!.pop();
-              }
-            },
+          child: NavigatorPopHandler(
+            onPop: () => _navKey.currentState?.pop(),
             child: Navigator(
               key: _navKey,
               onPopPage: (route, result) {
