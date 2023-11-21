@@ -60,68 +60,74 @@ class _MessageEditorState extends State<MessageEditor> {
   @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: GestureDetector(
-        onTap: () {
-          _focusNode.requestFocus();
-        },
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            InputDecorator(
-                isFocused: focused,
-                decoration: InputDecoration(
-                    label: const Text("Indhold"),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0))),
-                child: quill.QuillEditor.basic(
-                  focusNode: _focusNode,
-                )),
-            const Padding(
-              padding: EdgeInsets.only(top: 4.0),
-              child: quill.QuillToolbar(
-                configurations: quill.QuillToolbarConfigurations(
-                  /*iconTheme: quill.QuillIconTheme(
-                      iconSelectedFillColor: colorScheme.background,
-                      iconUnselectedFillColor: colorScheme.background,
-                      iconSelectedColor: colorScheme.primary,
-                      iconUnselectedColor: colorScheme.onBackground),*/
-                  showBackgroundColorButton: false,
-                  showAlignmentButtons: false,
-                  showBoldButton: true,
-                  showCenterAlignment: false,
-                  showCodeBlock: false,
-                  showClearFormat: false,
-                  showColorButton: false,
-                  showDirection: false,
-                  showDividers: false,
-                  showFontFamily: false,
-                  showFontSize: false,
-                  showHeaderStyle: false,
-                  showIndent: false,
-                  showInlineCode: false,
-                  showItalicButton: true,
-                  showJustifyAlignment: false,
-                  showLeftAlignment: false,
-                  showLink: true,
-                  showListBullets: false,
-                  showListCheck: false,
-                  showListNumbers: false,
-                  showQuote: false,
-                  showRedo: false,
-                  showRightAlignment: false,
-                  showSearchButton: false,
-                  showSmallButton: false,
-                  showStrikeThrough: false,
-                  showSubscript: false,
-                  showSuperscript: false,
-                  showUnderLineButton: true,
-                  showUndo: true,
+    return quill.QuillProvider(
+      configurations: quill.QuillConfigurations(controller: controller),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: GestureDetector(
+          onTap: () {
+            _focusNode.requestFocus();
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InputDecorator(
+                  isFocused: focused,
+                  decoration: InputDecoration(
+                      label: const Text("Indhold"),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0))),
+                  child: quill.QuillEditor.basic(
+                    focusNode: _focusNode,
+                  )),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: quill.QuillToolbar(
+                  configurations: quill.QuillToolbarConfigurations(
+                    buttonOptions: quill.QuillToolbarButtonOptions(
+                        color: quill.QuillToolbarColorButtonOptions(
+                            iconTheme: quill.QuillIconTheme(
+                                iconSelectedFillColor: colorScheme.background,
+                                iconUnselectedFillColor: colorScheme.background,
+                                iconSelectedColor: colorScheme.primary,
+                                iconUnselectedColor:
+                                    colorScheme.onBackground))),
+                    showBackgroundColorButton: false,
+                    showAlignmentButtons: false,
+                    showBoldButton: true,
+                    showCenterAlignment: false,
+                    showCodeBlock: false,
+                    showClearFormat: false,
+                    showColorButton: false,
+                    showDirection: false,
+                    showDividers: false,
+                    showFontFamily: false,
+                    showFontSize: false,
+                    showHeaderStyle: false,
+                    showIndent: false,
+                    showInlineCode: false,
+                    showItalicButton: true,
+                    showJustifyAlignment: false,
+                    showLeftAlignment: false,
+                    showLink: true,
+                    showListBullets: false,
+                    showListCheck: false,
+                    showListNumbers: false,
+                    showQuote: false,
+                    showRedo: false,
+                    showRightAlignment: false,
+                    showSearchButton: false,
+                    showSmallButton: false,
+                    showStrikeThrough: false,
+                    showSubscript: false,
+                    showSuperscript: false,
+                    showUnderLineButton: true,
+                    showUndo: true,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
