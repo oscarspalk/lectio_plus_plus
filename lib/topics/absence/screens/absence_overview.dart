@@ -1,6 +1,6 @@
-import 'package:d_chart/d_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/absence/entry.dart';
+import 'package:lpp/topics/absence/widgets/absence_chart.dart';
 import 'package:lpp/topics/absence/widgets/stat.dart';
 import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
@@ -22,7 +22,7 @@ class _AbsenceOverviewState extends State<AbsenceOverview> {
   double totalModulesAbsenceWritten = 0.0;
   bool hasNonNull = false;
   AbsenceEntry? mostAbsence;
-  List<Map<String, Object>>? data;
+  List<AbsenceEntry> entries = [];
   void _buildStats() async {
     hasNonNull = widget.absence
         .where((element) => element.regular.currentModules.current > 0)
@@ -38,13 +38,12 @@ class _AbsenceOverviewState extends State<AbsenceOverview> {
       totalModulesWritten += row.assignment.finalStudentTime.total;
       totalModulesAbsenceWritten += row.assignment.finalStudentTime.current;
     }
-    data = widget.absence
-        .where((element) => element.regular.currentModules.current > 0)
-        .map((e) => {
-              'domain': e.team.displayName,
-              'measure': e.regular.currentModules.current
-            })
-        .toList();
+
+    setState(() {
+      entries = widget.absence
+          .where((element) => element.regular.currentModules.current > 0)
+          .toList();
+    });
   }
 
   @override
@@ -68,26 +67,7 @@ class _AbsenceOverviewState extends State<AbsenceOverview> {
           if (hasNonNull)
             SizedBox(
                 height: MediaQuery.of(context).size.height / 2,
-                child: DChartBar(
-                  verticalDirection: false,
-                  domainLabelColor: Theme.of(context).colorScheme.onBackground,
-                  domainLabelPaddingToAxisLine: 16,
-                  measureLabelColor: Theme.of(context).colorScheme.onBackground,
-                  barColor: (barData, index, id) {
-                    var scheme = Theme.of(context).colorScheme;
-                    if (mostAbsence != null &&
-                        barData['domain'] == mostAbsence!.team.displayName) {
-                      return scheme.primaryContainer;
-                    }
-                    return scheme.secondary;
-                  },
-                  xAxisTitle: "Modulers fravær",
-                  domainAxisTitleColor:
-                      Theme.of(context).colorScheme.onBackground,
-                  data: [
-                    {'id': 'bar', 'data': data}
-                  ],
-                )),
+                child: AbsenceChart(entries: entries)),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: GridView.count(
