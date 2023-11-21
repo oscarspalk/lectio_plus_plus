@@ -149,9 +149,9 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 
     on<RefreshTeams>((event, emit) async {
       if (state.student != null) {
-        var newTeams =
-            await CachingService(state.student!, state.gyms).fetchTeams();
-        emit(state.copyWith(teams: newTeams));
+        var newTeams = await CachingService(state.student!, state.gyms)
+            .loadSaved(forceTeams: true);
+        emit(state.copyWith(teams: newTeams.teams));
       }
     });
   }

@@ -29,8 +29,8 @@ class CachingService {
         prefs.containsKey(teamCachedDateKey);
   }
 
-  FutureOr<List<Team>> _getSavedTeams() async {
-    if (_containsTeamCache()) {
+  FutureOr<List<Team>> _getSavedTeams(bool force) async {
+    if (!force && _containsTeamCache()) {
       DateTime teamCachedDate =
           DateTime.parse(prefs.getString(teamCachedDateKey) ?? "");
       Duration timeSinceCache = DateTime.now().difference(teamCachedDate);
@@ -38,7 +38,7 @@ class CachingService {
         return _fetchLocalTeams();
       }
     }
-    return await fetchTeams();
+    return await _fetchTeams();
   }
 
   List<Team> _fetchLocalTeams() {
@@ -46,7 +46,7 @@ class CachingService {
     return entries.map((entry) => stringToTeam(entry)).toList();
   }
 
-  Future<List<Team>> fetchTeams() async {
+  Future<List<Team>> _fetchTeams() async {
     List<Team> teams = [];
     var teamsRef = await student.teams.list();
     for (var teamRef in teamsRef) {
@@ -81,9 +81,9 @@ class CachingService {
     return "";
   }
 
-  Future<CacheState> loadSaved() async {
+  Future<CacheState> loadSaved({bool forceTeams = false}) async {
     prefs = await SharedPreferences.getInstance();
-    List<Team> teams = await _getSavedTeams();
+    List<Team> teams = await _getSavedTeams(forceTeams);
     String gymName = _getGymName();
     return CacheState(teams, gymName);
   }
