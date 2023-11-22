@@ -41,7 +41,7 @@ class AbsenceChart extends StatelessWidget {
             behaviorPosition: charts.BehaviorPosition.bottom,
             titleStyleSpec: charts.TextStyleSpec(
               color: textColor,
-              fontSize: 16,
+              fontSize: 12,
             )),
       ],
       barGroupingType: charts.BarGroupingType.groupedStacked,
