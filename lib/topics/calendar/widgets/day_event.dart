@@ -78,15 +78,17 @@ Widget dayEventWidget(
             adRoute(ModulDetailsScreen(event: dayEvent), onlyFromEdge: true));
       },
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0).copyWith(bottom: 4.0),
         child: DefaultTextStyle(
           style: style,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                child: ListView(
+                    padding: EdgeInsets.zero,
+                    physics: const NeverScrollableScrollPhysics(),
+                    //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TeamName(
                         teamName: dayEvent.team,

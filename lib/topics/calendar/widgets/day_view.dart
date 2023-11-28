@@ -9,7 +9,7 @@ import '../bloc/schema_bloc.dart';
 import '../../state/loading.dart';
 
 const double columnWidth = 55.0;
-const double hourRowHeight = 85.0;
+const double hourRowHeight = 65.0;
 
 CalendarEvent? maxOrMin(List<CalendarEvent> events,
     bool Function(CalendarEvent a, CalendarEvent b) compare) {
@@ -149,7 +149,7 @@ class _DayViewDisplayState extends State<DayViewDisplay> {
           timeFormatter: (time) {
             return "${time.hour}:${time.minute > 9 ? time.minute : "${time.minute}0"}";
           },
-          interval: const Duration(minutes: 30)),
+          interval: const Duration(minutes: 60)),
       minimumTime: minimumTime,
       maximumTime: maximumTime,
       events: events,

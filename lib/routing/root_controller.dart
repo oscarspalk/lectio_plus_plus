@@ -20,16 +20,6 @@ class _RootControllerState extends State<RootController> {
     super.initState();
   }
 
-  bool canExit() {
-    var canPop = _navKey.currentState?.canPop();
-    if (canPop != null) {
-      debugPrint("can exit");
-      return !canPop;
-    }
-    debugPrint("cannot exit");
-    return true;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
