@@ -55,7 +55,7 @@ class _AlphabeticListState<T> extends State<AlphabeticList<T>> {
             : ListView(
                 children: lettersAndObjs.entries.map((letterAndObj) {
                 return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
+                  primary: false,
                   shrinkWrap: true,
                   itemCount: letterAndObj.value.length,
                   itemBuilder: (context, index) {

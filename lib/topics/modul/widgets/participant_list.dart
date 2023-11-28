@@ -58,7 +58,7 @@ class PeopleList extends StatelessWidget {
           primary: true,
         ),
         ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
+          primary: false,
           shrinkWrap: true,
           itemCount: people.length,
           itemBuilder: (context, index) {

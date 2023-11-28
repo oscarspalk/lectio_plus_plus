@@ -71,20 +71,6 @@ class _PrimaryActivitiesState extends State<PrimaryActivities> {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context);
-    if (media.size.width > 900) {
-      return Scaffold(
-        body: Row(
-          children: [
-            LppBottombar(
-                destinations: bottomDestinations,
-                onSelected: setScreen,
-                selectedIndex: _selectedScreen),
-            Expanded(child: _body())
-          ],
-        ),
-      );
-    }
     return Scaffold(
         bottomNavigationBar: LppBottombar(
             onSelected: setScreen,

@@ -35,7 +35,6 @@ class ModulDetailsScreen extends StatefulWidget {
 class _ModulDetailsScreenState extends State<ModulDetailsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
-  late Widget? specificWidget;
   Widget? participantsWidget;
   List<String> tabs = ["Information"];
   @override

@@ -17,7 +17,7 @@ class CausesSheet extends StatelessWidget {
             style: headerStyle,
           ),
           ListView(
-            physics: const NeverScrollableScrollPhysics(),
+            primary: false,
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             shrinkWrap: true,
             children: AbsenceCauses.values.reversed
