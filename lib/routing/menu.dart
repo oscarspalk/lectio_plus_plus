@@ -1,13 +1,13 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lpp/topics/classes/screens/klasse_screen.dart';
+import 'package:lpp/topics/features/screens/feature_screen.dart';
 import 'package:lpp/topics/grades/screens/grade.dart';
 import 'package:lpp/topics/messages/screens/message_screen.dart';
 import 'package:lpp/topics/people/screens/people_screen.dart';
 import 'package:lpp/topics/plans/screens/overview.dart';
 import 'package:lpp/topics/rooms/screens/overview.dart';
 import 'package:lpp/topics/settings/screens/settings_screen.dart';
-import 'package:lpp/topics/settings/screens/wish_a_feature.dart';
 import 'package:lpp/topics/studiekort/kort.dart';
 import 'package:lpp/topics/teams/screens/module_statistics_overview.dart';
 import 'package:lpp/utils/ad_route.dart';
@@ -67,9 +67,9 @@ class Menu extends StatelessWidget {
         }),
     Destination(
         icon: EvaIcons.bulbOutline,
-        name: "Ønsk",
+        name: "Idéer",
         selectedIcon: EvaIcons.bulb,
-        screen: const WishAFeatureScreen()),
+        screen: const FeatureScreen()),
     Destination(
         icon: EvaIcons.settings2Outline,
         name: "Indstillinger",
