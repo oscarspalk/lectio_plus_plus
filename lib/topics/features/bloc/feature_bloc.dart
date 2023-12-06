@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum FeatureStates { ny, inProgress, done, removed }
 
@@ -18,14 +17,14 @@ extension ExtendedFeatureStates on FeatureStates {
   }
 }
 
-class Feature {
+/*class Feature {
   FeatureStates status;
   
-}
+}*/
 
 const String serverUrl =
     kDebugMode ? "http://localhost:5173/" : "https://spalk.io/";
-
+/*
 class FeatureState {
   Map<FeatureStates, List<
 }
@@ -35,3 +34,4 @@ class FeatureCubit extends Cubit {
 
 
 }
+*/
