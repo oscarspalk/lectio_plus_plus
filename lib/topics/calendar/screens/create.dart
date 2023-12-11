@@ -83,7 +83,6 @@ class _CreateAppointmentScreenState extends State<CreateAppointmentScreen> {
                 onPressed: state.valid
                     ? () async {
                         var event = CalendarEvent(
-                            day: DateTime.now(),
                             hasHomework: false,
                             hasNote: false,
                             type: CalendarEventType.regular,
