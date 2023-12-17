@@ -51,7 +51,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             Expanded(
               child: ListView(
-                shrinkWrap: true,
                 children: [
                   const TextDivider(
                     text: "Generelt",
