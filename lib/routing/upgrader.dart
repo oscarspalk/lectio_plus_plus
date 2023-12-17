@@ -10,7 +10,7 @@ class LppUpgrader extends StatelessWidget {
   Widget build(BuildContext context) {
     return UpgradeAlert(
       upgrader: Upgrader(
-        countryCode: "dk",
+        countryCode: "da",
         dialogStyle: Platform.isAndroid
             ? UpgradeDialogStyle.material
             : UpgradeDialogStyle.cupertino,
