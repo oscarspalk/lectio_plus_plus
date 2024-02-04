@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lpp/utils/helpers.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -24,8 +23,7 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     var iconAndTextColor = textColorOnPrimary(context);
-    return MorphingAppBar(
-      //backgroundColor: Theme.of(context).colorScheme.primary,
+    return AppBar(
       bottom: bottom,
       centerTitle: false,
       elevation: 0.0,
