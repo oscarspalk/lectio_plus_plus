@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_sanity/flutter_sanity.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 
 import '../bloc/feature_request.dart';
-
-final SanityClient sanityClient =
-    SanityClient(projectId: "3nue87nb", dataset: "production");
 
 class WishAFeatureScreen extends StatefulWidget {
   const WishAFeatureScreen({super.key});
