@@ -23,7 +23,7 @@ class _BirthdayTextState extends State<BirthdayText> {
     super.initState();
     var now = DateTime.now();
     var difference = widget.birthday.difference(now);
-    years = (difference.inDays / 365).round().abs();
+    years = (difference.inDays / 365).abs().floor();
   }
 
   @override
