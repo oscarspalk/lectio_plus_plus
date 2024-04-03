@@ -45,7 +45,7 @@ class SpecificGradeScreen extends StatelessWidget {
                         teamName: entry.key.$1.name,
                         builder: (name) {
                           return Text(
-                            "$name, ${entry.key.$2.type == SubjectTypes.oral ? "Mundtlig" : "Skriftlig"}",
+                            "$name${entry.key.$2.type != null ? ", ${entry.key.$2.type == SubjectTypes.oral ? "Mundtlig" : "Skriftlig"}" : ""}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           );
