@@ -1,13 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lpp/topics/ads/ad_bar.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:page_transition/page_transition.dart';
 
 Route adRoute(Widget screen, {bool onlyFromEdge = false}) {
-  return CupertinoPageRoute(
-    builder: (context) {
-      return Scaffold(bottomNavigationBar: const AdBar(), body: screen);
-    },
-  );
+  return PageTransition(
+      curve: Curves.easeInCubic,
+      child: Scaffold(bottomNavigationBar: const AdBar(), body: screen),
+      type: PageTransitionType.fade,
+      isIos: Platform.isIOS);
 }
 
 void adSheet(Widget sheet, BuildContext context, {bool ad = true}) {
