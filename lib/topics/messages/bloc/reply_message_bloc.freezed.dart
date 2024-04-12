@@ -12,7 +12,7 @@ part of 'reply_message_bloc.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ReplyState {
@@ -63,22 +63,22 @@ class _$ReplyStateCopyWithImpl<$Res, $Val extends ReplyState>
 }
 
 /// @nodoc
-abstract class _$$_ReplyStateCopyWith<$Res>
+abstract class _$$ReplyStateImplCopyWith<$Res>
     implements $ReplyStateCopyWith<$Res> {
-  factory _$$_ReplyStateCopyWith(
-          _$_ReplyState value, $Res Function(_$_ReplyState) then) =
-      __$$_ReplyStateCopyWithImpl<$Res>;
+  factory _$$ReplyStateImplCopyWith(
+          _$ReplyStateImpl value, $Res Function(_$ReplyStateImpl) then) =
+      __$$ReplyStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String topic, String content});
 }
 
 /// @nodoc
-class __$$_ReplyStateCopyWithImpl<$Res>
-    extends _$ReplyStateCopyWithImpl<$Res, _$_ReplyState>
-    implements _$$_ReplyStateCopyWith<$Res> {
-  __$$_ReplyStateCopyWithImpl(
-      _$_ReplyState _value, $Res Function(_$_ReplyState) _then)
+class __$$ReplyStateImplCopyWithImpl<$Res>
+    extends _$ReplyStateCopyWithImpl<$Res, _$ReplyStateImpl>
+    implements _$$ReplyStateImplCopyWith<$Res> {
+  __$$ReplyStateImplCopyWithImpl(
+      _$ReplyStateImpl _value, $Res Function(_$ReplyStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_ReplyStateCopyWithImpl<$Res>
     Object? topic = null,
     Object? content = null,
   }) {
-    return _then(_$_ReplyState(
+    return _then(_$ReplyStateImpl(
       topic: null == topic
           ? _value.topic
           : topic // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,9 @@ class __$$_ReplyStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ReplyState extends _ReplyState {
-  const _$_ReplyState({required this.topic, required this.content}) : super._();
+class _$ReplyStateImpl extends _ReplyState {
+  const _$ReplyStateImpl({required this.topic, required this.content})
+      : super._();
 
   @override
   final String topic;
@@ -116,10 +117,10 @@ class _$_ReplyState extends _ReplyState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ReplyState &&
+            other is _$ReplyStateImpl &&
             (identical(other.topic, topic) || other.topic == topic) &&
             (identical(other.content, content) || other.content == content));
   }
@@ -130,14 +131,14 @@ class _$_ReplyState extends _ReplyState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ReplyStateCopyWith<_$_ReplyState> get copyWith =>
-      __$$_ReplyStateCopyWithImpl<_$_ReplyState>(this, _$identity);
+  _$$ReplyStateImplCopyWith<_$ReplyStateImpl> get copyWith =>
+      __$$ReplyStateImplCopyWithImpl<_$ReplyStateImpl>(this, _$identity);
 }
 
 abstract class _ReplyState extends ReplyState {
   const factory _ReplyState(
       {required final String topic,
-      required final String content}) = _$_ReplyState;
+      required final String content}) = _$ReplyStateImpl;
   const _ReplyState._() : super._();
 
   @override
@@ -146,6 +147,6 @@ abstract class _ReplyState extends ReplyState {
   String get content;
   @override
   @JsonKey(ignore: true)
-  _$$_ReplyStateCopyWith<_$_ReplyState> get copyWith =>
+  _$$ReplyStateImplCopyWith<_$ReplyStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -26,6 +26,9 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       bottom: bottom,
       centerTitle: false,
+      backgroundColor: Theme.of(context).brightness == Brightness.light
+          ? Theme.of(context).colorScheme.primary
+          : null,
       elevation: 0.0,
       automaticallyImplyLeading: !hideLeading,
       iconTheme: IconThemeData(color: iconAndTextColor),

@@ -12,7 +12,7 @@ part of 'message_bloc.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$MessagesState {
@@ -69,22 +69,22 @@ class _$MessagesStateCopyWithImpl<$Res, $Val extends MessagesState>
 }
 
 /// @nodoc
-abstract class _$$_MessagesStateCopyWith<$Res>
+abstract class _$$MessagesStateImplCopyWith<$Res>
     implements $MessagesStateCopyWith<$Res> {
-  factory _$$_MessagesStateCopyWith(
-          _$_MessagesState value, $Res Function(_$_MessagesState) then) =
-      __$$_MessagesStateCopyWithImpl<$Res>;
+  factory _$$MessagesStateImplCopyWith(
+          _$MessagesStateImpl value, $Res Function(_$MessagesStateImpl) then) =
+      __$$MessagesStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<MessageRef> refs, List<Message> messages, bool loading});
 }
 
 /// @nodoc
-class __$$_MessagesStateCopyWithImpl<$Res>
-    extends _$MessagesStateCopyWithImpl<$Res, _$_MessagesState>
-    implements _$$_MessagesStateCopyWith<$Res> {
-  __$$_MessagesStateCopyWithImpl(
-      _$_MessagesState _value, $Res Function(_$_MessagesState) _then)
+class __$$MessagesStateImplCopyWithImpl<$Res>
+    extends _$MessagesStateCopyWithImpl<$Res, _$MessagesStateImpl>
+    implements _$$MessagesStateImplCopyWith<$Res> {
+  __$$MessagesStateImplCopyWithImpl(
+      _$MessagesStateImpl _value, $Res Function(_$MessagesStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_MessagesStateCopyWithImpl<$Res>
     Object? messages = null,
     Object? loading = null,
   }) {
-    return _then(_$_MessagesState(
+    return _then(_$MessagesStateImpl(
       refs: null == refs
           ? _value._refs
           : refs // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,10 @@ class __$$_MessagesStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MessagesState with DiagnosticableTreeMixin implements _MessagesState {
-  const _$_MessagesState(
+class _$MessagesStateImpl
+    with DiagnosticableTreeMixin
+    implements _MessagesState {
+  const _$MessagesStateImpl(
       {required final List<MessageRef> refs,
       required final List<Message> messages,
       required this.loading})
@@ -156,10 +158,10 @@ class _$_MessagesState with DiagnosticableTreeMixin implements _MessagesState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MessagesState &&
+            other is _$MessagesStateImpl &&
             const DeepCollectionEquality().equals(other._refs, _refs) &&
             const DeepCollectionEquality().equals(other._messages, _messages) &&
             (identical(other.loading, loading) || other.loading == loading));
@@ -175,15 +177,15 @@ class _$_MessagesState with DiagnosticableTreeMixin implements _MessagesState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MessagesStateCopyWith<_$_MessagesState> get copyWith =>
-      __$$_MessagesStateCopyWithImpl<_$_MessagesState>(this, _$identity);
+  _$$MessagesStateImplCopyWith<_$MessagesStateImpl> get copyWith =>
+      __$$MessagesStateImplCopyWithImpl<_$MessagesStateImpl>(this, _$identity);
 }
 
 abstract class _MessagesState implements MessagesState {
   const factory _MessagesState(
       {required final List<MessageRef> refs,
       required final List<Message> messages,
-      required final bool loading}) = _$_MessagesState;
+      required final bool loading}) = _$MessagesStateImpl;
 
   @override
   List<MessageRef> get refs;
@@ -193,6 +195,6 @@ abstract class _MessagesState implements MessagesState {
   bool get loading;
   @override
   @JsonKey(ignore: true)
-  _$$_MessagesStateCopyWith<_$_MessagesState> get copyWith =>
+  _$$MessagesStateImplCopyWith<_$MessagesStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
