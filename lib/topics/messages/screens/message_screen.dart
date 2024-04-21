@@ -35,11 +35,16 @@ class MessageScreen extends StatelessWidget {
           if (data.refs.isEmpty) {
             return const EmptyScreen();
           }
-          return ListView.builder(
-            itemCount: data.refs.length,
-            itemBuilder: (context, index) {
-              return MessageItem(ref: data.refs[index]);
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<MessageBloc>().add(LoadRefs());
             },
+            child: ListView.builder(
+              itemCount: data.refs.length,
+              itemBuilder: (context, index) {
+                return MessageItem(ref: data.refs[index]);
+              },
+            ),
           );
         },
       ),

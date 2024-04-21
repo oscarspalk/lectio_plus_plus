@@ -28,7 +28,8 @@ class ConfirmAction extends StatelessWidget {
             ),
           ),
           if (children != null)
-            Column(
+            ListView(
+              shrinkWrap: true,
               children: children!,
             ),
           ButtonBar(

@@ -23,7 +23,10 @@ class MessageContentScreen extends StatelessWidget {
               shrinkWrap: true,
               padding: const EdgeInsets.all(24.0),
               children: [
-                const Illustration(illustration: "text_field"),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 12.0),
+                  child: Illustration(illustration: "text_field"),
+                ),
                 TextField(
                   onChanged: (value) {
                     bloc.add(UpdateTopic(value));
