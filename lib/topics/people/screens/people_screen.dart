@@ -11,14 +11,27 @@ import '../widget/person_tile.dart';
 class PeopleScreen extends StatelessWidget {
   const PeopleScreen({super.key});
 
+  void _search(BuildContext context) {
+    showSearch(context: context, delegate: SearchPeople());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const LppAppbar(title: "Personer"),
+        appBar: LppAppbar(
+          title: "Personer",
+          actions: [
+            IconButton(
+                onPressed: () {
+                  _search(context);
+                },
+                icon: const Icon(EvaIcons.search))
+          ],
+        ),
         floatingActionButton: FloatingActionButton(
           child: const Icon(EvaIcons.searchOutline),
           onPressed: () {
-            showSearch(context: context, delegate: SearchPeople());
+            _search(context);
           },
         ),
         body: BlocBuilder<PeopleBloc, PeopleState>(
