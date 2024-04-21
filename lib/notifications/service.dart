@@ -54,14 +54,19 @@ class NotificationService {
   late SharedPreferences prefs;
   List<PendingNotification> notifications = [];
 
-  List<ShownNotification> _getShownNotifications() {
-    var shownList = prefs.getStringList(alreadyShownIdsKey);
-    if (shownList != null) {
-      return shownList
-          .map((shown) => ShownNotification.fromString(shown))
-          .toList();
+  List<ShownNotification>? _getShownNotifications() {
+    try {
+      var shownList = prefs.getStringList(alreadyShownIdsKey);
+      if (shownList != null) {
+        return shownList
+            .map((shown) => ShownNotification.fromString(shown))
+            .toList();
+      }
+      return [];
+    } catch (e) {
+      prefs.setStringList(alreadyShownIdsKey, []);
+      return null;
     }
-    return [];
   }
 
   void _saveShownNotifications(List<ShownNotification> list) {
@@ -82,7 +87,7 @@ class NotificationService {
     if (notifyEvents != null && notifyEvents) {
       var shownNotifications = _getShownNotifications();
       var student = await loginService.loadSaved();
-      if (student != null) {
+      if (student != null && shownNotifications != null) {
         var updatedNotifications = await EventService(student).update();
         notifications.addAll(updatedNotifications.where((updatedNotification) =>
             shownNotifications.indexWhere(
@@ -106,7 +111,7 @@ class NotificationService {
         notification.body,
         NotificationDetails(
             android: AndroidNotificationDetails(notificationChannelId, appName,
-                ongoing: true, tag: notification.id),
+                ongoing: false, tag: notification.id),
             iOS: DarwinNotificationDetails(
                 categoryIdentifier: appName,
                 threadIdentifier: notification.id)),
