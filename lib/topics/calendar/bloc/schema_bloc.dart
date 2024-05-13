@@ -16,21 +16,9 @@ final class SliderSwitchedDate extends SchemaEvent {
   SliderSwitchedDate(this.time);
 }
 
-final class AppointmentEvent extends SchemaEvent {
-  final CalendarEvent event;
-  AppointmentEvent(this.event);
-}
-
-final class AddedAppointment extends AppointmentEvent {
-  AddedAppointment(super.event);
-}
-
-final class RemovedAppointment extends AppointmentEvent {
-  RemovedAppointment(super.event);
-}
-
-final class UpdatedAppointment extends AppointmentEvent {
-  UpdatedAppointment(super.event);
+final class RefreshWeekEvent extends SchemaEvent {
+  final DateTime time;
+  RefreshWeekEvent(this.time);
 }
 
 class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
@@ -93,27 +81,16 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
       },
     );
 
-    on<AddedAppointment>((event, emit) async {
-      await student.events.private.create(event.event);
-      var weeks = await replaceTime(event.event.start);
-      emit(SchemaState(state.selectedTime, weeks, SwitchMode.picker));
-    });
-
-    on<UpdatedAppointment>(
+    on<RefreshWeekEvent>(
       (event, emit) async {
-        await student.events.private.update(event.event);
-        var weeks = await replaceTime(event.event.start);
+        var weeks = await replaceTime(event.time);
         emit(SchemaState(state.selectedTime, weeks, SwitchMode.picker));
+
+        var weekCopy = await switchTime(event.time);
+        emit(SchemaState(state.selectedTime, weekCopy, SwitchMode.picker));
       },
     );
 
-    on<RemovedAppointment>(
-      (event, emit) async {
-        student.events.private.delete(event.event);
-        var weeks = await replaceTime(event.event.start);
-        emit(SchemaState(state.selectedTime, weeks, SwitchMode.picker));
-      },
-    );
   }
 }
 

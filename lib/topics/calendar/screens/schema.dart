@@ -1,12 +1,10 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:lectio_wrapper/utils/dating.dart';
-import 'package:lpp/topics/calendar/screens/create.dart';
 import 'package:lpp/topics/calendar/widgets/information_dialog.dart';
 import 'package:lpp/topics/calendar/widgets/week_header.dart';
-import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 
 import '../bloc/schema_bloc.dart';
@@ -27,7 +25,6 @@ class SchemaScreen extends StatefulWidget {
 const int startIndex = 700;
 
 class _SchemaScreenState extends State<SchemaScreen> {
-  final GlobalKey<ExpandableFabState> _fabKey = GlobalKey();
   late DateTime start =
       (widget.bloc ?? context.read<SchemaBloc>()).state.selectedTime;
   late PageController _pageController;
@@ -139,58 +136,36 @@ class _SchemaScreenState extends State<SchemaScreen> {
               bloc: widget.bloc,
             ),
           ),
-          floatingActionButtonLocation: ExpandableFab.location,
-          floatingActionButton: ExpandableFab(
-              key: _fabKey,
-              distance: 90.0,
-              openButtonBuilder: DefaultFloatingActionButtonBuilder(
-                  foregroundColor: colorScheme.onPrimary,
-                  backgroundColor: colorScheme.primary,
-                  child: const Icon(EvaIcons.moreVertical)),
-              closeButtonBuilder: DefaultFloatingActionButtonBuilder(
-                  foregroundColor: colorScheme.onPrimary,
-                  backgroundColor: colorScheme.primary,
-                  child: const Icon(EvaIcons.close)),
-              children: [
-                FloatingActionButton(
-                  onPressed: state.selectedTime.day == today.day &&
-                          state.selectedTime.month == today.month &&
-                          state.selectedTime.year == today.year
-                      ? null
-                      : () {
-                          (widget.bloc ?? context.read<SchemaBloc>())
-                              .add(SwitchedDate(today));
-                          _fabKey.currentState?.toggle();
-                        },
-                  foregroundColor: colorScheme.onPrimary,
-                  backgroundColor: colorScheme.primary,
-                  child: const Icon(Icons.today),
-                ),
-                FloatingActionButton(
-                  heroTag: 3,
-                  foregroundColor: colorScheme.onPrimary,
-                  backgroundColor: colorScheme.primary,
-                  child: const Icon(Icons.date_range),
-                  onPressed: () async {
-                    await showPicker();
-                    _fabKey.currentState?.toggle();
+          floatingActionButton: SpeedDial(
+            backgroundColor: colorScheme.primary,
+            foregroundColor: colorScheme.onPrimary,
+            spaceBetweenChildren: 16.0,
+            spacing: 0.0,
+            childPadding: const EdgeInsets.symmetric(vertical: 0.0),
+            icon: EvaIcons.moreVertical,
+            activeIcon: EvaIcons.close,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            children: [
+              SpeedDialChild(
+                  onTap: () {
+                    if (!(state.selectedTime.day == today.day &&
+                        state.selectedTime.month == today.month &&
+                        state.selectedTime.year == today.year)) {
+                      (widget.bloc ?? context.read<SchemaBloc>())
+                          .add(SwitchedDate(today));
+                    }
                   },
-                ),
-                if (widget.bloc == null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12.0),
-                    child: FloatingActionButton(
-                        foregroundColor: colorScheme.onPrimary,
-                        backgroundColor: colorScheme.primary,
-                        heroTag: 2,
-                        onPressed: () {
-                          _fabKey.currentState?.toggle();
-
-                          adSheet(const CreateAppointmentScreen(), context);
-                        },
-                        child: const Icon(EvaIcons.plus)),
-                  ),
-              ]),
+                  child: const Icon(Icons.today),
+                  label: 'Dags dato'),
+              SpeedDialChild(
+                  onTap: () async {
+                    await showPicker();
+                  },
+                  child: const Icon(Icons.date_range),
+                  label: 'Vælg dato')
+            ],
+          ),
           body: PageView.builder(
               controller: _pageController,
               scrollDirection: Axis.horizontal,

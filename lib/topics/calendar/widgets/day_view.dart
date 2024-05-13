@@ -35,10 +35,25 @@ class DayView extends StatelessWidget {
     return BlocBuilder<SchemaBloc, SchemaState>(
       bloc: bloc,
       builder: (context, state) {
-        return DayViewDisplay(
-          dateSelected: daySelected,
-          weeks: state.weeks,
-        );
+        var weekNum = weekFromDateTime(daySelected);
+        var availableWeeks = state.weeks[daySelected.year]
+            ?.where((element) => element.weekNum == weekNum)
+            .toList();
+        var loading = availableWeeks == null || availableWeeks.isEmpty;
+        return RefreshIndicator(
+            onRefresh: () async {
+              if (!loading) {
+                var foundBloc = bloc ?? context.read<SchemaBloc>();
+                foundBloc.add(RefreshWeekEvent(state.selectedTime));
+              }
+            },
+            child: CustomScrollView(slivers: [
+              SliverFillRemaining(
+                  child: DayViewDisplay(
+                dateSelected: daySelected,
+                weeks: state.weeks,
+              ))
+            ]));
       },
     );
   }
@@ -134,6 +149,7 @@ class _DayViewDisplayState extends State<DayViewDisplay> {
       );
     }
     return wv.DayView(
+      inScrollableWidget: false,
       style: wv.DayViewStyle(
         hourRowHeight: hourRowHeight,
         backgroundRulesColor: colorScheme.outline,

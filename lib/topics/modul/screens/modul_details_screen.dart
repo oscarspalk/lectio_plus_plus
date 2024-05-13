@@ -1,18 +1,14 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/events/calendar_event_details.dart' as ce;
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
-import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
-import 'package:lpp/topics/calendar/screens/create.dart';
 import 'package:lpp/topics/modul/bloc/event_details_bloc.dart';
 import 'package:lpp/topics/modul/widgets/information_details.dart';
 import 'package:lpp/topics/modul/widgets/module_homework_display.dart';
 import 'package:lpp/topics/modul/widgets/participant_list.dart';
 import 'package:lpp/topics/modul/widgets/test_participants.dart';
 import 'package:lpp/topics/state/loading.dart';
-import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/tabbar.dart';
 import 'package:lpp/widgets/primitive/team_name.dart';
@@ -77,24 +73,7 @@ class _ModulDetailsScreenState extends State<ModulDetailsScreen>
                     ? TeamName(teamName: widget.event.team)
                     : Text(widget.event.title),
                 actions: widget.event.type == CalendarEventType.private
-                    ? [
-                        IconButton(
-                            onPressed: () {
-                              adSheet(
-                                  CreateAppointmentScreen(
-                                      previous: widget.event),
-                                  context);
-                            },
-                            icon: const Icon(EvaIcons.editOutline)),
-                        IconButton(
-                            onPressed: () {
-                              context
-                                  .read<SchemaBloc>()
-                                  .add(RemovedAppointment(widget.event));
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(EvaIcons.trash2Outline)),
-                      ]
+                    ? []
                     : [Container()],
               ),
               body: state.details != null
