@@ -63,6 +63,7 @@ class _LectioResourceViewState extends State<LectioResourceView> {
 
   Future<void> getData() async {
     var student = getStudentBloc(context).state.student!;
+    var millis = DateTime.now().millisecondsSinceEpoch;
     url = widget.content.href.startsWith("/lectio")
         ? "https://www.lectio.dk${widget.content.href}"
         : student.buildUrl(widget.content.href);
@@ -93,7 +94,7 @@ class _LectioResourceViewState extends State<LectioResourceView> {
           .loadRequest(Uri.parse(url), headers: {"cookie": cookieString});
     } else {
       var path =
-          "${(await getTemporaryDirectory()).path}/${widget.content.name.substring(0, widget.content.name.indexOf('.'))}.$extension";
+          "${(await getTemporaryDirectory()).path}/${widget.content.name.substring(0, widget.content.name.indexOf('.'))}-$millis.$extension";
       File tempFile = File(path);
       bool exists = await tempFile.exists();
       if (kDebugMode || !exists) {

@@ -163,7 +163,15 @@ class _SchemaScreenState extends State<SchemaScreen> {
                     await showPicker();
                   },
                   child: const Icon(Icons.date_range),
-                  label: 'Vælg dato')
+                  label: 'Vælg dato'),
+              SpeedDialChild(
+                  onTap: () {
+                    var bloc = widget.bloc ?? context.read<SchemaBloc>();
+                    var selectedTime = bloc.state.selectedTime;
+                    bloc.add(RefreshWeekEvent(selectedTime));
+                  },
+                  child: const Icon(Icons.refresh_outlined),
+                  label: 'Genindlæs')
             ],
           ),
           body: PageView.builder(

@@ -61,7 +61,7 @@ class OpgaveScreen extends StatelessWidget {
                     title: Text(assignment.grading),
                     subtitle: const Text("Karaktertype"),
                   ),
-                  if (assignment.grade.trim().isNotEmpty)
+                  if (assignment.grade.isNotEmpty)
                     ListTile(
                       title: Text(assignment.grade.toString()),
                       subtitle: const Text("Karakter"),
