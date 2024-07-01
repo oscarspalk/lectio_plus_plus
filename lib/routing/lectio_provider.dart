@@ -81,6 +81,12 @@ class LectioProvider extends StatelessWidget {
             student: student, selector: (student) => student.plans.list()),
       ),
       BlocProvider(
+        create: (_) => StudentCubit(
+          student: student,
+          selector: (student) => student.grades.getExamProof(),
+        ),
+      ),
+      BlocProvider(
         create: (context) => ModuleStatisticsBloc(student),
       ),
       BlocProvider(create: (_) => HomeworkManagerBloc()),

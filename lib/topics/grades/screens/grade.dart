@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
 import 'package:lectio_wrapper/types/grades/subject.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
+import 'package:lpp/topics/grades/screens/exam_proof.dart';
 import 'package:lpp/topics/grades/screens/grade_notes.dart';
 import 'package:lpp/topics/grades/screens/normal_grades.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
@@ -14,10 +15,10 @@ final List<String> names = [
   "1. Standpunkt",
   "2. Standpunkt",
   "Afsluttende karakter",
-  "Intern prøve",
   "Årskarakter",
   "Eksamenskarakter",
-  "Noter"
+  "Noter",
+  "Eksamenbevis"
 ];
 
 class GradeScreen extends StatefulWidget {
@@ -64,16 +65,16 @@ class _GradeScreenState extends State<GradeScreen>
             types[3]
                 .putIfAbsent((row.team, row.subject), () => row.internalTest);
             types[4].putIfAbsent((row.team, row.subject), () => row.yearGrade);
-            types[5].putIfAbsent((row.team, row.subject), () => row.examGrade);
           }
           return TabBarView(
               controller: _tabController,
               children: types
+                  .sublist(0, 5)
                   .map<Widget>((e) => SpecificGradeScreen(
                         grades: e,
                       ))
                   .toList()
-                ..add(const GradeNoteScreen()));
+                ..addAll([const GradeNoteScreen(), const ExamProofScreen()]));
         }));
   }
 
