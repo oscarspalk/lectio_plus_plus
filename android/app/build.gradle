@@ -79,6 +79,8 @@ flutter {
 }
 
 dependencies {
+    def billing_version = "7.0.0"
+    implementation "com.android.billingclient:billing:$billing_version"
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation 'androidx.window:window:1.0.0'
     implementation 'androidx.window:window-java:1.0.0'

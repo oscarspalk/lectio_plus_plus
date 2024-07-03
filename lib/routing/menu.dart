@@ -14,6 +14,8 @@ import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/drawer.dart';
 
+import '../payment/ad_free_ad.dart';
+
 class Menu extends StatelessWidget {
   Menu({super.key});
 
@@ -83,11 +85,16 @@ class Menu extends StatelessWidget {
         appBar: const LppAppbar(
           title: "Mere",
         ),
-        body: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: LppDrawer(
-              destinations: destinations,
-              relatedDestinations: relatedDestinations),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const AdFreeAd(),
+            Expanded(
+              child: LppDrawer(
+                  destinations: destinations,
+                  relatedDestinations: relatedDestinations),
+            ),
+          ],
         ));
   }
 }

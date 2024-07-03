@@ -39,7 +39,7 @@ dependencies:
   community_charts_flutter: ^1.0.2
   page_transition: ^2.1.0
   flutter_speed_dial: ^7.0.0
-
+  in_app_purchase: ^3.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
