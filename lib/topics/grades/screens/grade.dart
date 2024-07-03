@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
 import 'package:lectio_wrapper/types/grades/subject.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
-import 'package:lpp/topics/grades/screens/exam_proof.dart';
 import 'package:lpp/topics/grades/screens/grade_notes.dart';
 import 'package:lpp/topics/grades/screens/normal_grades.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
@@ -18,7 +17,6 @@ final List<String> names = [
   "Årskarakter",
   "Eksamenskarakter",
   "Noter",
-  "Eksamenbevis"
 ];
 
 class GradeScreen extends StatefulWidget {
@@ -74,7 +72,7 @@ class _GradeScreenState extends State<GradeScreen>
                         grades: e,
                       ))
                   .toList()
-                ..addAll([const GradeNoteScreen(), const ExamProofScreen()]));
+                ..addAll([const GradeNoteScreen()]));
         }));
   }
 
