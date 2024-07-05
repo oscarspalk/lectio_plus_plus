@@ -30,6 +30,14 @@ class LectioProvider extends StatelessWidget {
 
     return MultiBlocProvider(providers: [
       BlocProvider(
+        create: (context) => StudentCubit(
+          student: student,
+          selector: (student) {
+            return student.teams.list();
+          },
+        ),
+      ),
+      BlocProvider(
         create: (context) =>
             OwnedCubit(AdFreeState(hasAdFree: false, price: null)),
       ),

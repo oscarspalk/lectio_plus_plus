@@ -9,8 +9,9 @@ import '../../../logic/student/student_cubit.dart';
 
 class KlasseMembersScreen extends StatelessWidget {
   final ClassRef klasseRef;
-
-  const KlasseMembersScreen({super.key, required this.klasseRef});
+  final bool isGroup;
+  const KlasseMembersScreen(
+      {super.key, required this.klasseRef, this.isGroup = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,8 @@ class KlasseMembersScreen extends StatelessWidget {
       body: StudentBlocBuilder<StudentCubit<Class>, Class?>(
         bloc: StudentCubit(
             student: getStudentBloc(context).state.student!,
-            selector: (student) => student.classes.get(klasseRef))
+            selector: (student) =>
+                student.classes.get(klasseRef, group: isGroup))
           ..load(),
         builder: (context, state) {
           return StudentList(klasse: state!);
