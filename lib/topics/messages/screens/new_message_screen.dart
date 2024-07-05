@@ -73,7 +73,7 @@ class _NewMessageScreenState extends State<NewMessageScreen>
                 FloatingActionButton.extended(
                   heroTag: "next",
                   backgroundColor: !valid
-                      ? Theme.of(context).colorScheme.surfaceVariant
+                      ? Theme.of(context).colorScheme.surfaceContainerHighest
                       : null,
                   foregroundColor: !valid
                       ? Theme.of(context).colorScheme.onSurfaceVariant

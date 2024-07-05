@@ -16,7 +16,7 @@ class AbsenceChart extends StatelessWidget {
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
     var secondaryColor = _transformColor(colorScheme.secondary);
-    var textColor = _transformColor(colorScheme.onBackground);
+    var textColor = _transformColor(colorScheme.onSurface);
     return charts.BarChart(
       [
         charts.Series<AbsenceEntry, String>(

@@ -18,7 +18,7 @@ class DayHeaderEntry extends StatelessWidget {
       child: Ink(
         decoration: BoxDecoration(
             color:
-                selected ? colorScheme.onPrimary : colorScheme.surfaceVariant,
+                selected ? colorScheme.onPrimary : colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(6.0)),
         child: InkWell(
           borderRadius: BorderRadius.circular(6.0),

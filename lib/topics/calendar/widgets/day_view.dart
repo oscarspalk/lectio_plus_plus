@@ -137,14 +137,14 @@ class _DayViewDisplayState extends State<DayViewDisplay> {
       style: wv.DayViewStyle(
         hourRowHeight: hourRowHeight,
         backgroundRulesColor: colorScheme.outline,
-        backgroundColor: colorScheme.background,
+        backgroundColor: colorScheme.surface,
         headerSize: 0.0,
       ),
       userZoomable: false,
       date: widget.dateSelected,
       hoursColumnStyle: wv.HoursColumnStyle(
-          textStyle: TextStyle(color: colorScheme.onBackground),
-          color: colorScheme.background,
+          textStyle: TextStyle(color: colorScheme.onSurface),
+          color: colorScheme.surface,
           width: columnWidth,
           timeFormatter: (time) {
             return "${time.hour}:${time.minute > 9 ? time.minute : "${time.minute}0"}";

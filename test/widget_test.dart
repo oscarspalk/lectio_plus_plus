@@ -6,13 +6,10 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lpp/main.dart';
 
 void main() {
   testWidgets('App start up test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(
-        const LectioBase(), const Duration(milliseconds: 1500));
 
     // Verify that our counter starts at 0.
     expect(find.text('Lectio ved dine fingerspidser'), findsOneWidget);

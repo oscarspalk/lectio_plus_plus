@@ -23,7 +23,7 @@ class GradeNoteScreen extends StatelessWidget {
               elevation: 0.0,
               children: state.map((note) {
                 var textStyle = TextStyle(
-                    color: scheme.onBackground, fontWeight: FontWeight.w500);
+                    color: scheme.onSurface, fontWeight: FontWeight.w500);
                 return ExpansionPanelRadio(
                     canTapOnHeader: true,
                     headerBuilder: (context, isExpanded) {

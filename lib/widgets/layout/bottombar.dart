@@ -15,7 +15,7 @@ class LppBottombar extends StatelessWidget {
     var colorScheme = Theme.of(context).colorScheme;
     return NavigationBar(
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        backgroundColor: colorScheme.background,
+        backgroundColor: colorScheme.surface,
         indicatorColor: colorScheme.primaryContainer,
         selectedIndex: selectedIndex,
         onDestinationSelected: onSelected,
