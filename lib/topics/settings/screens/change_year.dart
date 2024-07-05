@@ -26,6 +26,7 @@ class ChangeYearScreen extends StatelessWidget {
                   if (value != null && !value.active) {
                     var bloc = context.read<TermBloc>();
                     bloc.set(value);
+
                     Navigator.pushReplacement(
                         context, adRoute(const AppRouter()));
                   }
