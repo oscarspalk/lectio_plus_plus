@@ -79,7 +79,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ListTile(
                     trailing: const Icon(Icons.help),
                     onTap: () async {
-                      var uri = Uri.parse("https://www.spalk.io/lectio++/help");
+                      var uri = Uri.parse("https://lpp.oscarspalk.com/help");
                       if (await canLaunchUrl(uri)) {
                         await launchUrl(uri,
                             mode: LaunchMode.externalApplication);
@@ -93,8 +93,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     title: const Text("Privatlivspolitik"),
                     subtitle: const Text("Læs privatlivspolitikken"),
                     onTap: () async {
-                      var uri =
-                          Uri.parse("https://www.spalk.io/lectio++/privacy");
+                      var uri = Uri.parse("https://lpp.oscarspalk.com/privacy");
                       if (await canLaunchUrl(uri)) {
                         await launchUrl(uri,
                             mode: LaunchMode.externalApplication);
