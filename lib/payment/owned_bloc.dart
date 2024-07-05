@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:lpp/payment/ad_free_state.dart';
@@ -45,7 +43,6 @@ class OwnedCubit extends Cubit<AdFreeState> {
       if ((purchase.status == PurchaseStatus.purchased ||
               purchase.status == PurchaseStatus.restored) &&
           purchase.productID == adFreeId) {
-        debugPrint("is purchased now");
         emit(state.copyWith(hasAdFree: true));
       }
     }

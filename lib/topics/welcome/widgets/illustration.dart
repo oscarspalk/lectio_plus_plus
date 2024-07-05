@@ -50,11 +50,13 @@ class _IllustrationState extends State<IllustrationHelper> {
         .loadString("assets/illustrations/${widget.svgName}.svg");
     String newColor =
         "rgb(${widget.primary.red},${widget.primary.green},${widget.primary.blue})";
-    setState(() {
-      svgCode = svgContent
-          .replaceAll(colorKey, newColor)
-          .replaceAll(colorKey.toLowerCase(), newColor);
-    });
+    if (mounted) {
+      setState(() {
+        svgCode = svgContent
+            .replaceAll(colorKey, newColor)
+            .replaceAll(colorKey.toLowerCase(), newColor);
+      });
+    }
   }
 
   @override

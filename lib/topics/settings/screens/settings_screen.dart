@@ -2,9 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lectio_wrapper/types/terms/term.dart';
 import 'package:lpp/payment/buy_screen.dart';
-import 'package:lpp/routing/router.dart';
 import 'package:lpp/topics/settings/bloc/term_bloc.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
@@ -107,47 +105,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onTap: () {
                       context.read<StudentBloc>().add(RefreshTeams());
                     },
-                  ),
-                  ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(right: 12.0),
-                          child: Text("Årgang"),
-                        ),
-                        BlocBuilder<TermBloc, List<Term>?>(
-                          bloc:
-                              TermBloc(getStudentBloc(context).state.student!),
-                          builder: (context, state) {
-                            return DropdownButton<Term>(
-                                alignment: Alignment.center,
-                                onChanged: (value) {
-                                  if (value != null && !value.active) {
-                                    bloc.set(value);
-                                    Navigator.pushReplacement(context,
-                                        MaterialPageRoute(
-                                      builder: (context) {
-                                        return const AppRouter();
-                                      },
-                                    ));
-                                  }
-                                },
-                                value: state
-                                    ?.firstWhere((element) => element.active),
-                                items: state
-                                        ?.map((e) => DropdownMenuItem(
-                                            alignment: Alignment.center,
-                                            value: e,
-                                            child: Text(
-                                              e.name,
-                                            )))
-                                        .toList() ??
-                                    []);
-                          },
-                        ),
-                      ],
-                    ),
                   ),
                   const TextDivider(
                     text: "Notifikationer",

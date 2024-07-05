@@ -13,6 +13,7 @@ import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
 import 'package:lpp/topics/opgaver/bloc/opgaver_bloc.dart';
 import 'package:lpp/topics/opgaver/bloc/opgaver_details_bloc.dart';
 import 'package:lpp/topics/people/bloc/people_bloc.dart';
+import 'package:lpp/topics/settings/bloc/term_bloc.dart';
 import 'package:lpp/topics/studiekort/studiekort_bloc.dart';
 import 'package:lpp/topics/teams/bloc/module_statistics_bloc.dart';
 import '../topics/calendar/bloc/schema_bloc.dart';
@@ -34,6 +35,9 @@ class LectioProvider extends StatelessWidget {
       ),
       BlocProvider(
         create: (context) => OpgaveDetailsBloc(student),
+      ),
+      BlocProvider(
+        create: (context) => TermBloc(student),
       ),
       BlocProvider(
           create: (context) => StudentCubit<List<Homework>>(

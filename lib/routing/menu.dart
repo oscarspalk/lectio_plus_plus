@@ -6,6 +6,7 @@ import 'package:lpp/topics/messages/screens/message_screen.dart';
 import 'package:lpp/topics/people/screens/people_screen.dart';
 import 'package:lpp/topics/plans/screens/overview.dart';
 import 'package:lpp/topics/rooms/screens/overview.dart';
+import 'package:lpp/topics/settings/screens/change_year.dart';
 import 'package:lpp/topics/settings/screens/settings_screen.dart';
 import 'package:lpp/topics/settings/screens/wish_a_feature.dart';
 import 'package:lpp/topics/studiekort/kort.dart';
@@ -55,10 +56,7 @@ class Menu extends StatelessWidget {
         icon: EvaIcons.barChart2Outline,
         name: "Modulregnskab",
         selectedIcon: EvaIcons.barChart2,
-        screen: const ModuleStatisticsOverview())
-  ];
-
-  final List<Destination> relatedDestinations = [
+        screen: const ModuleStatisticsOverview()),
     Destination(
         icon: EvaIcons.creditCardOutline,
         name: "Studiekort",
@@ -67,6 +65,18 @@ class Menu extends StatelessWidget {
         onTap: (ctx) {
           adSheet(const StudiekortScreen(), ctx);
         }),
+  ];
+
+  final List<Destination> relatedDestinations = [
+    Destination(
+      icon: EvaIcons.clockOutline,
+      name: "Skift årgang",
+      selectedIcon: EvaIcons.clock,
+      screen: const ChangeYearScreen(),
+      onTap: (context) {
+        adSheet(const ChangeYearScreen(), context);
+      },
+    ),
     Destination(
         icon: EvaIcons.bulbOutline,
         name: "Ønsker",
