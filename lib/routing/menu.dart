@@ -86,7 +86,7 @@ class Menu extends StatelessWidget {
           title: "Mere",
         ),
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const AdFreeAd(),
             Expanded(

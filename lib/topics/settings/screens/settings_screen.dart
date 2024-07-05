@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/terms/term.dart';
+import 'package:lpp/payment/buy_screen.dart';
 import 'package:lpp/routing/router.dart';
 import 'package:lpp/topics/settings/bloc/term_bloc.dart';
 import 'package:lpp/utils/ad_route.dart';
@@ -66,6 +67,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                     title: const Text("Skift tema"),
                     subtitle: const Text("Tilpasning"),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(context, adRoute(const BuyAdFreeScreen()));
+                    },
+                    trailing: const Icon(EvaIcons.arrowForwardOutline),
+                    title: const Text("Købsmuligheder"),
+                    subtitle: const Text("Reklame Fri"),
                   ),
                   ListTile(
                     trailing: const Icon(Icons.help),

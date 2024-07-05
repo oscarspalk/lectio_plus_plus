@@ -5,23 +5,32 @@ import 'package:flutter_svg/flutter_svg.dart';
 const colorKey = "#00FF00";
 
 class Illustration extends StatelessWidget {
-  const Illustration({super.key, required this.illustration});
+  const Illustration(
+      {super.key, required this.illustration, this.width, this.height});
   final String illustration;
-
+  final double? width;
+  final double? height;
   @override
   Widget build(BuildContext context) {
     return IllustrationHelper(
-      primary: Theme.of(context).colorScheme.primary,
-      svgName: illustration,
-    );
+        primary: Theme.of(context).colorScheme.primary,
+        svgName: illustration,
+        width: width,
+        height: height);
   }
 }
 
 class IllustrationHelper extends StatefulWidget {
   const IllustrationHelper(
-      {super.key, required this.primary, required this.svgName});
+      {super.key,
+      required this.primary,
+      required this.svgName,
+      this.width,
+      this.height});
 
   final Color primary;
+  final double? width;
+  final double? height;
   final String svgName;
   @override
   State<IllustrationHelper> createState() => _IllustrationState();
@@ -53,6 +62,9 @@ class _IllustrationState extends State<IllustrationHelper> {
     if (svgCode.isEmpty) {
       return const SizedBox();
     }
-    return SizedBox(width: 250, height: 200, child: SvgPicture.string(svgCode));
+    return SizedBox(
+        width: widget.width ?? 250,
+        height: widget.height ?? 200,
+        child: SvgPicture.string(svgCode));
   }
 }

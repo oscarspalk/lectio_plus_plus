@@ -4,6 +4,7 @@ import 'package:lectio_wrapper/types/class.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
 import 'package:lectio_wrapper/types/grades/note.dart';
 import 'package:lectio_wrapper/types/homework/homework.dart';
+import 'package:lpp/payment/ad_free_state.dart';
 import 'package:lpp/payment/owned_bloc.dart';
 import 'package:lpp/topics/absence/bloc/registation.dart';
 import 'package:lpp/topics/homework/bloc/homework_bloc.dart';
@@ -28,7 +29,8 @@ class LectioProvider extends StatelessWidget {
 
     return MultiBlocProvider(providers: [
       BlocProvider(
-        create: (context) => OwnedCubit(false),
+        create: (context) =>
+            OwnedCubit(AdFreeState(hasAdFree: false, price: null)),
       ),
       BlocProvider(
         create: (context) => OpgaveDetailsBloc(student),
