@@ -30,7 +30,7 @@ class PlanDetails extends StatelessWidget {
               Statement(
                   topic: "Periode",
                   content:
-                      "Uge ${weekFromDateTime(ref.start)} - Uge ${weekFromDateTime(ref.end)}"),
+                      "Uge ${weekFromDateTime(ref.start)}${ref.end != null ? " - Uge ${weekFromDateTime(ref.end!)}" : ""}"),
               Statement(
                 content: state.description,
                 topic: "Beskrivelse",

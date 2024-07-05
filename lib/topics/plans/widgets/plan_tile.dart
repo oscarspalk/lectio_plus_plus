@@ -12,7 +12,7 @@ class PlanTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      tileColor: Theme.of(context).colorScheme.background,
+      tileColor: Theme.of(context).colorScheme.surface,
       onTap: () {
         Navigator.push(
             context,
@@ -22,7 +22,7 @@ class PlanTile extends StatelessWidget {
       },
       title: Text(ref.title),
       subtitle: Text(
-          "Uge ${weekFromDateTime(ref.start)} - Uge ${weekFromDateTime(ref.end)}"),
+          "Uge ${weekFromDateTime(ref.start)}${ref.end != null ? " - Uge ${weekFromDateTime(ref.end!)}" : ""}"),
     );
   }
 }
