@@ -35,7 +35,7 @@ class TeamListItem extends StatelessWidget {
                 textAlign: TextAlign.end,
                 maxLines: 2,
               ),
-              const Text("Stamklasse")
+              const Text("Hold")
             ],
           ),
         ),
