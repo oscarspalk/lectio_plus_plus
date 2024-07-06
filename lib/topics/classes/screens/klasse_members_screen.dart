@@ -3,6 +3,7 @@ import 'package:lectio_wrapper/types/class.dart';
 import 'package:lpp/topics/classes/screens/elev_list.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
+import 'package:lpp/widgets/primitive/team_name.dart';
 
 import '../../../logic/student/student_bloc.dart';
 import '../../../logic/student/student_cubit.dart';
@@ -16,7 +17,11 @@ class KlasseMembersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LppAppbar(title: klasseRef.name, hideMenu: true),
+      appBar: LppAppbar(
+        title: klasseRef.name,
+        hideMenu: true,
+        titleWidget: isGroup ? TeamName(teamName: klasseRef.name) : null,
+      ),
       body: StudentBlocBuilder<StudentCubit<Class>, Class?>(
         bloc: StudentCubit(
             student: getStudentBloc(context).state.student!,

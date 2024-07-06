@@ -4,6 +4,7 @@ import 'package:lectio_wrapper/types/primitives/team.dart';
 import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/classes/screens/klasse_members_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
+import 'package:lpp/widgets/primitive/team_name.dart';
 
 class TeamListItem extends StatelessWidget {
   final Team team;
@@ -29,11 +30,16 @@ class TeamListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                team.name,
-                style: headerStyle,
-                textAlign: TextAlign.end,
-                maxLines: 2,
+              TeamName(
+                teamName: team.name,
+                builder: (name) {
+                  return Text(
+                    name,
+                    style: headerStyle,
+                    textAlign: TextAlign.end,
+                    maxLines: 2,
+                  );
+                },
               ),
               const Text("Hold")
             ],

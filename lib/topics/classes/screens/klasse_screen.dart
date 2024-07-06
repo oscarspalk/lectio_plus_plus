@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lpp/topics/classes/screens/classes_overview_screen.dart';
 import 'package:lpp/topics/classes/screens/teams_overview.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
+import 'package:lpp/widgets/layout/tabbar.dart';
 
 class KlasseScreen extends StatelessWidget {
   const KlasseScreen({super.key});
@@ -13,13 +14,9 @@ class KlasseScreen extends StatelessWidget {
       child: Scaffold(
         appBar: LppAppbar(
           title: "Klasser",
-          bottom: TabBar(tabs: [
-            Tab(
-              text: "Klasser",
-            ),
-            Tab(
-              text: "Mine hold",
-            )
+          bottom: LppTabBar(tabs: [
+            "Klasser",
+            "Mine hold",
           ]),
         ),
         body: TabBarView(
