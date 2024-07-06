@@ -69,11 +69,9 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
 
   SchemaBloc(this.student, this.studentBloc, {this.room})
       : super(SchemaState(DateTime.now(), {}, SwitchMode.picker)) {
-    on<SwitchedDate>((event, emit) {
-      emit(SchemaState(event.time, state.weeks, SwitchMode.selector));
-      switchTime(event.time).then((weekCopy) {
-        emit(SchemaState(event.time, weekCopy, SwitchMode.selector));
-      });
+    on<SwitchedDate>((event, emit) async {
+      var weekCopy = await switchTime(event.time);
+      emit(SchemaState(event.time, weekCopy, SwitchMode.selector));
     });
 
     on<SliderSwitchedDate>(
