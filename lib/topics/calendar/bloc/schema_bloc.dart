@@ -21,6 +21,12 @@ final class RefreshWeekEvent extends SchemaEvent {
   RefreshWeekEvent(this.time);
 }
 
+final class LoadWeek extends SchemaEvent {
+  final SwitchedDate event;
+
+  LoadWeek({required this.event});
+}
+
 class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
   final Student student;
   final Room? room;
@@ -69,10 +75,17 @@ class SchemaBloc extends Bloc<SchemaEvent, SchemaState> {
 
   SchemaBloc(this.student, this.studentBloc, {this.room})
       : super(SchemaState(DateTime.now(), {}, SwitchMode.picker)) {
-    on<SwitchedDate>((event, emit) async {
-      var weekCopy = await switchTime(event.time);
-      emit(SchemaState(event.time, weekCopy, SwitchMode.selector));
+    on<SwitchedDate>((event, emit) {
+      emit(SchemaState(event.time, state.weeks, SwitchMode.selector));
+      add(LoadWeek(event: event));
     });
+
+    on<LoadWeek>(
+      (event, emit) async {
+        var weekCopy = await switchTime(event.event.time);
+        emit(SchemaState(event.event.time, weekCopy, SwitchMode.selector));
+      },
+    );
 
     on<SliderSwitchedDate>(
       (event, emit) async {
