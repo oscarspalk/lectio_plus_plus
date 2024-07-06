@@ -7,6 +7,7 @@ import 'package:lpp/topics/people/screens/people_screen.dart';
 import 'package:lpp/topics/plans/screens/overview.dart';
 import 'package:lpp/topics/rooms/screens/overview.dart';
 import 'package:lpp/topics/settings/screens/change_year.dart';
+import 'package:lpp/topics/settings/screens/notification_screen.dart';
 import 'package:lpp/topics/settings/screens/settings_screen.dart';
 import 'package:lpp/topics/settings/screens/wish_a_feature.dart';
 import 'package:lpp/topics/studiekort/kort.dart';
@@ -75,6 +76,15 @@ class Menu extends StatelessWidget {
       screen: const ChangeYearScreen(),
       onTap: (context) {
         adSheet(const ChangeYearScreen(), context);
+      },
+    ),
+    Destination(
+      icon: EvaIcons.bellOutline,
+      name: "Notifikationer",
+      selectedIcon: EvaIcons.bell,
+      screen: const NotificationScreen(),
+      onTap: (context) {
+        adSheet(const NotificationScreen(), context);
       },
     ),
     Destination(

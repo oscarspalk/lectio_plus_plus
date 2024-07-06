@@ -1,5 +1,4 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/payment/buy_screen.dart';
@@ -106,26 +105,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       context.read<StudentBloc>().add(RefreshTeams());
                     },
                   ),
-                  const TextDivider(
-                    text: "Notifikationer",
-                    primary: true,
-                  ),
-                  CheckboxListTile(
-                    title: const Text(
-                        "Notifikationer ved aflyste og ændrede moduler"),
-                    value: state.notifyEvents,
-                    onChanged: (_) {
-                      context.read<SettingsBloc>().add(ToggleNotifyEvents());
-                    },
-                  ),
-                  if (kDebugMode)
-                    CheckboxListTile(
-                      title: const Text("Debug notifikationer"),
-                      value: state.notifyDebug,
-                      onChanged: (_) {
-                        context.read<SettingsBloc>().add(ToggleNotifyDebug());
-                      },
-                    ),
                 ],
               ),
             ),
