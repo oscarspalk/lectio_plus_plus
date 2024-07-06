@@ -91,10 +91,16 @@ class BuyAdFreeScreen extends StatelessWidget {
                           builder: (context, state) {
                         return FilledButton.icon(
                           iconAlignment: IconAlignment.end,
-                          onPressed: state.hasAdFree ? null : buyAdFree,
-                          label: Text(state.hasAdFree
-                              ? "Allerede købt"
-                              : "Køb for ${state.price}"),
+                          onPressed: state.price != null
+                              ? state.hasAdFree
+                                  ? null
+                                  : buyAdFree
+                              : null,
+                          label: Text(state.price != null
+                              ? state.hasAdFree
+                                  ? "Allerede købt"
+                                  : "Køb for ${state.price}"
+                              : "Fejl"),
                           icon: const Icon(EvaIcons.shoppingCartOutline),
                         );
                       }),
