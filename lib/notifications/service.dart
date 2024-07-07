@@ -1,43 +1,17 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/constants.dart';
-import 'package:lpp/logic/app/settings.dart';
 import 'package:lpp/logic/cache/login_service.dart';
+import 'package:lpp/notifications/handlers/event_notification_handler.dart';
+import 'package:lpp/notifications/handlers/notification_service.dart';
 import 'package:lpp/notifications/notification.dart';
+import 'package:lpp/topics/settings/bloc/notification_bloc.dart';
+import 'package:lpp/topics/settings/bloc/notification_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-const alreadyShownIdsKey = "alreadyShown";
-
-class ShownNotification {
-  DateTime shownAt;
-  String id;
-  ShownNotification(this.shownAt, this.id);
-
-  factory ShownNotification.fromString(String shownNotification) {
-    var topics = shownNotification.split(";");
-    DateTime shownAt = DateTime.now();
-    String id = "";
-    for (var topic in topics) {
-      var topicSplit = topic.split("=");
-      switch (topicSplit[0]) {
-        case "at":
-          shownAt = DateTime.parse(topicSplit[1]);
-          break;
-        case "id":
-          id = topicSplit[1];
-          break;
-      }
-    }
-    return ShownNotification(shownAt, id);
-  }
-
-  @override
-  String toString() {
-    return "id=$id;at=${shownAt.toIso8601String()}";
-  }
-}
 
 class PendingNotification {
   String id;
@@ -52,42 +26,41 @@ class NotificationService {
   late SharedPreferences prefs;
   List<PendingNotification> notifications = [];
 
-  List<ShownNotification>? _getShownNotifications() {
-    try {
-      var shownList = prefs.getStringList(alreadyShownIdsKey);
-      if (shownList != null) {
-        return shownList
-            .map((shown) => ShownNotification.fromString(shown))
-            .toList();
+  Future<List<PendingNotification>> useHandler(SharedPreferences prefs,
+      Student student, NotificationHandler handler) async {
+    var hasLocal = await handler.loadLocal(prefs);
+    if (!hasLocal) {
+      await handler.reset(prefs);
+    } else {
+      var hasOnline = await handler.loadOnline(student);
+      if (hasOnline) {
+        var newNotifications = handler.compare();
+        await handler.save(prefs);
+        return newNotifications;
       }
-      return [];
-    } catch (e) {
-      prefs.setStringList(alreadyShownIdsKey, []);
-      return null;
     }
-  }
-
-  void _saveShownNotifications(List<ShownNotification> list) {
-    List<ShownNotification> combinedList = [...list];
-    for (var notification in notifications) {
-      combinedList.add(ShownNotification(DateTime.now(), notification.id));
-    }
-    DateTime now = DateTime.now().subtract(const Duration(days: 14));
-    List<ShownNotification> filteredUpdated =
-        combinedList.where((shown) => shown.shownAt.isAfter(now)).toList();
-    prefs.setStringList(alreadyShownIdsKey,
-        filteredUpdated.map((filtered) => filtered.toString()).toList());
+    return [];
   }
 
   Future<bool> setup() async {
     prefs = await SharedPreferences.getInstance();
-    bool? notifyEvents = prefs.getBool(notifyEventsKey);
-    if (notifyEvents != null && notifyEvents) {
-      var shownNotifications = _getShownNotifications();
+    var notificationConfig = prefs.getString(notificationConfigKey);
+    var configJson =
+        notificationConfig != null ? json.decode(notificationConfig) : null;
+    var config =
+        configJson != null ? NotificationState.fromJson(configJson) : null;
+    if (config != null &&
+        (config.hasAssignmentStatusNotifications ||
+            config.hasEventNotifications ||
+            config.hasNewMessageNotifications)) {
       var student = await loginService.loadSaved();
-      if (student != null && shownNotifications != null) {
+      if (student != null) {
         // load notifications and show them
-        _saveShownNotifications(shownNotifications);
+        if (config.hasEventNotifications) {
+          var newEventNotifications =
+              await useHandler(prefs, student, EventNotificationHandler());
+          notifications.addAll(newEventNotifications);
+        }
       }
     }
     return notifications.isNotEmpty;
