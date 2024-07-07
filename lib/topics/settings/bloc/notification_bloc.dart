@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lpp/topics/settings/bloc/notification_state.dart';
@@ -18,11 +19,24 @@ class NotificationBloc extends Cubit<NotificationState> {
   }
 
   void _loadLocal() async {
-    var prefs = await SharedPreferences.getInstance();
-    var loadedMap = json.decode(prefs.getString(notificationConfigKey) ?? "");
-    if (loadedMap != null) {
-      NotificationState? config = NotificationState.fromJson(loadedMap);
-      emit(config);
+    try {
+      var prefs = await SharedPreferences.getInstance();
+      var loadedMap = json.decode(prefs.getString(notificationConfigKey) ?? "");
+      if (loadedMap != null) {
+        NotificationState? config = NotificationState.fromJson(loadedMap);
+        emit(config);
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+    if (!state.hasAssignmentStatusNotifications &&
+        !state.hasEventNotifications &&
+        !state.hasNewMessageNotifications) {
+      emit(state.copyWith(
+          hasAssignmentStatusNotifications: true,
+          hasEventNotifications: true,
+          hasNewMessageNotifications: true));
+      checkNotifications();
     }
   }
 

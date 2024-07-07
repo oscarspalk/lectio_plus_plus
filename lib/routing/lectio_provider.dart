@@ -120,6 +120,7 @@ class LectioProvider extends StatelessWidget {
         create: (context) => StudiekortBloc(student: student),
       ),
       BlocProvider(
+        lazy: false,
         create: (context) => NotificationBloc(),
       )
     ], child: child);

@@ -23,7 +23,7 @@ final List<CalendarEvent> debugEvents = [
       teacherObjs: [],
       teamObjs: [],
       room: "3",
-      id: "60741009877",
+      id: "62660852612",
       note: "Medbring jeres computer",
       start: DateTime(2023, 08, 14, 08, 45, 00),
       end: DateTime(2023, 08, 14, 08, 15, 00)),
@@ -38,7 +38,7 @@ final List<CalendarEvent> debugEvents = [
       teacherObjs: [],
       teamObjs: [],
       room: "18",
-      id: "60741009833",
+      id: "62660809629",
       note: "Medbring jeres computer",
       start: DateTime(2023, 08, 15, 08, 45, 00),
       end: DateTime(2023, 08, 15, 08, 15, 00))
@@ -76,7 +76,9 @@ class EventNotificationHandler implements NotificationHandler {
   ///
   @override
   Future<bool> loadLocal(SharedPreferences prefs) async {
-    try {
+    localEvents = debugEvents;
+    return true;
+    /*try {
       var dataList = prefs.getStringList(_eventLocalKey);
       if (dataList != null) {
         var localEvents = dataList.map((data) {
@@ -91,7 +93,7 @@ class EventNotificationHandler implements NotificationHandler {
     } catch (error) {
       debugPrint(error.toString());
     }
-    return false;
+    return false;*/
   }
 
   ///
