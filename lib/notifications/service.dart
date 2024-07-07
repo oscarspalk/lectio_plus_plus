@@ -6,7 +6,6 @@ import 'package:lpp/constants.dart';
 import 'package:lpp/logic/app/settings.dart';
 import 'package:lpp/logic/cache/login_service.dart';
 import 'package:lpp/notifications/notification.dart';
-import 'package:lpp/notifications/services/event_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const alreadyShownIdsKey = "alreadyShown";
@@ -45,8 +44,7 @@ class PendingNotification {
   String title;
   String? body;
   String? payload;
-  PendingNotification(
-      {required this.id, this.body, required this.title, this.payload});
+  PendingNotification({required this.id, this.body, required this.title});
 }
 
 class NotificationService {
@@ -88,11 +86,7 @@ class NotificationService {
       var shownNotifications = _getShownNotifications();
       var student = await loginService.loadSaved();
       if (student != null && shownNotifications != null) {
-        var updatedNotifications = await EventService(student).update();
-        notifications.addAll(updatedNotifications.where((updatedNotification) =>
-            shownNotifications.indexWhere(
-                (element) => element.id == updatedNotification.id) ==
-            -1));
+        // load notifications and show them
         _saveShownNotifications(shownNotifications);
       }
     }
