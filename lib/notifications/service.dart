@@ -8,6 +8,7 @@ import 'package:lpp/constants.dart';
 import 'package:lpp/logic/cache/login_service.dart';
 import 'package:lpp/notifications/handlers/assignment_notification_handler.dart';
 import 'package:lpp/notifications/handlers/event_notification_handler.dart';
+import 'package:lpp/notifications/handlers/message_notification_handler.dart';
 import 'package:lpp/notifications/handlers/notification_service.dart';
 import 'package:lpp/notifications/notification.dart';
 import 'package:lpp/topics/settings/bloc/notification_bloc.dart';
@@ -35,9 +36,11 @@ class NotificationService {
     }
     var hasOnline = await handler.loadOnline(student);
     if (hasOnline) {
-      var newNotifications = handler.compare();
       await handler.save(prefs);
-      return newNotifications;
+      if (hasLocal) {
+        var newNotifications = handler.compare();
+        return newNotifications;
+      }
     }
 
     return [];
@@ -70,6 +73,13 @@ class NotificationService {
           var newAssignmentNotifications =
               await useHandler(prefs, student, AssignmentNotificationHandler());
           notifications.addAll(newAssignmentNotifications);
+        }
+
+        // message notifications
+        if (config.hasNewMessageNotifications) {
+          var newMessageNotifications =
+              await useHandler(prefs, student, MessageNotificationHandler());
+          notifications.addAll(newMessageNotifications);
         }
       }
     }

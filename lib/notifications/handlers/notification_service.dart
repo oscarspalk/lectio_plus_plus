@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/assignment.dart';
+import 'package:lectio_wrapper/types/message/message.dart';
 import 'package:lpp/notifications/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +18,8 @@ class NotificationHandler<T> {
         return CalendarEvent.fromJson(json) as T;
       case AssignmentRef:
         return AssignmentRef.fromJson(json) as T;
+      case MessageRef:
+        return MessageRef.fromJson(json) as T;
       default:
         return null;
     }
@@ -28,6 +31,8 @@ class NotificationHandler<T> {
         return (obj as CalendarEvent).toJson();
       case AssignmentRef:
         return (obj as AssignmentRef).toJson();
+      case MessageRef:
+        return (obj as MessageRef).toJson();
       default:
         return null;
     }
@@ -43,10 +48,8 @@ class NotificationHandler<T> {
           var parsed = fromJson(dataJson);
           return parsed!;
         }).toList();
-        if (localEvents.isNotEmpty) {
-          localObjects = localEvents;
-          return true;
-        }
+        localObjects = localEvents;
+        return true;
       }
     } catch (error) {
       debugPrint(error.toString());
