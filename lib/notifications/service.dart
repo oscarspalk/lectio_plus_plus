@@ -28,17 +28,17 @@ class NotificationService {
 
   Future<List<PendingNotification>> useHandler(SharedPreferences prefs,
       Student student, NotificationHandler handler) async {
-    var hasLocal = await handler.loadLocal(prefs);
+    var hasLocal = handler.loadLocal(prefs);
     if (!hasLocal) {
       await handler.reset(prefs);
-    } else {
-      var hasOnline = await handler.loadOnline(student);
-      if (hasOnline) {
-        var newNotifications = handler.compare();
-        await handler.save(prefs);
-        return newNotifications;
-      }
     }
+    var hasOnline = await handler.loadOnline(student);
+    if (hasOnline) {
+      var newNotifications = handler.compare();
+      await handler.save(prefs);
+      return newNotifications;
+    }
+
     return [];
   }
 
