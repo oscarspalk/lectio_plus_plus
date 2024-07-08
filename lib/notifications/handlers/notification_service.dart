@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
+import 'package:lectio_wrapper/types/assignment.dart';
 import 'package:lpp/notifications/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,6 +15,8 @@ class NotificationHandler<T> {
     switch (T) {
       case CalendarEvent:
         return CalendarEvent.fromJson(json) as T;
+      case AssignmentRef:
+        return AssignmentRef.fromJson(json) as T;
       default:
         return null;
     }
@@ -23,6 +26,8 @@ class NotificationHandler<T> {
     switch (T) {
       case CalendarEvent:
         return (obj as CalendarEvent).toJson();
+      case AssignmentRef:
+        return (obj as AssignmentRef).toJson();
       default:
         return null;
     }
@@ -49,10 +54,16 @@ class NotificationHandler<T> {
     return false;
   }
 
+  ///
+  /// Returns true if an online version can be read
+  ///
   Future<bool> loadOnline(Student student) {
     throw UnimplementedError();
   }
 
+  ///
+  /// Compares the `localEvents` and the `onlineEvents` and returns a list of notifications to be displayed
+  ///
   List<PendingNotification> compare() {
     throw UnimplementedError();
   }

@@ -10,9 +10,6 @@ const _eventLocalKey = "notifications.events";
 class EventNotificationHandler extends NotificationHandler<CalendarEvent> {
   EventNotificationHandler() : super(localKey: _eventLocalKey);
 
-  ///
-  /// Compares the `localEvents` and the `onlineEvents` and returns a list of notifications to be displayed
-  ///
   @override
   List<PendingNotification> compare() {
     List<PendingNotification> notifications = [];
@@ -33,9 +30,6 @@ class EventNotificationHandler extends NotificationHandler<CalendarEvent> {
     return notifications;
   }
 
-  ///
-  /// Returns true if an online version can be read
-  ///
   @override
   Future<bool> loadOnline(Student student) async {
     try {

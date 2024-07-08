@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/constants.dart';
 import 'package:lpp/logic/cache/login_service.dart';
+import 'package:lpp/notifications/handlers/assignment_notification_handler.dart';
 import 'package:lpp/notifications/handlers/event_notification_handler.dart';
 import 'package:lpp/notifications/handlers/notification_service.dart';
 import 'package:lpp/notifications/notification.dart';
@@ -56,10 +57,19 @@ class NotificationService {
       var student = await loginService.loadSaved();
       if (student != null) {
         // load notifications and show them
+
+        // event notifications
         if (config.hasEventNotifications) {
           var newEventNotifications =
               await useHandler(prefs, student, EventNotificationHandler());
           notifications.addAll(newEventNotifications);
+        }
+
+        // assignment notifications
+        if (config.hasAssignmentStatusNotifications) {
+          var newAssignmentNotifications =
+              await useHandler(prefs, student, AssignmentNotificationHandler());
+          notifications.addAll(newAssignmentNotifications);
         }
       }
     }
