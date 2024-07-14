@@ -1,3 +1,4 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
@@ -21,6 +22,8 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
   final Duration animDuration = const Duration(milliseconds: 500);
   final Curve animCurve = Curves.easeInOut;
 
+  late int _selected;
+
   @override
   void initState() {
     super.initState();
@@ -33,40 +36,61 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
         loginBloc.state.username.isNotEmpty) {
       initial = 3;
     }
+    _selected = initial;
     carousel = PageController(initialPage: initial);
   }
 
   void next() {
+    setState(() {
+      _selected += 1;
+    });
     carousel.nextPage(duration: animDuration, curve: animCurve);
   }
 
   void back() {
+    setState(() {
+      _selected -= 1;
+    });
     carousel.previousPage(duration: animDuration, curve: animCurve);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StudentBloc, StudentState>(builder: (context, state) {
-      if (state.state == StudentStates.loading || state.gyms.isEmpty) {
-        return const LoadingScreen();
-      }
-      return PageView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: carousel,
-        children: [
-          GreetingsScreen(
-            next: next,
-          ),
-          ThemeScreen(next: next),
-          GymScreen(
-            next: next,
-          ),
-          LoginScreen(
-            back: back,
-          ),
-        ],
-      );
-    });
+    var colorScheme = Theme.of(context).colorScheme;
+    return Scaffold(
+      floatingActionButton: DotsIndicator(
+        decorator: DotsDecorator(
+            activeColor: colorScheme.primary,
+            size: const Size.square(9.0),
+            activeSize: const Size(18.0, 9.0),
+            activeShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0))),
+        dotsCount: 4,
+        position: _selected,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: BlocBuilder<StudentBloc, StudentState>(builder: (context, state) {
+        if (state.state == StudentStates.loading || state.gyms.isEmpty) {
+          return const LoadingScreen();
+        }
+        return PageView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: carousel,
+          children: [
+            GreetingsScreen(
+              next: next,
+            ),
+            ThemeScreen(next: next),
+            GymScreen(
+              next: next,
+            ),
+            LoginScreen(
+              back: back,
+            ),
+          ],
+        );
+      }),
+    );
   }
 
   @override

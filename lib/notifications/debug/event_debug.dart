@@ -1,4 +1,3 @@
-import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/weeks/calendar_event.dart';
 
 final debugEvents = [
