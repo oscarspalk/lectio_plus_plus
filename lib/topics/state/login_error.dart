@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/topics/welcome/widgets/illustration.dart';
 
 import '../../logic/student/student_bloc.dart';
 
@@ -8,18 +9,18 @@ class LoginErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.key_outlined,
-                size: 48.0, color: Theme.of(context).colorScheme.primary),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            const Illustration(illustration: "error"),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Text(
                 "Var det den rigtige kode?",
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                style: theme.textTheme.titleLarge,
               ),
             ),
             FilledButton(

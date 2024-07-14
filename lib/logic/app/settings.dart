@@ -19,25 +19,28 @@ final class ToggleNotifyEvents extends SettingsBlocEvent {}
 const notifyEventsKey = "notifyEvents";
 const notifyDebugKey = "notifyDebug";
 
+final ThemeData rootTheme = ThemeData(
+    brightness: Brightness.dark,
+    useMaterial3: true,
+    colorSchemeSeed: Colors.orange,
+    textTheme: const TextTheme(
+        titleLarge: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold)));
+
 class SettingsBloc extends Bloc<SettingsBlocEvent, SettingsState> {
   SettingsBloc()
       : super(SettingsState(
           Colors.orange,
           Brightness.dark,
-          ThemeData(
-              brightness: Brightness.dark,
-              useMaterial3: true,
-              colorSchemeSeed: Colors.orange),
+          rootTheme,
           true,
         )) {
     on<SwitchedTheme>((event, emit) async {
-      ThemeData lightTheme =
-          ThemeData(colorSchemeSeed: event.color, useMaterial3: true);
+      ThemeData lightTheme = ThemeData(
+          colorSchemeSeed: event.color,
+          useMaterial3: true,
+          textTheme: rootTheme.textTheme);
       ThemeData theme = event.brightness == Brightness.dark
-          ? ThemeData(
-              useMaterial3: true,
-              colorSchemeSeed: event.color,
-              brightness: Brightness.dark)
+          ? lightTheme.copyWith(brightness: Brightness.dark)
           : lightTheme;
       final prefs = await SharedPreferences.getInstance();
       prefs.setBool("dark", event.brightness == Brightness.dark);

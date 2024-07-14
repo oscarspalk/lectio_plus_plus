@@ -2,7 +2,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
-import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 
@@ -36,83 +35,101 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Scaffold(
         body: BlocBuilder<StudentBloc, StudentState>(builder: (context, state) {
       return Padding(
-        padding: const EdgeInsets.all(36.0),
-        child: ListView(
-          children: [
-            const Illustration(
-              illustration: "login",
-            ),
-            Text(
-              "Login",
-              style: headerStyle,
-              textAlign: TextAlign.center,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: InkWell(
-                onTap: () {
-                  widget.back();
-                },
-                child: InputDecorator(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: SafeArea(
+          child: Column(
+            children: [
+              const Illustration(
+                illustration: "login",
+              ),
+              Column(
+                children: [
+                  Text(
+                    "Login",
+                    style: theme.textTheme.titleLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 4.0,
+                  ),
+                  const Text("Log ind nedenfor med dit normale Lectio login",
+                      textAlign: TextAlign.center),
+                ],
+              ),
+              const SizedBox(
+                height: 16.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: InkWell(
+                  onTap: () {
+                    widget.back();
+                  },
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0)),
+                        label: const Text("Gymnasie"),
+                        prefixIcon: const Icon(EvaIcons.homeOutline)),
+                    child: Text(
+                      state.gyms
+                              .where((element) =>
+                                  element.id == loginBloc.state.selectedGym)
+                              .firstOrNull
+                              ?.name ??
+                          "",
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: TextField(
+                  controller: usernameController,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0)),
-                      label: const Text("Gymnasie"),
-                      prefixIcon: const Icon(EvaIcons.homeOutline)),
-                  child: Text(state.gyms
-                          .where((element) =>
-                              element.id == loginBloc.state.selectedGym)
-                          .firstOrNull
-                          ?.name ??
-                      ""),
+                      label: const Text("Brugernavn"),
+                      prefixIcon: const Icon(EvaIcons.personOutline)),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: TextField(
-                controller: usernameController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0)),
-                    label: const Text("Brugernavn"),
-                    prefixIcon: const Icon(EvaIcons.personOutline)),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: TextField(
+                  controller: passwordController,
+                  obscureText: hidden,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0)),
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              hidden = !hidden;
+                            });
+                          },
+                          icon: Icon(
+                              hidden ? EvaIcons.eyeOff2 : EvaIcons.eyeOutline)),
+                      label: const Text("Kodeord"),
+                      prefixIcon: const Icon(EvaIcons.lockOutline)),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: TextField(
-                controller: passwordController,
-                obscureText: hidden,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0)),
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            hidden = !hidden;
-                          });
-                        },
-                        icon: Icon(
-                            hidden ? EvaIcons.eyeOff2 : EvaIcons.eyeOutline)),
-                    label: const Text("Kodeord"),
-                    prefixIcon: const Icon(EvaIcons.lockOutline)),
-              ),
-            ),
-            ButtonBar(
-                buttonPadding: const EdgeInsets.all(12.0),
-                alignment: MainAxisAlignment.center,
-                children: [
-                  FilledButton.tonal(
-                      onPressed: widget.back, child: const Text("Tilbage")),
-                  FilledButton(
-                      onPressed: () => loginBloc.login(context),
-                      child: const Text("Log ind")),
-                ]),
-          ],
+              ButtonBar(
+                  buttonPadding: const EdgeInsets.all(12.0),
+                  alignment: MainAxisAlignment.center,
+                  children: [
+                    FilledButton.tonal(
+                        onPressed: widget.back, child: const Text("Tilbage")),
+                    FilledButton(
+                        onPressed: () => loginBloc.login(context),
+                        child: const Text("Log ind")),
+                  ]),
+            ],
+          ),
         ),
       );
     }));

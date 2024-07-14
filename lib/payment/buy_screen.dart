@@ -69,12 +69,8 @@ class BuyAdFreeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    "Reklame Fri",
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
+                  Text("Reklame Fri",
+                      style: Theme.of(context).textTheme.titleLarge),
                   RichText(
                       text: TextSpan(
                           text:

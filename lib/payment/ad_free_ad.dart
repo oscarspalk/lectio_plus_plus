@@ -45,9 +45,7 @@ class AdFreeAd extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: colorScheme.onTertiary),
+                                    ?.copyWith(color: colorScheme.onTertiary),
                               ),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
