@@ -24,10 +24,14 @@ Future<bool?> logAppFlyerEvent(String eventName, Map? eventValues) async {
 }
 
 Future<void> initAppFlyer() async {
-  await appsflyerSdk.initSdk(
-      registerConversionDataCallback: true,
-      registerOnAppOpenAttributionCallback: true,
-      registerOnDeepLinkingCallback: false);
+  try {
+    await appsflyerSdk.initSdk(
+        registerConversionDataCallback: true,
+        registerOnAppOpenAttributionCallback: true,
+        registerOnDeepLinkingCallback: false);
+  } catch (e) {
+    debugPrint("Appflyer sdk couldn't be initialized.");
+  }
 }
 
 AppsflyerSdk appsflyerSdk = AppsflyerSdk(appsFlyerOptions);
