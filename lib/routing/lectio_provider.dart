@@ -39,6 +39,7 @@ class LectioProvider extends StatelessWidget {
         ),
       ),
       BlocProvider(
+        lazy: false,
         create: (context) =>
             OwnedCubit(AdFreeState(hasAdFree: false, price: null)),
       ),

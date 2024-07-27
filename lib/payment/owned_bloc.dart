@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:lpp/constants.dart';
 import 'package:lpp/payment/ad_free_state.dart';
+import 'package:lpp/utils/appsflyer.dart';
 
 const adFreeId = "adfree";
 
@@ -44,6 +46,9 @@ class OwnedCubit extends Cubit<AdFreeState> {
               purchase.status == PurchaseStatus.restored) &&
           purchase.productID == adFreeId) {
         emit(state.copyWith(hasAdFree: true));
+        if (purchase.status == PurchaseStatus.purchased) {
+          await logAppFlyerEvent(purchaseEventId, {});
+        }
       }
     }
   }

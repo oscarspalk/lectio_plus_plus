@@ -43,6 +43,7 @@ dependencies:
   aura_box: ^1.0.2
   json_annotation: ^4.9.0
   dots_indicator: ^3.0.0
+  appsflyer_sdk: ^6.14.3
 
 dev_dependencies:
   flutter_test:

@@ -7,6 +7,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lpp/notifications/notification.dart';
 import 'package:lpp/topics/ads/bloc/ad_bloc.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
+import 'package:lpp/utils/appsflyer.dart';
 import 'package:workmanager/workmanager.dart';
 import 'constants.dart';
 import 'logic/app/settings.dart';
@@ -16,6 +17,8 @@ import 'routing/router.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid || Platform.isIOS) {
+    initAppFlyer();
+
     MobileAds.instance.initialize();
     initializeNotifcations();
     Workmanager().initialize(
