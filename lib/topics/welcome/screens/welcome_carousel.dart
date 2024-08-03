@@ -56,18 +56,11 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    var colorScheme = Theme.of(context).colorScheme;
+    final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
+
     return Scaffold(
-      floatingActionButton: DotsIndicator(
-        decorator: DotsDecorator(
-            activeColor: colorScheme.primary,
-            size: const Size.square(9.0),
-            activeSize: const Size(18.0, 9.0),
-            activeShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0))),
-        dotsCount: 4,
-        position: _selected,
-      ),
+      floatingActionButton:
+          showFab ? DotsWithRespectForKeyboard(selected: _selected) : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: BlocBuilder<StudentBloc, StudentState>(builder: (context, state) {
         if (state.state == StudentStates.loading || state.gyms.isEmpty) {
@@ -97,5 +90,30 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
   void dispose() {
     super.dispose();
     carousel.dispose();
+  }
+}
+
+class DotsWithRespectForKeyboard extends StatelessWidget {
+  const DotsWithRespectForKeyboard({
+    super.key,
+    required int selected,
+  }) : _selected = selected;
+
+  final int _selected;
+
+  @override
+  Widget build(BuildContext context) {
+    var colorScheme = Theme.of(context).colorScheme;
+
+    return DotsIndicator(
+      decorator: DotsDecorator(
+          activeColor: colorScheme.primary,
+          size: const Size.square(9.0),
+          activeSize: const Size(18.0, 9.0),
+          activeShape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0))),
+      dotsCount: 4,
+      position: _selected,
+    );
   }
 }

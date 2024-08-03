@@ -18,7 +18,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid || Platform.isIOS) {
     initAppFlyer();
-
     MobileAds.instance.initialize();
     initializeNotifcations();
     Workmanager().initialize(
