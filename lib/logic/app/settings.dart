@@ -20,11 +20,10 @@ const notifyEventsKey = "notifyEvents";
 const notifyDebugKey = "notifyDebug";
 
 final ThemeData rootTheme = ThemeData(
-    brightness: Brightness.dark,
-    useMaterial3: true,
-    colorSchemeSeed: Colors.orange,
-    textTheme: const TextTheme(
-        titleLarge: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold)));
+  brightness: Brightness.dark,
+  useMaterial3: true,
+  colorSchemeSeed: Colors.orange,
+);
 
 class SettingsBloc extends Bloc<SettingsBlocEvent, SettingsState> {
   SettingsBloc()
@@ -35,18 +34,15 @@ class SettingsBloc extends Bloc<SettingsBlocEvent, SettingsState> {
           true,
         )) {
     on<SwitchedTheme>((event, emit) async {
-      ThemeData lightTheme = ThemeData(
+      ThemeData newTheme = ThemeData(
           colorSchemeSeed: event.color,
           useMaterial3: true,
-          textTheme: rootTheme.textTheme);
-      ThemeData theme = event.brightness == Brightness.dark
-          ? lightTheme.copyWith(brightness: Brightness.dark)
-          : lightTheme;
+          brightness: event.brightness);
+      emit(state.copyWith(
+          color: event.color, brightness: event.brightness, theme: newTheme));
       final prefs = await SharedPreferences.getInstance();
       prefs.setBool("dark", event.brightness == Brightness.dark);
       prefs.setInt("color", event.color.value);
-      emit(state.copyWith(
-          color: event.color, brightness: event.brightness, theme: theme));
     });
 
     on<CheckForTheme>(

@@ -31,7 +31,7 @@ class GymScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const Text(
-                      "For at du kan fortsætte, så skal du vælge dit gymnasie",
+                      "For at du kan fortsætte, skal du vælge dit gymnasie",
                       textAlign: TextAlign.center),
                 ]),
               ),

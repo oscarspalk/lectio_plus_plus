@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
+import 'package:lpp/widgets/layout/padded_column.dart';
 
 class GreetingsScreen extends StatelessWidget {
   const GreetingsScreen({super.key, required this.next});
@@ -9,31 +10,32 @@ class GreetingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Center(
+        child: PaddedColumn(
+          padding: 24.0,
+          children: [
+            const Illustration(
+              illustration: "accept_request",
+            ),
+            PaddedColumn(
+              padding: 4.0,
               children: [
-                const Illustration(
-                  illustration: "accept_request",
+                Text(
+                  "Lectio ved dine fingerspidser",
+                  style: LppTypography.headlineSmall(context),
+                  textAlign: TextAlign.center,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(children: [
-                    Text(
-                      "Lectio ved dine fingerspidser",
-                      style: headerStyle,
-                      textAlign: TextAlign.center,
-                    ),
-                    const Text(
-                        "En lækker Lectio-app, som alle har adgang til."),
-                  ]),
+                Text(
+                  "En lækker Lectio-app, som alle har adgang til.",
+                  style: LppTypography.bodySmall(context),
+                  textAlign: TextAlign.center,
                 ),
-                FilledButton(onPressed: next, child: const Text("Gå i gang"))
-              ]),
+              ],
+            ),
+            FilledButton(onPressed: next, child: const Text("Gå i gang"))
+          ],
         ),
       ),
     );
