@@ -2,10 +2,12 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/payment/ad_free_state.dart';
 import 'package:lpp/payment/art.dart';
 import 'package:lpp/payment/owned_bloc.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
+import 'package:lpp/widgets/layout/padded_column.dart';
 
 class BuyAdFreeScreen extends StatelessWidget {
   const BuyAdFreeScreen({super.key});
@@ -52,9 +54,7 @@ class BuyAdFreeScreen extends StatelessWidget {
                       height: 250.0,
                       child: Center(
                           child: Text("Reklame fri",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
+                              style: LppTypography.headlineSmall(context)
                                   ?.copyWith(
                                       fontSize: 36.0,
                                       fontWeight: FontWeight.bold,
@@ -69,14 +69,23 @@ class BuyAdFreeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text("Reklame Fri",
-                      style: Theme.of(context).textTheme.titleLarge),
-                  RichText(
-                      text: TextSpan(
-                          text:
-                              """Hvis du er ved at være træt af at kigge på reklamer, så kan du nu fjerne dem permanent fra din app.
-                    """
-                                  .trim())),
+                  PaddedColumn(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    padding: 4.0,
+                    children: [
+                      Text(
+                        "Reklame Fri",
+                        style: LppTypography.headlineSmall(context),
+                      ),
+                      RichText(
+                          text: TextSpan(
+                              style: LppTypography.bodySmall(context),
+                              text:
+                                  """Hvis du er ved at være træt af at kigge på reklamer, så kan du nu fjerne dem permanent fra din app.
+                        """
+                                      .trim())),
+                    ],
+                  ),
                   const SizedBox(
                     height: 8,
                   ),

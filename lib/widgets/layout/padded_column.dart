@@ -2,8 +2,12 @@ import 'package:flutter/widgets.dart';
 
 class PaddedColumn extends StatefulWidget {
   const PaddedColumn(
-      {super.key, required this.padding, required this.children});
+      {super.key,
+      required this.padding,
+      required this.children,
+      this.crossAxisAlignment});
   final double padding;
+  final CrossAxisAlignment? crossAxisAlignment;
   final List<Widget> children;
 
   @override
@@ -46,6 +50,8 @@ class _PaddedColumnState extends State<PaddedColumn> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment:
+          widget.crossAxisAlignment ?? CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: renderChildren,
     );

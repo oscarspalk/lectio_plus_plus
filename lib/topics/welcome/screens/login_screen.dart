@@ -111,6 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   InkWell gymnasieInput(StudentState state, ThemeData theme) {
     return InkWell(
+      borderRadius: BorderRadius.circular(8.0),
       onTap: () {
         widget.back();
       },
