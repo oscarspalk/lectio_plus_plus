@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/topics/welcome/screens/gym_select.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
+import 'package:lpp/widgets/layout/padded_column.dart';
 
 class GymScreen extends StatelessWidget {
   const GymScreen({super.key, required this.next});
@@ -11,46 +12,37 @@ class GymScreen extends StatelessWidget {
   final Function() next;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Center(
+        child: PaddedColumn(padding: 24.0, children: [
+          const Illustration(
+            illustration: "current_location",
+          ),
+          PaddedColumn(
+            padding: 4.0,
             children: [
-              const Illustration(
-                illustration: "current_location",
+              Text(
+                "Næsten færdig",
+                style: LppTypography.headlineSmall(context),
+                textAlign: TextAlign.center,
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(children: [
-                  Text(
-                    "Næsten færdig",
-                    style: headerStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                  const Text(
-                      "For at du kan fortsætte, skal du vælge dit gymnasie",
-                      textAlign: TextAlign.center),
-                ]),
+              Text(
+                "For at du kan fortsætte, skal du vælge dit gymnasie.",
+                textAlign: TextAlign.center,
+                style: LppTypography.bodySmall(context),
               ),
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
-                children: [
-                  FilledButton(
-                    onPressed: () async {
-                      await showSearch(
-                          context: context,
-                          delegate: SelectGym(context.read<LoginBloc>()));
-                    },
-                    child: const Text("Vælg"),
-                  ),
-                ],
-              )
             ],
           ),
-        ),
+          FilledButton(
+            onPressed: () async {
+              await showSearch(
+                  context: context,
+                  delegate: SelectGym(context.read<LoginBloc>()));
+            },
+            child: const Text("Vælg"),
+          ),
+        ]),
       ),
     );
   }
