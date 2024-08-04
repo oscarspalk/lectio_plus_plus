@@ -13,6 +13,7 @@ import 'constants.dart';
 import 'logic/app/settings.dart';
 import 'logic/student/student_bloc.dart';
 import 'routing/router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,6 +66,8 @@ class LectioApp extends StatelessWidget {
                   MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
               child: child!);
         },
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         navigatorObservers: [HeroController()],
         locale: const Locale(
           'dk',
