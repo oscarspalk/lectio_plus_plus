@@ -36,10 +36,6 @@ final DateFormat hF = DateFormat("HH:mm");
 
 FlutterWeekViewEvent buildDayEvent(
     BuildContext context, CalendarEvent dayEvent) {
-  var diff = dayEvent.end
-      .difference(dayEvent.start)
-      .compareTo(const Duration(minutes: 50));
-
   return FlutterWeekViewEvent(
       padding: null,
       eventTextBuilder: (event, context, dayView, height, width) {
@@ -50,9 +46,7 @@ FlutterWeekViewEvent buildDayEvent(
       title: '',
       description: "",
       start: dayEvent.start,
-      end: diff.isNegative
-          ? dayEvent.start.add(const Duration(minutes: 50))
-          : dayEvent.end);
+      end: dayEvent.end);
 }
 
 Widget dayEventWidget(
