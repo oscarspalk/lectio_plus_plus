@@ -17,8 +17,9 @@ class DayHeaderEntry extends StatelessWidget {
       padding: const EdgeInsets.all(4.0),
       child: Ink(
         decoration: BoxDecoration(
-            color:
-                selected ? colorScheme.onPrimary : colorScheme.surfaceContainerHighest,
+            color: selected
+                ? colorScheme.secondaryContainer
+                : colorScheme.surfaceContainerHigh,
             borderRadius: BorderRadius.circular(6.0)),
         child: InkWell(
           borderRadius: BorderRadius.circular(6.0),
@@ -30,8 +31,8 @@ class DayHeaderEntry extends StatelessWidget {
                 "${day.day}",
                 style: TextStyle(
                     color: selected
-                        ? colorScheme.primary
-                        : colorScheme.onSurfaceVariant,
+                        ? colorScheme.onSecondaryContainer
+                        : colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0),
               ),

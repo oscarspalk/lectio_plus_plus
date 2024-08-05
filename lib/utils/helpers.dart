@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 String formatDateReadable(DateTime input) {
   return "${weekDays[input.weekday - 1]} ${input.day}. ${months[input.month - 1]}";
 }
@@ -39,11 +37,4 @@ bool search(String query, String item) {
   var lowerQuery = query.toLowerCase();
   var lowerItem = item.toLowerCase();
   return lowerItem.startsWith(lowerQuery) || lowerItem.contains(lowerQuery);
-}
-
-Color? textColorOnPrimary(BuildContext context) {
-  var iconAndTextColor = Theme.of(context).brightness == Brightness.dark
-      ? null
-      : Theme.of(context).colorScheme.onPrimary;
-  return iconAndTextColor;
 }

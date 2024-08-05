@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lpp/utils/helpers.dart';
 
 class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -22,21 +21,14 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    var iconAndTextColor = textColorOnPrimary(context);
     return AppBar(
       bottom: bottom,
       centerTitle: false,
-      backgroundColor: Theme.of(context).brightness == Brightness.light
-          ? Theme.of(context).colorScheme.primary
-          : null,
       elevation: 0.0,
       automaticallyImplyLeading: !hideLeading,
-      iconTheme: IconThemeData(color: iconAndTextColor),
       title: DefaultTextStyle(
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: iconAndTextColor,
-              fontWeight: FontWeight.bold,
-              overflow: TextOverflow.ellipsis),
+              fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis),
           child: titleWidget ??
               Text(
                 title,

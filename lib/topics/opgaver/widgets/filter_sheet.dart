@@ -21,22 +21,24 @@ class FilterSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OpgaveBloc, AssignmentState>(
-      builder: (context, state) {
-        return Column(
-          children: AssignmentFilters.values.map((filter) {
-            return RadioListTile(
-              secondary: Icon(iconFromFilter(filter)),
-              title: Text(filter.name),
-              value: filter,
-              onChanged: (value) {
-                context.read<OpgaveBloc>().add(ToggleFilter(filter));
-              },
-              groupValue: state.appliedFilter,
-            );
-          }).toList(),
-        );
-      },
+    return SafeArea(
+      child: BlocBuilder<OpgaveBloc, AssignmentState>(
+        builder: (context, state) {
+          return Column(
+            children: AssignmentFilters.values.map((filter) {
+              return RadioListTile(
+                secondary: Icon(iconFromFilter(filter)),
+                title: Text(filter.name),
+                value: filter,
+                onChanged: (value) {
+                  context.read<OpgaveBloc>().add(ToggleFilter(filter));
+                },
+                groupValue: state.appliedFilter,
+              );
+            }).toList(),
+          );
+        },
+      ),
     );
   }
 }

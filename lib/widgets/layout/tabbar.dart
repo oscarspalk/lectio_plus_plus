@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lpp/utils/helpers.dart';
 
 class LppTabBar extends StatelessWidget implements PreferredSizeWidget {
   final List<String> tabs;
@@ -14,15 +13,14 @@ class LppTabBar extends StatelessWidget implements PreferredSizeWidget {
   final bool scrollable;
   @override
   Widget build(BuildContext context) {
-    var iconAndTextColor = textColorOnPrimary(context);
     return Container(
       color: null, //theme.colorScheme.primary,
       child: TabBar(
           isScrollable: scrollable,
           controller: controller,
-          labelColor: iconAndTextColor,
+          /* labelColor: iconAndTextColor,
           unselectedLabelColor: iconAndTextColor?.withOpacity(0.8),
-          indicatorColor: iconAndTextColor,
+          indicatorColor: iconAndTextColor,*/
           tabs: tabs
               .map((e) => Tab(
                     text: e,
