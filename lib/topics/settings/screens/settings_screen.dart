@@ -74,19 +74,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     subtitle: const Text("Reklame Fri"),
                   ),
                   ListTile(
-                    trailing: const Icon(Icons.help),
-                    onTap: () async {
-                      var uri = Uri.parse("https://lpp.oscarspalk.com/help");
-                      if (await canLaunchUrl(uri)) {
-                        await launchUrl(uri,
-                            mode: LaunchMode.externalApplication);
-                      }
-                    },
-                    title: const Text("Hjælp"),
-                    subtitle: const Text(
-                        "Se, hvad der er af hjælpeartikler på vores hjemmeside"),
-                  ),
-                  ListTile(
                     title: const Text("Privatlivspolitik"),
                     subtitle: const Text("Læs privatlivspolitikken"),
                     onTap: () async {
