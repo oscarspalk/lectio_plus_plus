@@ -5,6 +5,7 @@ import 'package:lectio_wrapper/utils/dio_image_provider.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
+import 'package:lpp/widgets/primitive/lpp_shimmer.dart';
 
 import '../../logic/student/student_bloc.dart';
 import '../../logic/student/student_cubit.dart';
@@ -62,8 +63,36 @@ class LppDrawer extends StatelessWidget {
           height: 70.0,
           child: BlocBuilder<StudentBloc, StudentState>(
             builder: (context, studentState) {
+              var textTheme = Theme.of(context).textTheme;
               return StudentBlocBuilder<StudentCubit<BasicInfo>, BasicInfo?>(
                   small: true,
+                  customLoadingWidget: LppShimmer(
+                      enabled: true,
+                      child: ListTile(
+                        leading: const CircleAvatar(),
+                        title: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4.0),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                          ),
+                          width: 70.0,
+                          height: (textTheme.labelLarge?.fontSize ?? 0) *
+                              (textTheme.labelLarge?.height ?? 0),
+                        ),
+                        subtitle: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4.0),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                          ),
+                          width: 70.0,
+                          height: (textTheme.labelMedium?.fontSize ?? 0) *
+                              (textTheme.labelMedium?.height ?? 0),
+                        ),
+                      )),
                   builder: (context, state) {
                     return ListTile(
                       leading: Container(
@@ -73,6 +102,7 @@ class LppDrawer extends StatelessWidget {
                         width: 40.0,
                         child: StudentBlocBuilder<StudentCubit<DioImage>,
                                 DioImage?>(
+                            small: true,
                             bloc: StudentCubit(
                                 student: getStudentBloc(context).state.student!,
                                 selector: (student) async =>
@@ -85,18 +115,14 @@ class LppDrawer extends StatelessWidget {
                             }),
                       ),
                       title: Text(
-                        state!.name,
-                        style: Theme.of(context).textTheme.labelLarge,
+                        state?.name ?? "",
+                        style: textTheme.labelLarge,
                       ),
                       subtitle: Text(
                         studentState.gymName,
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelMedium!
-                            .copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant),
+                        style: textTheme.labelMedium!.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant),
                       ),
                     );
                   });

@@ -7,6 +7,7 @@ import 'package:lpp/topics/people/screens/people_screen.dart';
 import 'package:lpp/topics/plans/screens/overview.dart';
 import 'package:lpp/topics/rooms/screens/overview.dart';
 import 'package:lpp/topics/settings/screens/change_year.dart';
+import 'package:lpp/topics/settings/screens/help_screen.dart';
 import 'package:lpp/topics/settings/screens/notification_screen.dart';
 import 'package:lpp/topics/settings/screens/settings_screen.dart';
 import 'package:lpp/topics/settings/screens/wish_a_feature.dart';
@@ -87,6 +88,11 @@ class Menu extends StatelessWidget {
         adSheet(const NotificationScreen(), context);
       },
     ),
+    Destination(
+        icon: EvaIcons.questionMark,
+        name: "Hjælp",
+        selectedIcon: EvaIcons.questionMark,
+        screen: const HelpScreen()),
     Destination(
         icon: EvaIcons.bulbOutline,
         name: "Ønsker",

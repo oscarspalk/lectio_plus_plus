@@ -10,8 +10,8 @@ class LppShimmer extends StatelessWidget {
     var colorScheme = Theme.of(context).colorScheme;
     if (enabled) {
       return Shimmer.fromColors(
-          baseColor: colorScheme.outlineVariant,
-          highlightColor: colorScheme.secondaryContainer,
+          baseColor: colorScheme.secondaryContainer,
+          highlightColor: colorScheme.primary,
           child: child);
     }
     return child;
