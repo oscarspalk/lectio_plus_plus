@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:lpp/topics/ads/ad_bar.dart';
 import 'package:page_transition/page_transition.dart';
 
-Route adRoute(Widget screen, {bool onlyFromEdge = false}) {
+Route adRoute(Widget screen, {bool onlyFromEdge = false, bool noAd = false}) {
   return PageTransition(
       curve: Curves.easeInCubic,
       child: SafeArea(
           top: false,
           right: false,
           left: false,
-          child: Scaffold(bottomNavigationBar: const AdBar(), body: screen)),
+          child: noAd
+              ? screen
+              : Scaffold(bottomNavigationBar: const AdBar(), body: screen)),
       type: PageTransitionType.fade,
       isIos: Platform.isIOS);
 }

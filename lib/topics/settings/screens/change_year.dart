@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/terms/term.dart';
 import 'package:lpp/routing/router.dart';
 import 'package:lpp/topics/settings/bloc/term_bloc.dart';
+import 'package:lpp/utils/ad_route.dart';
 
 class ChangeYearScreen extends StatelessWidget {
   const ChangeYearScreen({super.key});
@@ -37,10 +38,8 @@ class ChangeYearScreen extends StatelessWidget {
                       var bloc = context.read<TermBloc>();
                       bloc.set(value);
                       Navigator.popUntil(context, (_) => true);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const AppRouter();
-                      }));
+                      Navigator.pushReplacement(
+                          context, adRoute(const AppRouter(), noAd: true));
                     }
                   },
                 );
