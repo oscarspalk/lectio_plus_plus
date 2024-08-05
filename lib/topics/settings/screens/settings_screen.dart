@@ -41,78 +41,73 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: const LppAppbar(title: "Indstillinger"),
-        body:
-            BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: ListView(
-                  children: [
-                    const TextDivider(
-                      text: "Generelt",
-                      primary: true,
-                    ),
-                    ListTile(
-                      title: Text("$version+$buildNumber"),
-                      subtitle: const Text("Version"),
-                    ),
-                    ListTile(
-                      onTap: () {
-                        adSheet(ThemeController(), context);
-                      },
-                      title: const Text("Skift tema"),
-                      subtitle: const Text("Tilpasning"),
-                    ),
-                    ListTile(
-                      onTap: () {
-                        Navigator.push(
-                            context, adRoute(const BuyAdFreeScreen()));
-                      },
-                      trailing: const Icon(EvaIcons.arrowForwardOutline),
-                      title: const Text("Købsmuligheder"),
-                      subtitle: const Text("Reklame Fri"),
-                    ),
-                    ListTile(
-                      title: const Text("Privatlivspolitik"),
-                      subtitle: const Text("Læs privatlivspolitikken"),
-                      onTap: () async {
-                        var uri =
-                            Uri.parse("https://lpp.oscarspalk.com/privacy");
-                        if (await canLaunchUrl(uri)) {
-                          await launchUrl(uri,
-                              mode: LaunchMode.externalApplication);
-                        }
-                      },
-                    ),
-                    ListTile(
-                      title: const Text("Hold cache"),
-                      subtitle: const Text(
-                          "Genopfrisk hold cachen, hvis holdnavne ikke dukker op automatisk"),
-                      onTap: () {
-                        context.read<StudentBloc>().add(RefreshTeams());
-                      },
-                    ),
-                  ],
-                ),
+    return Scaffold(
+      appBar: const LppAppbar(title: "Indstillinger"),
+      body: BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  const TextDivider(
+                    text: "Generelt",
+                    primary: true,
+                  ),
+                  ListTile(
+                    title: Text("$version+$buildNumber"),
+                    subtitle: const Text("Version"),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      adSheet(ThemeController(), context);
+                    },
+                    title: const Text("Skift tema"),
+                    subtitle: const Text("Tilpasning"),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(context, adRoute(const BuyAdFreeScreen()));
+                    },
+                    trailing: const Icon(EvaIcons.arrowForwardOutline),
+                    title: const Text("Købsmuligheder"),
+                    subtitle: const Text("Reklame Fri"),
+                  ),
+                  ListTile(
+                    title: const Text("Privatlivspolitik"),
+                    subtitle: const Text("Læs privatlivspolitikken"),
+                    onTap: () async {
+                      var uri = Uri.parse("https://lpp.oscarspalk.com/privacy");
+                      if (await canLaunchUrl(uri)) {
+                        await launchUrl(uri,
+                            mode: LaunchMode.externalApplication);
+                      }
+                    },
+                  ),
+                  ListTile(
+                    title: const Text("Hold cache"),
+                    subtitle: const Text(
+                        "Genopfrisk hold cachen, hvis holdnavne ikke dukker op automatisk"),
+                    onTap: () {
+                      context.read<StudentBloc>().add(RefreshTeams());
+                    },
+                  ),
+                ],
               ),
-              ListTile(
-                textColor: Theme.of(context).colorScheme.onErrorContainer,
-                tileColor: Theme.of(context).colorScheme.errorContainer,
-                onTap: () {
-                  getStudentBloc(context).add(StudentLoggedOut());
-                },
-                trailing: const Icon(EvaIcons.logOut),
-                title: const Text("Log ud"),
-                subtitle: const Text("Fjerner alle dine data og logger dig ud"),
-              ),
-            ],
-          );
-        }),
-      ),
+            ),
+            ListTile(
+              textColor: Theme.of(context).colorScheme.onErrorContainer,
+              tileColor: Theme.of(context).colorScheme.errorContainer,
+              onTap: () {
+                getStudentBloc(context).add(StudentLoggedOut());
+              },
+              trailing: const Icon(EvaIcons.logOut),
+              title: const Text("Log ud"),
+              subtitle: const Text("Fjerner alle dine data og logger dig ud"),
+            ),
+          ],
+        );
+      }),
     );
   }
 }
