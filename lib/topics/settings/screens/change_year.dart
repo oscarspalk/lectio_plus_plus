@@ -36,7 +36,7 @@ class ChangeYearScreen extends StatelessWidget {
                     if (value != null && !value.active) {
                       var bloc = context.read<TermBloc>();
                       bloc.set(value);
-
+                      Navigator.popUntil(context, (_) => true);
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
                         return const AppRouter();
