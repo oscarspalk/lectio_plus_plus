@@ -7,13 +7,18 @@ import 'package:page_transition/page_transition.dart';
 Route adRoute(Widget screen, {bool onlyFromEdge = false}) {
   return PageTransition(
       curve: Curves.easeInCubic,
-      child: Scaffold(bottomNavigationBar: const AdBar(), body: screen),
+      child: SafeArea(
+          top: false,
+          right: false,
+          left: false,
+          child: Scaffold(bottomNavigationBar: const AdBar(), body: screen)),
       type: PageTransitionType.fade,
       isIos: Platform.isIOS);
 }
 
 void adSheet(Widget sheet, BuildContext context, {bool ad = true}) {
   showModalBottomSheet(
+    useSafeArea: true,
     clipBehavior: Clip.hardEdge,
     isScrollControlled: true,
     context: context,

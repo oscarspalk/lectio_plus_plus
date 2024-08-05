@@ -8,35 +8,34 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NotificationBloc, NotificationState>(
-      builder: (context, state) {
-        var bloc = context.read<NotificationBloc>();
-        List<(String, bool, VoidCallback)> notificationTypes = [
-          (
-            "Aflyste og ændrede moduler",
-            state.hasEventNotifications,
-            () {
-              bloc.toggleEventNotifications();
-            }
-          ),
-          (
-            "Nye beskeder",
-            state.hasNewMessageNotifications,
-            () {
-              bloc.toggleNewMessageNotifications();
-            }
-          ),
-          (
-            "Afsluttede opgaver",
-            state.hasAssignmentStatusNotifications,
-            () {
-              bloc.toggleAssignmentStatusNotifications();
-            }
-          )
-        ];
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12.0),
-          child: Column(
+    return SafeArea(
+      child: BlocBuilder<NotificationBloc, NotificationState>(
+        builder: (context, state) {
+          var bloc = context.read<NotificationBloc>();
+          List<(String, bool, VoidCallback)> notificationTypes = [
+            (
+              "Aflyste og ændrede moduler",
+              state.hasEventNotifications,
+              () {
+                bloc.toggleEventNotifications();
+              }
+            ),
+            (
+              "Nye beskeder",
+              state.hasNewMessageNotifications,
+              () {
+                bloc.toggleNewMessageNotifications();
+              }
+            ),
+            (
+              "Afsluttede opgaver",
+              state.hasAssignmentStatusNotifications,
+              () {
+                bloc.toggleAssignmentStatusNotifications();
+              }
+            )
+          ];
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Padding(
@@ -53,9 +52,9 @@ class NotificationScreen extends StatelessWidget {
                 );
               }).toList()
             ],
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

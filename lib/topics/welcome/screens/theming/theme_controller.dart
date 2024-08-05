@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/widgets/layout/padded_column.dart';
-import 'package:lpp/widgets/layout/text_divider.dart';
 
 import '../../../../logic/app/settings.dart';
 import 'theme_button.dart';

@@ -9,44 +9,46 @@ class ChangeYearScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
-      padding: const EdgeInsets.only(bottom: 12.0),
-      duration: const Duration(milliseconds: 200),
-      child: BlocBuilder<TermBloc, List<Term>?>(builder: (context, state) {
-        var selected = state?.where((term) => term.active).firstOrNull;
-        if (state == null || state.isEmpty) {
-          return const SizedBox(
-            height: 150,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: state.map(
-            (e) {
-              return RadioListTile<Term>(
-                title: Text(e.name),
-                value: e,
-                groupValue: selected,
-                onChanged: (value) {
-                  if (value != null && !value.active) {
-                    var bloc = context.read<TermBloc>();
-                    bloc.set(value);
+    return SafeArea(
+      child: AnimatedContainer(
+        decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
+        padding: const EdgeInsets.only(bottom: 12.0),
+        duration: const Duration(milliseconds: 200),
+        child: BlocBuilder<TermBloc, List<Term>?>(builder: (context, state) {
+          var selected = state?.where((term) => term.active).firstOrNull;
+          if (state == null || state.isEmpty) {
+            return const SizedBox(
+              height: 150,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: state.map(
+              (e) {
+                return RadioListTile<Term>(
+                  title: Text(e.name),
+                  value: e,
+                  groupValue: selected,
+                  onChanged: (value) {
+                    if (value != null && !value.active) {
+                      var bloc = context.read<TermBloc>();
+                      bloc.set(value);
 
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) {
-                      return const AppRouter();
-                    }));
-                  }
-                },
-              );
-            },
-          ).toList(),
-        );
-      }),
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const AppRouter();
+                      }));
+                    }
+                  },
+                );
+              },
+            ).toList(),
+          );
+        }),
+      ),
     );
   }
 }
