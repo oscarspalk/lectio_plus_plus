@@ -81,6 +81,7 @@ class _WeekHeaderState extends State<WeekHeader> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: GridView(
+                        primary: false,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 mainAxisExtent: headerHeight - 4.0,

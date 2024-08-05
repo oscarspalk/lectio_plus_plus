@@ -35,10 +35,16 @@ class DayView extends StatelessWidget {
     return BlocBuilder<SchemaBloc, SchemaState>(
       bloc: bloc,
       builder: (context, state) {
-        return DayViewDisplay(
-          dateSelected: daySelected,
-          weeks: state.weeks,
-        );
+        return RefreshIndicator(
+            onRefresh: () async {
+              var schemaBloc = bloc ?? context.read<SchemaBloc>();
+              var selectedTime = schemaBloc.state.selectedTime;
+              schemaBloc.add(RefreshWeekEvent(selectedTime));
+            },
+            child: DayViewDisplay(
+              dateSelected: daySelected,
+              weeks: state.weeks,
+            ));
       },
     );
   }
@@ -128,31 +134,38 @@ class _DayViewDisplayState extends State<DayViewDisplay> {
       return const LoadingScreen();
     }
     if (isEmpty) {
-      return const EmptyScreen(
-        noEvents: true,
-        text: "Der sker ingenting i dag",
-      );
+      return const CustomScrollView(slivers: <Widget>[
+        SliverFillRemaining(
+            child: EmptyScreen(
+          noEvents: true,
+          text: "Der sker ingenting i dag",
+        ))
+      ]);
     }
-    return wv.DayView(
-      style: wv.DayViewStyle(
-        hourRowHeight: hourRowHeight,
-        backgroundRulesColor: colorScheme.outline,
-        backgroundColor: colorScheme.surface,
-        headerSize: 0.0,
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: wv.DayView(
+        inScrollableWidget: false,
+        style: wv.DayViewStyle(
+          hourRowHeight: hourRowHeight,
+          backgroundRulesColor: colorScheme.outline,
+          backgroundColor: colorScheme.surface,
+          headerSize: 0.0,
+        ),
+        userZoomable: false,
+        date: widget.dateSelected,
+        hoursColumnStyle: wv.HoursColumnStyle(
+            textStyle: TextStyle(color: colorScheme.onSurface),
+            color: colorScheme.surface,
+            width: columnWidth,
+            timeFormatter: (time) {
+              return "${time.hour}:${time.minute > 9 ? time.minute : "${time.minute}0"}";
+            },
+            interval: const Duration(minutes: 60)),
+        minimumTime: minimumTime,
+        maximumTime: maximumTime,
+        events: events,
       ),
-      userZoomable: false,
-      date: widget.dateSelected,
-      hoursColumnStyle: wv.HoursColumnStyle(
-          textStyle: TextStyle(color: colorScheme.onSurface),
-          color: colorScheme.surface,
-          width: columnWidth,
-          timeFormatter: (time) {
-            return "${time.hour}:${time.minute > 9 ? time.minute : "${time.minute}0"}";
-          },
-          interval: const Duration(minutes: 60)),
-      minimumTime: minimumTime,
-      maximumTime: maximumTime,
-      events: events,
     );
   }
 }
