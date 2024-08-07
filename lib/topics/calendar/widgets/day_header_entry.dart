@@ -31,8 +31,8 @@ class DayHeaderEntry extends StatelessWidget {
                 "${day.day}",
                 style: TextStyle(
                     color: selected
-                        ? colorScheme.onSecondaryContainer
-                        : colorScheme.onSurface,
+                        ? colorScheme.primary
+                        : colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0),
               ),
