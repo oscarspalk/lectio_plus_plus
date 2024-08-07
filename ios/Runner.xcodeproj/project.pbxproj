@@ -12,6 +12,7 @@
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		5553B0132C60B45600CA8E71 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5553B0122C60B45600CA8E71 /* SnapshotHelper.swift */; };
 		558A65522C60B2F30077D1F2 /* LPP_fastlane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558A65512C60B2F30077D1F2 /* LPP_fastlane.swift */; };
+		55C164C62C63A9B600031DA4 /* ClearText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C164C52C63A9B600031DA4 /* ClearText.swift */; };
 		55F2E3792C385F7A006A6218 /* StorekitTest.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 55F2E3782C385F7A006A6218 /* StorekitTest.storekit */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -49,6 +50,7 @@
 		5553B0122C60B45600CA8E71 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		558A654F2C60B2F30077D1F2 /* LPP-fastlane.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LPP-fastlane.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		558A65512C60B2F30077D1F2 /* LPP_fastlane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPP_fastlane.swift; sourceTree = "<group>"; };
+		55C164C52C63A9B600031DA4 /* ClearText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearText.swift; sourceTree = "<group>"; };
 		55F2E3782C385F7A006A6218 /* StorekitTest.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StorekitTest.storekit; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			children = (
 				5553B0122C60B45600CA8E71 /* SnapshotHelper.swift */,
 				558A65512C60B2F30077D1F2 /* LPP_fastlane.swift */,
+				55C164C52C63A9B600031DA4 /* ClearText.swift */,
 			);
 			path = "LPP-fastlane";
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 			files = (
 				558A65522C60B2F30077D1F2 /* LPP_fastlane.swift in Sources */,
 				5553B0132C60B45600CA8E71 /* SnapshotHelper.swift in Sources */,
+				55C164C62C63A9B600031DA4 /* ClearText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

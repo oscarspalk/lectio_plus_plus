@@ -142,6 +142,11 @@ class _SchemaScreenState extends State<SchemaScreen> {
             spaceBetweenChildren: 16.0,
             spacing: 0.0,
             childPadding: const EdgeInsets.symmetric(vertical: 0.0),
+            child: Semantics(
+                identifier: 'option-dial',
+                label: 'Option Dial',
+                child: Icon(EvaIcons.moreVertical)),
+            activeChild: const Icon(EvaIcons.close),
             icon: EvaIcons.moreVertical,
             activeIcon: EvaIcons.close,
             shape:
@@ -162,7 +167,9 @@ class _SchemaScreenState extends State<SchemaScreen> {
                   onTap: () async {
                     await showPicker();
                   },
-                  child: const Icon(Icons.date_range),
+                  child: Semantics(
+                      identifier: 'date-picker',
+                      child: const Icon(Icons.date_range)),
                   label: 'Vælg dato'),
             ],
           ),

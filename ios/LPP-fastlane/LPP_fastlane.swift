@@ -111,7 +111,37 @@ final class LPP_fastlane: XCTestCase {
             alert1.tap()
         }
 
-        findElement(app: app.staticTexts, search: "Uge").waitForExistence(timeout: 30)
+        findElement(app: app.staticTexts, search: "Uge").waitForExistence(timeout: 5)
+    }
+    
+    func setupCalendar(app: XCUIApplication){
+        let optionDial = app.buttons["option-dial"]
+        optionDial.waitForExistence(timeout: 2)
+        optionDial.tap()
+        
+        let choseDateButton = app.buttons["date-picker"]
+        choseDateButton.waitForExistence(timeout: 2)
+        choseDateButton.tap()
+        
+        let editButton = app.buttons["Switch to input"]
+        editButton.waitForExistence(timeout: 2)
+        editButton.tap()
+        
+        let dateField = app.textFields["Enter Date"]
+        dateField.waitForExistence(timeout: 2)
+        dateField.tap()
+        let dateString = "4/25/2024"
+        
+        dateField.clearText()
+        app.typeText(dateString)
+        
+        let okButton = findElement(app: app.buttons, search: "OK")
+        okButton.waitForExistence(timeout: 2)
+        okButton.tap()
+        okButton.tap()
+        
+        let adamElementCheck = findElement(app: app.staticTexts, search: "Varmelærens")
+        adamElementCheck.waitForExistence(timeout: 15)
     }
 
     @MainActor func testScreenshots() throws {
@@ -124,11 +154,15 @@ final class LPP_fastlane: XCTestCase {
         loginToApp(app: app)
         
         switchYear(app: app)
-                
+        
+        // lets get to this date
+        setupCalendar(app: app)
+        
         snapshot("01Calendar")
         
         navigateToFravær(app: app)
         snapshot("02Absence")
+    
         
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         
