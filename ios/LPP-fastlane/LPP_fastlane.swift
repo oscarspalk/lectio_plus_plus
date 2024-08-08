@@ -138,7 +138,8 @@ final class LPP_fastlane: XCTestCase {
         let okButton = findElement(app: app.buttons, search: "OK")
         okButton.waitForExistence(timeout: 2)
         okButton.tap()
-        okButton.tap()
+        // required for testing with xcode
+        //okButton.tap()
         
         let adamElementCheck = findElement(app: app.staticTexts, search: "Varmelærens")
         adamElementCheck.waitForExistence(timeout: 15)

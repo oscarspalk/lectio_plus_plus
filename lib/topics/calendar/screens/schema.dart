@@ -171,7 +171,7 @@ class _SchemaScreenState extends State<SchemaScreen> {
             child: Semantics(
                 identifier: 'option-dial',
                 label: 'Option Dial',
-                child: Icon(EvaIcons.moreVertical)),
+                child: const Icon(EvaIcons.moreVertical)),
           ),
           body: PageView.builder(
               controller: _pageController,
