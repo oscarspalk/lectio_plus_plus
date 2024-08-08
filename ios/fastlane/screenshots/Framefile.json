@@ -1,36 +1,27 @@
 {
     "device_frame_version": "latest",
     "default": {
-      "keyword": {
-        "font":"../assets/roboto_flex.ttf"
-      },
       "title": {
-        "font": "../assets/roboto_flex.ttf",
+        "font": "../assets/roboto .ttf",
         "font_size": 128,
-        "font_weight": "Bold",
-        "color": "#545454"
+        "font_weight": 700,
+        "color": "#ffffff"
       },
       "background": "../assets/background.png",
       "padding": 50,
       "show_complete_frame": false,
       "stack_title" : false,
-      "title_below_image": true,
+      "title_below_image": false,
       "frame": "BLACK",
       "use_platform": "IOS"
     },
   
     "data": [
       {
-        "filter": "01",
-        "keyword": {
-          "color": "#ffffff"
-        }
+        "filter": "01"
       },
       {
-        "filter": "02",
-        "keyword": {
-          "color": "#ffffff"
-        }
+        "filter": "02"
       },
       {
         "filter": "Android",
