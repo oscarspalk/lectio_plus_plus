@@ -2,13 +2,13 @@
     "device_frame_version": "latest",
     "default": {
       "title": {
-        "font": "../assets/roboto .ttf",
-        "font_size": 128,
+        "font": "../assets/roboto.ttf",
+        "font_size": 96,
         "font_weight": 700,
         "color": "#ffffff"
       },
       "background": "../assets/background.png",
-      "padding": 50,
+      "padding": 48,
       "show_complete_frame": false,
       "stack_title" : false,
       "title_below_image": false,

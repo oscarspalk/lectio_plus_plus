@@ -102,7 +102,7 @@ final class LPP_fastlane: XCTestCase {
         switchYearButton.tap()
         
         let correctYearButton = findElement(app: app.buttons, search: "2023")
-        correctYearButton.waitForExistence(timeout: 15)
+        correctYearButton.waitForExistence(timeout: 30)
         correctYearButton.tap()
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
         let alert1 = springboard.alerts.buttons["Cancel"]
@@ -139,10 +139,31 @@ final class LPP_fastlane: XCTestCase {
         okButton.waitForExistence(timeout: 2)
         okButton.tap()
         // required for testing with xcode
-        //okButton.tap()
+        if(okButton.exists){
+            okButton.tap()
+        }
         
         let adamElementCheck = findElement(app: app.staticTexts, search: "Varmelærens")
-        adamElementCheck.waitForExistence(timeout: 15)
+        adamElementCheck.waitForExistence(timeout: 30)
+    }
+    
+    func navigateToOpgaver(app: XCUIApplication){
+        let opgaverButton = app.staticTexts["Opgaver\nTab 4 of 5"]
+        opgaverButton.waitForExistence(timeout: 2)
+        opgaverButton.tap()
+        
+        let fab = app.buttons["assignment-filter"]
+        fab.waitForExistence(timeout: 15)
+        fab.tap()
+        
+        let correctFilter = findElement(app: app.buttons, search: "Afleveret")
+        correctFilter.waitForExistence(timeout: 15)
+        correctFilter.tap()
+        
+        app.tap()
+        
+        let elementCheck = findElement(app: app.staticTexts, search: "Uge")
+        elementCheck.waitForExistence(timeout: 30)
     }
 
     @MainActor func testScreenshots() throws {
@@ -163,7 +184,9 @@ final class LPP_fastlane: XCTestCase {
         
         navigateToFravær(app: app)
         snapshot("02Absence")
-    
+        
+        navigateToOpgaver(app: app)
+        snapshot("03Opgaver")
         
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         

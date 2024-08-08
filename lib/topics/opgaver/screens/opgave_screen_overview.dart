@@ -26,7 +26,9 @@ class _OpgaveScreenOverviewState extends State<OpgaveScreenOverview> {
         onPressed: () {
           adSheet(const FilterSheet(), context);
         },
-        child: const Icon(EvaIcons.funnelOutline),
+        child: Semantics(
+            identifier: 'assignment-filter',
+            child: const Icon(EvaIcons.funnelOutline)),
       ),
       appBar: const LppAppbar(
         title: "Opgaver",

@@ -69,6 +69,7 @@ class LectioApp extends StatelessWidget {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         navigatorObservers: [HeroController()],
+        debugShowCheckedModeBanner: false,
         locale: const Locale(
           'dk',
         ),
