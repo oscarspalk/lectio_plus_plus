@@ -21,3 +21,6 @@ override_status_bar(true)
 erase_simulator(true)
 
 stop_after_first_error(true)
+
+# hvis man vil have en video med det, som går galt
+#result_bundle(true)
