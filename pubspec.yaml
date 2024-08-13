@@ -67,6 +67,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/illustrations/
+    - shorebird.yaml
     
 flutter_native_splash:
   color: "#ff7a00"
