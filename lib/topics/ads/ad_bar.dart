@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -15,14 +16,6 @@ class AdBar extends StatefulWidget {
 }
 
 class _AdBarState extends State<AdBar> {
-  late AdBloc _adBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _adBloc = context.read<AdBloc>();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OwnedCubit, AdFreeState>(builder: (context, state) {
@@ -31,25 +24,19 @@ class _AdBarState extends State<AdBar> {
           height: 0.0,
         );
       }
-      return SizedBox(
+      return Container(
+          color: kDebugMode ? Colors.yellow : null,
           width: double.infinity,
           height: 50.0,
           child: BlocBuilder<AdBloc, AdState>(
-              bloc: _adBloc,
               builder: (BuildContext context, AdState state) {
-                if (!state.loading && state.ad != null) {
-                  return AdWidget(ad: state.ad!);
-                }
-                return const SizedBox(
-                  height: 0.0,
-                );
-              }));
+            if (!state.loading && state.ad != null) {
+              return AdWidget(ad: state.ad!);
+            }
+            return Container(
+              color: kDebugMode ? Colors.green : null,
+            );
+          }));
     });
-  }
-
-  @override
-  void dispose() {
-    _adBloc.add(DisposeAd());
-    super.dispose();
   }
 }

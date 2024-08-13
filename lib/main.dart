@@ -20,6 +20,8 @@ void main() {
   if (Platform.isAndroid || Platform.isIOS) {
     initAppFlyer();
     MobileAds.instance.initialize();
+    MobileAds.instance.updateRequestConfiguration(RequestConfiguration(
+        testDeviceIds: ["B40563B0F2F77B86C194B744616071ED"]));
     initializeNotifcations();
     Workmanager().initialize(
         callbackDispatcher, // The top level function, aka callbackDispatcher

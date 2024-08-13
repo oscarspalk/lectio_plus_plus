@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:io';
 
-import 'package:bloc_event_transformers/bloc_event_transformers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -36,27 +36,48 @@ class AdState {
 }
 
 class AdBloc extends Bloc<AdEvent, AdState> {
+  late Timer timer;
   AdBloc(super.initialState) {
-    on<DisposeAd>((event, emit) {
-      emit(state..loading = true);
-      _loadAd((ad) {
+    timer = Timer.periodic(
+      const Duration(seconds: 60),
+      (timer) {
+        add(DisposeAd());
+      },
+    );
+    on<DisposeAd>(
+      (event, emit) async {
+        emit(state..loading = true);
+
+        var ad = _loadAd(
+          () async {
+            debugPrint("impression");
+          },
+        );
         emit(AdState(false, ad));
-      });
-    }, transformer: debounce(const Duration(milliseconds: 500)));
+      },
+    );
   }
   final String _adUnitId = _decideId();
 
-  void _loadAd(Function(BannerAd ad) onLoaded) {
-    BannerAd(
+  BannerAd _loadAd(VoidCallback onImpression) {
+    final ad = BannerAd(
       adUnitId: _adUnitId,
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
-        onAdLoaded: (ad) => onLoaded(ad as BannerAd),
+        onAdImpression: (ad) {
+          onImpression();
+        },
+        onAdLoaded: (ad) {
+          debugPrint("Loaded ad");
+        },
         onAdFailedToLoad: (ad, err) {
           ad.dispose();
+          debugPrint(err.message);
         },
       ),
-    ).load();
+    );
+    ad.load();
+    return ad;
   }
 }
