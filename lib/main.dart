@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lpp/notifications/notification.dart';
-import 'package:lpp/topics/ads/bloc/ad_bloc.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/utils/appsflyer.dart';
 import 'package:workmanager/workmanager.dart';
@@ -45,9 +44,6 @@ class LectioBase extends StatelessWidget {
         create: (_) => SettingsBloc()..add(CheckForTheme()),
       ),
       BlocProvider(create: (_) => LoginBloc()),
-      BlocProvider<AdBloc>(
-          lazy: false,
-          create: (_) => AdBloc(AdState(true, null))..add(DisposeAd())),
       BlocProvider(create: (_) => StudentBloc()..add(LaunchedApp()))
     ], child: const LectioApp());
   }

@@ -1,7 +1,9 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/payment/ad_free_state.dart';
 import 'package:lpp/payment/buy_screen.dart';
+import 'package:lpp/payment/owned_bloc.dart';
 import 'package:lpp/topics/settings/bloc/term_bloc.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
@@ -92,6 +94,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       context.read<StudentBloc>().add(RefreshTeams());
                     },
                   ),
+                  BlocBuilder<OwnedCubit, AdFreeState>(
+                      builder: (context, state) {
+                    return CheckboxListTile(
+                      onChanged: (value) {
+                        context.read<OwnedCubit>().enableAds();
+                      },
+                      value: state.hasAdFree,
+                      title: const Text("Reklamer"),
+                      subtitle: const Text("Savner du reklamer, så tryk her."),
+                    );
+                  })
                 ],
               ),
             ),

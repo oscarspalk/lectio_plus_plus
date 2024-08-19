@@ -14,6 +14,10 @@ class OwnedCubit extends Cubit<AdFreeState> {
 
   late StreamSubscription<List<PurchaseDetails>> _subscription;
 
+  void enableAds() {
+    emit(state.copyWith(hasAdFree: false));
+  }
+
   Future<void> checkPurchases() async {
     final bool available = await InAppPurchase.instance.isAvailable();
     if (available) {

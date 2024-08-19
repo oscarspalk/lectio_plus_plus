@@ -40,8 +40,9 @@ class BuyAdFreeScreen extends StatelessWidget {
     return Scaffold(
       appBar: const LppAppbar(title: "Reklame Fri"),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: PaddedColumn(
+          padding: 16.0,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
@@ -62,57 +63,43 @@ class BuyAdFreeScreen extends StatelessWidget {
                                           .colorScheme
                                           .onTertiary))))),
             ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  PaddedColumn(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    padding: 4.0,
-                    children: [
-                      Text(
-                        "Reklame Fri",
-                        style: LppTypography.headlineSmall(context),
-                      ),
-                      RichText(
-                          text: TextSpan(
-                              style: LppTypography.bodySmall(context),
-                              text:
-                                  """Hvis du er ved at være træt af at kigge på reklamer, så kan du nu fjerne dem permanent fra din app.
+            PaddedColumn(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              padding: 4.0,
+              children: [
+                Text(
+                  "Reklame Fri",
+                  style: LppTypography.headlineSmall(context),
+                ),
+                RichText(
+                    text: TextSpan(
+                        style: LppTypography.bodySmall(context),
+                        text:
+                            """Hvis du er ved at være træt af at kigge på reklamer, så kan du nu fjerne dem permanent fra din app.
                         """
-                                      .trim())),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      BlocBuilder<OwnedCubit, AdFreeState>(
-                          builder: (context, state) {
-                        return FilledButton.icon(
-                          iconAlignment: IconAlignment.end,
-                          onPressed: state.price != null
-                              ? state.hasAdFree
-                                  ? null
-                                  : buyAdFree
-                              : null,
-                          label: Text(state.price != null
-                              ? state.hasAdFree
-                                  ? "Allerede købt"
-                                  : "Køb for ${state.price}"
-                              : "Fejl"),
-                          icon: const Icon(EvaIcons.shoppingCartOutline),
-                        );
-                      }),
-                    ],
-                  )
-                ],
-              ),
+                                .trim())),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                BlocBuilder<OwnedCubit, AdFreeState>(builder: (context, state) {
+                  return FilledButton.icon(
+                    iconAlignment: IconAlignment.end,
+                    onPressed: state.price != null
+                        ? state.hasAdFree
+                            ? null
+                            : buyAdFree
+                        : null,
+                    label: Text(state.price != null
+                        ? state.hasAdFree
+                            ? "Allerede købt"
+                            : "Køb for ${state.price}"
+                        : "Fejl"),
+                    icon: const Icon(EvaIcons.shoppingCartOutline),
+                  );
+                }),
+              ],
             )
           ],
         ),
