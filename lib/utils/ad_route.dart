@@ -27,7 +27,6 @@ void adSheet(Widget sheet, BuildContext context, {bool ad = true}) {
     builder: (context) {
       return Column(mainAxisSize: MainAxisSize.min, children: [
         sheet,
-        if (ad) const AdBar(),
       ]);
     },
   );
