@@ -16,9 +16,9 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Generate new localized screenshots"
-  lane :screenshots do
-    capture_screenshots(workspace: "Runner.xcworkspace", scheme: "Runner")
-    #upload_to_app_store(skip_binary_upload: true, skip_metadata: true)
+  desc "Generate new localized screenshots and upload a release bundle"
+  lane :release do
+    capture_screenshots(workspace: "Runner.xcworkspace", scheme: "LPP-fastlane")
+    upload_to_app_store(skip_binary_upload: true, skip_metadata: true)
   end
 end
