@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
-import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/absence/widgets/absence_edit.dart';
 import 'package:lpp/topics/absence/widgets/absence_percentage_circle.dart';
 
@@ -53,7 +52,9 @@ class _AbsenceCauseCardState extends State<AbsenceCauseCard> {
                 : null,
             title: Text(
               widget.cause?.name ?? "Vælg årsag",
-              style: LppTypography.headlineSmall(context)
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
                   ?.copyWith(color: foregroundColor),
             )),
       ),
