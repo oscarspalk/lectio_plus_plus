@@ -16,10 +16,14 @@ class AbsenceOverview extends StatefulWidget {
 }
 
 class _AbsenceOverviewState extends State<AbsenceOverview> {
-  double totalModules = 0.0;
-  double totalAbsenceModules = 0.0;
-  double totalModulesWritten = 0.0;
-  double totalModulesAbsenceWritten = 0.0;
+  double totalModulesYear = 0.0;
+  double totalAbsenceModulesYear = 0.0;
+  double totalModulesWrittenYear = 0.0;
+  double totalModulesAbsenceWrittenYear = 0.0;
+  double totalModulesOpgjort = 0.0;
+  double totalAbsenceModulesOpgjort = 0.0;
+  double totalModulesAbsenceWrittenOpgjort = 0.0;
+  double totalModulesWrittenOpgjort = 0.0;
   bool hasNonNull = false;
   AbsenceEntry? mostAbsence;
   List<AbsenceEntry> entries = [];
@@ -33,10 +37,15 @@ class _AbsenceOverviewState extends State<AbsenceOverview> {
           (mostAbsence?.regular.finalModules.current ?? 0)) {
         mostAbsence = row;
       }
-      totalModules += row.regular.finalModules.total;
-      totalAbsenceModules += row.regular.finalModules.current;
-      totalModulesWritten += row.assignment.finalStudentTime.total;
-      totalModulesAbsenceWritten += row.assignment.finalStudentTime.current;
+      totalModulesYear += row.regular.finalModules.total;
+      totalAbsenceModulesYear += row.regular.finalModules.current;
+      totalModulesWrittenYear += row.assignment.finalStudentTime.total;
+      totalModulesAbsenceWrittenYear += row.assignment.finalStudentTime.current;
+      totalModulesOpgjort += row.regular.currentModules.total;
+      totalAbsenceModulesOpgjort += row.regular.currentModules.current;
+      totalModulesWrittenOpgjort += row.assignment.currentStudentTime.total;
+      totalModulesAbsenceWrittenOpgjort +=
+          row.assignment.currentStudentTime.current;
     }
 
     setState(() {
@@ -70,24 +79,41 @@ class _AbsenceOverviewState extends State<AbsenceOverview> {
                 child: AbsenceChart(entries: entries)),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
-            child: GridView.count(
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisSpacing: 8.0,
-              shrinkWrap: true,
-              crossAxisCount: 2,
+            child: Row(
               children: [
-                Statistic(
-                    header: "Normalt",
+                Statistic(header: "Normalt", stats: [
+                  Stat(
+                    title: "For året",
                     data:
-                        "${(totalAbsenceModules / totalModules * 100).toStringAsFixed(1)}%",
-                    subtitle: "${totalAbsenceModules.round()} moduler"),
-                Statistic(
-                  header: "Skriftligt",
-                  data: totalModulesWritten == 0
-                      ? "0.0%"
-                      : "${(totalModulesAbsenceWritten / totalModulesWritten * 100).toStringAsFixed(1)}%",
-                  subtitle: "${totalModulesAbsenceWritten.round()} timer",
-                )
+                        "${(totalAbsenceModulesYear / totalModulesYear * 100).toStringAsFixed(1)}%",
+                  ),
+                  Stat(
+                    title: "Opgjort",
+                    data:
+                        "${(totalAbsenceModulesOpgjort / totalModulesOpgjort * 100).toStringAsFixed(1)}%",
+                  ),
+                  Stat(
+                      title: "Moduler",
+                      data: "${totalAbsenceModulesOpgjort.round()} moduler")
+                ]),
+                Statistic(header: "Skriftligt", stats: [
+                  Stat(
+                    title: "For året",
+                    data: totalModulesWrittenYear == 0
+                        ? "0.0%"
+                        : "${(totalModulesAbsenceWrittenYear / totalModulesWrittenYear * 100).toStringAsFixed(1)}%",
+                  ),
+                  Stat(
+                    title: "Opgjort",
+                    data: totalModulesWrittenOpgjort == 0
+                        ? "0.0%"
+                        : "${(totalModulesAbsenceWrittenOpgjort / totalModulesWrittenOpgjort * 100).toStringAsFixed(1)}%",
+                  ),
+                  Stat(
+                      title: "Timer",
+                      data:
+                          "${totalModulesAbsenceWrittenOpgjort.round()} timer")
+                ]),
               ],
             ),
           )

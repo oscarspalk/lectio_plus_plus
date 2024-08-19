@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lpp/logic/app/typography.dart';
+
+class Stat {
+  final String title;
+  final String data;
+
+  Stat({required this.title, required this.data});
+}
 
 class Statistic extends StatelessWidget {
   final String header;
-  final String data;
-  final String subtitle;
-  const Statistic(
-      {super.key,
-      required this.header,
-      required this.data,
-      required this.subtitle});
+  final List<Stat> stats;
+  const Statistic({super.key, required this.header, required this.stats});
 
   final TextStyle headerStyle =
       const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
@@ -16,26 +19,42 @@ class Statistic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  header,
-                  style: headerStyle,
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  data,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 36.0),
-                ),
-                Text(subtitle)
-              ]),
-        ));
+    return Expanded(
+      child: Card(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    header,
+                    style: LppTypography.headlineSmall(context),
+                    textAlign: TextAlign.left,
+                  ),
+                  ...stats.map((stat) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Divider(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                        Text(
+                          stat.title.trim(),
+                          style: LppTypography.bodySmall(context),
+                        ),
+                        Text(
+                          stat.data.trim(),
+                          style: LppTypography.headlineSmall(context),
+                        ),
+                      ],
+                    );
+                  }).toList()
+                ]),
+          )),
+    );
   }
 }
