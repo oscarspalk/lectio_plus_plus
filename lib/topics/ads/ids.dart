@@ -10,7 +10,7 @@ String interstialId() {
     return "ca-app-pub-3940256099942544/4411468910";
   }
   if (Platform.isAndroid) {
-    return "ca-app-pub-7673030582142706~2236764686";
+    return "ca-app-pub-7673030582142706/1041821877";
   }
-  return "ca-app-pub-7673030582142706~5862531961";
+  return "ca-app-pub-7673030582142706/5926482897";
 }
