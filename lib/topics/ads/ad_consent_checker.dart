@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
@@ -21,10 +22,15 @@ class AdConsentCheckerState extends State<AdConsentChecker> {
   }
 
   _check() async {
+    await _checkConsent();
+    var consentInformation = ConsentInformation.instance;
+    while ((await consentInformation.getConsentStatus()) !=
+        ConsentStatus.obtained) {
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
     if (Platform.isIOS) {
       await _checkNativeConsent();
     }
-    await _checkConsent();
   }
 
   Future<void> _checkNativeConsent() async {
@@ -43,13 +49,14 @@ class AdConsentCheckerState extends State<AdConsentChecker> {
     }, (error) {});
   }
 
-  void _showForm() {
+  Future<void> _showForm() async {
     ConsentForm.loadConsentForm(
       (ConsentForm consentForm) async {
         var status = await ConsentInformation.instance.getConsentStatus();
+
         if (status == ConsentStatus.required) {
-          consentForm.show((formError) {
-            _showForm();
+          consentForm.show((formError) async {
+            await _showForm();
           });
         }
       },
