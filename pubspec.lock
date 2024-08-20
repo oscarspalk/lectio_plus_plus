@@ -713,10 +713,10 @@ packages:
     dependency: "direct main"
     description:
       name: lectio_wrapper
-      sha256: "8e8c8578d2829c2b1efa58c8e70b76af8756d2021eed3fda7facc67cffdd0925"
+      sha256: b710b585b257d5f619f6a5a7e7423158ef9f59946a4f8b979418e2fd53060670
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.59"
+    version: "0.6.60"
   lints:
     dependency: transitive
     description:
@@ -1082,6 +1082,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.1"
+  step_progress_indicator:
+    dependency: "direct main"
+    description:
+      name: step_progress_indicator
+      sha256: b51bb1fcfc78454359f0658c5a2c21548c3825ebf76e826308e9ca10f383bbb8
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   stream_channel:
     dependency: transitive
     description:

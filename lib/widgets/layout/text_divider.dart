@@ -6,16 +6,18 @@ class TextDivider extends StatelessWidget {
       required this.text,
       this.large = false,
       this.primary = false,
-      this.customText});
+      this.customText,
+      this.padding});
 
   final String text;
   final Widget? customText;
   final bool large;
   final bool primary;
+  final EdgeInsets? padding;
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+        padding: padding ?? const EdgeInsets.fromLTRB(16, 16, 16, 16),
         child: DefaultTextStyle(
             style: (large
                     ? Theme.of(context)
