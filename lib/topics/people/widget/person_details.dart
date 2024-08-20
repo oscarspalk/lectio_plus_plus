@@ -1,11 +1,14 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/context/student.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
+import 'package:lpp/payment/owned_bloc.dart';
 import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/topics/ads/ids.dart';
 import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
 import 'package:lpp/topics/calendar/screens/schema.dart';
 import 'package:lpp/utils/ad_route.dart';
@@ -57,6 +60,42 @@ class _PersonDetailsState extends State<PersonDetails> {
   void initState() {
     super.initState();
     _initIds();
+    _loadInterstitialAd();
+  }
+
+  void _loadInterstitialAd() async {
+    if (context.read<OwnedCubit>().state.hasAdFree) {
+      return;
+    }
+    await InterstitialAd.load(
+        adUnitId: interstialId(),
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) {
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+                onAdFailedToShowFullScreenContent: (ad, err) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when the ad dismissed full screen content.
+                onAdDismissedFullScreenContent: (ad) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when a click is recorded for an ad.
+                onAdClicked: (ad) {});
+
+            debugPrint('$ad loaded.');
+            // Keep a reference to the ad so you can show it later.
+            if (mounted) {
+              ad.show();
+            }
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('InterstitialAd failed to load: $error');
+          },
+        ));
   }
 
   @override
