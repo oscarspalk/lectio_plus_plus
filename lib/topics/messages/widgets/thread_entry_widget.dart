@@ -47,8 +47,7 @@ class ThreadEntryWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Wrap(
                       children: [
                         Text(
                           entry.topic,
