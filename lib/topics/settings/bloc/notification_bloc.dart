@@ -48,7 +48,7 @@ class NotificationBloc extends Cubit<NotificationState> {
       requestResult = await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()!
-          .requestPermission();
+          .requestNotificationsPermission();
     } else {
       requestResult = await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<

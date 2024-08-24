@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   usernameInput(),
                   passwordInput(),
                 ]),
-                ButtonBar(alignment: MainAxisAlignment.center, children: [
+                OverflowBar(alignment: MainAxisAlignment.center, children: [
                   FilledButton.tonal(
                       onPressed: widget.back, child: const Text("Tilbage")),
                   FilledButton(

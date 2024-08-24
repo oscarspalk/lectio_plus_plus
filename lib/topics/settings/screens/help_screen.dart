@@ -28,7 +28,7 @@ class HelpScreen extends StatelessWidget {
                 style: LppTypography.bodySmall(context),
               )
             ]),
-            ButtonBar(
+            OverflowBar(
               alignment: MainAxisAlignment.center,
               children: [
                 FilledButton.icon(

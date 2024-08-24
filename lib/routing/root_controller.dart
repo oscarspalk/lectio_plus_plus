@@ -29,9 +29,6 @@ class _RootControllerState extends State<RootController> {
             onPop: () => _navKey.currentState?.pop(),
             child: Navigator(
               key: _navKey,
-              onPopPage: (route, result) {
-                return route.didPop(result);
-              },
               observers: [
                 HeroController(),
               ],

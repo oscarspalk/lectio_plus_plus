@@ -24,7 +24,7 @@ dependencies:
   google_mobile_ads: ^5.1.0
   webview_flutter: ^4.2.2
   freezed_annotation: ^2.4.1
-  flutter_local_notifications: ^15.1.0+1
+  flutter_local_notifications: ^17.2.2
   open_filex: ^4.3.2
   path_provider: ^2.0.15
   workmanager: ^0.5.1

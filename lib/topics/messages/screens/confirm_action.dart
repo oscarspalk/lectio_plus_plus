@@ -32,7 +32,7 @@ class ConfirmAction extends StatelessWidget {
               shrinkWrap: true,
               children: children!,
             ),
-          ButtonBar(
+          OverflowBar(
             alignment: MainAxisAlignment.center,
             children: [
               FilledButton.tonal(

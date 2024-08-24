@@ -21,16 +21,17 @@ class TimeSelect extends StatelessWidget {
         decoration: InputDecoration(
             border: InputBorder.none, label: Text(name), errorText: errorText),
         child: FilledButton.icon(
-          onPressed: () async {
+          onPressed: () {
             showDatePicker(
                     context: context,
                     initialDate: time,
                     firstDate: time.subtract(const Duration(days: 200)),
                     lastDate: time.add(const Duration(days: 200)))
                 .then((date) {
-              if (date == null) {
+              if (date == null || !context.mounted) {
                 return;
               }
+
               showTimePicker(
                       context: context,
                       initialTime: TimeOfDay.fromDateTime(time))

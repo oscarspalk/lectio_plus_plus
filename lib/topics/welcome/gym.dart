@@ -36,7 +36,7 @@ class GymScreen extends StatelessWidget {
                       textAlign: TextAlign.center),
                 ]),
               ),
-              ButtonBar(
+              OverflowBar(
                 alignment: MainAxisAlignment.center,
                 children: [
                   FilledButton(
