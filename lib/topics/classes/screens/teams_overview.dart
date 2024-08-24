@@ -22,7 +22,7 @@ class TeamsOverviewScreen extends StatelessWidget {
           padding: const EdgeInsets.all(6.0),
           itemCount: teams.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 16.0 / 9.0, crossAxisCount: 2),
+              childAspectRatio: 16.0 / 10.0, crossAxisCount: 2),
           itemBuilder: (context, index) {
             return TeamListItem(team: teams.elementAt(index));
           },

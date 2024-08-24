@@ -22,7 +22,7 @@ class ClassesOverviewScreen extends StatelessWidget {
           padding: const EdgeInsets.all(6.0),
           itemCount: classes.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 16.0 / 9.0, crossAxisCount: 2),
+              childAspectRatio: 16.0 / 12.0, crossAxisCount: 2),
           itemBuilder: (context, index) {
             return ClassListItem(klasse: classes.elementAt(index));
           },
