@@ -33,7 +33,6 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
   rich_text_editor_controller: ^0.0.4
   flutter_svg: ^1.1.6
-  app_tracking_transparency: ^2.0.4
   upgrader: ^8.2.0
   community_charts_flutter: ^1.0.2
   page_transition: ^2.1.0
