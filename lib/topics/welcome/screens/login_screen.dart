@@ -67,13 +67,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   usernameInput(),
                   passwordInput(),
                 ]),
-                OverflowBar(alignment: MainAxisAlignment.center, children: [
-                  FilledButton.tonal(
-                      onPressed: widget.back, child: const Text("Tilbage")),
-                  FilledButton(
-                      onPressed: () => loginBloc.login(context),
-                      child: const Text("Log ind")),
-                ]),
+                OverflowBar(
+                    spacing: 8.0,
+                    alignment: MainAxisAlignment.center,
+                    children: [
+                      FilledButton.tonal(
+                          onPressed: widget.back, child: const Text("Tilbage")),
+                      FilledButton(
+                          onPressed: () => loginBloc.login(context),
+                          child: const Text("Log ind")),
+                    ]),
               ],
             ),
           ),

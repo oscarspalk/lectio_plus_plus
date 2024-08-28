@@ -29,6 +29,7 @@ class HelpScreen extends StatelessWidget {
               )
             ]),
             OverflowBar(
+              spacing: 8.0,
               alignment: MainAxisAlignment.center,
               children: [
                 FilledButton.icon(
