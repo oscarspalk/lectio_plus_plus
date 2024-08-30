@@ -68,6 +68,11 @@ flutter:
   assets:
     - assets/illustrations/
     - shorebird.yaml
+  
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter_var.ttf
     
 flutter_native_splash:
   color: "#ff7a00"
