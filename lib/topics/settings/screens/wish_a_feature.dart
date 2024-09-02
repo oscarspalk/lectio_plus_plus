@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 
@@ -38,7 +38,7 @@ class _WishAFeatureScreenState extends State<WishAFeatureScreen> {
                   const Illustration(illustration: "a_whole_year"),
                   Text(
                     "Tusind tak",
-                    style: headerStyle,
+                    style: LppTypography.labelSmall(context),
                   )
                 ],
               );

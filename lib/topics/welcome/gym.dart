@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/topics/welcome/screens/gym_select.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
@@ -28,7 +28,7 @@ class GymScreen extends StatelessWidget {
                 child: Column(children: [
                   Text(
                     "Næsten færdig",
-                    style: headerStyle,
+                    style: LppTypography.headlineSmall(context),
                     textAlign: TextAlign.center,
                   ),
                   const Text(

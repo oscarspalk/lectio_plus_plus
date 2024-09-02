@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/class.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
-import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/classes/screens/klasse_members_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/primitive/team_name.dart';
@@ -35,7 +35,7 @@ class TeamListItem extends StatelessWidget {
                 builder: (name) {
                   return Text(
                     name,
-                    style: headerStyle,
+                    style: LppTypography.labelSmall(context),
                     textAlign: TextAlign.end,
                     maxLines: 2,
                   );

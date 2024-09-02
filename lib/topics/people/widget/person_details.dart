@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/context/student.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/payment/owned_bloc.dart';
-import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/ads/interstitial_bloc.dart';
 import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
 import 'package:lpp/topics/calendar/screens/schema.dart';
@@ -95,7 +95,7 @@ class _PersonDetailsState extends State<PersonDetails> {
               padding: const EdgeInsets.all(4.0),
               child: Text(
                 student?.name ?? "",
-                style: headerStyle,
+                style: LppTypography.labelSmall(context),
                 textAlign: TextAlign.center,
               ),
             ),

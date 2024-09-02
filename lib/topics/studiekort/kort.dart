@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/studiekort/kort.dart';
 import 'package:lectio_wrapper/utils/dio_image_provider.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
-import 'package:lpp/style/typograhy.dart';
 import 'package:lpp/topics/studiekort/date_text.dart';
 import 'package:lpp/topics/studiekort/qr_kode_dialog.dart';
 import 'package:lpp/topics/studiekort/studiekort_bloc.dart';
@@ -63,8 +63,11 @@ class StudiekortScreen extends StatelessWidget {
                                         children: [
                                           Text(
                                             state.state!.$1!.name,
-                                            style: headerStyle.copyWith(
-                                                color: colorscheme.onSecondary),
+                                            style: LppTypography.headlineSmall(
+                                                    context)
+                                                ?.copyWith(
+                                                    color: colorscheme
+                                                        .onSecondary),
                                           ),
                                           BirthdayText(
                                             birthday: state.state!.$1!.birthday,

@@ -17,4 +17,13 @@ class LppTypography {
         fontSize: 24.0,
         height: 4 / 3);
   }
+
+  static TextStyle? labelSmall(BuildContext context) {
+    var colorScheme = Theme.of(context).colorScheme;
+    return Theme.of(context).textTheme.labelSmall?.copyWith(
+        color: colorScheme.onSurface,
+        fontSize: 18.0,
+        fontWeight: FontWeight.w500,
+        height: 4 / 3);
+  }
 }

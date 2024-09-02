@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 
 class ConfirmAction extends StatelessWidget {
@@ -23,7 +23,7 @@ class ConfirmAction extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               confirmText,
-              style: headerStyle,
+              style: LppTypography.labelSmall(context),
               textAlign: TextAlign.center,
             ),
           ),

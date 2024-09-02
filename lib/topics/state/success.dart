@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 
 class SuccessScreen extends StatelessWidget {
@@ -15,7 +15,7 @@ class SuccessScreen extends StatelessWidget {
           const Illustration(illustration: "order_confirmed"),
           Text(
             "Det virkede",
-            style: headerStyle,
+            style: LppTypography.headlineSmall(context),
           )
         ],
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 
 class NotReadyScreen extends StatelessWidget {
@@ -14,7 +14,7 @@ class NotReadyScreen extends StatelessWidget {
           const Illustration(illustration: "season_change"),
           Text(
             "Kommer snart",
-            style: headerStyle,
+            style: LppTypography.labelSmall(context),
           ),
         ],
       ),

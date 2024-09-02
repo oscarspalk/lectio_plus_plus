@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 
 class EmptyScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ class EmptyScreen extends StatelessWidget {
           Illustration(illustration: noEvents ? "relax" : "empty"),
           Text(
             text ?? "Der var tomt",
-            style: headerStyle,
+            style: LppTypography.labelSmall(context),
             textAlign: TextAlign.center,
           )
         ],

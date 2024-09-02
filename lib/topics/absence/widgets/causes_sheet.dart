@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
-import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/absence/widgets/absence_cause_card.dart';
 
 class CausesSheet extends StatelessWidget {
@@ -14,7 +14,7 @@ class CausesSheet extends StatelessWidget {
         children: [
           Text(
             "Vælg årsag",
-            style: headerStyle,
+            style: LppTypography.labelSmall(context),
           ),
           ListView(
             primary: false,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/class.dart';
-import 'package:lpp/style/typograhy.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/classes/screens/klasse_members_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
 
@@ -26,7 +26,7 @@ class ClassListItem extends StatelessWidget {
             children: [
               Text(
                 klasse.name,
-                style: headerStyle,
+                style: LppTypography.labelSmall(context),
                 textAlign: TextAlign.end,
                 maxLines: 2,
               ),
