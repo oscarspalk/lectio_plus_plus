@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
+import 'package:lpp/logic/app/typography.dart';
 
 Color colorFromCause(AbsenceCauses? cause, BuildContext context) {
   switch (cause) {
@@ -67,12 +68,11 @@ class _AbsencePercentageCircleState extends State<AbsencePercentageCircle> {
       Center(
         child: Text(
           percentage,
-          style: const TextStyle(fontSize: 16.0),
+          style: LppTypography.bodySmall(context),
         ),
       ),
-      SizedBox(
-        height: 90.0,
-        width: 90.0,
+      AspectRatio(
+        aspectRatio: 1.0,
         child: CircularProgressIndicator(
           color: colorFromCause(widget.cause, context),
           value: widget.percentage,
