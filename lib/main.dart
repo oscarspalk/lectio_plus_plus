@@ -20,6 +20,7 @@ void main() {
     initAppFlyer();
     MobileAds.instance.initialize();
     initializeNotifcations();
+
     Workmanager().initialize(
         callbackDispatcher, // The top level function, aka callbackDispatcher
         isInDebugMode:
@@ -39,13 +40,16 @@ class LectioBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [
-      BlocProvider(
-        create: (_) => SettingsBloc()..add(CheckForTheme()),
-      ),
-      BlocProvider(create: (_) => LoginBloc()),
-      BlocProvider(create: (_) => StudentBloc()..add(LaunchedApp()))
-    ], child: const LectioApp());
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => SettingsBloc()..add(CheckForTheme()),
+        ),
+        BlocProvider(create: (_) => LoginBloc()),
+        BlocProvider(create: (_) => StudentBloc()..add(LaunchedApp()))
+      ],
+      child: const LectioApp(),
+    );
   }
 }
 
