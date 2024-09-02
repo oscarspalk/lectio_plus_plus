@@ -34,8 +34,6 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - smooth (0.0.1):
-    - Flutter
   - url_launcher_ios (0.0.1):
     - Flutter
   - webview_flutter_wkwebview (0.0.1):
@@ -56,7 +54,6 @@ DEPENDENCIES:
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
-  - smooth (from `.symlinks/plugins/smooth/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
   - workmanager (from `.symlinks/plugins/workmanager/ios`)
@@ -92,8 +89,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
-  smooth:
-    :path: ".symlinks/plugins/smooth/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   webview_flutter_wkwebview:
@@ -117,7 +112,6 @@ SPEC CHECKSUMS:
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
-  smooth: e601f90cdbc372ff776ace20e20b5df4db606906
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
   webview_flutter_wkwebview: be0f0d33777f1bfd0c9fdcb594786704dbf65f36
   workmanager: 0afdcf5628bbde6924c21af7836fed07b42e30e6

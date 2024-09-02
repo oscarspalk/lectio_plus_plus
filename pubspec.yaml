@@ -46,6 +46,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   step_progress_indicator: ^1.0.2
+  keframe: ^3.0.0
 
 dev_dependencies:
   flutter_test:

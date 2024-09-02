@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keframe/keframe.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/people/widget/person_details.dart';
@@ -34,15 +35,19 @@ class _PersonTileState extends State<PersonTile> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(
-        foregroundImage: image,
-      ),
-      title: Text(widget.person.name),
-      subtitle: Text(widget.person.info ?? ""),
-      onTap: () {
-        adSheet(PersonDetails(person: widget.person), context);
-      },
-    );
+    return FrameSeparateWidget(
+        placeHolder: const SizedBox(
+          height: 56.0,
+        ),
+        child: ListTile(
+          leading: CircleAvatar(
+            foregroundImage: image,
+          ),
+          title: Text(widget.person.name),
+          subtitle: Text(widget.person.info ?? ""),
+          onTap: () {
+            adSheet(PersonDetails(person: widget.person), context);
+          },
+        ));
   }
 }
