@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:keframe/keframe.dart';
 import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
 import 'package:lpp/topics/calendar/widgets/day_header_entry.dart';
 import 'package:lpp/topics/state/loading.dart';
@@ -62,44 +63,54 @@ class _WeekHeaderState extends State<WeekHeader> {
           bloc: widget.bloc,
           builder: (context, state) {
             if (state != null) {
-              return PageView.builder(
-                onPageChanged: (value) {
-                  _selected = value;
-                },
-                controller: _controller,
-                itemCount: itemCount,
-                itemBuilder: (context, index) {
-                  var weekDiff = index - _startIndex;
-                  DateTime thisWeeksMonday = _startMonday
-                      .copyWith(hour: 12)
-                      .add(Duration(days: weekDiff * 7));
+              return SizeCacheWidget(
+                child: PageView.builder(
+                  onPageChanged: (value) {
+                    _selected = value;
+                  },
+                  controller: _controller,
+                  itemCount: itemCount,
+                  itemBuilder: (context, index) {
+                    var weekDiff = index - _startIndex;
+                    DateTime thisWeeksMonday = _startMonday
+                        .copyWith(hour: 12)
+                        .add(Duration(days: weekDiff * 7));
 
-                  List<DateTime> days = [
-                    for (var i = 0; i < 7; i++)
-                      thisWeeksMonday.add(Duration(days: i))
-                  ];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: GridView(
-                        primary: false,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                mainAxisExtent: headerHeight - 4.0,
-                                crossAxisCount: 7),
-                        children: days
-                            .map((day) => DayHeaderEntry(
-                                  choose: () {
-                                    (widget.bloc ?? context.read<SchemaBloc>())
-                                        .add(SwitchedDate(day));
-                                  },
-                                  day: day,
-                                  selected: day.day == state.selectedTime.day &&
-                                      day.month == state.selectedTime.month &&
-                                      day.year == state.selectedTime.year,
-                                ))
-                            .toList()),
-                  );
-                },
+                    List<DateTime> days = [
+                      for (var i = 0; i < 7; i++)
+                        thisWeeksMonday.add(Duration(days: i))
+                    ];
+                    return FrameSeparateWidget(
+                      placeHolder: Container(
+                        height: headerHeight - 4.0,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: GridView(
+                            primary: false,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    mainAxisExtent: headerHeight - 4.0,
+                                    crossAxisCount: 7),
+                            children: days
+                                .map((day) => DayHeaderEntry(
+                                      choose: () {
+                                        (widget.bloc ??
+                                                context.read<SchemaBloc>())
+                                            .add(SwitchedDate(day));
+                                      },
+                                      day: day,
+                                      selected: day.day ==
+                                              state.selectedTime.day &&
+                                          day.month ==
+                                              state.selectedTime.month &&
+                                          day.year == state.selectedTime.year,
+                                    ))
+                                .toList()),
+                      ),
+                    );
+                  },
+                ),
               );
             }
             return const LoadingScreen();
