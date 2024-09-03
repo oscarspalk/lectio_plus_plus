@@ -183,8 +183,9 @@ class _SchemaScreenState extends State<SchemaScreen> {
               },
               itemBuilder: (context, index) {
                 return DayView(
-                    bloc: widget.bloc,
-                    daySelected: start.add(Duration(days: index - startIndex)));
+                  bloc: widget.bloc,
+                  daySelected: start.add(Duration(days: index - startIndex)),
+                );
               }),
         );
       },

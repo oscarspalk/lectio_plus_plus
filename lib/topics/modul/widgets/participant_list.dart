@@ -60,6 +60,7 @@ class PeopleList extends StatelessWidget {
         ),
         SizeCacheWidget(
           child: ListView.builder(
+            cacheExtent: 500.0,
             primary: false,
             shrinkWrap: true,
             itemCount: people.length,
