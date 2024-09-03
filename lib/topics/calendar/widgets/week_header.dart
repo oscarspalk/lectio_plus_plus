@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:keframe/keframe.dart';
 import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
 import 'package:lpp/topics/calendar/widgets/day_header_entry.dart';
 import 'package:lpp/topics/state/loading.dart';
