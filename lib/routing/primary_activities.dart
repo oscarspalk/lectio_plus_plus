@@ -63,7 +63,6 @@ class _PrimaryActivitiesState extends State<PrimaryActivities> {
     if (_selectedScreen == n) {
       return;
     }
-    _controller.jumpToPage(n);
     setState(() {
       _selectedScreen = n;
     });
@@ -76,18 +75,7 @@ class _PrimaryActivitiesState extends State<PrimaryActivities> {
             onSelected: setScreen,
             selectedIndex: _selectedScreen,
             destinations: bottomDestinations),
-        body: _body());
-  }
-
-  Widget _body() {
-    return PageView.builder(
-      controller: _controller,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: bottomDestinations.length,
-      itemBuilder: (context, index) {
-        return bottomDestinations.elementAt(index).screen;
-      },
-    );
+        body: bottomDestinations.elementAt(_selectedScreen).screen);
   }
 
   @override

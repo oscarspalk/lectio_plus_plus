@@ -24,6 +24,7 @@ class _WeekHeaderState extends State<WeekHeader> {
   late DateTime _startMonday;
   late SchemaBloc bloc;
   int _selected = 0;
+
   @override
   void initState() {
     super.initState();

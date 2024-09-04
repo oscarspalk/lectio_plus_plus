@@ -16,6 +16,7 @@
             "name": "lectioplusplus (profile mode)",
             "request": "launch",
             "type": "dart",
+            "args": ["enable-impeller"],
             "flutterMode": "profile"
         },
         {
