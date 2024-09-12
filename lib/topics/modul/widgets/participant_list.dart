@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:keframe/keframe.dart';
 import 'package:lectio_wrapper/lectio/student.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
@@ -58,9 +57,7 @@ class PeopleList extends StatelessWidget {
           text: name,
           primary: true,
         ),
-        SizeCacheWidget(
-          child: ListView.builder(
-            cacheExtent: 500.0,
+       ListView.builder(
             primary: false,
             shrinkWrap: true,
             itemCount: people.length,
@@ -68,7 +65,7 @@ class PeopleList extends StatelessWidget {
               return PersonTile(person: people[index]);
             },
           ),
-        )
+        
       ],
     );
   }
