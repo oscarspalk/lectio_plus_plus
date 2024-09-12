@@ -1,4 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:lpp/topics/classes/screens/klasse_screen.dart';
 import 'package:lpp/topics/grades/screens/grade.dart';
@@ -10,7 +11,6 @@ import 'package:lpp/topics/settings/screens/change_year.dart';
 import 'package:lpp/topics/settings/screens/help_screen.dart';
 import 'package:lpp/topics/settings/screens/notification_screen.dart';
 import 'package:lpp/topics/settings/screens/settings_screen.dart';
-import 'package:lpp/topics/settings/screens/wish_a_feature.dart';
 import 'package:lpp/topics/studiekort/kort.dart';
 import 'package:lpp/topics/teams/screens/module_statistics_overview.dart';
 import 'package:lpp/utils/ad_route.dart';
@@ -94,10 +94,18 @@ class Menu extends StatelessWidget {
         selectedIcon: EvaIcons.questionMark,
         screen: const HelpScreen()),
     Destination(
-        icon: EvaIcons.bulbOutline,
-        name: "Ønsker",
-        selectedIcon: EvaIcons.bulb,
-        screen: const WishAFeatureScreen()),
+      icon: EvaIcons.bulbOutline,
+      name: "Feedback",
+      selectedIcon: EvaIcons.bulb,
+      screen: Container(),
+      onTap: (context) {
+        BetterFeedback.of(context).show(
+          (feedback) {
+            // do something with the feedback
+          },
+        );
+      },
+    ),
     Destination(
         icon: EvaIcons.settings2Outline,
         name: "Indstillinger",

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:feedback/feedback.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lpp/notifications/notification.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/utils/appsflyer.dart';
+import 'package:lpp/utils/feedback_delegates.dart';
 import 'package:workmanager/workmanager.dart';
 import 'constants.dart';
 import 'logic/app/settings.dart';
@@ -59,24 +61,38 @@ class LectioApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
-      return MaterialApp(
-        builder: (context, child) {
-          return MediaQuery(
-              data:
-                  MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-              child: child!);
-        },
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        navigatorObservers: [HeroController()],
-        debugShowCheckedModeBanner: false,
-        locale: const Locale(
-          'dk',
-        ),
-        title: appName,
-        theme: state.theme,
-        home: const AppRouter(),
-      );
+      var theme = state.theme;
+      var colorscheme = theme.colorScheme;
+      return BetterFeedback(
+          localizationsDelegates: [CustomFeedbackLocalizationsDelegate()],
+          theme: FeedbackThemeData(
+              activeFeedbackModeColor: colorscheme.primary,
+              background: colorscheme.surface,
+              feedbackSheetColor: colorscheme.surfaceContainerHigh,
+              colorScheme: colorscheme,
+              dragHandleColor: colorscheme.primary,
+              bottomSheetTextInputStyle:
+                  TextStyle(color: colorscheme.onSurface),
+              bottomSheetDescriptionStyle:
+                  TextStyle(color: colorscheme.onSurface)),
+          child: MaterialApp(
+            builder: (context, child) {
+              return MediaQuery(
+                  data: MediaQuery.of(context)
+                      .copyWith(alwaysUse24HourFormat: true),
+                  child: child ?? Container());
+            },
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            navigatorObservers: [HeroController()],
+            debugShowCheckedModeBanner: false,
+            locale: const Locale(
+              'dk',
+            ),
+            title: appName,
+            theme: theme,
+            home: const AppRouter(),
+          ));
     });
   }
 }
