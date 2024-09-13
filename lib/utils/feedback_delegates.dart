@@ -22,5 +22,6 @@ class CustomFeedbackLocalizationsDelegate
   Map<Locale, FeedbackLocalizations> get supportedLocales =>
       <Locale, FeedbackLocalizations>{
         const Locale('da'): CustomFeedbackLocalizations(),
+        const Locale('en'): CustomFeedbackLocalizations()
       };
 }

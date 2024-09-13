@@ -4,6 +4,7 @@ import 'package:feedback/feedback.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lpp/notifications/notification.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
@@ -64,7 +65,15 @@ class LectioApp extends StatelessWidget {
       var theme = state.theme;
       var colorscheme = theme.colorScheme;
       return BetterFeedback(
-          localizationsDelegates: [CustomFeedbackLocalizationsDelegate()],
+          themeMode: theme.brightness == Brightness.light
+              ? ThemeMode.light
+              : ThemeMode.dark,
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            CustomFeedbackLocalizationsDelegate()
+          ],
           theme: FeedbackThemeData(
               activeFeedbackModeColor: colorscheme.primary,
               background: colorscheme.surface,
