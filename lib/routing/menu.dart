@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
@@ -101,25 +100,10 @@ class Menu extends StatelessWidget {
       selectedIcon: EvaIcons.bulb,
       screen: Container(),
       onTap: (context) {
-        BetterFeedback.of(context).show(
-          (feedback) async {
-            var url = "https://spalk.atlassian.net/rest/api/3/issue";
-            var dio = Dio();
-
-            var body =
-                JiraJson().createIssue(feedback.text, feedback.screenshot);
-
-            await dio.post(url,
-                data: body,
-                options: Options(
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                  },
-                ));
-            // do something with the feedback
-          },
-        );
+        BetterFeedback.of(context).show((feedback) {
+          BetterFeedback.of(context).hide();
+          handleFeedback(feedback);
+        });
       },
     ),
     Destination(
