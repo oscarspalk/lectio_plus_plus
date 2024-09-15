@@ -1,7 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:keframe/keframe.dart';
 import 'package:lpp/topics/people/bloc/people_bloc.dart';
 import 'package:lpp/topics/people/widget/people_search.dart';
 import 'package:lpp/topics/state/loading.dart';
@@ -42,14 +41,13 @@ class PeopleScreen extends StatelessWidget {
                 progress: state.progress / finalPeopleProgress,
               );
             }
-            return SizeCacheWidget(
-              child: ListView.builder(
+            return  ListView.builder(
                 cacheExtent: 500.0,
                 itemCount: state.people.length,
                 itemBuilder: (context, i) {
                   return PersonTile(person: state.people.elementAt(i));
                 },
-              ),
+              
             );
           },
         ));

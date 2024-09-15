@@ -112,10 +112,12 @@ class _LectioResourceViewState extends State<LectioResourceView> {
         await tempFile.writeAsBytes(bytes);
       }
       var result = await OpenFilex.open(path);
-      setState(() {
-        loading = false;
-        resultType = result.type;
-      });
+      if (mounted) {
+        setState(() {
+          loading = false;
+          resultType = result.type;
+        });
+      }
     }
   }
 
