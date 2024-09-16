@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lpp/notifications/notification.dart';
+import 'package:lpp/routing/feedback/feedback_fields.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/utils/appsflyer.dart';
 import 'package:lpp/utils/feedback_delegates.dart';
@@ -74,6 +75,13 @@ class LectioApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             CustomFeedbackLocalizationsDelegate()
           ],
+          feedbackBuilder: (context, onSubmit, controller) {
+            return FeedbackFields(
+              onSubmit: (feedback) {
+                onSubmit(feedback);
+              },
+            );
+          },
           theme: FeedbackThemeData(
               activeFeedbackModeColor: colorscheme.primary,
               background: colorscheme.surface,
