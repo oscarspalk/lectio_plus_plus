@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/payment/ad_free_state.dart';
 import 'package:lpp/payment/buy_screen.dart';
 import 'package:lpp/payment/owned_bloc.dart';
@@ -104,7 +105,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       title: const Text("Reklamer"),
                       subtitle: const Text("Savner du reklamer, så tryk her."),
                     );
-                  })
+                  }),
+                  FontWeightsDemo()
                 ],
               ),
             ),

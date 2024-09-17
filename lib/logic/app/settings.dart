@@ -22,6 +22,7 @@ const notifyDebugKey = "notifyDebug";
 final ThemeData rootTheme = ThemeData(
   brightness: Brightness.dark,
   useMaterial3: true,
+  fontFamily: 'Inter',
   colorSchemeSeed: Colors.orange,
 );
 
@@ -35,6 +36,7 @@ class SettingsBloc extends Bloc<SettingsBlocEvent, SettingsState> {
         )) {
     on<SwitchedTheme>((event, emit) async {
       ThemeData newTheme = ThemeData(
+          fontFamily: 'Inter',
           colorSchemeSeed: event.color,
           useMaterial3: true,
           brightness: event.brightness);
