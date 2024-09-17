@@ -95,7 +95,7 @@ class _PersonDetailsState extends State<PersonDetails> {
               padding: const EdgeInsets.all(4.0),
               child: Text(
                 student?.name ?? "",
-                style: LppTypography.labelSmall(context),
+                style: LppTypography.headlineSmall(context),
                 textAlign: TextAlign.center,
               ),
             ),
