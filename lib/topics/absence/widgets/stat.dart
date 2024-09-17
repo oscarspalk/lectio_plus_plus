@@ -48,6 +48,7 @@ class Statistic extends StatelessWidget {
                         ),
                         Text(
                           stat.data.trim(),
+                          overflow: TextOverflow.ellipsis,
                           style: LppTypography.headlineSmall(context),
                         ),
                       ],
