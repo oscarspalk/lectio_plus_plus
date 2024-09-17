@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lpp/logic/app/typography.dart';
 
 class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -22,17 +23,17 @@ class LppAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      titleTextStyle: LppTypography.headlineSmall(context)
+              ?.copyWith(overflow: TextOverflow.ellipsis) ??
+          const TextStyle(),
       bottom: bottom,
       centerTitle: false,
       elevation: 0.0,
       automaticallyImplyLeading: !hideLeading,
-      title: DefaultTextStyle(
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis),
-          child: titleWidget ??
-              Text(
-                title,
-              )),
+      title: titleWidget ??
+          Text(
+            title,
+          ),
       actions: actions,
     );
   }

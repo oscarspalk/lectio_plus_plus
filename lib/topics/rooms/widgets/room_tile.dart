@@ -49,9 +49,11 @@ class InUseWidget extends StatelessWidget {
       width: 70.0,
       padding: const EdgeInsets.all(8.0),
       child: Text(
-        inUse ? "Optaget" : "Ledigt",
-        style:
-            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        (inUse ? "Optaget" : "Ledigt").toUpperCase(),
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

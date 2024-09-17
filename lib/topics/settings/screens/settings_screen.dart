@@ -104,7 +104,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       title: const Text("Reklamer"),
                       subtitle: const Text("Savner du reklamer, så tryk her."),
                     );
-                  })
+                  }),
                 ],
               ),
             ),

@@ -12,8 +12,13 @@ class LppTypography {
   static TextStyle? headlineSmall(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
     return Theme.of(context).textTheme.headlineSmall?.copyWith(
+        fontFamily: 'Fraunces',
         color: colorScheme.onSurface,
-        fontWeight: FontWeight.w600,
+        fontVariations: [
+          const FontVariation("soft", 100.0),
+          const FontVariation("wonk", 1.0),
+          const FontVariation('wght', 600)
+        ],
         fontSize: 24.0,
         height: 4 / 3);
   }
