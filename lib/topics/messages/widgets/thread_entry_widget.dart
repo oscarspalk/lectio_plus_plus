@@ -42,12 +42,13 @@ class ThreadEntryWidget extends StatelessWidget {
               margin: const EdgeInsets.only(left: 8.0),
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Wrap(
+                      alignment: WrapAlignment.spaceBetween,
                       children: [
                         Text(
                           entry.topic,

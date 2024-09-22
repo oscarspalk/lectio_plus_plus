@@ -28,6 +28,12 @@ class LppTypography {
     return Theme.of(context).textTheme.labelSmall?.copyWith(
         color: colorScheme.onSurface,
         fontSize: 18.0,
+        fontFamily: 'Fraunces',
+        fontVariations: [
+          const FontVariation("soft", 100.0),
+          const FontVariation("wonk", 1.0),
+          const FontVariation('wght', 400)
+        ],
         fontWeight: FontWeight.w500,
         height: 4 / 3);
   }
