@@ -40,7 +40,7 @@ class InterstitialCubit extends Cubit<InterstitialAd?> {
           },
           // Called when an ad request failed.
           onAdFailedToLoad: (LoadAdError error) {
-            debugPrint('InterstitialAd failed to load: $error');
+            debugPrint('InterstitialAd failed to load: ${error.message}');
           },
         ));
   }

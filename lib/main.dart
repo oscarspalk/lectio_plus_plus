@@ -22,7 +22,11 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid || Platform.isIOS) {
     initAppFlyer();
-    MobileAds.instance.initialize();
+    MobileAds.instance.initialize().then((initStatus) {
+       initStatus.adapterStatuses.forEach((key, value) {
+        debugPrint('Adapter status for $key: ${value.description}');
+      });
+    });
     initializeNotifcations();
 
     Workmanager().initialize(
