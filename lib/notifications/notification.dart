@@ -1,22 +1,21 @@
 import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lpp/constants.dart';
 import 'package:lpp/notifications/service.dart';
-import 'package:workmanager/workmanager.dart';
 
 const notificationChannelId = 'lpp';
 const notificationId = 0;
 
 @pragma('vm:entry-point')
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    var notificationService = NotificationService();
-    var newData = await notificationService.setup();
-    if (newData) {
-      await notificationService.notify();
-    }
-    return true;
-  });
+Future<void> callbackDispatcher(RemoteMessage msg) async {
+  debugPrint("Running notification service");
+  var notificationService = NotificationService();
+  var newData = await notificationService.setup();
+  if (newData) {
+    await notificationService.notify();
+  }
 }
 
 Future<void> initializeNotifcations() async {
