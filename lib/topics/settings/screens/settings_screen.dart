@@ -6,6 +6,7 @@ import 'package:lpp/payment/ad_free_state.dart';
 import 'package:lpp/payment/buy_screen.dart';
 import 'package:lpp/payment/owned_bloc.dart';
 import 'package:lpp/topics/settings/bloc/term_bloc.dart';
+import 'package:lpp/topics/settings/screens/notification_history_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
@@ -111,6 +112,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       subtitle: const Text("Savner du reklamer, så tryk her."),
                     );
                   }),
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(
+                          context, adRoute(const NotificationHistoryScreen()));
+                    },
+                    title: const Text("Se notifikations historik"),
+                    subtitle: const Text(
+                        "Føler du ikke, at du får notifikationer? Se om den rent faktisk tjekker."),
+                  )
                 ],
               ),
             ),

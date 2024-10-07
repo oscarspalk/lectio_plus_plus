@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lpp/constants.dart';
+import 'package:lpp/notifications/history/history.dart';
 import 'package:lpp/notifications/service.dart';
 
 const notificationChannelId = 'lpp';
@@ -11,11 +12,19 @@ const notificationId = 0;
 @pragma('vm:entry-point')
 Future<void> callbackDispatcher(RemoteMessage msg) async {
   debugPrint("Running notification service");
-  var notificationService = NotificationService();
-  var newData = await notificationService.setup();
-  if (newData) {
-    await notificationService.notify();
+  bool error = false;
+  bool newData = false;
+  try {
+    var notificationService = NotificationService();
+    newData = await notificationService.setup();
+    if (newData) {
+      await notificationService.notify();
+    }
+  } catch (e) {
+    error = true;
   }
+
+  await NotificationHistory().save(error, newData);
 }
 
 Future<void> initializeNotifcations() async {
