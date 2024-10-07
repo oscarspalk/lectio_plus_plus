@@ -11,7 +11,6 @@ import 'package:lpp/firebase_options.dart';
 import 'package:lpp/notifications/notification.dart';
 import 'package:lpp/routing/feedback/feedback_fields.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
-import 'package:lpp/utils/appsflyer.dart';
 import 'package:lpp/utils/feedback_delegates.dart';
 import 'constants.dart';
 import 'logic/app/settings.dart';
@@ -25,7 +24,6 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    initAppFlyer();
     MobileAds.instance.initialize().then((initStatus) {
       initStatus.adapterStatuses.forEach((key, value) {
         debugPrint('Adapter status for $key: ${value.description}');

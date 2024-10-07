@@ -28,12 +28,12 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>Er nødvendig for levering af personlige reklamer.</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-7673030582142706~5862531961</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Er nødvendig for levering af personlige reklamer.</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
@@ -232,21 +232,21 @@
 			<key>SKAdNetworkIdentifier</key>
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
-		
-		   <dict>
-        <key>SKAdNetworkIdentifier</key>
-        <string>v9wttpbfk9.skadnetwork</string>
-    </dict>
-    <dict>
-        <key>SKAdNetworkIdentifier</key>
-        <string>n38lu8286q.skadnetwork</string>
-    </dict>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>v9wttpbfk9.skadnetwork</string>
+		</dict>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>n38lu8286q.skadnetwork</string>
+		</dict>
 	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
