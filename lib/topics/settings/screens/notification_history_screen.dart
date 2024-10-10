@@ -41,17 +41,22 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
       body: entries != null
           ? entries!.isEmpty
               ? const EmptyScreen()
-              : ListView.builder(
-                  itemCount: entries!.length,
-                  itemBuilder: (context, index) {
-                    var entry = entries![index];
-                    return ListTile(
-                      subtitle: Text(
-                          "Nye notifikationer: ${entry.newData ? "ja" : "nej"}, fejl: ${entry.error ? "ja" : "nej"}"),
-                      title: Text(DateFormat("dd/MM/yyyy HH:mm")
-                          .format(entries![index].time)),
-                    );
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    loadData();
                   },
+                  child: ListView.builder(
+                    itemCount: entries!.length,
+                    itemBuilder: (context, index) {
+                      var entry = entries![index];
+                      return ListTile(
+                        subtitle: Text(
+                            "Nye notifikationer: ${entry.newData ? "ja" : "nej"}, fejl: ${entry.error ? "ja" : "nej"}"),
+                        title: Text(DateFormat("dd/MM/yyyy HH:mm")
+                            .format(entries![index].time)),
+                      );
+                    },
+                  ),
                 )
           : const LoadingScreen(),
     );

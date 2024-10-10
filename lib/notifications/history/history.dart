@@ -9,6 +9,7 @@ class NotificationHistory {
   save(bool error, bool newData) async {
     var entry =
         HistoryEntry(time: DateTime.now(), error: error, newData: newData);
+
     var prefs = await SharedPreferences.getInstance();
     var currentEntries = await entries();
     currentEntries.add(entry);
