@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -38,6 +39,7 @@ class NotificationBloc extends Cubit<NotificationState> {
           hasNewMessageNotifications: true));
       checkNotifications();
     }
+    registerDeviceAtFirebase();
   }
 
   Future<bool> isGrantedNotfications() async {
@@ -60,6 +62,17 @@ class NotificationBloc extends Cubit<NotificationState> {
           );
     }
     return requestResult ?? false;
+  }
+
+  void registerDeviceAtFirebase() async {
+    if (state.hasAssignmentStatusNotifications ||
+        state.hasEventNotifications ||
+        state.hasNewMessageNotifications) {
+      const notifcationTopic = "notifications";
+
+      await FirebaseMessaging.instance.subscribeToTopic(notifcationTopic);
+      debugPrint("subscribed to notifications");
+    }
   }
 
   void checkNotifications() async {

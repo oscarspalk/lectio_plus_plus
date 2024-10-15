@@ -1,43 +1,37 @@
 import 'dart:io';
 
 import 'package:feedback/feedback.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:lpp/firebase_options.dart';
 import 'package:lpp/notifications/notification.dart';
 import 'package:lpp/routing/feedback/feedback_fields.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
-import 'package:lpp/utils/appsflyer.dart';
 import 'package:lpp/utils/feedback_delegates.dart';
-import 'package:workmanager/workmanager.dart';
 import 'constants.dart';
 import 'logic/app/settings.dart';
 import 'logic/student/student_bloc.dart';
 import 'routing/router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid || Platform.isIOS) {
-    initAppFlyer();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     MobileAds.instance.initialize().then((initStatus) {
-       initStatus.adapterStatuses.forEach((key, value) {
+      initStatus.adapterStatuses.forEach((key, value) {
         debugPrint('Adapter status for $key: ${value.description}');
       });
     });
-    initializeNotifcations();
+    FirebaseMessaging.onBackgroundMessage(callbackDispatcher);
 
-    Workmanager().initialize(
-        callbackDispatcher, // The top level function, aka callbackDispatcher
-        isInDebugMode:
-            kDebugMode // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
-        );
-    if (Platform.isAndroid) {
-      Workmanager().registerPeriodicTask("opgave-check", "opgave-check",
-          frequency: const Duration(minutes: 15));
-    }
+    initializeNotifcations();
   }
 
   runApp(const LectioBase());
