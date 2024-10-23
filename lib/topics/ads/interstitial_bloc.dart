@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lpp/topics/ads/ids.dart';
@@ -34,13 +33,13 @@ class InterstitialCubit extends Cubit<InterstitialAd?> {
                 // Called when a click is recorded for an ad.
                 onAdClicked: (ad) {});
 
-            debugPrint('$ad loaded.');
+            //debugPrint('$ad loaded.');
             // Keep a reference to the ad so you can show it later.
             emit(ad);
           },
           // Called when an ad request failed.
           onAdFailedToLoad: (LoadAdError error) {
-            debugPrint('InterstitialAd failed to load: ${error.message}');
+            //debugPrint('InterstitialAd failed to load: ${error.message}');
           },
         ));
   }

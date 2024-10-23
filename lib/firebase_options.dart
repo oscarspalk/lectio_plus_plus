@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'lectiopp.appspot.com',
     iosBundleId: 'com.oscarspalk.lpp',
   );
+
 }

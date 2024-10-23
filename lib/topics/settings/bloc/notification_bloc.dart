@@ -46,6 +46,15 @@ class NotificationBloc extends Cubit<NotificationState> {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
     bool? requestResult;
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: true,
+      provisional: false,
+      sound: true,
+    );
     if (Platform.isAndroid) {
       requestResult = await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<

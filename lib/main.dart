@@ -25,16 +25,22 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     MobileAds.instance.initialize().then((initStatus) {
-      initStatus.adapterStatuses.forEach((key, value) {
-        debugPrint('Adapter status for $key: ${value.description}');
-      });
+      initStatus.adapterStatuses.forEach((key, value) {});
     });
-    FirebaseMessaging.onBackgroundMessage(callbackDispatcher);
+
+    registerNotifications();
 
     initializeNotifcations();
   }
 
   runApp(const LectioBase());
+}
+
+void registerNotifications() async {
+  var apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+  if (apnsToken != null) {
+    FirebaseMessaging.onBackgroundMessage(callbackDispatcher);
+  }
 }
 
 class LectioBase extends StatelessWidget {
