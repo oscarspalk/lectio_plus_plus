@@ -38,7 +38,7 @@ void main() async {
 
 void registerNotifications() async {
   var apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-  if (apnsToken != null) {
+  if (apnsToken != null || Platform.isAndroid) {
     FirebaseMessaging.onBackgroundMessage(callbackDispatcher);
   }
 }
