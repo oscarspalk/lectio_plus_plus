@@ -9,8 +9,8 @@ import 'package:lpp/payment/owned_bloc.dart';
 
 const _androidTestId = "ca-app-pub-3940256099942544/6300978111";
 const _iosTestId = "ca-app-pub-3940256099942544/2934735716";
-const _androidProdId = "ca-app-pub-7673030582142706/1265058826";
-const _iosProdId = "ca-app-pub-7673030582142706/8851904802";
+const _androidProdId = "ca-app-pub-2657809018485943/6317642741";
+const _iosProdId = "ca-app-pub-2657809018485943/8228484628";
 
 String _decideId() {
   var isAndroid = Platform.isAndroid;
