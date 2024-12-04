@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/routing/upgrader.dart';
+import 'package:lpp/topics/welcome/screens/uni_login_screen.dart';
 import 'package:lpp/topics/welcome/screens/welcome_carousel.dart';
 
 import '../logic/student/student_bloc.dart';
@@ -17,6 +18,8 @@ class AppRouter extends StatelessWidget {
       child: BlocBuilder<StudentBloc, StudentState>(
         builder: (context, state) {
           switch (state.state) {
+            case StudentStates.unilogin:
+              return const UniLoginScreen();
             case StudentStates.unauthorized:
               return const WelcomeCarousel();
             case StudentStates.loading:

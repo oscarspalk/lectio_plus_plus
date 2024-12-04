@@ -7,13 +7,16 @@ import 'package:lectio_wrapper/types/gym.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
 import 'package:lpp/logic/cache/caching_service.dart';
 import 'package:lpp/logic/cache/login_service.dart';
+import 'package:lpp/topics/welcome/screens/uni_login_screen.dart';
+import 'package:lpp/utils/ad_route.dart';
 
 enum StudentStates {
   unauthorized,
   loading,
   authorized,
   loginError,
-  internetError
+  internetError,
+  unilogin
 }
 
 enum LoadingStates { caching, normal }
@@ -26,6 +29,7 @@ class StudentState {
   List<Team> teams;
   LoadingStates loadingState;
   String gymName;
+  String? uniloginUrl;
 
   StudentState copyWith(
       {Student? student,
@@ -34,14 +38,17 @@ class StudentState {
       List<Gym>? gyms,
       LoadingStates? loadingState,
       List<Team>? teams,
-      String? gymName}) {
-    return StudentState(state ?? this.state,
-        gyms: gyms ?? this.gyms,
-        basicInfo: basicInfo ?? this.basicInfo,
-        student: student ?? this.student,
-        loadingState: loadingState ?? this.loadingState,
-        teams: teams ?? this.teams,
-        gymName: gymName ?? this.gymName);
+      String? gymName,
+      String? uniloginUrl}) {
+    return StudentState(
+      state ?? this.state,
+      gyms: gyms ?? this.gyms,
+      basicInfo: basicInfo ?? this.basicInfo,
+      student: student ?? this.student,
+      loadingState: loadingState ?? this.loadingState,
+      teams: teams ?? this.teams,
+      gymName: gymName ?? this.gymName,
+    );
   }
 
   StudentState(this.state,
@@ -50,13 +57,15 @@ class StudentState {
       required this.gyms,
       required this.loadingState,
       required this.teams,
-      required this.gymName});
+      required this.gymName,
+      this.uniloginUrl});
 }
 
 sealed class StudentEvent {}
 
 final class StudentLoggedIn extends StudentEvent {
   final Account account;
+
   StudentLoggedIn(this.account);
 }
 
@@ -117,6 +126,17 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       try {
         var account = event.account;
         var student = await loginService.login(account);
+
+        if (student == null) {
+          // fucking handle mitid
+
+          var uniLoginUrl = await account.getUniloginUrl();
+          if (uniLoginUrl != null) {
+            return emit(state.copyWith(
+                state: StudentStates.unilogin, uniloginUrl: uniLoginUrl));
+          }
+        }
+
         if (student != null) {
           emit(state.copyWith(
             state: StudentStates.authorized,

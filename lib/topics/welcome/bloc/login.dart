@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
+import 'package:lpp/utils/ad_route.dart';
 
 class LoginState {
   int selectedGym;
@@ -16,7 +17,8 @@ class LoginBloc extends Cubit<LoginState> {
 
   login(BuildContext context) async {
     context.read<StudentBloc>().add(StudentLoggedIn(
-        Account(state.selectedGym, state.username, state.password)));
+          Account(state.selectedGym, state.username, state.password),
+        ));
   }
 
   setUsername(String username) {
