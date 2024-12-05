@@ -15,18 +15,17 @@ class LoginService {
 
   LoginService();
 
-  /*Future<bool> _containsMinimum() async {
+  Future<bool> _containsMinimum() async {
     return await storage.containsKey(key: gymIdKey) &&
         await storage.containsKey(key: usernameKey) &&
         await storage.containsKey(key: passwordKey);
-  }*/
+  }
 
-  /*Future<bool> _containsRequired() async {
+  Future<bool> _containsRequired() async {
     return await _containsMinimum() &&
         await storage.containsKey(key: cookieKey) &&
-        await storage.containsKey(key: studentIdKey) &&
-        await storage.containsKey(key: expirationDateKey);
-  }*/
+        await storage.containsKey(key: studentIdKey);
+  }
 
   Future<Account?> _getSavedAccount() async {
     String? gymIdValue = await storage.read(key: gymIdKey);
@@ -52,7 +51,7 @@ class LoginService {
     }
   }
 
-  /*Future<List<Cookie>> _getSavedCookies() async {
+  Future<List<Cookie>> _getSavedCookies() async {
     String? cookieString = await storage.read(key: cookieKey);
     if (cookieString != null) {
       List<Cookie> cookies = cookieString.split(';').map((cookieStr) {
@@ -62,23 +61,15 @@ class LoginService {
       return cookies;
     }
     return [];
-  }*/
+  }
 
   Future<Student?> loadSaved() async {
     Account? savedAccount = await _getSavedAccount();
-    /*
-      @ disabled autologin
-      if (await _containsRequired() && savedAccount != null) {
-        DateTime expirationDate =
-            DateTime.parse(await storage.read(key: expirationDateKey) ?? "");
-        if (expirationDate.isAfter(DateTime.now())) {
-          String studentId = await storage.read(key: studentIdKey) ?? "";
-          List<Cookie> cookies = await _getSavedCookies();
-          return savedAccount.loginWithCookies(cookies, studentId);
-        }
-      }*/
-    if (savedAccount != null) {
-      return login(savedAccount);
+
+    if (await _containsRequired() && savedAccount != null) {
+      String studentId = await storage.read(key: studentIdKey) ?? "";
+      List<Cookie> cookies = await _getSavedCookies();
+      return savedAccount.loginWithCookies(cookies, studentId);
     }
 
     return null;
@@ -117,13 +108,7 @@ class LoginService {
     var cookies = await student.getCookies();
     var cookieString =
         cookies.map((cookie) => "${cookie.name}=${cookie.value}").join(';');
-    Cookie? autologinCookie =
-        cookies.where((element) => element.name == "autologinkey").firstOrNull;
-    if (autologinCookie != null && autologinCookie.expires != null) {
-      await storage.write(
-          key: expirationDateKey,
-          value: autologinCookie.expires!.toIso8601String());
-    }
+
     await storage.write(key: usernameKey, value: account.username);
     await storage.write(key: passwordKey, value: account.password);
     await storage.write(key: gymIdKey, value: account.gymId.toString());

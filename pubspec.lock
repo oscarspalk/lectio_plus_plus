@@ -777,10 +777,10 @@ packages:
     dependency: "direct main"
     description:
       name: lectio_wrapper
-      sha256: "33c324f74af7182ccba264cf016be14a87dfede9f2f7eb801c83df2f909cf617"
+      sha256: "4f26c520eef2e6b5f0fd0da80f79e90a8400f668e6c86ab2bcde35ab1c8b662e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.63"
+    version: "0.6.66"
   lints:
     dependency: transitive
     description:
@@ -1318,10 +1318,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "5c5f338a667b4c644744b661f309fb8080bb94b18a7e91ef1dbd343bed00ed6d"
+      sha256: f652077d0bdf60abe4c1f6377448e8655008eef28f128bc023f7b5e8dfeb48fc
       url: "https://pub.dev"
     source: hosted
-    version: "14.2.5"
+    version: "14.2.4"
   watcher:
     dependency: transitive
     description:

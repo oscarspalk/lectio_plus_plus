@@ -245,6 +245,8 @@
 	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	 <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+      <true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

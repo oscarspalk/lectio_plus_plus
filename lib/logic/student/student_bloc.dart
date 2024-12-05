@@ -5,10 +5,9 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/topics/gyms/controller.dart';
 import 'package:lectio_wrapper/types/gym.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
+import 'package:lectio_wrapper/utils/dio_client.dart';
 import 'package:lpp/logic/cache/caching_service.dart';
 import 'package:lpp/logic/cache/login_service.dart';
-import 'package:lpp/topics/welcome/screens/uni_login_screen.dart';
-import 'package:lpp/utils/ad_route.dart';
 
 enum StudentStates {
   unauthorized,
@@ -29,7 +28,7 @@ class StudentState {
   List<Team> teams;
   LoadingStates loadingState;
   String gymName;
-  String? uniloginUrl;
+  Account? account;
 
   StudentState copyWith(
       {Student? student,
@@ -39,7 +38,7 @@ class StudentState {
       LoadingStates? loadingState,
       List<Team>? teams,
       String? gymName,
-      String? uniloginUrl}) {
+      Account? account}) {
     return StudentState(
       state ?? this.state,
       gyms: gyms ?? this.gyms,
@@ -48,6 +47,7 @@ class StudentState {
       loadingState: loadingState ?? this.loadingState,
       teams: teams ?? this.teams,
       gymName: gymName ?? this.gymName,
+      account: account ?? this.account,
     );
   }
 
@@ -58,7 +58,7 @@ class StudentState {
       required this.loadingState,
       required this.teams,
       required this.gymName,
-      this.uniloginUrl});
+      required this.account});
 }
 
 sealed class StudentEvent {}
@@ -75,6 +75,11 @@ final class LaunchedApp extends StudentEvent {}
 
 final class ResetError extends StudentEvent {}
 
+final class UniloginEvent extends StudentEvent {
+  final String authUrl;
+  UniloginEvent(this.authUrl);
+}
+
 final class AutologinError extends StudentEvent {}
 
 final class ListGyms extends StudentEvent {}
@@ -88,7 +93,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
             gyms: [],
             teams: [],
             loadingState: LoadingStates.normal,
-            gymName: "")) {
+            gymName: "",
+            account: null)) {
     on<ListGyms>(
       (event, emit) async {
         var startState = state.state;
@@ -101,6 +107,25 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<AutologinError>((event, emit) async {
       await loginService.loginFromSaved();
     });
+
+    on<UniloginEvent>(
+      (event, emit) async {
+        if (state.account != null) {
+          var student = await state.account?.uniloginLogin(event.authUrl);
+          if (student != null) {
+            emit(state.copyWith(
+              state: StudentStates.authorized,
+              student: student,
+            ));
+            LoginService().save(state.account!, student);
+            var cacheState =
+                await CachingService(student, state.gyms).loadSaved();
+            return emit(state.copyWith(
+                teams: cacheState.teams, gymName: cacheState.gymName));
+          }
+        }
+      },
+    );
 
     on<LaunchedApp>((event, emit) async {
       emit(state.copyWith(state: StudentStates.loading));
@@ -130,11 +155,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         if (student == null) {
           // fucking handle mitid
 
-          var uniLoginUrl = await account.getUniloginUrl();
-          if (uniLoginUrl != null) {
-            return emit(state.copyWith(
-                state: StudentStates.unilogin, uniloginUrl: uniLoginUrl));
-          }
+          return emit(
+              state.copyWith(state: StudentStates.unilogin, account: account));
         }
 
         if (student != null) {

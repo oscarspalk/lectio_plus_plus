@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
@@ -26,12 +28,29 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
 
   setup() async {
     var bloc = context.read<LoginBloc>();
-    uniloginUrl = await Account(
+    var (url, cookies) = await Account(
             bloc.state.selectedGym, bloc.state.username, bloc.state.password)
         .getUniloginUrl();
+    uniloginUrl = url;
+    var cookieManager = WebViewCookieManager();
+    for (var cookie in cookies) {
+      cookieManager.setCookie(WebViewCookie(
+          name: cookie.name, value: cookie.value, domain: cookie.domain ?? ""));
+    }
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse(uniloginUrl ?? ""));
+      ..loadRequest(Uri.parse(uniloginUrl ?? ""))
+      ..setNavigationDelegate(NavigationDelegate(
+        onNavigationRequest: (request) async {
+          if (request.url
+              .contains("lectio.dk/lectio/integration/unilogin.aspx")) {
+            context.read<StudentBloc>().add(UniloginEvent(request.url));
+            debugPrint("lets copy this url and authenticate");
+            return NavigationDecision.prevent;
+          }
+          return NavigationDecision.navigate;
+        },
+      ));
     setState(() {});
   }
 
