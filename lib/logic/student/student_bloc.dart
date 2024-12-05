@@ -5,7 +5,6 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/topics/gyms/controller.dart';
 import 'package:lectio_wrapper/types/gym.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
-import 'package:lectio_wrapper/utils/dio_client.dart';
 import 'package:lpp/logic/cache/caching_service.dart';
 import 'package:lpp/logic/cache/login_service.dart';
 
