@@ -4,6 +4,7 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class UniLoginScreen extends StatefulWidget {
@@ -39,7 +40,9 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
       ..loadRequest(Uri.parse(uniloginUrl ?? ""))
       ..setNavigationDelegate(NavigationDelegate(
         onNavigationRequest: (request) async {
-          if (request.url
+          if (request.url.startsWith("intent")) {
+            await launchUrlString(request.url);
+          } else if (request.url
               .contains("lectio.dk/lectio/integration/unilogin.aspx")) {
             context.read<StudentBloc>().add(UniloginEvent(request.url));
             debugPrint("lets copy this url and authenticate");
