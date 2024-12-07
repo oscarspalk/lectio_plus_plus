@@ -43,7 +43,7 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
           if (request.url.startsWith("intent")) {
             if (await canLaunchUrlString(request.url)) {
               await launchUrlString(request.url,
-                  mode: LaunchMode.externalApplication);
+                  mode: LaunchMode.externalNonBrowserApplication);
               return NavigationDecision.prevent;
             }
           } else if (request.url
