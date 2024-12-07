@@ -41,7 +41,11 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
       ..setNavigationDelegate(NavigationDelegate(
         onNavigationRequest: (request) async {
           if (request.url.startsWith("intent")) {
-            await launchUrlString(request.url);
+            if (await canLaunchUrlString(request.url)) {
+              await launchUrlString(request.url,
+                  mode: LaunchMode.externalApplication);
+              return NavigationDecision.prevent;
+            }
           } else if (request.url
               .contains("lectio.dk/lectio/integration/unilogin.aspx")) {
             context.read<StudentBloc>().add(UniloginEvent(request.url));

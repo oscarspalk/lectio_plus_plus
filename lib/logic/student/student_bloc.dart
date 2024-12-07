@@ -64,8 +64,8 @@ sealed class StudentEvent {}
 
 final class StudentLoggedIn extends StudentEvent {
   final Account account;
-
-  StudentLoggedIn(this.account);
+  final bool mitID;
+  StudentLoggedIn(this.account, this.mitID);
 }
 
 final class StudentLoggedOut extends StudentEvent {}
@@ -148,9 +148,11 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<StudentLoggedIn>((event, emit) async {
       emit(state.copyWith(state: StudentStates.loading));
       try {
+        Student? student;
         var account = event.account;
-        var student = await loginService.login(account);
-
+        if (!event.mitID) {
+          student = await loginService.login(account);
+        }
         if (student == null) {
           // fucking handle mitid
 
