@@ -7,6 +7,7 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
+import 'package:lpp/widgets/layout/appbar.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -34,7 +35,9 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
       var (url, cookies) = await Account(
               bloc.state.selectedGym, bloc.state.username, bloc.state.password)
           .getUniloginUrl();
-      uniloginUrl = url;
+      setState(() {
+        uniloginUrl = url;
+      });
       var cookieManager = WebViewCookieManager();
       for (var cookie in cookies) {
         cookieManager.setCookie(WebViewCookie(
@@ -82,6 +85,8 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
     if (uniloginUrl == null || controller == null) {
       return const LoadingScreen();
     }
-    return WebViewWidget(controller: controller!);
+    return Scaffold(
+        appBar: LppAppbar(title: uniloginUrl ?? "MitID Login"),
+        body: WebViewWidget(controller: controller!));
   }
 }
