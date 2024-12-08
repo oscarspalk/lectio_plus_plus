@@ -16,8 +16,7 @@ class LoginBloc extends Cubit<LoginState> {
 
   login(BuildContext context) async {
     context.read<StudentBloc>().add(StudentLoggedIn(
-          Account(state.selectedGym, state.username, state.password),
-        ));
+        Account(state.selectedGym, state.username, state.password), true));
   }
 
   setUsername(String username) {
