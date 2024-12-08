@@ -1,0 +1,6 @@
+intent://appswitchmitid.page.link/
+?link=https://appswitch.mitid.dk?ticket%3Dc9d0186bc748f9ad1be653d3447cb9c36da0708c0e6d940f86e4b69b199ed3b0%26returnUrl%3DChrome&apn=dk.mitid.app.android
+&afl=https://appswitch.mitid.dk
+#Intent;package=com.google.android.gms;
+action=com.google.firebase.dynamiclinks.VIEW_DYNAMIC_LINK;
+scheme=https;S.browser_fallback_url=https://appswitch.mitid.dk;end;

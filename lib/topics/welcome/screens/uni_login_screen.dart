@@ -1,9 +1,13 @@
+import 'dart:io';
+
+import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -41,11 +45,20 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
       ..setNavigationDelegate(NavigationDelegate(
         onNavigationRequest: (request) async {
           if (request.url.startsWith("intent")) {
-            if (await canLaunchUrlString(request.url)) {
-              await launchUrlString(request.url,
-                  mode: LaunchMode.externalNonBrowserApplication);
-              return NavigationDecision.prevent;
+            if (Platform.isIOS) {
+              if (await canLaunchUrlString(request.url)) {
+                await launchUrlString(request.url,
+                    mode: LaunchMode.externalNonBrowserApplication);
+              }
             }
+            if (Platform.isAndroid) {
+              debugPrint(request.url);
+              var openInNewWindow = request.url
+                  .replaceAll("scheme=", "launchFlags=268435456;scheme=");
+              await AndroidIntent.parseAndLaunch(openInNewWindow);
+              //await AndroidIntent(data: request.url).launchChooser("Mit ID");
+            }
+            return NavigationDecision.prevent;
           } else if (request.url
               .contains("lectio.dk/lectio/integration/unilogin.aspx")) {
             context.read<StudentBloc>().add(UniloginEvent(request.url));
