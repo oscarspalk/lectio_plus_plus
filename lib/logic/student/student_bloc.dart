@@ -168,17 +168,13 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
               state.copyWith(state: StudentStates.unilogin, account: account));
         }
 
-        if (student != null) {
-          emit(state.copyWith(
-            state: StudentStates.authorized,
-            student: student,
-          ));
-          var cacheState =
-              await CachingService(student, state.gyms).loadSaved();
-          return emit(state.copyWith(
-              teams: cacheState.teams, gymName: cacheState.gymName));
-        }
-        return emit(state.copyWith(state: StudentStates.loginError));
+        emit(state.copyWith(
+          state: StudentStates.authorized,
+          student: student,
+        ));
+        var cacheState = await CachingService(student, state.gyms).loadSaved();
+        return emit(state.copyWith(
+            teams: cacheState.teams, gymName: cacheState.gymName));
       } catch (e) {
         emit(state.copyWith(state: StudentStates.internetError));
       }

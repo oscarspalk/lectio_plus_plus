@@ -21,6 +21,7 @@ class UniLoginScreen extends StatefulWidget {
 class _UniLoginScreenState extends State<UniLoginScreen> {
   String? uniloginUrl;
   WebViewController? controller;
+  String? currentUrl;
   @override
   void initState() {
     super.initState();
@@ -50,6 +51,9 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
         ..loadRequest(Uri.parse(uniloginUrl ?? ""))
         ..setNavigationDelegate(NavigationDelegate(
           onNavigationRequest: (request) async {
+            setState(() {
+              currentUrl = request.url;
+            });
             if (request.url.startsWith("intent")) {
               if (Platform.isIOS) {
                 if (await canLaunchUrlString(request.url)) {
@@ -86,7 +90,10 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
       return const LoadingScreen();
     }
     return Scaffold(
-        appBar: LppAppbar(title: uniloginUrl ?? "MitID Login"),
+        appBar: LppAppbar(
+          title: "",
+          titleWidget: Text(currentUrl ?? "MitID Login"),
+        ),
         body: WebViewWidget(controller: controller!));
   }
 }
