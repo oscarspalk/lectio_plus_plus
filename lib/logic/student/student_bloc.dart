@@ -7,8 +7,6 @@ import 'package:lectio_wrapper/types/gym.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
 import 'package:lpp/logic/cache/caching_service.dart';
 import 'package:lpp/logic/cache/login_service.dart';
-import 'package:lpp/topics/welcome/screens/uni_login_screen.dart';
-import 'package:lpp/utils/ad_route.dart';
 
 enum StudentStates {
   unauthorized,
@@ -81,6 +79,8 @@ final class ListGyms extends StudentEvent {}
 
 final class RefreshTeams extends StudentEvent {}
 
+final class UniloginFailure extends StudentEvent {}
+
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
   final LoginService loginService = LoginService();
   StudentBloc()
@@ -89,6 +89,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
             teams: [],
             loadingState: LoadingStates.normal,
             gymName: "")) {
+    on<UniloginFailure>(
+      (event, emit) {
+        return emit(state.copyWith(state: StudentStates.loginError));
+      },
+    );
+
     on<ListGyms>(
       (event, emit) async {
         var startState = state.state;

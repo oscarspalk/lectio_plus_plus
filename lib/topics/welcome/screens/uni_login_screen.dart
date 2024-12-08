@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
-import 'package:lpp/logic/app/settings.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
@@ -25,14 +24,19 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
   }
 
   setup() async {
-    var bloc = context.read<LoginBloc>();
-    uniloginUrl = await Account(
-            bloc.state.selectedGym, bloc.state.username, bloc.state.password)
-        .getUniloginUrl();
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse(uniloginUrl ?? ""));
-    setState(() {});
+    var studentBloc = context.read<StudentBloc>();
+    try {
+      var bloc = context.read<LoginBloc>();
+      uniloginUrl = await Account(
+              bloc.state.selectedGym, bloc.state.username, bloc.state.password)
+          .getUniloginUrl();
+      controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..loadRequest(Uri.parse(uniloginUrl ?? ""));
+      setState(() {});
+    } catch (e) {
+      studentBloc.add(UniloginFailure());
+    }
   }
 
   @override
