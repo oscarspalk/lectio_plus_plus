@@ -69,7 +69,11 @@ class LoginService {
     if (await _containsRequired() && savedAccount != null) {
       String studentId = await storage.read(key: studentIdKey) ?? "";
       List<Cookie> cookies = await _getSavedCookies();
-      return savedAccount.loginWithCookies(cookies, studentId);
+      if (cookies
+          .where((cookie) => cookie.name.toLowerCase().contains("autologin"))
+          .isNotEmpty) {
+        return savedAccount.loginWithCookies(cookies, studentId);
+      }
     }
 
     return null;
