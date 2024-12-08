@@ -31,12 +31,46 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
     var studentBloc = context.read<StudentBloc>();
     try {
       var bloc = context.read<LoginBloc>();
-      uniloginUrl = await Account(
+      var (url, cookies) = await Account(
               bloc.state.selectedGym, bloc.state.username, bloc.state.password)
           .getUniloginUrl();
+      uniloginUrl = url;
+      var cookieManager = WebViewCookieManager();
+      for (var cookie in cookies) {
+        cookieManager.setCookie(WebViewCookie(
+            name: cookie.name,
+            value: cookie.value,
+            domain: cookie.domain ?? ""));
+      }
       controller = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
-        ..loadRequest(Uri.parse(uniloginUrl ?? ""));
+        ..loadRequest(Uri.parse(uniloginUrl ?? ""))
+        ..setNavigationDelegate(NavigationDelegate(
+          onNavigationRequest: (request) async {
+            if (request.url.startsWith("intent")) {
+              if (Platform.isIOS) {
+                if (await canLaunchUrlString(request.url)) {
+                  await launchUrlString(request.url,
+                      mode: LaunchMode.externalNonBrowserApplication);
+                }
+              }
+              if (Platform.isAndroid) {
+                debugPrint(request.url);
+                var openInNewWindow = request.url
+                    .replaceAll("scheme=", "launchFlags=268435456;scheme=");
+                await AndroidIntent.parseAndLaunch(openInNewWindow);
+                //await AndroidIntent(data: request.url).launchChooser("Mit ID");
+              }
+              return NavigationDecision.prevent;
+            } else if (request.url
+                .contains("lectio.dk/lectio/integration/unilogin.aspx")) {
+              context.read<StudentBloc>().add(UniloginEvent(request.url));
+              debugPrint("lets copy this url and authenticate");
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ));
       setState(() {});
     } catch (e) {
       studentBloc.add(UniloginFailure());
