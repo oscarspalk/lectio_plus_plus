@@ -7,7 +7,6 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
-import 'package:open_filex/open_filex.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
