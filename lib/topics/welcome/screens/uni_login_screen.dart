@@ -46,6 +46,7 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
             value: cookie.value,
             domain: cookie.domain ?? ""));
       }
+
       controller = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
         ..loadRequest(Uri.parse(uniloginUrl ?? ""))

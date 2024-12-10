@@ -112,7 +112,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     );
 
     on<AutologinError>((event, emit) async {
-      await loginService.loginFromSaved();
+      await loginService.loadSaved();
     });
 
     on<UniloginEvent>(

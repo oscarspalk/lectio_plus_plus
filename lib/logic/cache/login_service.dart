@@ -79,14 +79,6 @@ class LoginService {
     return null;
   }
 
-  Future<Student?> loginFromSaved() async {
-    Account? savedAccount = await _getSavedAccount();
-    if (savedAccount != null) {
-      return login(savedAccount);
-    }
-    return null;
-  }
-
   Future<Account> _getSavedAccount_() async {
     return (await _getSavedAccount())!;
   }
