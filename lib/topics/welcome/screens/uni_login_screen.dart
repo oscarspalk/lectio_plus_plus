@@ -31,6 +31,39 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
 
   setup() async {
     var studentBloc = context.read<StudentBloc>();
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(NavigationDelegate(
+        onNavigationRequest: (request) async {
+          setState(() {
+            currentUrl = request.url;
+          });
+          if (request.url.startsWith("intent")) {
+            if (Platform.isIOS) {
+              if (await canLaunchUrlString(request.url)) {
+                await launchUrlString(request.url,
+                    mode: LaunchMode.externalNonBrowserApplication);
+              }
+            }
+            if (Platform.isAndroid) {
+              debugPrint(request.url);
+              var openInNewWindow = request.url
+                  .replaceAll("scheme=", "launchFlags=268435456;scheme=");
+              await AndroidIntent.parseAndLaunch(openInNewWindow);
+              //await AndroidIntent(data: request.url).launchChooser("Mit ID");
+            }
+            return NavigationDecision.prevent;
+          } else if (request.url
+              .contains("lectio.dk/lectio/integration/unilogin.aspx") ) {
+              if(!request.url.contains('broker.unilogin.dk')){
+            context.read<StudentBloc>().add(UniloginEvent(request.url));
+            debugPrint("lets copy this url and authenticate");
+            return NavigationDecision.prevent;
+              }
+          }
+          return NavigationDecision.navigate;
+        },
+      ));
     try {
       var bloc = context.read<LoginBloc>();
       var (url, cookies) = await Account(
@@ -46,39 +79,8 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
             value: cookie.value,
             domain: cookie.domain ?? ""));
       }
+      await controller?.loadRequest(Uri.parse(uniloginUrl ?? ""));
 
-      controller = WebViewController()
-        ..setJavaScriptMode(JavaScriptMode.unrestricted)
-        ..loadRequest(Uri.parse(uniloginUrl ?? ""))
-        ..setNavigationDelegate(NavigationDelegate(
-          onNavigationRequest: (request) async {
-            setState(() {
-              currentUrl = request.url;
-            });
-            if (request.url.startsWith("intent")) {
-              if (Platform.isIOS) {
-                if (await canLaunchUrlString(request.url)) {
-                  await launchUrlString(request.url,
-                      mode: LaunchMode.externalNonBrowserApplication);
-                }
-              }
-              if (Platform.isAndroid) {
-                debugPrint(request.url);
-                var openInNewWindow = request.url
-                    .replaceAll("scheme=", "launchFlags=268435456;scheme=");
-                await AndroidIntent.parseAndLaunch(openInNewWindow);
-                //await AndroidIntent(data: request.url).launchChooser("Mit ID");
-              }
-              return NavigationDecision.prevent;
-            } else if (request.url
-                .contains("lectio.dk/lectio/integration/unilogin.aspx")) {
-              context.read<StudentBloc>().add(UniloginEvent(request.url));
-              debugPrint("lets copy this url and authenticate");
-              return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
-          },
-        ));
       setState(() {});
     } catch (e) {
       studentBloc.add(UniloginFailure());
