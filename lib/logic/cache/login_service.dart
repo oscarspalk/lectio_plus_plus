@@ -102,6 +102,8 @@ class LoginService {
     if (student != null) {
       save(account, student);
       return student;
+    } else {
+      await delete();
     }
     return null;
   }
