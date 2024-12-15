@@ -149,6 +149,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         emit(state.copyWith(state: StudentStates.unauthorized));
         add(ListGyms());
       } catch (e) {
+        await loginService.delete();
         emit(state.copyWith(state: StudentStates.internetError));
       }
     });
