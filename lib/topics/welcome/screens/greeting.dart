@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/logic/app/typography.dart';
+import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/widgets/layout/padded_column.dart';
 
@@ -34,7 +36,17 @@ class GreetingsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            FilledButton(onPressed: next, child: const Text("Gå i gang"))
+            OverflowBar(
+                spacing: 8.0,
+                alignment: MainAxisAlignment.center,
+                children: [
+                  FilledButton.tonal(
+                      onPressed: () {
+                        context.read<StudentBloc>().add(Demologin());
+                      },
+                      child: const Text("Demo")),
+                  FilledButton(onPressed: next, child: const Text("Gå i gang"))
+                ])
           ],
         ),
       ),

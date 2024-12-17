@@ -87,6 +87,8 @@ final class RefreshTeams extends StudentEvent {}
 
 final class UniloginFailure extends StudentEvent {}
 
+final class Demologin extends StudentEvent {}
+
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
   final LoginService loginService = LoginService();
   StudentBloc()
@@ -99,6 +101,13 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<UniloginFailure>(
       (event, emit) {
         return emit(state.copyWith(state: StudentStates.loginError));
+      },
+    );
+
+    on<Demologin>(
+      (event, emit) {
+        var student = Account(24, "", "").demoLogin();
+        emit(state.copyWith(state: StudentStates.authorized, student: student));
       },
     );
 
