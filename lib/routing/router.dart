@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/routing/upgrader.dart';
+import 'package:lpp/topics/state/mit_id_error.dart';
 import 'package:lpp/topics/welcome/screens/uni_login_screen.dart';
 import 'package:lpp/topics/welcome/screens/welcome_carousel.dart';
 
@@ -28,6 +29,8 @@ class AppRouter extends StatelessWidget {
               return const RootController();
             case StudentStates.internetError:
               return const InternetErrorScreen();
+            case StudentStates.mitIDError:
+              return const MitIdErrorScreen();
             case StudentStates.loginError:
               return const LoginErrorScreen();
           }

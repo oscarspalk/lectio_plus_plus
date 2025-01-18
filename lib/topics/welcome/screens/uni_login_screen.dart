@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:android_intent_plus/android_intent.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
@@ -54,12 +55,12 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
             }
             return NavigationDecision.prevent;
           } else if (request.url
-              .contains("lectio.dk/lectio/integration/unilogin.aspx") ) {
-              if(!request.url.contains('broker.unilogin.dk')){
-            context.read<StudentBloc>().add(UniloginEvent(request.url));
-            debugPrint("lets copy this url and authenticate");
-            return NavigationDecision.prevent;
-              }
+              .contains("lectio.dk/lectio/integration/unilogin.aspx")) {
+            if (!request.url.contains('broker.unilogin.dk')) {
+              context.read<StudentBloc>().add(UniloginEvent(request.url));
+              debugPrint("lets copy this url and authenticate");
+              return NavigationDecision.prevent;
+            }
           }
           return NavigationDecision.navigate;
         },
@@ -94,6 +95,13 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
     }
     return Scaffold(
         appBar: LppAppbar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  context.read<StudentBloc>().add(CancelUnilogin());
+                },
+                icon: const Icon(EvaIcons.close))
+          ],
           title: "",
           titleWidget: Text(currentUrl ?? "MitID Login"),
         ),

@@ -5,6 +5,7 @@ import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/topics/gyms/controller.dart';
 import 'package:lectio_wrapper/types/gym.dart';
 import 'package:lectio_wrapper/types/primitives/team.dart';
+import 'package:lectio_wrapper/utils/dio_client.dart';
 import 'package:lpp/logic/cache/caching_service.dart';
 import 'package:lpp/logic/cache/login_service.dart';
 
@@ -14,7 +15,8 @@ enum StudentStates {
   authorized,
   loginError,
   internetError,
-  unilogin
+  unilogin,
+  mitIDError
 }
 
 enum LoadingStates { caching, normal }
@@ -89,6 +91,8 @@ final class UniloginFailure extends StudentEvent {}
 
 final class Demologin extends StudentEvent {}
 
+final class CancelUnilogin extends StudentEvent {}
+
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
   final LoginService loginService = LoginService();
   StudentBloc()
@@ -98,9 +102,16 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
             loadingState: LoadingStates.normal,
             gymName: "",
             account: null)) {
+    on<CancelUnilogin>(
+      (event, emit) async {
+        add(ResetError());
+        return emit(state.copyWith(state: StudentStates.unauthorized));
+      },
+    );
+
     on<UniloginFailure>(
       (event, emit) {
-        return emit(state.copyWith(state: StudentStates.loginError));
+        return emit(state.copyWith(state: StudentStates.mitIDError));
       },
     );
 
@@ -194,12 +205,14 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       emit(state.copyWith(state: StudentStates.loading));
       await loginService.delete();
       await CachingService(state.student!, state.gyms).deleteAll();
+      await clearCookies();
       emit(state.copyWith(state: StudentStates.unauthorized, student: null));
       add(ListGyms());
     });
 
     on<ResetError>(
-      (event, emit) {
+      (event, emit) async {
+        await clearCookies();
         emit(state.copyWith(state: StudentStates.unauthorized));
       },
     );

@@ -792,10 +792,9 @@ packages:
   lectio_wrapper:
     dependency: "direct main"
     description:
-      name: lectio_wrapper
-      sha256: "536289f135f964ba61f3bdd76431cf62dead978dc2156e386605cf9ebc47622c"
-      url: "https://pub.dev"
-    source: hosted
+      path: "C:\\Users\\Oscar.Spalk\\dev\\lectio_wrapper"
+      relative: false
+    source: path
     version: "0.7.1"
   lints:
     dependency: transitive
