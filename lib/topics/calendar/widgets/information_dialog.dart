@@ -54,7 +54,7 @@ class InformationsDialog extends StatelessWidget {
                       ),
                     ),
                   );
-                }).toList()
+                })
               ],
             ),
           ],

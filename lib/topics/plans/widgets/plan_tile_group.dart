@@ -23,7 +23,7 @@ class PlanTileGroup extends StatelessWidget {
             customText: TeamName(teamName: entry.team.name),
             text: entry.team.name,
             primary: true),
-        ...sorted.map((ref) => PlanTile(ref: ref)).toList()
+        ...sorted.map((ref) => PlanTile(ref: ref))
       ],
     );
   }

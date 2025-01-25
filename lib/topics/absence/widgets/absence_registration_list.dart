@@ -53,10 +53,8 @@ class _AbsenceRegistrationListState extends State<AbsenceRegistrationList> {
           text: widget.missing ? "Mangler" : "Udfyldte",
           primary: true,
         ),
-        ...daysAndEntries.entries
-            .map((dateEntry) => AbsenceRegistrationGroup(
-                date: dateEntry.key, causes: dateEntry.value))
-            .toList()
+        ...daysAndEntries.entries.map((dateEntry) => AbsenceRegistrationGroup(
+            date: dateEntry.key, causes: dateEntry.value))
       ],
     );
   }

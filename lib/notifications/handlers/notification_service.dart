@@ -14,11 +14,11 @@ class NotificationHandler<T> {
 
   T? fromJson(dynamic json) {
     switch (T) {
-      case CalendarEvent:
+      case CalendarEvent _:
         return CalendarEvent.fromJson(json) as T;
-      case AssignmentRef:
+      case AssignmentRef _:
         return AssignmentRef.fromJson(json) as T;
-      case MessageRef:
+      case MessageRef _:
         return MessageRef.fromJson(json) as T;
       default:
         return null;
@@ -27,11 +27,11 @@ class NotificationHandler<T> {
 
   dynamic toJson(T obj) {
     switch (T) {
-      case CalendarEvent:
+      case const (CalendarEvent):
         return (obj as CalendarEvent).toJson();
-      case AssignmentRef:
+      case const (AssignmentRef):
         return (obj as AssignmentRef).toJson();
-      case MessageRef:
+      case const (MessageRef):
         return (obj as MessageRef).toJson();
       default:
         return null;

@@ -50,7 +50,7 @@ class NotificationScreen extends StatelessWidget {
                     type.$3();
                   },
                 );
-              }).toList()
+              })
             ],
           );
         },

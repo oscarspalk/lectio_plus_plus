@@ -104,19 +104,16 @@ class OpgaveScreen extends StatelessWidget {
         text: "Dokumenter",
         primary: true,
       ),
-      ...testFiles
-          .map((e) => ListTile(
-                title: Text(e.name),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      adRoute(
-                          ModulLektieScreen(
-                              content: FileDetails(e.name, e.href)),
-                          onlyFromEdge: true));
-                },
-              ))
-          .toList()
+      ...testFiles.map((e) => ListTile(
+            title: Text(e.name),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  adRoute(
+                      ModulLektieScreen(content: FileDetails(e.name, e.href)),
+                      onlyFromEdge: true));
+            },
+          ))
     ];
   }
 

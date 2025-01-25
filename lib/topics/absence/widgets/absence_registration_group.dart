@@ -16,7 +16,7 @@ class AbsenceRegistrationGroup extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         TextDivider(text: formatDateReadable(date)),
-        ...causes.map((e) => AbsenceRegistration(absenceCause: e)).toList()
+        ...causes.map((e) => AbsenceRegistration(absenceCause: e))
       ],
     );
   }

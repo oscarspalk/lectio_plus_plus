@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/routing/upgrader.dart';
 import 'package:lpp/topics/state/mit_id_error.dart';
 import 'package:lpp/topics/welcome/screens/uni_login_screen.dart';
 import 'package:lpp/topics/welcome/screens/welcome_carousel.dart';
@@ -15,27 +14,25 @@ class AppRouter extends StatelessWidget {
   const AppRouter({super.key});
   @override
   Widget build(BuildContext context) {
-    return LppUpgrader(
-      child: BlocBuilder<StudentBloc, StudentState>(
-        builder: (context, state) {
-          switch (state.state) {
-            case StudentStates.unilogin:
-              return const UniLoginScreen();
-            case StudentStates.unauthorized:
-              return const WelcomeCarousel();
-            case StudentStates.loading:
-              return const LoadingScreen();
-            case StudentStates.authorized:
-              return const RootController();
-            case StudentStates.internetError:
-              return const InternetErrorScreen();
-            case StudentStates.mitIDError:
-              return const MitIdErrorScreen();
-            case StudentStates.loginError:
-              return const LoginErrorScreen();
-          }
-        },
-      ),
+    return BlocBuilder<StudentBloc, StudentState>(
+      builder: (context, state) {
+        switch (state.state) {
+          case StudentStates.unilogin:
+            return const UniLoginScreen();
+          case StudentStates.unauthorized:
+            return const WelcomeCarousel();
+          case StudentStates.loading:
+            return const LoadingScreen();
+          case StudentStates.authorized:
+            return const RootController();
+          case StudentStates.internetError:
+            return const InternetErrorScreen();
+          case StudentStates.mitIDError:
+            return const MitIdErrorScreen();
+          case StudentStates.loginError:
+            return const LoginErrorScreen();
+        }
+      },
     );
   }
 }
