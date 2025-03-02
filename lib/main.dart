@@ -24,9 +24,6 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    MobileAds.instance.initialize().then((initStatus) {
-      initStatus.adapterStatuses.forEach((key, value) {});
-    });
 
     registerNotifications();
 
