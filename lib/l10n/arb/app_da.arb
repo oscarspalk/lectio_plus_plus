@@ -8,5 +8,8 @@
     "loginAppBarTitle": "Login",
     "usernameLoginFieldTitle": "Brugernavn",
     "passwordLoginFieldTitle": "Adgangskode",
-    "submitLoginButtonTitle": "Login"
+    "submitLoginButtonTitle": "Login",
+    "chooseGymText": "Tryk på knappen nedenfor for at vælge dit gymnasium.",
+    "chooseGymTitle": "Vælg din institution",
+    "chooseGymButton": "Vælg gymnasie"
 }

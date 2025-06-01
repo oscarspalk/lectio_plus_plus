@@ -4,7 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:lectio_plus_plus/auth/cubit/login_cubit.dart';
 import 'package:lectio_plus_plus/auth/cubit/select_gym_cubit.dart';
 import 'package:lectio_plus_plus/auth/view/gym_search_delegate.dart';
+import 'package:lectio_plus_plus/core/decoration/spacing.dart';
+import 'package:lectio_plus_plus/core/decoration/typography.dart';
+import 'package:lectio_plus_plus/core/essentials/center_loader.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
+import 'package:lectio_wrapper/types/gym.dart';
 
 class SelectGymPage extends StatelessWidget {
   const SelectGymPage({super.key});
@@ -18,44 +22,55 @@ class SelectGymPage extends StatelessWidget {
   }
 }
 
-class SelectGymView extends StatefulWidget {
+class SelectGymView extends StatelessWidget {
   const SelectGymView({super.key});
-
-  @override
-  State<SelectGymView> createState() => _SelectGymViewState();
-}
-
-class _SelectGymViewState extends State<SelectGymView> {
-  @override
-  void initState() {
-    super.initState();
-    initSearch();
-  }
-
-  void initSearch() async {
-    var gym = await showSearch(context: context, delegate: GymSearchDelegate());
-  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final gyms = context.select((SelectGymCubit cubit) => cubit.state);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.selectGymAppBarTitle),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            l10n.chooseGymTitle,
+            style: CustomTypography.headline(),
+          ),
+          const LargeSpacer(),
+          Text(
+            l10n.chooseGymText,
+            style: CustomTypography.body(),
+          ),
+          const LargeSpacer(),
+          const ChooseGymButton()
+        ],
       ),
-      body: ListView.builder(
-        itemCount: gyms.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            onTap: () {
-              context.read<LoginCubit>().setGym(gyms[index]);
-              GoRouter.of(context).push('/auth/login');
-            },
-            title: Text(gyms[index].name),
-          );
-        },
-      ),
+    );
+  }
+}
+
+class ChooseGymButton extends StatelessWidget {
+  const ChooseGymButton({super.key});
+
+  Future<void> initSearch(BuildContext context) async {
+    final gyms = context.read<SelectGymCubit>().state;
+    await showSearch(context: context, delegate: GymSearchDelegate(gyms: gyms));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SelectGymCubit, List<Gym>>(
+      builder: (context, state) {
+        final l10n = context.l10n;
+        final valid = state.isNotEmpty;
+        return FilledButton(
+          onPressed: valid ? () => initSearch(context) : null,
+          child: Text(
+            l10n.chooseGymButton,
+            style: CustomTypography.label(),
+          ),
+        );
+      },
     );
   }
 }

@@ -34,3 +34,15 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter.ttf
+        - asset: assets/fonts/inter_italic.ttf
+          style: italic
+    - family: Fraunces
+      fonts:
+        - asset: assets/fonts/fraunces.ttf
+        - asset: assets/fonts/fraunces_italic.ttf
+          style: italic
