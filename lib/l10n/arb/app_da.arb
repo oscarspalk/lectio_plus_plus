@@ -3,5 +3,6 @@
     "counterAppBarTitle": "Tæller",
     "@counterAppBarTitle": {
         "description": "Teksten, som bliver vist på siden"
-    }
+    },
+    "selectGymAppBarTitle": "Vælg gymnasium"
 }
