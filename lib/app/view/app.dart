@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_provider/go_provider.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lectio_plus_plus/auth/cubit/auth_cubit.dart';
+import 'package:lectio_plus_plus/auth/cubit/login_cubit.dart';
 import 'package:lectio_plus_plus/auth/view/login_page.dart';
 import 'package:lectio_plus_plus/auth/view/select_gym.dart';
-import 'package:lectio_plus_plus/counter/counter.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
-import 'package:lectio_plus_plus/routes/app_routes.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -26,10 +24,10 @@ class _AppState extends State<App> {
     routes.add(
       GoProviderRoute(
         builder: (context, state) {
-          return SelectGymPage();
+          return const SelectGymPage();
         },
         providers: [
-          BlocProvider(create: (_) => AuthCubit()),
+          BlocProvider(create: (_) => LoginCubit()),
         ],
         routes: [
           GoRoute(

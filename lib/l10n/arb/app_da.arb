@@ -4,5 +4,9 @@
     "@counterAppBarTitle": {
         "description": "Teksten, som bliver vist på siden"
     },
-    "selectGymAppBarTitle": "Vælg gymnasium"
+    "selectGymAppBarTitle": "Vælg gymnasium",
+    "loginAppBarTitle": "Login",
+    "usernameLoginFieldTitle": "Brugernavn",
+    "passwordLoginFieldTitle": "Adgangskode",
+    "submitLoginButtonTitle": "Login"
 }
