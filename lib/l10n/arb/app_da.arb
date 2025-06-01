@@ -1,0 +1,7 @@
+{
+    "@@locale": "da",
+    "counterAppBarTitle": "Tæller",
+    "@counterAppBarTitle": {
+        "description": "Teksten, som bliver vist på siden"
+    }
+}
