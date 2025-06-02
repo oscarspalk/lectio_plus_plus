@@ -9,24 +9,21 @@ class CustomTypography {
   static const fraunces = 'Fraunces';
   static const inter = 'Inter';
   static TextStyle headline() {
-    return TextStyle(
+    return const TextStyle(
       fontFamily: fraunces,
       fontSize: 56,
       fontWeight: FontWeight.w600,
-      fontVariations: [FontVariation('WONK', 1)],
-      fontFeatures: [
-        const FontFeature.enable('opsz'),
-      ],
+      fontFeatures: [FontFeature.enable("WONK")],
     );
   }
 
   static TextStyle label() {
-    return TextStyle(
+    return const TextStyle(
         fontFamily: inter, fontSize: _bodySize, fontWeight: FontWeight.w500);
   }
 
   static TextStyle body() {
-    return TextStyle(
+    return const TextStyle(
         fontFamily: inter, fontSize: _bodySize, fontWeight: FontWeight.normal);
   }
 }

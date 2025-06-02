@@ -18,7 +18,7 @@ dependencies:
   lectio_wrapper: ^0.7.3
   go_provider: ^1.8.1
   data_class_plugin: any
-
+  fuzzy: ^0.5.1
 dev_dependencies:
   bloc_test: ^9.1.7
   flutter_test:

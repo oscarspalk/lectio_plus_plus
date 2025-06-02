@@ -29,21 +29,23 @@ class SelectGymView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            l10n.chooseGymTitle,
-            style: CustomTypography.headline(),
-          ),
-          const LargeSpacer(),
-          Text(
-            l10n.chooseGymText,
-            style: CustomTypography.body(),
-          ),
-          const LargeSpacer(),
-          const ChooseGymButton()
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              l10n.chooseGymTitle,
+              style: CustomTypography.headline(),
+            ),
+            const LargeSpacer(),
+            Text(
+              l10n.chooseGymText,
+              style: CustomTypography.body(),
+            ),
+            const LargeSpacer(),
+            const ChooseGymButton()
+          ],
+        ),
       ),
     );
   }
