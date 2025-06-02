@@ -19,6 +19,8 @@ dependencies:
   go_provider: ^1.8.1
   data_class_plugin: any
   fuzzy: ^0.5.1
+  flutter_svg: ^2.1.0
+
 dev_dependencies:
   bloc_test: ^9.1.7
   flutter_test:
@@ -30,10 +32,12 @@ dev_dependencies:
   build_verify: any
   tachyon: any
 
-
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    - assets/illustrations/
 
   fonts:
     - family: Inter

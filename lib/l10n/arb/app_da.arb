@@ -12,6 +12,6 @@
     "chooseGymText": "Tryk på knappen nedenfor for at vælge dit gymnasium.",
     "chooseGymTitle": "Vælg din institution",
     "chooseGymButton": "Vælg gymnasie",
-    "gymNotFound": "Ingen gymnasier",
+    "gymNotFound": "Dit gymnasie findes ikke",
     "gymNotFoundDescription": "Har du mon lavet en tastefejl?"
 }

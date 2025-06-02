@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:lectio_plus_plus/core/decoration/spacing.dart';
 import 'package:lectio_plus_plus/core/decoration/typography.dart';
+import 'package:lectio_plus_plus/core/essentials/illustration.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
 
 class CenterError extends StatelessWidget {
@@ -17,6 +19,7 @@ class CenterError extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Illustration(name: 'empty'),
           Text(
             error(l10n),
             style: CustomTypography.headline(),
