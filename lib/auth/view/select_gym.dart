@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:lectio_plus_plus/auth/cubit/login_cubit.dart';
 import 'package:lectio_plus_plus/auth/cubit/select_gym_cubit.dart';
 import 'package:lectio_plus_plus/auth/view/gym_search_delegate.dart';
 import 'package:lectio_plus_plus/core/decoration/spacing.dart';
 import 'package:lectio_plus_plus/core/decoration/typography.dart';
-import 'package:lectio_plus_plus/core/essentials/center_loader.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
 import 'package:lectio_wrapper/types/gym.dart';
 
