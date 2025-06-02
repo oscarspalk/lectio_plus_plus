@@ -12,6 +12,9 @@ class OpenPeepsColorMapper extends ColorMapper {
     if (color == const Color(0xFF000000)) {
       return colorScheme.tertiary;
     }
+    if (color == const Color(0xFF00FF00)) {
+      return colorScheme.primary;
+    }
     return color;
   }
 }

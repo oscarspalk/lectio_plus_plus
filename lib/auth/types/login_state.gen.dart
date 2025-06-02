@@ -8,18 +8,18 @@ part of 'login_state.dart';
 class _$LoginStateImpl extends LoginState {
   _$LoginStateImpl({
     this.selectedGym,
-    this.username,
-    this.password,
+    required this.stage,
+    this.uniloginUrl,
   }) : super.ctor();
 
   @override
   final Gym? selectedGym;
 
   @override
-  final String? username;
+  final LoginStage stage;
 
   @override
-  final String? password;
+  final String? uniloginUrl;
 
   @override
   bool operator ==(Object other) {
@@ -27,8 +27,8 @@ class _$LoginStateImpl extends LoginState {
         other is LoginState &&
             runtimeType == other.runtimeType &&
             selectedGym == other.selectedGym &&
-            username == other.username &&
-            password == other.password;
+            stage == other.stage &&
+            uniloginUrl == other.uniloginUrl;
   }
 
   @override
@@ -36,8 +36,8 @@ class _$LoginStateImpl extends LoginState {
     return Object.hashAll(<Object?>[
       runtimeType,
       selectedGym,
-      username,
-      password,
+      stage,
+      uniloginUrl,
     ]);
   }
 
@@ -46,7 +46,7 @@ class _$LoginStateImpl extends LoginState {
     String toStringOutput = 'LoginState{<optimized out>}';
     assert(() {
       toStringOutput =
-          'LoginState@<$hexIdentity>{selectedGym: $selectedGym, username: $username, password: $password}';
+          'LoginState@<$hexIdentity>{selectedGym: $selectedGym, stage: $stage, uniloginUrl: $uniloginUrl}';
       return true;
     }());
     return toStringOutput;
@@ -59,14 +59,14 @@ class _$LoginStateImpl extends LoginState {
 abstract interface class _LoginStateCopyWithProxy {
   LoginState selectedGym(Gym? newValue);
 
-  LoginState username(String? newValue);
+  LoginState stage(LoginStage newValue);
 
-  LoginState password(String? newValue);
+  LoginState uniloginUrl(String? newValue);
 
   LoginState call({
     final Gym? selectedGym,
-    final String? username,
-    final String? password,
+    final LoginStage? stage,
+    final String? uniloginUrl,
   });
 }
 
@@ -81,29 +81,27 @@ class _LoginStateCopyWithProxyImpl implements _LoginStateCopyWithProxy {
 
   @pragma('vm:prefer-inline')
   @override
-  LoginState username(String? newValue) => this(username: newValue);
+  LoginState stage(LoginStage newValue) => this(stage: newValue);
 
   @pragma('vm:prefer-inline')
   @override
-  LoginState password(String? newValue) => this(password: newValue);
+  LoginState uniloginUrl(String? newValue) => this(uniloginUrl: newValue);
 
   @pragma('vm:prefer-inline')
   @override
   LoginState call({
     final Object? selectedGym = const Object(),
-    final Object? username = const Object(),
-    final Object? password = const Object(),
+    final LoginStage? stage,
+    final Object? uniloginUrl = const Object(),
   }) {
     return _$LoginStateImpl(
       selectedGym: identical(selectedGym, const Object())
           ? _value.selectedGym
           : (selectedGym as Gym?),
-      username: identical(username, const Object())
-          ? _value.username
-          : (username as String?),
-      password: identical(password, const Object())
-          ? _value.password
-          : (password as String?),
+      stage: stage ?? _value.stage,
+      uniloginUrl: identical(uniloginUrl, const Object())
+          ? _value.uniloginUrl
+          : (uniloginUrl as String?),
     );
   }
 }
@@ -115,14 +113,14 @@ sealed class $LoginStateCopyWithProxyChain<$Result> {
 
   $Result selectedGym(Gym? newValue);
 
-  $Result username(String? newValue);
+  $Result stage(LoginStage newValue);
 
-  $Result password(String? newValue);
+  $Result uniloginUrl(String? newValue);
 
   $Result call({
     final Gym? selectedGym,
-    final String? username,
-    final String? password,
+    final LoginStage? stage,
+    final String? uniloginUrl,
   });
 }
 
@@ -139,29 +137,27 @@ class _LoginStateCopyWithProxyChainImpl<$Result>
 
   @pragma('vm:prefer-inline')
   @override
-  $Result username(String? newValue) => this(username: newValue);
+  $Result stage(LoginStage newValue) => this(stage: newValue);
 
   @pragma('vm:prefer-inline')
   @override
-  $Result password(String? newValue) => this(password: newValue);
+  $Result uniloginUrl(String? newValue) => this(uniloginUrl: newValue);
 
   @pragma('vm:prefer-inline')
   @override
   $Result call({
     final Object? selectedGym = const Object(),
-    final Object? username = const Object(),
-    final Object? password = const Object(),
+    final LoginStage? stage,
+    final Object? uniloginUrl = const Object(),
   }) {
     return _chain(_$LoginStateImpl(
       selectedGym: identical(selectedGym, const Object())
           ? _value.selectedGym
           : (selectedGym as Gym?),
-      username: identical(username, const Object())
-          ? _value.username
-          : (username as String?),
-      password: identical(password, const Object())
-          ? _value.password
-          : (password as String?),
+      stage: stage ?? _value.stage,
+      uniloginUrl: identical(uniloginUrl, const Object())
+          ? _value.uniloginUrl
+          : (uniloginUrl as String?),
     ));
   }
 }

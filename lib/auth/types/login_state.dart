@@ -6,13 +6,16 @@ part 'login_state.gen.dart';
 abstract class LoginState {
   /// Default constructor
   factory LoginState({
+    required LoginStage stage,
     Gym? selectedGym,
-    String? username,
-    String? password,
+    String? uniloginUrl,
   }) = _$LoginStateImpl;
+
   LoginState.ctor();
 
   Gym? get selectedGym;
-  String? get username;
-  String? get password;
+  LoginStage get stage;
+  String? get uniloginUrl;
 }
+
+enum LoginStage { selectGym, unilogin, finishing }

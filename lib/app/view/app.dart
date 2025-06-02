@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:lectio_plus_plus/auth/cubit/login_cubit.dart';
 import 'package:lectio_plus_plus/auth/view/login_page.dart';
 import 'package:lectio_plus_plus/auth/view/select_gym.dart';
+import 'package:lectio_plus_plus/auth/view/unilogin_page.dart';
+import 'package:lectio_plus_plus/core/decoration/colors.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
 
 class App extends StatefulWidget {
@@ -36,6 +38,12 @@ class _AppState extends State<App> {
               return const LoginPage();
             },
           ),
+          GoRoute(
+            path: 'unilogin',
+            builder: (context, state) {
+              return const UniloginPage();
+            },
+          ),
         ],
         path: '/auth',
       ),
@@ -47,12 +55,12 @@ class _AppState extends State<App> {
     return MaterialApp.router(
       theme: ThemeData(
         brightness: Brightness.dark,
-        colorSchemeSeed: Colors.purple,
+        colorSchemeSeed: CustomColors.primaryColor,
         useMaterial3: true,
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      routerConfig: GoRouter(routes: routes, initialLocation: "/auth"),
+      routerConfig: GoRouter(routes: routes, initialLocation: '/auth'),
     );
   }
 }

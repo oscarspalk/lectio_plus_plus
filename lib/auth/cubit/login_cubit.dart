@@ -1,18 +1,30 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_plus_plus/auth/types/login_state.dart';
+import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/gym.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(LoginState());
+  LoginCubit() : super(LoginState(stage: LoginStage.selectGym));
 
-  void setUsername(String username) {
-    final newState = state.copyWith(username: username);
-    emit(newState);
+  Gym? get _gym => state.selectedGym;
+  Account? get _account => _gym != null ? Account(_gym!.id, '', '') : null;
+
+  Future<void> loginWithMitID() async {
+    if (valid) {
+      final uniloginUrl = await _account!.getUniloginUrl();
+      final newState = state.copyWith(
+        stage: LoginStage.unilogin,
+        uniloginUrl: uniloginUrl.$1,
+      );
+      emit(newState);
+    }
   }
 
-  void setPassword(String password) {
-    final newState = state.copyWith(password: password);
-    emit(newState);
+  Future<void> finishLogin(String url) async {
+    var student = await _account?.uniloginLogin(url);
+    var basicInfo = await student?.getBasicInfo();
+    debugPrint(student?.name);
   }
 
   void setGym(Gym gym) {
@@ -20,12 +32,5 @@ class LoginCubit extends Cubit<LoginState> {
     emit(newState);
   }
 
-  bool get _validUsername =>
-      state.username != null && (state.username?.isNotEmpty ?? false);
-
-  bool get _validPassword =>
-      state.password != null && (state.password?.isNotEmpty ?? false);
-
-  bool get valid =>
-      _validUsername && _validPassword && state.selectedGym != null;
+  bool get valid => state.selectedGym != null;
 }

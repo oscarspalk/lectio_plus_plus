@@ -9,9 +9,14 @@
     "usernameLoginFieldTitle": "Brugernavn",
     "passwordLoginFieldTitle": "Adgangskode",
     "submitLoginButtonTitle": "Login",
-    "chooseGymText": "Tryk på knappen nedenfor for at vælge dit gymnasium.",
+    "chooseGymText": "Tryk på knappen nedenfor for at vælge din institution.",
     "chooseGymTitle": "Vælg din institution",
-    "chooseGymButton": "Vælg gymnasie",
-    "gymNotFound": "Dit gymnasie findes ikke",
-    "gymNotFoundDescription": "Har du mon lavet en tastefejl?"
+    "chooseGymButton": "Vælg institution",
+    "gymNotFound": "Din institution findes ikke",
+    "gymNotFoundDescription": "Har du mon lavet en tastefejl?",
+    "loginTitle": "Log ind med MitID",
+    "loginDescription": "Lectio kræver, at du logger ind med MitID.",
+    "loginButton": "Fortsæt med MitID",
+    "mitIDError": "Forbindelsen til MitID virkede vist ikke",
+    "mitIDErrorDescription": "Noget gik galt, prøv at log ind igen med MitID"
 }

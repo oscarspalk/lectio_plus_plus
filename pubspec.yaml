@@ -20,7 +20,10 @@ dependencies:
   data_class_plugin: any
   fuzzy: ^0.5.1
   flutter_svg: ^2.1.0
-
+  font_awesome_flutter: ^10.8.0
+  webview_flutter: ^4.13.0
+  url_launcher: ^6.3.1
+  android_intent_plus: ^5.3.0
 dev_dependencies:
   bloc_test: ^9.1.7
   flutter_test:

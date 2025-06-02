@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class CustomTypography {
   static const ratio = 1.125; // major second
-  static const _bodySize = 14.0;
-  static const _h4Size = _bodySize * ratio;
+  static const bodySize = 14.0;
+  static const _h4Size = bodySize * ratio;
   static const _h3Size = _h4Size * ratio;
   static const _h2Size = _h3Size * ratio;
   static const _headlineSize = _h2Size * ratio;
@@ -24,7 +24,7 @@ class CustomTypography {
   static TextStyle label() {
     return const TextStyle(
       fontFamily: inter,
-      fontSize: _bodySize,
+      fontSize: bodySize,
       fontWeight: FontWeight.w500,
     );
   }
@@ -32,7 +32,7 @@ class CustomTypography {
   static TextStyle body() {
     return const TextStyle(
       fontFamily: inter,
-      fontSize: _bodySize,
+      fontSize: bodySize,
       fontWeight: FontWeight.normal,
     );
   }

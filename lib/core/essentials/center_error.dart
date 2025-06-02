@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:lectio_plus_plus/core/decoration/spacing.dart';
 import 'package:lectio_plus_plus/core/decoration/typography.dart';
 import 'package:lectio_plus_plus/core/essentials/illustration.dart';
