@@ -24,7 +24,6 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> finishLogin(String url) async {
     var student = await _account?.uniloginLogin(url);
     var basicInfo = await student?.getBasicInfo();
-    debugPrint(student?.name);
   }
 
   void setGym(Gym gym) {
