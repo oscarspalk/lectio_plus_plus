@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_plus_plus/auth/types/login_state.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
@@ -22,8 +21,10 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> finishLogin(String url) async {
-    var student = await _account?.uniloginLogin(url);
-    var basicInfo = await student?.getBasicInfo();
+    final student = await _account?.uniloginLogin(url);
+    if (student != null) {
+      // we are logged in
+    }
   }
 
   void setGym(Gym gym) {
