@@ -18,5 +18,18 @@
     "loginDescription": "Lectio kræver, at du logger ind med MitID.",
     "loginButton": "Fortsæt med MitID",
     "mitIDError": "Forbindelsen til MitID virkede vist ikke",
-    "mitIDErrorDescription": "Noget gik galt, prøv at log ind igen med MitID"
+    "mitIDErrorDescription": "Noget gik galt, prøv at log ind igen med MitID",
+    "schemaAppbarTitle": "Uge {week}",
+    "@schemaAppbarTitle":{
+        "description": "The schema title with a week parameter",
+  "placeholders": {
+    "week": {
+      "type": "int",
+      "example": "23"
+    }
+  }
+    },
+    "schemaTitle": "Skema",
+    "homeworkTitle": "Homework",
+    "moreTitle": "Mere"
 }

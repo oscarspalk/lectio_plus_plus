@@ -8,8 +8,10 @@ String? dateTo(DateTime? val) {
   return val != null ? dateStringFormat.format(val) : null;
 }
 
-DateTime fromDate(dynamic value, Map<dynamic, dynamic> json, String keyName) {
-  return dateStringFormat.tryParse(json[keyName] as String) ?? DateTime.now();
+DateTime? fromDate(dynamic value, Map<dynamic, dynamic> json, String keyName) {
+  return value != null
+      ? dateStringFormat.tryParse(json[keyName] as String) ?? DateTime.now()
+      : null;
 }
 
 @DataClass(toJson: true, fromJson: true)

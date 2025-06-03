@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_provider/go_provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lectio_plus_plus/app/view/auth_listener.dart';
 import 'package:lectio_plus_plus/auth/auth.dart';
 import 'package:lectio_plus_plus/auth/cubit/login_cubit.dart';
 import 'package:lectio_plus_plus/auth/view/app_starting_page.dart';
 
 import 'package:lectio_plus_plus/auth/view/unilogin_page.dart';
 import 'package:lectio_plus_plus/core/decoration/colors.dart';
+import 'package:lectio_plus_plus/home/schema/cubit/schema_cubit.dart';
+import 'package:lectio_plus_plus/home/view/home_view.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
 
 class App extends StatefulWidget {
@@ -18,7 +21,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  List<RouteBase> routes = [];
+  late List<RouteBase> routes;
 
   @override
   void initState() {
@@ -26,6 +29,14 @@ class _AppState extends State<App> {
 
     routes = [
       // authenticated route
+
+      GoProviderRoute(
+        providers: [BlocProvider(create: (_) => SchemaCubit())],
+        path: '/home',
+        builder: (context, state) {
+          return const HomeView();
+        },
+      ),
 
       // loading route
       GoRoute(
@@ -64,17 +75,21 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    final routerConfig = GoRouter(routes: routes, initialLocation: '/');
     return BlocProvider(
       create: (context) => AuthCubit()..init(),
-      child: MaterialApp.router(
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          colorSchemeSeed: CustomColors.primaryColor,
-          useMaterial3: true,
+      child: AuthListener(
+        router: routerConfig,
+        child: MaterialApp.router(
+          theme: ThemeData(
+            brightness: Brightness.dark,
+            colorSchemeSeed: CustomColors.primaryColor,
+            useMaterial3: true,
+          ),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          routerConfig: routerConfig,
         ),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        routerConfig: GoRouter(routes: routes, initialLocation: '/'),
       ),
     );
   }

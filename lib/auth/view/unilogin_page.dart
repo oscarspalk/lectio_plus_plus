@@ -12,7 +12,14 @@ class UniloginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const UniloginView();
+    return BlocListener<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state.student != null) {
+          context.read<AuthCubit>().setAuth(state.student!);
+        }
+      },
+      child: const UniloginView(),
+    );
   }
 }
 
@@ -21,16 +28,9 @@ class UniloginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginCubit, LoginState>(
-      listener: (context, state) {
-        if (state.student != null) {
-          context.read<AuthCubit>().setAuth(state.student!);
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(),
-        body: const UniloginWebView(),
-      ),
+    return Scaffold(
+      appBar: AppBar(),
+      body: const UniloginWebView(),
     );
   }
 }

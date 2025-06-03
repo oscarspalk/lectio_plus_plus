@@ -26,8 +26,9 @@ String _cookiesToJson(List<Cookie> cookies) {
 }
 
 Student _studentFromJson(
-    dynamic value, Map<dynamic, dynamic> json, String keyName) {
-  final simpleStudent = SimpleStudent.fromJson(value as Map<dynamic, dynamic>);
+    dynamic value, Map<dynamic, dynamic> _json, String keyName) {
+  final studentJson = json.decode(value as String) as Map<dynamic, dynamic>;
+  final simpleStudent = SimpleStudent.fromJson(studentJson);
   return Student(simpleStudent.studentId, simpleStudent.gymId);
 }
 

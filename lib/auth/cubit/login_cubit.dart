@@ -24,6 +24,9 @@ class LoginCubit extends Cubit<LoginState> {
     final student = await _account?.uniloginLogin(url);
     if (student != null) {
       // we are logged in
+      final loggedInState =
+          state.copyWith(student: student, stage: LoginStage.finishing);
+      emit(loggedInState);
     }
   }
 

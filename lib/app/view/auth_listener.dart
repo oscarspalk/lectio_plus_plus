@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lectio_plus_plus/app/logic/student_service.dart';
+import 'package:lectio_plus_plus/auth/auth.dart';
+import 'package:lectio_plus_plus/auth/types/auth_state.dart';
+
+final getIt = GetIt.instance;
+
+class AuthListener extends StatelessWidget {
+  const AuthListener({required this.child, super.key, required this.router});
+  final Widget child;
+  final GoRouter router;
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state.state == AuthStates.authorized && state.student != null) {
+          getIt.registerSingleton<StudentService>(
+            StudentService(student: state.student!),
+          );
+          return router.go('/home');
+        }
+        if (state.state == AuthStates.unauthorized) {
+          return router.go('/auth');
+        }
+      },
+      child: child,
+    );
+  }
+}
