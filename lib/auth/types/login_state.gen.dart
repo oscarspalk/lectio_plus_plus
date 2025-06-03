@@ -10,6 +10,7 @@ class _$LoginStateImpl extends LoginState {
     this.selectedGym,
     required this.stage,
     this.uniloginUrl,
+    this.student,
   }) : super.ctor();
 
   @override
@@ -22,13 +23,17 @@ class _$LoginStateImpl extends LoginState {
   final String? uniloginUrl;
 
   @override
+  final Student? student;
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is LoginState &&
             runtimeType == other.runtimeType &&
             selectedGym == other.selectedGym &&
             stage == other.stage &&
-            uniloginUrl == other.uniloginUrl;
+            uniloginUrl == other.uniloginUrl &&
+            student == other.student;
   }
 
   @override
@@ -38,6 +43,7 @@ class _$LoginStateImpl extends LoginState {
       selectedGym,
       stage,
       uniloginUrl,
+      student,
     ]);
   }
 
@@ -46,7 +52,7 @@ class _$LoginStateImpl extends LoginState {
     String toStringOutput = 'LoginState{<optimized out>}';
     assert(() {
       toStringOutput =
-          'LoginState@<$hexIdentity>{selectedGym: $selectedGym, stage: $stage, uniloginUrl: $uniloginUrl}';
+          'LoginState@<$hexIdentity>{selectedGym: $selectedGym, stage: $stage, uniloginUrl: $uniloginUrl, student: $student}';
       return true;
     }());
     return toStringOutput;
@@ -63,10 +69,13 @@ abstract interface class _LoginStateCopyWithProxy {
 
   LoginState uniloginUrl(String? newValue);
 
+  LoginState student(Student? newValue);
+
   LoginState call({
     final Gym? selectedGym,
     final LoginStage? stage,
     final String? uniloginUrl,
+    final Student? student,
   });
 }
 
@@ -89,10 +98,15 @@ class _LoginStateCopyWithProxyImpl implements _LoginStateCopyWithProxy {
 
   @pragma('vm:prefer-inline')
   @override
+  LoginState student(Student? newValue) => this(student: newValue);
+
+  @pragma('vm:prefer-inline')
+  @override
   LoginState call({
     final Object? selectedGym = const Object(),
     final LoginStage? stage,
     final Object? uniloginUrl = const Object(),
+    final Object? student = const Object(),
   }) {
     return _$LoginStateImpl(
       selectedGym: identical(selectedGym, const Object())
@@ -102,6 +116,9 @@ class _LoginStateCopyWithProxyImpl implements _LoginStateCopyWithProxy {
       uniloginUrl: identical(uniloginUrl, const Object())
           ? _value.uniloginUrl
           : (uniloginUrl as String?),
+      student: identical(student, const Object())
+          ? _value.student
+          : (student as Student?),
     );
   }
 }
@@ -117,10 +134,13 @@ sealed class $LoginStateCopyWithProxyChain<$Result> {
 
   $Result uniloginUrl(String? newValue);
 
+  $Result student(Student? newValue);
+
   $Result call({
     final Gym? selectedGym,
     final LoginStage? stage,
     final String? uniloginUrl,
+    final Student? student,
   });
 }
 
@@ -145,10 +165,15 @@ class _LoginStateCopyWithProxyChainImpl<$Result>
 
   @pragma('vm:prefer-inline')
   @override
+  $Result student(Student? newValue) => this(student: newValue);
+
+  @pragma('vm:prefer-inline')
+  @override
   $Result call({
     final Object? selectedGym = const Object(),
     final LoginStage? stage,
     final Object? uniloginUrl = const Object(),
+    final Object? student = const Object(),
   }) {
     return _chain(_$LoginStateImpl(
       selectedGym: identical(selectedGym, const Object())
@@ -158,6 +183,9 @@ class _LoginStateCopyWithProxyChainImpl<$Result>
       uniloginUrl: identical(uniloginUrl, const Object())
           ? _value.uniloginUrl
           : (uniloginUrl as String?),
+      student: identical(student, const Object())
+          ? _value.student
+          : (student as Student?),
     ));
   }
 }

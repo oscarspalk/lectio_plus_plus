@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lectio_plus_plus/auth/auth.dart';
 import 'package:lectio_plus_plus/auth/cubit/login_cubit.dart';
 import 'package:lectio_plus_plus/auth/logic/mitid_navigator.dart';
+import 'package:lectio_plus_plus/auth/types/login_state.dart';
 import 'package:lectio_plus_plus/core/essentials/center_error.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -19,9 +21,16 @@ class UniloginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: const UniloginWebView(),
+    return BlocListener<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state.student != null) {
+          context.read<AuthCubit>().setAuth(state.student!);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(),
+        body: const UniloginWebView(),
+      ),
     );
   }
 }
