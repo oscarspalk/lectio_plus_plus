@@ -41,8 +41,7 @@ class _DaySelectorManagerState extends State<DaySelectorManager> {
 
             // now we check how far away from the selected week we are
             final selectedWeek = weekFromDateTime(state.selectedDate);
-            debugPrint("Selected week is $selectedWeek");
-            debugPrint("Current week is $currentWeek");
+
             if (selectedWeek != currentWeek) {
               final weekDifference = selectedWeek -
                   startWeek +
