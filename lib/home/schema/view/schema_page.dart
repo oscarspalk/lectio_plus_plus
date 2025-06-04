@@ -7,6 +7,7 @@ import 'package:lectio_plus_plus/core/essentials/center_loader.dart';
 import 'package:lectio_plus_plus/home/schema/cubit/schema_cubit.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
 import 'package:lectio_wrapper/utils/dating.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class SchemaPage extends StatelessWidget {
   const SchemaPage({super.key});
@@ -36,7 +37,9 @@ class DayView extends StatelessWidget {
   Widget build(BuildContext context) {
     final day = context.select((SchemaCubit cubit) => cubit.state.currentDay);
     if (day != null) {
-      return Text("${day.events.length}");
+      return SfCalendar(
+        firstDayOfWeek: 1,
+      );
     }
     return const CenterLoader();
   }
