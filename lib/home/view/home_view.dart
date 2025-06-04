@@ -10,7 +10,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return Scaffold(
-      body: SchemaPage(),
+      body: const SchemaPage(),
       bottomNavigationBar: NavigationBar(destinations: [
         NavigationDestination(
             selectedIcon: const Icon(EvaIcons.calendar),

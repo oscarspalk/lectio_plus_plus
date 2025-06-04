@@ -7,6 +7,7 @@ class CustomTypography {
   static const _h3Size = _h4Size * ratio;
   static const _h2Size = _h3Size * ratio;
   static const _headlineSize = _h2Size * ratio;
+  static const _smallSize = bodySize / ratio;
   static const fraunces = 'Fraunces';
   static const inter = 'Inter';
   static TextStyle headline() {
@@ -16,7 +17,7 @@ class CustomTypography {
       fontWeight: FontWeight.w600,
       fontVariations: [
         FontVariation('WONK', 1),
-        FontVariation.opticalSize(_headlineSize)
+        FontVariation.opticalSize(_headlineSize),
       ],
     );
   }
@@ -26,6 +27,22 @@ class CustomTypography {
       fontFamily: inter,
       fontSize: bodySize,
       fontWeight: FontWeight.w500,
+    );
+  }
+
+  static TextStyle small() {
+    return const TextStyle(fontFamily: inter, fontSize: _smallSize);
+  }
+
+  static TextStyle h3() {
+    return const TextStyle(
+      fontFamily: inter,
+      fontSize: _h3Size,
+      fontWeight: FontWeight.w600,
+      fontVariations: [
+        FontVariation('WONK', 1),
+        FontVariation.opticalSize(_headlineSize)
+      ],
     );
   }
 

@@ -7,7 +7,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class MitIDNavigation {
   static NavigationDelegate getMitIDDelegate(
-      void Function(String url) onSucces) {
+    void Function(String url) onSucces,
+  ) {
     return NavigationDelegate(
       onNavigationRequest: (request) async {
         final url = request.url;
@@ -44,7 +45,7 @@ class MitIDNavigation {
 
   static Future<void> _handleAndroidIntent(String url) async {
     debugPrint(url);
-    var openInNewWindow =
+    final openInNewWindow =
         url.replaceAll('scheme=', 'launchFlags=268435456;scheme=');
     await AndroidIntent.parseAndLaunch(openInNewWindow);
     //await AndroidIntent(data: request.url).launchChooser("Mit ID");

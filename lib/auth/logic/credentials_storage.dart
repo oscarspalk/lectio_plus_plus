@@ -19,7 +19,9 @@ class CredentialsStorage {
     final cookies = await _cookies;
     final credentials = Credentials(cookies: cookies, student: student);
     await secureStorage.write(
-        key: _cookieKey, value: json.encode(credentials.toJson()));
+      key: _cookieKey,
+      value: json.encode(credentials.toJson()),
+    );
   }
 
   static Future<Credentials?> load() async {

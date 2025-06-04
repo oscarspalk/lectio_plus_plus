@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:lectio_plus_plus/core/decoration/spacing.dart';
-import 'package:lectio_plus_plus/core/decoration/typography.dart';
-import 'package:lectio_plus_plus/core/essentials/center_loader.dart';
+import 'package:lectio_plus_plus/core/essentials/date_comparison.dart';
 import 'package:lectio_plus_plus/home/schema/cubit/schema_cubit.dart';
-import 'package:lectio_plus_plus/l10n/l10n.dart';
-import 'package:lectio_wrapper/utils/dating.dart';
+import 'package:lectio_plus_plus/home/schema/types/schema_state.dart';
+import 'package:lectio_plus_plus/home/schema/view/day_view.dart';
+import 'package:lectio_plus_plus/home/schema/widgets/schema_appbar.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class SchemaPage extends StatelessWidget {
@@ -18,63 +16,43 @@ class SchemaPage extends StatelessWidget {
   }
 }
 
-class SchemaView extends StatelessWidget {
+class SchemaView extends StatefulWidget {
   const SchemaView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: SchemaAppbar(),
-      body: DayView(),
-    );
-  }
+  State<SchemaView> createState() => _SchemaViewState();
 }
 
-class DayView extends StatelessWidget {
-  const DayView({super.key});
+class _SchemaViewState extends State<SchemaView> {
+  late CalendarController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = CalendarController();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final day = context.select((SchemaCubit cubit) => cubit.state.currentDay);
-    if (day != null) {
-      return SfCalendar(
-        firstDayOfWeek: 1,
-      );
-    }
-    return const CenterLoader();
-  }
-}
-
-class SchemaAppbar extends StatelessWidget implements PreferredSizeWidget {
-  const SchemaAppbar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final selectedDate =
-        context.select((SchemaCubit cubit) => cubit.state.selectedDate);
-    final week = weekFromDateTime(selectedDate);
-    return AppBar(
-      title: Column(
-        children: [
-          Text(
-            l10n.schemaAppbarTitle(week),
-            style: CustomTypography.headline(),
-          ),
-          const SmallSpacer(),
-          Text(
-            monthYear(selectedDate),
-            style: CustomTypography.label(),
-          ),
-        ],
+    return Scaffold(
+      appBar: const SchemaAppbar(),
+      body: BlocListener<SchemaCubit, SchemaState>(
+        listener: (context, state) {
+          if (controller.displayDate != null &&
+              !controller.displayDate!.isSameDay(state.selectedDate)) {
+            controller.displayDate = state.selectedDate;
+          }
+        },
+        child: DayView(
+          controller: controller,
+        ),
       ),
     );
   }
 
-  String monthYear(DateTime date) {
-    return DateFormat('MMMM yyyy').format(date);
-  }
-
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 }

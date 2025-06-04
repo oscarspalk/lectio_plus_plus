@@ -9,7 +9,7 @@ import 'package:lectio_plus_plus/auth/types/auth_state.dart';
 final getIt = GetIt.instance;
 
 class AuthListener extends StatelessWidget {
-  const AuthListener({required this.child, super.key, required this.router});
+  const AuthListener({required this.child, required this.router, super.key});
   final Widget child;
   final GoRouter router;
   @override

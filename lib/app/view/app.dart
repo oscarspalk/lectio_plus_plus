@@ -69,7 +69,7 @@ class _AppState extends State<App> {
           ),
         ],
         path: '/auth',
-      )
+      ),
     ];
   }
 
