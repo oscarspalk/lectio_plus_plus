@@ -8,29 +8,30 @@ class SchemaDataSource extends CalendarDataSource<CalendarEvent> {
         .toList();
   }
 
+  CalendarEvent _event(int index) {
+    final events = appointments! as List<CalendarEvent>;
+
+    return events[index];
+  }
+
   @override
   DateTime getStartTime(int index) {
-    final events = appointments! as List<CalendarEvent>;
-    return events[index].start;
+    return _event(index).start;
   }
 
   @override
   DateTime getEndTime(int index) {
-    final events = appointments! as List<CalendarEvent>;
-
-    return events[index].end;
+    return _event(index).end;
   }
 
   @override
   String? getLocation(int index) {
-    final events = appointments! as List<CalendarEvent>;
-    return events[index].room;
+    return _event(index).room;
   }
 
   @override
   String getSubject(int index) {
-    final events = appointments! as List<CalendarEvent>;
-
-    return events[index].title;
+    final event = _event(index);
+    return event.title.isEmpty ? event.team : event.title;
   }
 }

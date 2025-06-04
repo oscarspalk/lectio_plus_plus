@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:lectio_plus_plus/core/decoration/spacing.dart';
 import 'package:lectio_plus_plus/core/decoration/typography.dart';
 import 'package:lectio_plus_plus/home/schema/cubit/schema_cubit.dart';
-import 'package:lectio_plus_plus/home/schema/widgets/day_selector.dart';
+import 'package:lectio_plus_plus/home/schema/widgets/day_selector_manager.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
 import 'package:lectio_wrapper/utils/dating.dart';
 
@@ -18,6 +18,9 @@ class SchemaAppbar extends StatelessWidget implements PreferredSizeWidget {
         context.select((SchemaCubit cubit) => cubit.state.selectedDate);
     final week = weekFromDateTime(selectedDate);
     return AppBar(
+      surfaceTintColor: Colors.transparent,
+      shadowColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
       title: Column(
         children: [
           Text(
@@ -31,7 +34,7 @@ class SchemaAppbar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-      bottom: const DaySelector(),
+      bottom: const DaySelectorManager(),
     );
   }
 

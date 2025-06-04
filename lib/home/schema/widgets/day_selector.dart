@@ -4,23 +4,26 @@ import 'package:lectio_plus_plus/core/decoration/spacing.dart';
 import 'package:lectio_plus_plus/home/schema/cubit/schema_cubit.dart';
 import 'package:lectio_plus_plus/home/schema/widgets/day_button.dart';
 
-class DaySelector extends StatelessWidget implements PreferredSizeWidget {
-  const DaySelector({super.key});
+class DaySelector extends StatelessWidget {
+  const DaySelector({required this.thisWeekDay, super.key});
+
+  final DateTime thisWeekDay;
 
   @override
   Widget build(BuildContext context) {
-    final selectedDate = context
-        .select((SchemaCubit cubit) => cubit.state.selectedDate)
-        .copyWith(hour: 12, minute: 0);
+    final state = context.select((SchemaCubit cubit) => cubit.state);
+    final hasContent = state.hasContent;
     final monday =
-        selectedDate.subtract(Duration(days: selectedDate.weekday - 1));
+        thisWeekDay.subtract(Duration(days: thisWeekDay.weekday - 1));
     final weekDays = List.generate(
       7,
       (index) => monday.add(Duration(days: index)),
     );
     return GridView(
       padding: const EdgeInsets.symmetric(
-          horizontal: CustomSpacing.xs, vertical: CustomSpacing.xs),
+        horizontal: CustomSpacing.xs,
+        vertical: CustomSpacing.xs,
+      ),
       shrinkWrap: true,
       primary: false,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -28,11 +31,11 @@ class DaySelector extends StatelessWidget implements PreferredSizeWidget {
         crossAxisSpacing: CustomSpacing.xxs,
       ),
       children: weekDays.map((weekDay) {
-        return DayButton(date: weekDay);
+        return DayButton(
+          date: weekDay,
+          hasContent: hasContent[weekDay.weekday - 1],
+        );
       }).toList(),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(64);
 }

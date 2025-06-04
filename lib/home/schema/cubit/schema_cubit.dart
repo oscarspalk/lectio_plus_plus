@@ -8,7 +8,13 @@ import 'package:lectio_plus_plus/home/schema/types/specific_week.dart';
 import 'package:lectio_wrapper/utils/dating.dart';
 
 class SchemaCubit extends Cubit<SchemaState> {
-  SchemaCubit() : super(SchemaState(selectedDate: _now)) {
+  SchemaCubit()
+      : super(
+          SchemaState(
+            selectedDate: _now,
+            hasContent: List.filled(7, false),
+          ),
+        ) {
     load(_now);
   }
 
@@ -38,11 +44,15 @@ class SchemaCubit extends Cubit<SchemaState> {
       // set the current week
       _currentSpecificWeek = thisWeek;
 
+      final newHasContent = List.filled(7, false);
+      for (final day in thisWeek.week.days) {
+        newHasContent[day.date.weekday - 1] = day.events.isNotEmpty;
+      }
+
       final updatedState = state.copyWith(
         schemaDataSource:
             SchemaDataSource(_weeks.map((week) => week.week).toList()),
-        hasContent:
-            thisWeek.week.days.map((day) => day.events.isNotEmpty).toList(),
+        hasContent: newHasContent,
       );
       emit(updatedState);
     }

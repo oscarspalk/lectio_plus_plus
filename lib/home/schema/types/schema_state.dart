@@ -6,14 +6,14 @@ part 'schema_state.gen.dart';
 abstract class SchemaState {
   /// Default constructor
   factory SchemaState({
+    required List<bool> hasContent,
     required DateTime selectedDate,
-    List<bool>? hasContent,
     SchemaDataSource? schemaDataSource,
   }) = _$SchemaStateImpl;
 
   SchemaState.ctor();
 
-  List<bool>? get hasContent;
+  List<bool> get hasContent;
   DateTime get selectedDate;
   SchemaDataSource? get schemaDataSource;
 }

@@ -36,12 +36,12 @@ class CustomTypography {
 
   static TextStyle h3() {
     return const TextStyle(
-      fontFamily: inter,
+      fontFamily: fraunces,
       fontSize: _h3Size,
       fontWeight: FontWeight.w600,
       fontVariations: [
-        FontVariation('WONK', 1),
-        FontVariation.opticalSize(_headlineSize)
+        FontVariation('WONK', 0),
+        FontVariation.opticalSize(_headlineSize),
       ],
     );
   }

@@ -7,16 +7,15 @@ part of 'schema_state.dart';
 
 class _$SchemaStateImpl extends SchemaState {
   _$SchemaStateImpl({
-    List<bool>? hasContent,
+    required List<bool> hasContent,
     required this.selectedDate,
     this.schemaDataSource,
   })  : _hasContent = hasContent,
         super.ctor();
 
   @override
-  List<bool>? get hasContent =>
-      _hasContent ?? List<bool>.unmodifiable(_hasContent!);
-  final List<bool>? _hasContent;
+  List<bool> get hasContent => List<bool>.unmodifiable(_hasContent);
+  final List<bool> _hasContent;
 
   @override
   final DateTime selectedDate;
@@ -59,7 +58,7 @@ class _$SchemaStateImpl extends SchemaState {
 }
 
 abstract interface class _SchemaStateCopyWithProxy {
-  SchemaState hasContent(List<bool>? newValue);
+  SchemaState hasContent(List<bool> newValue);
 
   SchemaState selectedDate(DateTime newValue);
 
@@ -79,7 +78,7 @@ class _SchemaStateCopyWithProxyImpl implements _SchemaStateCopyWithProxy {
 
   @pragma('vm:prefer-inline')
   @override
-  SchemaState hasContent(List<bool>? newValue) => this(hasContent: newValue);
+  SchemaState hasContent(List<bool> newValue) => this(hasContent: newValue);
 
   @pragma('vm:prefer-inline')
   @override
@@ -93,14 +92,12 @@ class _SchemaStateCopyWithProxyImpl implements _SchemaStateCopyWithProxy {
   @pragma('vm:prefer-inline')
   @override
   SchemaState call({
-    final Object? hasContent = const Object(),
+    final List<bool>? hasContent,
     final DateTime? selectedDate,
     final Object? schemaDataSource = const Object(),
   }) {
     return _$SchemaStateImpl(
-      hasContent: identical(hasContent, const Object())
-          ? _value.hasContent
-          : (hasContent as List<bool>?),
+      hasContent: hasContent ?? _value.hasContent,
       selectedDate: selectedDate ?? _value.selectedDate,
       schemaDataSource: identical(schemaDataSource, const Object())
           ? _value.schemaDataSource
@@ -114,7 +111,7 @@ sealed class $SchemaStateCopyWithProxyChain<$Result> {
           final $Result Function(SchemaState update) chain) =
       _SchemaStateCopyWithProxyChainImpl<$Result>;
 
-  $Result hasContent(List<bool>? newValue);
+  $Result hasContent(List<bool> newValue);
 
   $Result selectedDate(DateTime newValue);
 
@@ -136,7 +133,7 @@ class _SchemaStateCopyWithProxyChainImpl<$Result>
 
   @pragma('vm:prefer-inline')
   @override
-  $Result hasContent(List<bool>? newValue) => this(hasContent: newValue);
+  $Result hasContent(List<bool> newValue) => this(hasContent: newValue);
 
   @pragma('vm:prefer-inline')
   @override
@@ -150,14 +147,12 @@ class _SchemaStateCopyWithProxyChainImpl<$Result>
   @pragma('vm:prefer-inline')
   @override
   $Result call({
-    final Object? hasContent = const Object(),
+    final List<bool>? hasContent,
     final DateTime? selectedDate,
     final Object? schemaDataSource = const Object(),
   }) {
     return _chain(_$SchemaStateImpl(
-      hasContent: identical(hasContent, const Object())
-          ? _value.hasContent
-          : (hasContent as List<bool>?),
+      hasContent: hasContent ?? _value.hasContent,
       selectedDate: selectedDate ?? _value.selectedDate,
       schemaDataSource: identical(schemaDataSource, const Object())
           ? _value.schemaDataSource
