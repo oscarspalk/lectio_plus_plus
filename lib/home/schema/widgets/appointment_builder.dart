@@ -17,7 +17,9 @@ Widget appointmentBuilder(
 
   String team() {
     if (appointment.team.isEmpty) {
-      return appointment.teachers.join(', ');
+      return appointment.teacherObjs
+          .map((teacher) => teacher.classOrInitials)
+          .join(', ');
     }
     return appointment.team;
   }
