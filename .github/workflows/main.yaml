@@ -32,7 +32,9 @@ jobs:
         with:
           channel: stable
           flutter-version: 3.29.3
-      - run: flutter --version
+      - run: flutter pub get
+      #- run: flutter test
+      - run: flutter build apk
 
   spell-check:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/spell_check.yml@v1
