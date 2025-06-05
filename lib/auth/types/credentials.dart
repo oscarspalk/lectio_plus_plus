@@ -12,7 +12,10 @@ const _joiner = ';;;';
 // Custom to JSON/from JSON
 
 List<Cookie> _cookieFromJson(
-    dynamic value, Map<dynamic, dynamic> json, String keyName) {
+  dynamic value,
+  Map<dynamic, dynamic> json,
+  String keyName,
+) {
   final cookiesStrings = (value as String).split(_joiner);
   final cookies = cookiesStrings
       .map((cookieString) => cookieString.fromReadable())

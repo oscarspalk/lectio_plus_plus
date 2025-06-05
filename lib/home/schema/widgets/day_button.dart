@@ -10,7 +10,7 @@ final _dateNum = DateFormat('dd');
 final _dayName = DateFormat.E();
 
 class DayButton extends StatelessWidget {
-  const DayButton({required this.date, super.key, required this.hasContent});
+  const DayButton({required this.date, required this.hasContent, super.key});
 
   final DateTime date;
   final bool hasContent;
@@ -44,8 +44,9 @@ class DayButton extends StatelessWidget {
     final isSelected = selectedDate.isSameDay(date);
     final colorScheme = context.theme.colorScheme;
     return FilterChip(
-      side:
-          isSelected ? BorderSide(width: 0.0, color: Colors.transparent) : null,
+      side: isSelected
+          ? const BorderSide(width: 0, color: Colors.transparent)
+          : null,
       padding: EdgeInsets.zero,
       backgroundColor:
           backgroundColor(isSelected: isSelected, scheme: colorScheme),

@@ -13,6 +13,7 @@ class CustomTypography {
   static TextStyle headline() {
     return const TextStyle(
       fontFamily: fraunces,
+      height: 1,
       fontSize: _headlineSize,
       fontWeight: FontWeight.w600,
       fontVariations: [
@@ -25,6 +26,7 @@ class CustomTypography {
   static TextStyle label() {
     return const TextStyle(
       fontFamily: inter,
+      height: 1,
       fontSize: bodySize,
       fontWeight: FontWeight.w500,
     );
@@ -36,11 +38,11 @@ class CustomTypography {
 
   static TextStyle h3() {
     return const TextStyle(
-      fontFamily: fraunces,
+      height: 1,
+      fontFamily: inter,
       fontSize: _h3Size,
       fontWeight: FontWeight.w600,
       fontVariations: [
-        FontVariation('WONK', 0),
         FontVariation.opticalSize(_headlineSize),
       ],
     );

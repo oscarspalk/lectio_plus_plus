@@ -18,16 +18,20 @@ class SchemaAppbar extends StatelessWidget implements PreferredSizeWidget {
         context.select((SchemaCubit cubit) => cubit.state.selectedDate);
     final week = weekFromDateTime(selectedDate);
     return AppBar(
+      centerTitle: false,
       surfaceTintColor: Colors.transparent,
       shadowColor: Colors.transparent,
       backgroundColor: Colors.transparent,
       title: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             l10n.schemaAppbarTitle(week),
             style: CustomTypography.headline(),
           ),
-          const SmallSpacer(),
+          const SizedBox(
+            height: CustomSpacing.xxs,
+          ),
           Text(
             monthYear(selectedDate),
             style: CustomTypography.label(),
@@ -43,5 +47,5 @@ class SchemaAppbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 64);
+  Size get preferredSize => const Size.fromHeight(64 + 64);
 }
