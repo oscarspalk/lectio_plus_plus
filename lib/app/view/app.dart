@@ -10,6 +10,7 @@ import 'package:lectio_plus_plus/auth/view/app_starting_page.dart';
 import 'package:lectio_plus_plus/auth/view/unilogin_page.dart';
 import 'package:lectio_plus_plus/core/decoration/colors.dart';
 import 'package:lectio_plus_plus/home/schema/cubit/schema_cubit.dart';
+import 'package:lectio_plus_plus/home/schema/view/schema_page.dart';
 import 'package:lectio_plus_plus/home/view/home_view.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
 
@@ -29,14 +30,22 @@ class _AppState extends State<App> {
 
     routes = [
       // authenticated route
-
-      GoProviderRoute(
-        providers: [BlocProvider(create: (_) => SchemaCubit())],
-        path: '/home',
-        builder: (context, state) {
-          return const HomeView();
-        },
-      ),
+      StatefulShellRoute.indexedStack(
+          builder: (context, state, navigationShell) {
+            return HomeView(
+              navigationShell: navigationShell,
+            );
+          },
+          branches: [
+            StatefulShellBranch(routes: [
+              GoProviderRoute(
+                  path: '/',
+                  builder: (context, state) {
+                    return const SchemaPage();
+                  },
+                  providers: [BlocProvider(create: (_) => SchemaCubit())])
+            ]),
+          ]),
 
       // loading route
       GoRoute(

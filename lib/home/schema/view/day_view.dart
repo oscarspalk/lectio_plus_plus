@@ -17,33 +17,34 @@ class DayView extends StatelessWidget {
         context.select((SchemaCubit cubit) => cubit.state.schemaDataSource);
     if (dataSource != null) {
       return SfCalendarTheme(
-          data: SfCalendarThemeData.raw(brightness: Brightness.dark),
-          child: SfCalendar(
-            allowedViews: const [CalendarView.day],
-            appointmentBuilder: appointmentBuilder,
-            controller: controller,
-            onViewChanged: (viewChangedDetails) async {
-              final selectedDates = viewChangedDetails.visibleDates;
-              final selectedDay = selectedDates.firstOrNull;
-              if (selectedDay != null) {
-                await context.read<SchemaCubit>().load(selectedDay);
-              }
-            },
-            showCurrentTimeIndicator: false,
-            initialDisplayDate: DateTime.now().copyWith(hour: 0),
-            firstDayOfWeek: 1,
-            dataSource: dataSource,
-            headerHeight: 0,
-            viewHeaderHeight: 0,
-            selectionDecoration: const BoxDecoration(),
-            timeSlotViewSettings: const TimeSlotViewSettings(
-              timeIntervalHeight: 50,
-              startHour: 7,
-              timelineAppointmentHeight: 0,
-              timeFormat: 'HH',
-              minimumAppointmentDuration: Duration(minutes: 50),
-            ),
-          ));
+        data: SfCalendarThemeData.raw(brightness: Brightness.dark),
+        child: SfCalendar(
+          allowedViews: const [CalendarView.day],
+          appointmentBuilder: appointmentBuilder,
+          controller: controller,
+          onViewChanged: (viewChangedDetails) async {
+            final selectedDates = viewChangedDetails.visibleDates;
+            final selectedDay = selectedDates.firstOrNull;
+            if (selectedDay != null) {
+              await context.read<SchemaCubit>().load(selectedDay);
+            }
+          },
+          showCurrentTimeIndicator: false,
+          initialDisplayDate: DateTime.now().copyWith(hour: 0),
+          firstDayOfWeek: 1,
+          dataSource: dataSource,
+          headerHeight: 0,
+          viewHeaderHeight: 0,
+          selectionDecoration: const BoxDecoration(),
+          timeSlotViewSettings: const TimeSlotViewSettings(
+            timeIntervalHeight: 50,
+            startHour: 7,
+            timelineAppointmentHeight: 0,
+            timeFormat: 'HH',
+            minimumAppointmentDuration: Duration(minutes: 50),
+          ),
+        ),
+      );
     }
     return const CenterLoader();
   }
