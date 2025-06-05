@@ -1,9 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy/fuzzy.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lectio_plus_plus/auth/cubit/login_cubit.dart';
 import 'package:lectio_plus_plus/core/essentials/center_error.dart';
+import 'package:lectio_plus_plus/routes/app_routes.gr.dart';
 import 'package:lectio_wrapper/types/gym.dart';
 
 class GymSearchDelegate extends SearchDelegate<Gym> {
@@ -51,7 +52,7 @@ class GymSearchDelegate extends SearchDelegate<Gym> {
         return ListTile(
           onTap: () {
             context.read<LoginCubit>().setGym(matchingGyms[index]);
-            GoRouter.of(context).push('/auth/login');
+            context.navigateTo(const LoginRoute());
           },
           title: Text(matchingGyms[index].name),
         );

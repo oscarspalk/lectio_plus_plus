@@ -1,11 +1,26 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:lectio_plus_plus/auth/view/select_gym.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:lectio_plus_plus/routes/app_routes.gr.dart';
 
-@immutable
-class LoginRoute extends GoRouteData {
+@AutoRouterConfig(replaceInRouteName: 'Page,Route')
+class AppRouter extends RootStackRouter {
   @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const SelectGymPage();
-  }
+  List<AutoRoute> get routes => [
+        AutoRoute(
+          page: HomeRoute.page,
+          children: [
+            AutoRoute(page: SchemaRoute.page),
+            AutoRoute(page: HomeworkRoute.page),
+            AutoRoute(page: MoreRoute.page),
+          ],
+        ),
+        AutoRoute(page: AppStartingRoute.page, initial: true),
+        AutoRoute(
+          page: AuthWrapperRoute.page,
+          children: [
+            AutoRoute(page: SelectGymRoute.page),
+            AutoRoute(page: LoginRoute.page),
+            AutoRoute(page: UniloginRoute.page),
+          ],
+        ),
+      ];
 }

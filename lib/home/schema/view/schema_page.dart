@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_plus_plus/core/essentials/date_comparison.dart';
@@ -7,6 +8,7 @@ import 'package:lectio_plus_plus/home/schema/view/day_view.dart';
 import 'package:lectio_plus_plus/home/schema/widgets/schema_appbar.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+@RoutePage()
 class SchemaPage extends StatelessWidget {
   const SchemaPage({super.key});
 

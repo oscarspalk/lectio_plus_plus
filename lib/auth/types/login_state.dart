@@ -7,8 +7,8 @@ part 'login_state.gen.dart';
 abstract class LoginState {
   /// Default constructor
   factory LoginState({
-    Gym? selectedGym,
     required LoginStage stage,
+    Gym? selectedGym,
     String? uniloginUrl,
     Student? student,
   }) = _$LoginStateImpl;

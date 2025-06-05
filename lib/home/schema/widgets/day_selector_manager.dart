@@ -30,31 +30,32 @@ class _DaySelectorManagerState extends State<DaySelectorManager> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SchemaCubit, SchemaState>(
-        listener: (BuildContext context, SchemaState state) {
-          if (controller.hasClients) {
-            // lets calculate the current shown week.
-            final startWeek = weekFromDateTime(todayDay);
-            final currentPage = controller.page?.toInt() ?? 0;
-            final offset = currentPage - _initialPage;
-            final currentWeekDay = todayDay.add(Duration(days: 7 * offset));
-            final currentWeek = weekFromDateTime(currentWeekDay);
+      listener: (BuildContext context, SchemaState state) {
+        if (controller.hasClients) {
+          // lets calculate the current shown week.
+          final startWeek = weekFromDateTime(todayDay);
+          final currentPage = controller.page?.toInt() ?? 0;
+          final offset = currentPage - _initialPage;
+          final currentWeekDay = todayDay.add(Duration(days: 7 * offset));
+          final currentWeek = weekFromDateTime(currentWeekDay);
 
-            // now we check how far away from the selected week we are
-            final selectedWeek = weekFromDateTime(state.selectedDate);
+          // now we check how far away from the selected week we are
+          final selectedWeek = weekFromDateTime(state.selectedDate);
 
-            if (selectedWeek != currentWeek) {
-              final weekDifference = selectedWeek -
-                  startWeek +
-                  52 * (currentWeekDay.year - todayDay.year);
+          if (selectedWeek != currentWeek) {
+            final weekDifference = selectedWeek -
+                startWeek +
+                52 * (currentWeekDay.year - todayDay.year);
 
-              controller.jumpToPage(_initialPage + weekDifference);
-            }
+            controller.jumpToPage(_initialPage + weekDifference);
           }
-        },
-        child: DaySelectorManagerWidget(
-          todayDay: todayDay,
-          controller: controller,
-        ));
+        }
+      },
+      child: DaySelectorManagerWidget(
+        todayDay: todayDay,
+        controller: controller,
+      ),
+    );
   }
 
   @override
@@ -67,8 +68,8 @@ class _DaySelectorManagerState extends State<DaySelectorManager> {
 class DaySelectorManagerWidget extends StatelessWidget {
   const DaySelectorManagerWidget({
     required this.todayDay,
-    super.key,
     required this.controller,
+    super.key,
   });
 
   final DateTime todayDay;

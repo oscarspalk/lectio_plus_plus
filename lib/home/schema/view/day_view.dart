@@ -30,7 +30,7 @@ class DayView extends StatelessWidget {
             }
           },
           showCurrentTimeIndicator: false,
-          initialDisplayDate: DateTime.now().copyWith(hour: 0),
+          initialDisplayDate: DateTime.now().copyWith(hour: 7, minute: 0),
           firstDayOfWeek: 1,
           dataSource: dataSource,
           headerHeight: 0,

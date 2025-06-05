@@ -13,10 +13,8 @@ dependencies:
   flutter_bloc: ^8.1.6
   flutter_localizations:
     sdk: flutter
-  go_router: ^15.1.2
   intl: ^0.19.0
-  lectio_wrapper: ^0.7.3
-  go_provider: ^1.8.1
+  lectio_wrapper: ^0.7.4
   data_class_plugin: any
   fuzzy: ^0.5.1
   flutter_svg: ^2.1.0
@@ -29,16 +27,17 @@ dependencies:
   get_it: ^7.6.0
   syncfusion_flutter_calendar: ^29.2.8
   syncfusion_flutter_core: ^29.2.9
+  auto_route: ^9.3.0+1
 dev_dependencies:
   bloc_test: ^9.1.7
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.4
   very_good_analysis: ^6.0.0
-  go_router_builder: any
-  build_runner: any
+  build_runner: ^2.4.15
   build_verify: any
   tachyon: any
+  auto_route_generator: ^9.0.0
 
 flutter:
   uses-material-design: true

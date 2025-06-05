@@ -15,8 +15,10 @@ class DayButton extends StatelessWidget {
   final DateTime date;
   final bool hasContent;
 
-  Color backgroundColor(
-      {required bool isSelected, required ColorScheme scheme}) {
+  Color backgroundColor({
+    required bool isSelected,
+    required ColorScheme scheme,
+  }) {
     if (isSelected) {
       return scheme.primaryContainer;
     }
@@ -26,8 +28,10 @@ class DayButton extends StatelessWidget {
     return scheme.surfaceContainer;
   }
 
-  Color foregroundColor(
-      {required bool isSelected, required ColorScheme scheme}) {
+  Color foregroundColor({
+    required bool isSelected,
+    required ColorScheme scheme,
+  }) {
     if (isSelected) {
       return scheme.onPrimaryContainer;
     }
@@ -62,7 +66,7 @@ class DayButton extends StatelessWidget {
             Text(
               _dayName.format(date).toUpperCase(),
               style: CustomTypography.small(),
-            )
+            ),
           ],
         ),
       ),

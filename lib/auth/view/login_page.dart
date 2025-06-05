@@ -1,7 +1,8 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lectio_plus_plus/auth/cubit/login_cubit.dart';
 import 'package:lectio_plus_plus/auth/types/login_state.dart';
 import 'package:lectio_plus_plus/core/decoration/colors.dart';
@@ -10,7 +11,9 @@ import 'package:lectio_plus_plus/core/decoration/spacing.dart';
 import 'package:lectio_plus_plus/core/decoration/typography.dart';
 import 'package:lectio_plus_plus/core/essentials/illustration.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
+import 'package:lectio_plus_plus/routes/app_routes.gr.dart';
 
+@RoutePage()
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
@@ -19,7 +22,8 @@ class LoginPage extends StatelessWidget {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state.stage == LoginStage.unilogin) {
-          context.go('/auth/unilogin');
+          // push unilogin page
+          context.navigateTo(const UniloginRoute());
         }
       },
       child: const LoginView(),

@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +11,7 @@ import 'package:lectio_plus_plus/core/essentials/illustration.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
 import 'package:lectio_wrapper/types/gym.dart';
 
+@RoutePage()
 class SelectGymPage extends StatelessWidget {
   const SelectGymPage({super.key});
 
