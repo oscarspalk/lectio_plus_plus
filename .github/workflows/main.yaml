@@ -24,6 +24,8 @@ jobs:
 
   publish:
     runs-on: macos-latest
+    permissions:
+      contents: write
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -34,7 +36,12 @@ jobs:
           flutter-version: 3.29.3
       - run: flutter pub get
       #- run: flutter test
-      - run: flutter build apk
+      - run: flutter build apk --flavor production --target lib/main_production.dart
+      - uses: actions/checkout@v4
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "release.tar.gz,foo/*.txt"
+          bodyFile: "body.md"
 
   spell-check:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/spell_check.yml@v1
