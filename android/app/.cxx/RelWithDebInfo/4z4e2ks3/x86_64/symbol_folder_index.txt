@@ -1,0 +1,1 @@
+/Users/oscarspalk/dev/lectio_plus_plus/build/app/intermediates/cxx/RelWithDebInfo/4z4e2ks3/obj/x86_64

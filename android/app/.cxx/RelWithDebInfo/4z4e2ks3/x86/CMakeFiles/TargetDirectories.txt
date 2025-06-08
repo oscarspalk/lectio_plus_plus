@@ -1,0 +1,2 @@
+/Users/oscarspalk/dev/lectio_plus_plus/android/app/.cxx/RelWithDebInfo/4z4e2ks3/x86/CMakeFiles/edit_cache.dir
+/Users/oscarspalk/dev/lectio_plus_plus/android/app/.cxx/RelWithDebInfo/4z4e2ks3/x86/CMakeFiles/rebuild_cache.dir
