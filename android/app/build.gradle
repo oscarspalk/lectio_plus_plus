@@ -60,15 +60,14 @@ android {
 
     signingConfigs {
         if (System.getenv("ANDROID_KEYSTORE_PATH")) {
-            def keyAlias = System.getenv("ANDROID_KEYSTORE_ALIAS")
-            def privateKeyPassword = System.getenv("ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
-            def storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
-            def storeFile = rootProject.file("../../"+ System.getenv("ANDROID_KEYSTORE_PATH"))
+            def storeFilePath = rootProject.file("../../"+ System.getenv("ANDROID_KEYSTORE_PATH"))
+            def storeFile = file(storeFilePath)
+            println storeFilePath
             release {
-                keyAlias keyAlias
-                keyPassword privateKeyPassword
+                keyAlias System.getenv("ANDROID_KEYSTORE_ALIAS")
+                keyPassword System.getenv("ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
                 storeFile storeFile
-                storePassword storePassword
+                storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
             }
         } else {
             release {
