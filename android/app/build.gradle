@@ -28,6 +28,7 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+
 android {
     namespace "com.oscarspalk.lpp.lectio_plus_plus"
     compileSdkVersion flutter.compileSdkVersion

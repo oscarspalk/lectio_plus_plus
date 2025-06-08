@@ -45,7 +45,7 @@ jobs:
       #- run: flutter test
       - run: flutter build appbundle --flavor production --target lib/main_production.dart
         env:
-          ANDROID_KEYSTORE_PATH: "~/${{ github.workspace }}/keystore.jks"
+          ANDROID_KEYSTORE_PATH: "../../keystore.jks"
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
