@@ -28,6 +28,7 @@ dependencies:
   syncfusion_flutter_calendar: ^29.2.8
   syncfusion_flutter_core: ^29.2.9
   auto_route: ^9.3.0+1
+
 dev_dependencies:
   bloc_test: ^9.1.7
   flutter_test:
