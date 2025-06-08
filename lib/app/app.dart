@@ -1,2 +1,2 @@
 export 'logic/logic.dart';
-export 'view/app.dart';
+export 'view/view.dart';

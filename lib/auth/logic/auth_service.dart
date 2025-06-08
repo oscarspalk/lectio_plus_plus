@@ -1,4 +1,4 @@
-import 'package:lectio_plus_plus/auth/logic/credentials_storage.dart';
+import 'package:lectio_plus_plus/lpp.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/utils/dio_client.dart';
 

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lectio_plus_plus/app/view/auth_listener.dart';
-import 'package:lectio_plus_plus/auth/auth.dart';
 
-import 'package:lectio_plus_plus/core/decoration/colors.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
+import 'package:lectio_plus_plus/lpp.dart';
 import 'package:lectio_plus_plus/routes/app_routes.dart';
 
 class App extends StatelessWidget {
