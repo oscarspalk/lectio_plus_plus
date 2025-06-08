@@ -40,9 +40,9 @@ jobs:
           encodedString: ${{ secrets.KEYSTORE }}
       #- run: flutter test
       - run: echo "${{ steps.write_file.outputs.filePath }}"
-      - run: flutter build appbundle --flavor production --target lib/main_production.dart -v
+      - run: flutter build appbundle --flavor production --target lib/main_production.dart
         env:
-          ANDROID_KEYSTORE_PATH: ${{ steps.write_file.outputs.filePath }}
+          ANDROID_KEYSTORE_PATH: "keystore/keystore.jks"
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
