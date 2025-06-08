@@ -1,4 +1,4 @@
-package com.oscarspalk.lpp.lectio_plus_plus
+package com.oscarspalk.lpp
 
 import io.flutter.embedding.android.FlutterActivity
 
