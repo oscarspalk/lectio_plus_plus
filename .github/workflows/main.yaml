@@ -12,6 +12,12 @@ on:
     branches:
       - main
 
+env:
+  ANDROID_KEYSTORE_PATH: "keystore/keystore.jks"
+  SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+  SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+  SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+
 jobs:
   semantic-pull-request:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/semantic_pull_request.yml@v1
@@ -31,6 +37,8 @@ jobs:
           version: 3.29.3
           cache: true
           cache-sdk: true
+      - name: Check Signing Key Env
+        run: echo $SIGNING_KEY_ALIAS
       - run: flutter pub get
       - name: Decode Keystore
         id: decode_keystore
@@ -41,11 +49,6 @@ jobs:
           encodedString: ${{ secrets.KEYSTORE }}
       #- run: flutter test
       - run: flutter build appbundle --flavor production --target lib/main_production.dart
-        env:
-          ANDROID_KEYSTORE_PATH: "keystore/keystore.jks"
-          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
       - uses: actions/checkout@v4
       - uses: r0adkll/upload-google-play@v1
         with:
