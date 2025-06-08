@@ -17,12 +17,6 @@ jobs:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/semantic_pull_request.yml@v1
 
   build:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
-    with:
-      flutter_channel: stable
-      flutter_version: '3.29.3'
-
-  publish:
     runs-on: macos-latest
     permissions:
       contents: write
@@ -44,6 +38,7 @@ jobs:
           fileName: 'keystore.jks'
           encodedString: ${{ secrets.KEYSTORE }}
       #- run: flutter test
+      - run: echo "${{ steps.write_file.outputs.filePath }}"
       - run: flutter build appbundle --flavor production --target lib/main_production.dart -v
         env:
           ANDROID_KEYSTORE_PATH: ${{ steps.write_file.outputs.filePath }}
