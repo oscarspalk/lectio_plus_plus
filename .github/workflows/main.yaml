@@ -30,16 +30,12 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup Flutter SDK
+        uses: flutter-actions/setup-flutter@v4
         with:
           channel: stable
-          flutter-version: 3.29.3
-          cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
-          pub-cache-key: "flutter-pub:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache of dart pub get dependencies
-          pub-cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+          version: 3.29.3
+          cache-sdk: true
       - run: flutter pub get
       - name: Decode Keystore
         id: decode_keystore
@@ -48,7 +44,7 @@ jobs:
           fileName: 'keystore.jks'
           encodedString: ${{ secrets.KEYSTORE }}
       #- run: flutter test
-      - run: flutter build appbundle --flavor production --target lib/main_production.dart --stacktrace
+      - run: flutter build appbundle --flavor production --target lib/main_production.dart -v
         env:
           ANDROID_KEYSTORE_PATH: ${{ steps.write_file.outputs.filePath }}
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
