@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:lectio_plus_plus/auth/logic/auth_service.dart';
-import 'package:lectio_plus_plus/auth/types/auth_state.dart';
+import 'package:lectio_plus_plus/auth/auth.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 
 class AuthCubit extends Cubit<AuthState> {
