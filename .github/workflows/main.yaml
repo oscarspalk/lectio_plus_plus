@@ -26,6 +26,7 @@ jobs:
     runs-on: macos-latest
     permissions:
       contents: write
+    environment: PRODUCTION
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -40,7 +41,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJsonPlainText: ${{ SERVICE_ACCOUNT_JSON }}
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.oscarspalk.lpp
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: alpha
