@@ -36,6 +36,7 @@ jobs:
         uses: timheuer/base64-to-file@v1
         with:
           fileName: 'keystore.jks'
+          fileDir: 'keystore/'
           encodedString: ${{ secrets.KEYSTORE }}
       #- run: flutter test
       - run: echo "${{ steps.write_file.outputs.filePath }}"
