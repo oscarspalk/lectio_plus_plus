@@ -36,6 +36,12 @@ jobs:
           channel: stable
           flutter-version: 3.29.3
       - run: flutter pub get
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'keystore.jks'
+          encodedString: ${{ secrets.KEYSTORE }}
       #- run: flutter test
       - run: flutter build appbundle --flavor production --target lib/main_production.dart
       - uses: actions/checkout@v4
