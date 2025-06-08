@@ -63,11 +63,12 @@ android {
             def keyAlias = System.getenv("ANDROID_KEYSTORE_ALIAS")
             def privateKeyPassword = System.getenv("ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
             def storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
-            def storeFile = rootProject.file("../"+ System.getenv("ANDROID_KEYSTORE_PATH"))
+            def storeFile = rootProject.file("../../"+ System.getenv("ANDROID_KEYSTORE_PATH"))
             println keyAlias
             println privateKeyPassword
             println storePassword
             println storeFile
+            println "Hello From Gradle"
             release {
                 keyAlias keyAlias
                 keyPassword privateKeyPassword
