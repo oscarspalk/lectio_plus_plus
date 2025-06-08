@@ -81,24 +81,24 @@ android {
         production {
             dimension "default"
             applicationIdSuffix ""
-            manifestPlaceholders = [appName: "Lectio Plus Plus"]
+            manifestPlaceholders = [appName: "Lectio++"]
         }
         staging {
             dimension "default"
             applicationIdSuffix ".stg"
-            manifestPlaceholders = [appName: "[STG] Lectio Plus Plus"]
+            manifestPlaceholders = [appName: "[STG] Lectio++"]
         }
         development {
             dimension "default"
             applicationIdSuffix ".dev"
-            manifestPlaceholders = [appName: "[DEV] Lectio Plus Plus"]
+            manifestPlaceholders = [appName: "[DEV] Lectio++"]
         }
     }
 
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
         debug {

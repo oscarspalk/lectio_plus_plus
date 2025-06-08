@@ -40,8 +40,6 @@ jobs:
           fileDir: 'keystore/'
           encodedString: ${{ secrets.KEYSTORE }}
       #- run: flutter test
-      - name: List directories
-        run: ls keystore/
       - run: flutter build appbundle --flavor production --target lib/main_production.dart
         env:
           ANDROID_KEYSTORE_PATH: "keystore/keystore.jks"
