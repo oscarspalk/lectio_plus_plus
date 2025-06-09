@@ -53,8 +53,8 @@ jobs:
       - name: List keystore dir
         run: ls keystore/
       - name: Echo keystore
-        run: echo "$(< /keystore/keystore.jks)"
-      - run: flutter build appbundle --flavor production --target lib/main_production.dart
+        run: echo "$(< ./keystore/keystore.jks)"
+      - run: flutter build appbundle --flavor production --target lib/main_production.dart --build-number ${{github.run_number}}
       - uses: actions/checkout@v4
       - uses: r0adkll/upload-google-play@v1
         with:
