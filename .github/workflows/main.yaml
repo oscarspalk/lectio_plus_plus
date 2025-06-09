@@ -48,6 +48,8 @@ jobs:
           fileDir: 'keystore/'
           encodedString: ${{ secrets.KEYSTORE }}
       #- run: flutter test
+      - name: Echo keystore
+        run: echo "$(< /keystore/keystore.jks)"
       - run: flutter build appbundle --flavor production --target lib/main_production.dart
       - uses: actions/checkout@v4
       - uses: r0adkll/upload-google-play@v1
