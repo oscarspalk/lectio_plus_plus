@@ -37,8 +37,6 @@ jobs:
           version: 3.29.3
           cache: true
           cache-sdk: true
-      - name: Check Signing Key Env
-        run: echo $SIGNING_KEY_ALIAS
       - run: flutter pub get
       - name: Decode Keystore
         id: decode_keystore
@@ -48,12 +46,6 @@ jobs:
           fileDir: 'keystore/'
           encodedString: ${{ secrets.KEYSTORE }}
       #- run: flutter test
-      - name: List dir
-        run: ls
-      - name: List keystore dir
-        run: ls keystore/
-      - name: Echo keystore
-        run: echo "$(< ./keystore/keystore.jks)"
       - run: flutter build appbundle --flavor production --target lib/main_production.dart --build-number ${{github.run_number}}
       - uses: actions/checkout@v4
       - uses: r0adkll/upload-google-play@v1
