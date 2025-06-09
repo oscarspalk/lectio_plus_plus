@@ -46,23 +46,11 @@ jobs:
           fileDir: 'keystore/'
           encodedString: ${{ secrets.KEYSTORE }}
       #- run: flutter test
-      - run: flutter build appbundle --flavor production --target lib/main_production.dart --build-number ${{github.run_number}}
-      - uses: actions/checkout@v4
-      - uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: com.oscarspalk.lpp
-          releaseFiles: app/build/outputs/bundle/release/app-release.aab
-          track: alpha
-          status: inProgress
-          inAppUpdatePriority: 2
-          userFraction: 0.33
-          whatsNewDirectory: distribution/whatsnew
-          mappingFile: app/build/outputs/mapping/release/mapping.txt
-          debugSymbols: app/intermediates/merged_native_libs/release/out/lib
+      - run: flutter build apk --flavor production --target lib/main_production.dart --build-number ${{github.run_number}}
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "*.apk"
+      - uses: actions/checkout@v4
 
   spell-check:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/spell_check.yml@v1
