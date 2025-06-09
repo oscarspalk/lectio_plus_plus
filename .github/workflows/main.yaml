@@ -47,6 +47,8 @@ jobs:
           encodedString: ${{ secrets.KEYSTORE }}
       #- run: flutter test
       - run: flutter build appbundle --flavor production --target lib/main_production.dart --build-number ${{github.run_number}}
+        env:
+          KEYSTORE_PATH: ${{ steps.write_file.outputs.filePath }}
       - uses: actions/checkout@v4
       - uses: r0adkll/upload-google-play@v1
         with:
