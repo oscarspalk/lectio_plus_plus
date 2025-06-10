@@ -19,16 +19,19 @@ Widget appointmentBuilder(
     if (appointment.team.isEmpty) {
       return appointment.teacherObjs
           .map((teacher) => teacher.classOrInitials)
+          .where((str) => str != null)
           .join(', ');
     }
     return appointment.team;
   }
 
   String title() {
-    if (appointment.title.isEmpty) {
-      return team();
-    }
-    return '${appointment.title} - ${team()}';
+    final teamText = team();
+    final teamOrEmpty = teamText.isEmpty ? '' : teamText;
+    final titleOrEmpty = appointment.title.isEmpty ? '' : appointment.title;
+    final joiner =
+        titleOrEmpty.isNotEmpty && teamOrEmpty.isNotEmpty ? ' - ' : '';
+    return '$titleOrEmpty$joiner$teamOrEmpty';
   }
 
   String time() {

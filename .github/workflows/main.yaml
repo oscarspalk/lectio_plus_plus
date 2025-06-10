@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: APK
-          path: build/app/outputs/bundle/release/app.apk
+          path: build/app/outputs/flutter-apk/app-production-release.apk
       - uses: actions/checkout@v4
 
   spell-check:
