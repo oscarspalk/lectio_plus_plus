@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lectio_plus_plus/app/logic/student_service.dart';
 import 'package:lectio_plus_plus/auth/auth.dart';
-import 'package:lectio_plus_plus/auth/types/auth_state.dart';
 import 'package:lectio_plus_plus/routes/app_routes.dart';
 import 'package:lectio_plus_plus/routes/app_routes.gr.dart';
 
