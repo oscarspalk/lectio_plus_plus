@@ -1,10 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/widgets.dart';
-import 'package:lectio_plus_plus/app/logic/student_service.dart';
-import 'package:lectio_plus_plus/app/view/auth_listener.dart';
-import 'package:lectio_plus_plus/home/schema/types/schema_data_source.dart';
-import 'package:lectio_plus_plus/home/schema/types/schema_state.dart';
-import 'package:lectio_plus_plus/home/schema/types/specific_week.dart';
+import 'package:lectio_plus_plus/lpp.dart';
 import 'package:lectio_wrapper/utils/dating.dart';
 
 class SchemaCubit extends Cubit<SchemaState> {
@@ -18,16 +13,15 @@ class SchemaCubit extends Cubit<SchemaState> {
     load(_now);
   }
 
-  final List<SpecificWeek> _weeks = [];
-  SpecificWeek? _currentSpecificWeek;
-
   static DateTime get _now => DateTime.now().copyWith(hour: 12, minute: 0);
+  final List<SpecificWeek> _weeks = [];
+
+  SpecificWeek? _currentSpecificWeek;
 
   Future<void> load(DateTime visibleDate) async {
     final updatedDate = state.copyWith(selectedDate: visibleDate);
     emit(updatedDate);
     final week = weekFromDateTime(visibleDate);
-    debugPrint('Loading $week');
     final year = visibleDate.year;
     if (!(_currentSpecificWeek?.isSame(week, year) ?? false)) {
       var thisWeek = _weeks

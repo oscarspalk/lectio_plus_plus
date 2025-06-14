@@ -58,7 +58,7 @@ Widget appointmentBuilder(
         Text(
           time(),
           style: labelStyle,
-        )
+        ),
       ],
     ),
   );

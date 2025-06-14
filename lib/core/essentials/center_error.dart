@@ -5,8 +5,11 @@ import 'package:lectio_plus_plus/core/essentials/illustration.dart';
 import 'package:lectio_plus_plus/l10n/l10n.dart';
 
 class CenterError extends StatelessWidget {
-  const CenterError(
-      {required this.error, required this.description, super.key});
+  const CenterError({
+    required this.error,
+    required this.description,
+    super.key,
+  });
 
   final String Function(AppLocalizations l10n) error;
   final String Function(AppLocalizations l10n) description;
@@ -27,7 +30,7 @@ class CenterError extends StatelessWidget {
           Text(
             description(l10n),
             style: CustomTypography.body(),
-          )
+          ),
         ],
       ),
     );

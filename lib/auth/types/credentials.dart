@@ -29,7 +29,10 @@ String _cookiesToJson(List<Cookie> cookies) {
 }
 
 Student _studentFromJson(
-    dynamic value, Map<dynamic, dynamic> _json, String keyName) {
+  dynamic value,
+  Map<dynamic, dynamic> _,
+  String keyName,
+) {
   final studentJson = json.decode(value as String) as Map<dynamic, dynamic>;
   final simpleStudent = SimpleStudent.fromJson(studentJson);
   return Student(simpleStudent.studentId, simpleStudent.gymId);
@@ -49,6 +52,10 @@ abstract class Credentials {
     required Student student,
   }) = _$CredentialsImpl;
 
+  /// Creates an instance of [Credentials] from [json]
+  factory Credentials.fromJson(Map<dynamic, dynamic> json) =
+      _$CredentialsImpl.fromJson;
+
   Credentials.ctor();
 
   @JsonKey(fromJson: _cookieFromJson, toJson: _cookiesToJson)
@@ -58,10 +65,6 @@ abstract class Credentials {
     toJson: _studentToJson,
   )
   Student get student;
-
-  /// Creates an instance of [Credentials] from [json]
-  factory Credentials.fromJson(Map<dynamic, dynamic> json) =
-      _$CredentialsImpl.fromJson;
 
   /// Converts [Credentials] to a [Map] json
   Map<String, dynamic> toJson();

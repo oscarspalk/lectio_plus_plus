@@ -32,5 +32,7 @@
     "schemaTitle": "Skema",
     "homeworkTitle": "Homework",
     "moreTitle": "Mere",
-    "settingsTitle": "Indstillinger"
+    "settingsTitle": "Indstillinger",
+    "noHomeworkError": "Der er ingen lektier",
+    "noHomeworkErrorDescription": "Det var vist heldigt."
 }
