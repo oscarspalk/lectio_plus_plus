@@ -21,29 +21,30 @@ class BaseView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return AutoTabsScaffold(
-        routes: const [SchemaRoute(), HomeworkRoute(), MoreRoute()],
-        bottomNavigationBuilder: (context, tabsRouter) {
-          return NavigationBar(
-            onDestinationSelected: tabsRouter.setActiveIndex,
-            selectedIndex: tabsRouter.activeIndex,
-            destinations: [
-              NavigationDestination(
-                selectedIcon: const Icon(EvaIcons.calendar),
-                icon: const Icon(EvaIcons.calendarOutline),
-                label: l10n.schemaTitle,
-              ),
-              NavigationDestination(
-                selectedIcon: const Icon(EvaIcons.bookOpen),
-                icon: const Icon(EvaIcons.bookOpenOutline),
-                label: l10n.homeworkTitle,
-              ),
-              NavigationDestination(
-                selectedIcon: const Icon(EvaIcons.menu),
-                icon: const Icon(EvaIcons.menu),
-                label: l10n.moreTitle,
-              ),
-            ],
-          );
-        });
+      routes: [const SchemaRoute(), const HomeworkRoute(), MoreRoute()],
+      bottomNavigationBuilder: (context, tabsRouter) {
+        return NavigationBar(
+          onDestinationSelected: tabsRouter.setActiveIndex,
+          selectedIndex: tabsRouter.activeIndex,
+          destinations: [
+            NavigationDestination(
+              selectedIcon: const Icon(EvaIcons.calendar),
+              icon: const Icon(EvaIcons.calendarOutline),
+              label: l10n.schemaTitle,
+            ),
+            NavigationDestination(
+              selectedIcon: const Icon(EvaIcons.bookOpen),
+              icon: const Icon(EvaIcons.bookOpenOutline),
+              label: l10n.homeworkTitle,
+            ),
+            NavigationDestination(
+              selectedIcon: const Icon(EvaIcons.menu),
+              icon: const Icon(EvaIcons.menu),
+              label: l10n.moreTitle,
+            ),
+          ],
+        );
+      },
+    );
   }
 }

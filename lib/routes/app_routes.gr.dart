@@ -9,7 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i13;
-import 'package:flutter/material.dart' as _i15;
+import 'package:flutter/material.dart' as _i14;
 import 'package:lectio_plus_plus/auth/view/app_starting_page.dart' as _i1;
 import 'package:lectio_plus_plus/auth/view/login_page.dart' as _i6;
 import 'package:lectio_plus_plus/auth/view/select_gym.dart' as _i10;
@@ -23,7 +23,7 @@ import 'package:lectio_plus_plus/home/settings/view/settings_page.dart' as _i11;
 import 'package:lectio_plus_plus/home/view/base_page.dart' as _i3;
 import 'package:lectio_plus_plus/home/view/home_page.dart' as _i4;
 import 'package:lectio_plus_plus/home/view/more_page.dart' as _i7;
-import 'package:lectio_wrapper/types/weeks/calendar_event.dart' as _i14;
+import 'package:lectio_wrapper/types/weeks/calendar_event.dart' as _i15;
 
 /// generated route for
 /// [_i1.AppStartingPage]
@@ -141,10 +141,13 @@ class LoginRoute extends _i13.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.MorePage]
-class MoreRoute extends _i13.PageRouteInfo<void> {
-  const MoreRoute({List<_i13.PageRouteInfo>? children})
-      : super(
+class MoreRoute extends _i13.PageRouteInfo<MoreRouteArgs> {
+  MoreRoute({
+    _i14.Key? key,
+    List<_i13.PageRouteInfo>? children,
+  }) : super(
           MoreRoute.name,
+          args: MoreRouteArgs(key: key),
           initialChildren: children,
         );
 
@@ -153,17 +156,30 @@ class MoreRoute extends _i13.PageRouteInfo<void> {
   static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      return const _i7.MorePage();
+      final args =
+          data.argsAs<MoreRouteArgs>(orElse: () => const MoreRouteArgs());
+      return _i7.MorePage(key: args.key);
     },
   );
+}
+
+class MoreRouteArgs {
+  const MoreRouteArgs({this.key});
+
+  final _i14.Key? key;
+
+  @override
+  String toString() {
+    return 'MoreRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
 /// [_i8.SchemaEventPage]
 class SchemaEventRoute extends _i13.PageRouteInfo<SchemaEventRouteArgs> {
   SchemaEventRoute({
-    required _i14.CalendarEvent event,
-    _i15.Key? key,
+    required _i15.CalendarEvent event,
+    _i14.Key? key,
     List<_i13.PageRouteInfo>? children,
   }) : super(
           SchemaEventRoute.name,
@@ -194,9 +210,9 @@ class SchemaEventRouteArgs {
     this.key,
   });
 
-  final _i14.CalendarEvent event;
+  final _i15.CalendarEvent event;
 
-  final _i15.Key? key;
+  final _i14.Key? key;
 
   @override
   String toString() {

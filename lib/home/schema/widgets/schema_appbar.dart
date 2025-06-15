@@ -22,15 +22,14 @@ class SchemaAppbar extends StatelessWidget implements PreferredSizeWidget {
       surfaceTintColor: Colors.transparent,
       shadowColor: Colors.transparent,
       backgroundColor: Colors.transparent,
-      title: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      title: Row(
         children: [
           Text(
             l10n.schemaAppbarTitle(week),
             style: CustomTypography.headline(),
           ),
           const SizedBox(
-            height: CustomSpacing.xxs,
+            width: CustomSpacing.md,
           ),
           Text(
             monthYear(selectedDate),
@@ -47,5 +46,5 @@ class SchemaAppbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(64 + 64);
+  Size get preferredSize => const Size.fromHeight(48 + 64);
 }

@@ -6,38 +6,18 @@
 part of 'more_destination.dart';
 
 class _$MoreDestinationImpl extends MoreDestination {
-  _$MoreDestinationImpl({
-    required this.route,
-    required this.icon,
-    required this.label,
-  }) : super.ctor();
-
-  @override
-  final PageRouteInfo route;
-
-  @override
-  final IconData icon;
-
-  @override
-  final String label;
+  _$MoreDestinationImpl() : super.ctor();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is MoreDestination &&
-            runtimeType == other.runtimeType &&
-            route == other.route &&
-            icon == other.icon &&
-            label == other.label;
+        other is MoreDestination && runtimeType == other.runtimeType;
   }
 
   @override
   int get hashCode {
     return Object.hashAll(<Object?>[
       runtimeType,
-      route,
-      icon,
-      label,
     ]);
   }
 
@@ -45,8 +25,7 @@ class _$MoreDestinationImpl extends MoreDestination {
   String toString() {
     String toStringOutput = 'MoreDestination{<optimized out>}';
     assert(() {
-      toStringOutput =
-          'MoreDestination@<$hexIdentity>{route: $route, icon: $icon, label: $label}';
+      toStringOutput = 'MoreDestination@<$hexIdentity>{}';
       return true;
     }());
     return toStringOutput;
@@ -57,17 +36,7 @@ class _$MoreDestinationImpl extends MoreDestination {
 }
 
 abstract interface class _MoreDestinationCopyWithProxy {
-  MoreDestination route(PageRouteInfo newValue);
-
-  MoreDestination icon(IconData newValue);
-
-  MoreDestination label(String newValue);
-
-  MoreDestination call({
-    final PageRouteInfo? route,
-    final IconData? icon,
-    final String? label,
-  });
+  MoreDestination call();
 }
 
 class _MoreDestinationCopyWithProxyImpl
@@ -78,28 +47,8 @@ class _MoreDestinationCopyWithProxyImpl
 
   @pragma('vm:prefer-inline')
   @override
-  MoreDestination route(PageRouteInfo newValue) => this(route: newValue);
-
-  @pragma('vm:prefer-inline')
-  @override
-  MoreDestination icon(IconData newValue) => this(icon: newValue);
-
-  @pragma('vm:prefer-inline')
-  @override
-  MoreDestination label(String newValue) => this(label: newValue);
-
-  @pragma('vm:prefer-inline')
-  @override
-  MoreDestination call({
-    final PageRouteInfo? route,
-    final IconData? icon,
-    final String? label,
-  }) {
-    return _$MoreDestinationImpl(
-      route: route ?? _value.route,
-      icon: icon ?? _value.icon,
-      label: label ?? _value.label,
-    );
+  MoreDestination call() {
+    return _$MoreDestinationImpl();
   }
 }
 
@@ -108,17 +57,7 @@ sealed class $MoreDestinationCopyWithProxyChain<$Result> {
           final $Result Function(MoreDestination update) chain) =
       _MoreDestinationCopyWithProxyChainImpl<$Result>;
 
-  $Result route(PageRouteInfo newValue);
-
-  $Result icon(IconData newValue);
-
-  $Result label(String newValue);
-
-  $Result call({
-    final PageRouteInfo? route,
-    final IconData? icon,
-    final String? label,
-  });
+  $Result call();
 }
 
 class _MoreDestinationCopyWithProxyChainImpl<$Result>
@@ -130,28 +69,8 @@ class _MoreDestinationCopyWithProxyChainImpl<$Result>
 
   @pragma('vm:prefer-inline')
   @override
-  $Result route(PageRouteInfo newValue) => this(route: newValue);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Result icon(IconData newValue) => this(icon: newValue);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Result label(String newValue) => this(label: newValue);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Result call({
-    final PageRouteInfo? route,
-    final IconData? icon,
-    final String? label,
-  }) {
-    return _chain(_$MoreDestinationImpl(
-      route: route ?? _value.route,
-      icon: icon ?? _value.icon,
-      label: label ?? _value.label,
-    ));
+  $Result call() {
+    return _chain(_$MoreDestinationImpl());
   }
 }
 
