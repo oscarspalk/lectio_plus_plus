@@ -48,8 +48,8 @@
     "tags": []
   },
   {
-    "label": "Tachyon Build",
-    "command": "fvm dart run tachyon build",
+    "label": "Build resources",
+    "command": "fvm flutter pub get && fvm dart run tachyon build && fvm dart run build_runner build",
     "hide": "on_success"
   },
   {

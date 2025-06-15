@@ -20,8 +20,7 @@ class AuthListener extends StatelessWidget {
           getIt.registerSingleton<StudentService>(
             StudentService(student: state.student!),
           );
-
-          router.replace(const HomeRoute());
+          router.replace(const BaseRoute());
           return;
           //return router.go('/');
         }

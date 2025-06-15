@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lectio_plus_plus/core/decoration/spacing.dart';
 import 'package:lectio_plus_plus/core/decoration/theme_extension.dart';
 import 'package:lectio_plus_plus/core/decoration/typography.dart';
+import 'package:lectio_plus_plus/routes/app_routes.gr.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -47,19 +49,24 @@ Widget appointmentBuilder(
       color: colorScheme.primary,
       borderRadius: BorderRadius.circular(CustomSpacing.sm),
     ),
-    child: Wrap(
-      direction: Axis.vertical,
-      runAlignment: WrapAlignment.spaceBetween,
-      children: [
-        Text(
-          title(),
-          style: labelStyle,
-        ),
-        Text(
-          time(),
-          style: labelStyle,
-        ),
-      ],
+    child: InkWell(
+      onTap: () {
+        context.router.push(SchemaEventRoute(event: appointment));
+      },
+      child: Wrap(
+        direction: Axis.vertical,
+        runAlignment: WrapAlignment.spaceBetween,
+        children: [
+          Text(
+            title(),
+            style: labelStyle,
+          ),
+          Text(
+            time(),
+            style: labelStyle,
+          ),
+        ],
+      ),
     ),
   );
 }

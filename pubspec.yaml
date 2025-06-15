@@ -40,9 +40,7 @@ dev_dependencies:
   tachyon: any
   auto_route_generator: ^9.0.0
   test: ^1.25.15
-  custom_lint:
-  barrel_file_linter:
-    path: ./packages/barrel_file_linter
+
 flutter:
   uses-material-design: true
   generate: true

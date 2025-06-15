@@ -8,11 +8,20 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: HomeRoute.page,
           children: [
-            AutoRoute(page: SchemaRoute.page),
-            AutoRoute(page: HomeworkRoute.page),
             AutoRoute(
-                page: MoreRoute.page,
-                children: [AutoRoute(page: SettingsRoute.page)]),
+              page: BaseRoute.page,
+              children: [
+                AutoRoute(
+                  page: SchemaRoute.page,
+                ),
+                AutoRoute(page: HomeworkRoute.page),
+                AutoRoute(
+                  page: MoreRoute.page,
+                ),
+              ],
+            ),
+            AutoRoute(page: SchemaEventRoute.page),
+            AutoRoute(page: SettingsRoute.page),
           ],
         ),
         AutoRoute(page: AppStartingRoute.page, initial: true),
