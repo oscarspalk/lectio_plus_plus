@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lectio_plus_plus/core/essentials/teams/team_cubit.dart';
 import 'package:lectio_plus_plus/home/homework/homework.dart';
 import 'package:lectio_plus_plus/home/schema/cubit/schema_cubit.dart';
 
@@ -14,6 +15,7 @@ class HomePage extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => HomeworkCubit()),
         BlocProvider(create: (_) => SchemaCubit()),
+        BlocProvider(create: (_) => TeamCubit()),
       ],
       child: const AutoRouter(),
     );

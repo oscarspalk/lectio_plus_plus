@@ -6,9 +6,10 @@ part 'team_state.gen.dart';
 abstract class TeamState {
   /// Default constructor
   factory TeamState({
-    required List<Team> teams,
+    required Map<String, Team> teams,
   }) = _$TeamStateImpl;
+
   TeamState.ctor();
 
-  List<Team> get teams;
+  Map<String, Team> get teams;
 }

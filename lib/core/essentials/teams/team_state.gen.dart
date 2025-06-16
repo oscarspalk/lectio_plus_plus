@@ -7,13 +7,13 @@ part of 'team_state.dart';
 
 class _$TeamStateImpl extends TeamState {
   _$TeamStateImpl({
-    required List<Team> teams,
+    required Map<String, Team> teams,
   })  : _teams = teams,
         super.ctor();
 
   @override
-  List<Team> get teams => List<Team>.unmodifiable(_teams);
-  final List<Team> _teams;
+  Map<String, Team> get teams => Map<String, Team>.unmodifiable(_teams);
+  final Map<String, Team> _teams;
 
   @override
   bool operator ==(Object other) {
@@ -45,10 +45,10 @@ class _$TeamStateImpl extends TeamState {
 }
 
 abstract interface class _TeamStateCopyWithProxy {
-  TeamState teams(List<Team> newValue);
+  TeamState teams(Map<String, Team> newValue);
 
   TeamState call({
-    final List<Team>? teams,
+    final Map<String, Team>? teams,
   });
 }
 
@@ -59,12 +59,12 @@ class _TeamStateCopyWithProxyImpl implements _TeamStateCopyWithProxy {
 
   @pragma('vm:prefer-inline')
   @override
-  TeamState teams(List<Team> newValue) => this(teams: newValue);
+  TeamState teams(Map<String, Team> newValue) => this(teams: newValue);
 
   @pragma('vm:prefer-inline')
   @override
   TeamState call({
-    final List<Team>? teams,
+    final Map<String, Team>? teams,
   }) {
     return _$TeamStateImpl(
       teams: teams ?? _value.teams,
@@ -77,10 +77,10 @@ sealed class $TeamStateCopyWithProxyChain<$Result> {
           final $Result Function(TeamState update) chain) =
       _TeamStateCopyWithProxyChainImpl<$Result>;
 
-  $Result teams(List<Team> newValue);
+  $Result teams(Map<String, Team> newValue);
 
   $Result call({
-    final List<Team>? teams,
+    final Map<String, Team>? teams,
   });
 }
 
@@ -93,12 +93,12 @@ class _TeamStateCopyWithProxyChainImpl<$Result>
 
   @pragma('vm:prefer-inline')
   @override
-  $Result teams(List<Team> newValue) => this(teams: newValue);
+  $Result teams(Map<String, Team> newValue) => this(teams: newValue);
 
   @pragma('vm:prefer-inline')
   @override
   $Result call({
-    final List<Team>? teams,
+    final Map<String, Team>? teams,
   }) {
     return _chain(_$TeamStateImpl(
       teams: teams ?? _value.teams,

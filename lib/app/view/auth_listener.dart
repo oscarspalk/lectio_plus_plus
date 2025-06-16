@@ -25,6 +25,7 @@ class AuthListener extends StatelessWidget {
           //return router.go('/');
         }
         if (state.state == AuthStates.unauthorized) {
+          getIt.reset();
           router.replace(const SelectGymRoute());
           return;
         }

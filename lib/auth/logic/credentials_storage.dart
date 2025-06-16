@@ -34,4 +34,8 @@ class CredentialsStorage {
     }
     return null;
   }
+
+  static Future<void> erase() async {
+    await secureStorage.delete(key: _cookieKey);
+  }
 }

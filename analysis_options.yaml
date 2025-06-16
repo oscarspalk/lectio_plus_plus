@@ -4,5 +4,9 @@ linter:
     public_member_api_docs: false
     
 analyzer:
+  errors:
+    sort_unnamed_constructors_first: ignore
+  exclude:
+    - lib/**.gen.dart
   plugins:
     - data_class_plugin

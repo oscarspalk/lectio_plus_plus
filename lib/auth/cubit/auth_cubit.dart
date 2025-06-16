@@ -17,6 +17,12 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> logout() async {
+    final loggedOutState = state.copyWith(state: AuthStates.unauthorized);
+    await AuthService.removeUser();
+    emit(loggedOutState);
+  }
+
   Future<void> setAuth(Student student) async {
     final loggedInState =
         state.copyWith(state: AuthStates.authorized, student: student);

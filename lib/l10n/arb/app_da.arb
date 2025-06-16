@@ -34,5 +34,7 @@
     "moreTitle": "Mere",
     "settingsTitle": "Indstillinger",
     "noHomeworkError": "Der er ingen lektier",
-    "noHomeworkErrorDescription": "Det var vist heldigt."
+    "noHomeworkErrorDescription": "Det var vist heldigt.",
+    "logout": "Log ud",
+    "teamCacheError": "Opfrisk hold cache"
 }

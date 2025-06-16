@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:lectio_plus_plus/core/decoration/spacing.dart';
 import 'package:lectio_plus_plus/core/decoration/theme_extension.dart';
 import 'package:lectio_plus_plus/core/decoration/typography.dart';
+import 'package:lectio_plus_plus/core/essentials/teams/string_team_extension.dart';
 import 'package:lectio_plus_plus/routes/app_routes.gr.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -24,7 +25,7 @@ Widget appointmentBuilder(
           .where((str) => str != null)
           .join(', ');
     }
-    return appointment.team;
+    return appointment.team.displayOrShort(context);
   }
 
   String title() {

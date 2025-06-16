@@ -27,6 +27,10 @@ class AuthService {
   static Future<void> saveUser(Student student) async {
     await CredentialsStorage.save(student);
   }
+
+  static Future<void> removeUser() async {
+    await CredentialsStorage.erase();
+  }
 }
 
 class AutologinCookieExpired extends Error {}
