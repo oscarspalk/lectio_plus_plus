@@ -1,0 +1,2 @@
+C:/Users/knudi/dev/lectio_plus_plus/android/app/.cxx/RelWithDebInfo/665e4y2y/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/knudi/dev/lectio_plus_plus/android/app/.cxx/RelWithDebInfo/665e4y2y/armeabi-v7a/CMakeFiles/rebuild_cache.dir
