@@ -66,6 +66,9 @@ class _AdBarState extends State<AdBar> {
 
   @override
   Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 0.0,
+    );
     return StatefulBuilder(builder: (context, setState) {
       return BlocBuilder<OwnedCubit, AdFreeState>(builder: (context, state) {
         if (!(Platform.isAndroid || Platform.isIOS) || state.hasAdFree) {

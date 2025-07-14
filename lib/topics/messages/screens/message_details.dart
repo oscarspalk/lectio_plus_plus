@@ -63,14 +63,6 @@ class MessageDetails extends StatelessWidget {
           }
           var msg = state.messages.elementAt(msgIndex);
           return Scaffold(
-            floatingActionButton: FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.push(
-                    context, adRoute(ReplyMessageScreen(message: msg)));
-              },
-              label: const Text("Svar"),
-              icon: const Icon(EvaIcons.paperPlaneOutline),
-            ),
             body: RefreshIndicator(
               onRefresh: () async {
                 context.read<MessageBloc>().add(LoadMessage(ref));
