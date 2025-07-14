@@ -1,18 +1,15 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
-import 'package:lpp/routing/feedback/jira_json.dart';
 import 'package:lpp/topics/classes/screens/klasse_screen.dart';
 import 'package:lpp/topics/grades/screens/grade.dart';
 import 'package:lpp/topics/messages/screens/message_screen.dart';
+import 'package:lpp/topics/opgaver/screens/opgave_screen_overview.dart';
 import 'package:lpp/topics/people/screens/people_screen.dart';
 import 'package:lpp/topics/plans/screens/overview.dart';
-import 'package:lpp/topics/rooms/screens/overview.dart';
 import 'package:lpp/topics/settings/screens/change_year.dart';
 import 'package:lpp/topics/settings/screens/help_screen.dart';
 import 'package:lpp/topics/settings/screens/notification_screen.dart';
 import 'package:lpp/topics/settings/screens/settings_screen.dart';
-import 'package:lpp/topics/studiekort/kort.dart';
 import 'package:lpp/topics/teams/screens/module_statistics_overview.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
@@ -35,16 +32,16 @@ class Menu extends StatelessWidget {
         selectedIcon: EvaIcons.people,
         screen: const PeopleScreen()),
     Destination(
+        icon: EvaIcons.archiveOutline,
+        selectedIcon: EvaIcons.archive,
+        name: "Opgaver",
+        screen: const OpgaveScreenOverview()),
+    Destination(
         icon: EvaIcons.bookmarkOutline,
         name: "Karakterer",
         selectedIcon: EvaIcons.bookmark,
         screen: const GradeScreen(),
         onlyFromEdge: true),
-    Destination(
-        icon: Icons.meeting_room_outlined,
-        name: "Lokaler",
-        selectedIcon: Icons.meeting_room,
-        screen: const RoomOverview()),
     Destination(
         icon: EvaIcons.fileTextOutline,
         name: "Studieplan",
@@ -60,14 +57,6 @@ class Menu extends StatelessWidget {
         name: "Modulregnskab",
         selectedIcon: EvaIcons.barChart2,
         screen: const ModuleStatisticsOverview()),
-    Destination(
-        icon: EvaIcons.creditCardOutline,
-        name: "Studiekort",
-        selectedIcon: EvaIcons.creditCard,
-        screen: const StudiekortScreen(),
-        onTap: (ctx) {
-          adSheet(const StudiekortScreen(), ctx);
-        }),
   ];
 
   final List<Destination> relatedDestinations = [

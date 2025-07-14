@@ -43,11 +43,6 @@ class _PrimaryActivitiesState extends State<PrimaryActivities> {
         selectedIcon: EvaIcons.activity,
         screen: const AbsenceScreen()),
     Destination(
-        icon: EvaIcons.archiveOutline,
-        selectedIcon: EvaIcons.archive,
-        name: "Opgaver",
-        screen: const OpgaveScreenOverview()),
-    Destination(
         icon: EvaIcons.menu,
         name: "Mere",
         selectedIcon: EvaIcons.menu,
