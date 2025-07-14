@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:lpp/payment/ad_free_state.dart';
@@ -17,6 +18,9 @@ class OwnedCubit extends Cubit<AdFreeState> {
   }
 
   Future<void> checkPurchases() async {
+    if (kDebugMode) {
+      return;
+    }
     final bool available = await InAppPurchase.instance.isAvailable();
     if (available) {
       final Stream<List<PurchaseDetails>> purchaseUpdated =

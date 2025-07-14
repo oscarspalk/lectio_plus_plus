@@ -10,6 +10,8 @@ const cookieKey = "cookie";
 const studentIdKey = "student_id";
 const expirationDateKey = "expiration";
 
+class AutologinError extends Error {}
+
 class LoginService {
   var storage = const FlutterSecureStorage();
 
@@ -77,6 +79,8 @@ class LoginService {
             await savedAccount.loginWithCookies(autologinCookies, studentId);
         if (student != null) {
           await save(savedAccount, student);
+        } else {
+          throw AutologinError();
         }
         return student;
       }

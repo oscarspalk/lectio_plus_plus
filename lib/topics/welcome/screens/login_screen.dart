@@ -6,7 +6,6 @@ import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/widgets/layout/padded_column.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key, required this.back});
@@ -57,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      AppLocalizations.of(context)!.loginDescription,
+                      "Log ind nedenfor med dit normale Lectio login.",
                       textAlign: TextAlign.center,
                       style: LppTypography.bodySmall(context),
                     ),

@@ -95,18 +95,6 @@ class Menu extends StatelessWidget {
         selectedIcon: EvaIcons.questionMark,
         screen: const HelpScreen()),
     Destination(
-      icon: EvaIcons.bulbOutline,
-      name: "Feedback",
-      selectedIcon: EvaIcons.bulb,
-      screen: Container(),
-      onTap: (context) {
-        BetterFeedback.of(context).show((feedback) {
-          BetterFeedback.of(context).hide();
-          handleFeedback(feedback);
-        });
-      },
-    ),
-    Destination(
         icon: EvaIcons.settings2Outline,
         name: "Indstillinger",
         screen: const SettingsScreen(),
