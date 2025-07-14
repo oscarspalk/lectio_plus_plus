@@ -18,13 +18,18 @@ Route adRoute(Widget screen, {bool onlyFromEdge = false, bool noAd = false}) {
       isIos: Platform.isIOS);
 }
 
-void adSheet(Widget sheet, BuildContext context, {bool ad = true}) {
+void adSheet(Widget sheet, BuildContext context,
+    {bool ad = true, bool skipColumn = false}) {
   showModalBottomSheet(
+    showDragHandle: true,
     useSafeArea: true,
     clipBehavior: Clip.hardEdge,
     isScrollControlled: true,
     context: context,
     builder: (context) {
+      if (skipColumn) {
+        return sheet;
+      }
       return Column(mainAxisSize: MainAxisSize.min, children: [
         sheet,
       ]);

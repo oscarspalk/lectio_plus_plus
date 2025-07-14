@@ -23,10 +23,14 @@ class AbsenceRegistration extends StatelessWidget {
               )),
           title: TeamName(teamName: absenceCause.module.team),
           subtitle: Text(
-              "${absenceCause.cause != null ? absenceCause.cause!.name : "Mangler"} ${absenceCause.expandedCause.isNotEmpty ? "-" : ""} ${absenceCause.expandedCause}"),
+            "${absenceCause.cause != null ? absenceCause.cause!.name : "Mangler"} ${absenceCause.expandedCause.isNotEmpty ? "-" : ""} ${absenceCause.expandedCause}",
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
           trailing: IconButton(
               onPressed: () {
-                adSheet(EditAbsence(cause: absenceCause), context);
+                adSheet(EditAbsence(cause: absenceCause), context,
+                    skipColumn: true);
               },
               icon: const Icon(EvaIcons.editOutline))),
     );

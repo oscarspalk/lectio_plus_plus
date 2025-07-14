@@ -39,6 +39,7 @@ class _AbsenceCauseCardState extends State<AbsenceCauseCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.zero,
       clipBehavior: Clip.hardEdge,
       color: color,
       child: InkWell(

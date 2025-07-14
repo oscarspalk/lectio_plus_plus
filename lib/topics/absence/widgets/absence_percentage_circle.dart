@@ -5,30 +5,30 @@ import 'package:lpp/logic/app/typography.dart';
 Color colorFromCause(AbsenceCauses? cause, BuildContext context) {
   switch (cause) {
     case AbsenceCauses.late:
-      return Colors.orange.shade900;
+      return Colors.yellow.shade600;
     case AbsenceCauses.sick:
       return Colors.red.shade900;
     case AbsenceCauses.privateRelations:
-      return Colors.pink.shade900;
+      return Colors.blue.shade900;
     case AbsenceCauses.schoolRelated:
       return Colors.green.shade900;
     default:
-      return Theme.of(context).colorScheme.primary;
+      return Theme.of(context).colorScheme.error;
   }
 }
 
 Color textColorFromCause(AbsenceCauses? cause, BuildContext context) {
   switch (cause) {
     case AbsenceCauses.late:
-      return Colors.orange.shade50;
+      return Colors.black;
     case AbsenceCauses.sick:
       return Colors.red.shade50;
     case AbsenceCauses.privateRelations:
-      return Colors.pink.shade50;
+      return Colors.blue.shade50;
     case AbsenceCauses.schoolRelated:
       return Colors.green.shade50;
     default:
-      return Theme.of(context).colorScheme.onPrimary;
+      return Theme.of(context).colorScheme.onError;
   }
 }
 

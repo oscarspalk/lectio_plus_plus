@@ -2,11 +2,12 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/types/absence/cause.dart';
+import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/absence/widgets/absence_cause_card.dart';
 import 'package:lpp/topics/absence/widgets/causes_sheet.dart';
 import 'package:lpp/topics/calendar/widgets/day_event.dart';
 import 'package:lpp/utils/ad_route.dart';
-
+import 'package:lpp/widgets/layout/padded_column.dart';
 import '../bloc/registation.dart';
 
 IconData iconFromCause(AbsenceCauses cause) {
@@ -57,11 +58,21 @@ class _EditAbsenceState extends State<EditAbsence> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(24.0),
-      child: Column(
+      child: PaddedColumn(
+        padding: 4.0,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          dayEventWidget(double.infinity, widget.cause.module, context, 100.0),
+          Text(
+            "Rediger Fravær",
+            style: LppTypography.headlineSmall(context),
+          ),
+          InputDecorator(
+              decoration: const InputDecoration(
+                  label: Text("Modul"), border: InputBorder.none),
+              child: dayEventWidget(
+                  double.infinity, widget.cause.module, context, 100.0)),
           InputDecorator(
               decoration: const InputDecoration(
                   label: Text("Årsag"), border: InputBorder.none),
@@ -77,16 +88,28 @@ class _EditAbsenceState extends State<EditAbsence> {
                   ), context);
                 },
               )),
-          TextField(
-            controller: explanationController,
-            decoration: InputDecoration(
-                label: const Text("Forklaring (valgfri)"),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0))),
+          InputDecorator(
+            decoration: const InputDecoration(
+                border: InputBorder.none,
+                label: Text(
+                  "Forklaring",
+                )),
+            child: TextField(
+              maxLines: 3,
+              controller: explanationController,
+              decoration: InputDecoration(
+                  hintText: "Min seng var meget rar i dag...",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0))),
+            ),
           ),
-          Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: FilledButton.icon(
+          const SizedBox(
+            height: 8.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton.extended(
                   onPressed: validate()
                       ? () async {
                           Navigator.pop(context);
@@ -99,8 +122,10 @@ class _EditAbsenceState extends State<EditAbsence> {
                               .update(newEntry);
                         }
                       : null,
-                  icon: const Icon(EvaIcons.save),
-                  label: const Text("Gem")))
+                  label: const Text("Gem"),
+                  icon: const Icon(EvaIcons.save)),
+            ],
+          )
         ],
       ),
     );

@@ -17,12 +17,6 @@ class HomeworkItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeworkManagerBloc, List<ManagedHomework>>(
         builder: (context, state) {
-      bool checked = state.indexWhere((mHomework) =>
-              mHomework.homeworkId == homework.activity.id && mHomework.done) !=
-          -1;
-      var throughStyle = TextStyle(
-          decoration:
-              checked ? TextDecoration.lineThrough : TextDecoration.none);
       return TeamName(
         teamName: homework.activity.team,
         builder: (name) {
@@ -53,22 +47,12 @@ class HomeworkItem extends StatelessWidget {
                           children: [
                             Text(
                               name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .merge(throughStyle),
+                              style: Theme.of(context).textTheme.titleMedium!,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),
                       ),
-                      Checkbox(
-                          value: checked,
-                          onChanged: (_) {
-                            context
-                                .read<HomeworkManagerBloc>()
-                                .toggle(homework);
-                          })
                     ],
                   ),
                 ),

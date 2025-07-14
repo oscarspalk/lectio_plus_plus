@@ -9,24 +9,28 @@ class CausesSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Vælg årsag",
-            style: LppTypography.labelSmall(context),
+            style: LppTypography.headlineSmall(context),
           ),
           ListView(
             primary: false,
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             shrinkWrap: true,
             children: AbsenceCauses.values.reversed
-                .map((cause) => AbsenceCauseCard(
-                      cause: cause,
-                      onTap: () {
-                        Navigator.pop(context);
-                        onSelect(cause);
-                      },
+                .map((cause) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: AbsenceCauseCard(
+                        cause: cause,
+                        onTap: () {
+                          Navigator.pop(context);
+                          onSelect(cause);
+                        },
+                      ),
                     ))
                 .toList(),
           )

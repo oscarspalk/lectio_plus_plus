@@ -11,13 +11,16 @@ class AbsenceRegistrationGroup extends StatelessWidget {
   final List<AbsenceCauseEntry> causes;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        TextDivider(text: formatDateReadable(date)),
-        ...causes.map((e) => AbsenceRegistration(absenceCause: e))
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextDivider(text: formatDateReadable(date)),
+          ...causes.map((e) => AbsenceRegistration(absenceCause: e))
+        ],
+      ),
     );
   }
 }
