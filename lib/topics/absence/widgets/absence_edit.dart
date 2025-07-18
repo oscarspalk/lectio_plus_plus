@@ -116,7 +116,6 @@ class _EditAbsenceState extends State<EditAbsence> {
                           var newEntry = widget.cause.copyWith(
                               cause: _absenceCause,
                               expandedCause: _explanation);
-
                           context
                               .read<AbsenceRegistrationsCubit>()
                               .update(newEntry);

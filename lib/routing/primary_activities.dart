@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lpp/routing/menu.dart';
 import 'package:lpp/topics/absence/screens/absence_screen.dart';
 import 'package:lpp/topics/calendar/screens/schema.dart';
-import 'package:lpp/topics/opgaver/screens/opgave_screen_overview.dart';
 import 'package:lpp/widgets/layout/bottombar.dart';
 import 'package:lpp/widgets/layout/drawer.dart';
 

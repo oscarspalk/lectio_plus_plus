@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:lectio_wrapper/lectio_wrapper.dart';
 import 'package:lectio_wrapper/types/context/student.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
@@ -10,6 +11,7 @@ import 'package:lpp/payment/owned_bloc.dart';
 import 'package:lpp/topics/ads/interstitial_bloc.dart';
 import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
 import 'package:lpp/topics/calendar/screens/schema.dart';
+import 'package:lpp/topics/people/widget/avatar_dialog.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/utils/formatters.dart';
 
@@ -89,7 +91,18 @@ class _PersonDetailsState extends State<PersonDetails> {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 12.0),
-              child: CircleAvatar(radius: 70.0, foregroundImage: image),
+              child: GestureDetector(
+                  onTap: () {
+                    if (image != null) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AvatarDialog(image: image!);
+                        },
+                      );
+                    }
+                  },
+                  child: CircleAvatar(radius: 70.0, foregroundImage: image)),
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),
