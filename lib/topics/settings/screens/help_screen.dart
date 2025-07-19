@@ -24,7 +24,7 @@ class HelpScreen extends StatelessWidget {
                 style: LppTypography.headlineSmall(context),
               ),
               Text(
-                "Tryk på knapperne nedenfor for at skrive til os.",
+                "Tryk på knappen nedenfor for at skrive til os.",
                 style: LppTypography.bodySmall(context),
               )
             ]),
@@ -32,16 +32,6 @@ class HelpScreen extends StatelessWidget {
               spacing: 8.0,
               alignment: MainAxisAlignment.center,
               children: [
-                FilledButton.icon(
-                  onPressed: () async {
-                    const url = "https://www.lectioplus.plus/help";
-                    if (await canLaunchUrlString(url)) {
-                      launchUrlString(url);
-                    }
-                  },
-                  label: const Text("Hjemmeside"),
-                  icon: const Icon(EvaIcons.globe2Outline),
-                ),
                 FilledButton.icon(
                   onPressed: () async {
                     const email = "mailto:oscar.gaardsted.spalk@gmail.com";

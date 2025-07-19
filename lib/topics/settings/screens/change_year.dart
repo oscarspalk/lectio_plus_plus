@@ -11,10 +11,8 @@ class ChangeYearScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: AnimatedContainer(
-        decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
+      child: Container(
         padding: const EdgeInsets.only(bottom: 12.0),
-        duration: const Duration(milliseconds: 200),
         child: BlocBuilder<TermBloc, List<Term>?>(builder: (context, state) {
           var selected = state?.where((term) => term.active).firstOrNull;
           if (state == null || state.isEmpty) {
@@ -30,6 +28,7 @@ class ChangeYearScreen extends StatelessWidget {
             children: state.map(
               (e) {
                 return RadioListTile<Term>(
+                  tileColor: Colors.transparent,
                   title: Text(e.name),
                   value: e,
                   groupValue: selected,
