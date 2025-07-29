@@ -1,5 +1,4 @@
 PODS:
-  - FBAudienceNetwork (6.15.2)
   - Firebase/CoreOnly (11.6.0):
     - FirebaseCore (~> 11.6.0)
   - Firebase/Messaging (11.6.0):
@@ -49,9 +48,6 @@ PODS:
   - GoogleDataTransport (10.1.0):
     - nanopb (~> 3.30910.0)
     - PromisesObjC (~> 2.4)
-  - GoogleMobileAdsMediationFacebook (6.15.2.1):
-    - FBAudienceNetwork (= 6.15.2)
-    - Google-Mobile-Ads-SDK (~> 11.0)
   - GoogleUserMessagingPlatform (3.0.0)
   - GoogleUtilities/AppDelegateSwizzler (8.0.2):
     - GoogleUtilities/Environment
@@ -109,7 +105,6 @@ DEPENDENCIES:
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_secure_storage_darwin (from `.symlinks/plugins/flutter_secure_storage_darwin/darwin`)
   - google_mobile_ads (from `.symlinks/plugins/google_mobile_ads/ios`)
-  - GoogleMobileAdsMediationFacebook
   - in_app_purchase_storekit (from `.symlinks/plugins/in_app_purchase_storekit/darwin`)
   - open_filex (from `.symlinks/plugins/open_filex/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -120,7 +115,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - FBAudienceNetwork
     - Firebase
     - FirebaseCore
     - FirebaseCoreInternal
@@ -128,7 +122,6 @@ SPEC REPOS:
     - FirebaseMessaging
     - Google-Mobile-Ads-SDK
     - GoogleDataTransport
-    - GoogleMobileAdsMediationFacebook
     - GoogleUserMessagingPlatform
     - GoogleUtilities
     - nanopb
@@ -165,7 +158,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
-  FBAudienceNetwork: 2457a89b45e2596241fd81b0c2fd8cb6f6053869
   Firebase: 374a441a91ead896215703a674d58cdb3e9d772b
   firebase_core: d3deb82d05dac4bc13190f9d1770787fd6a1cda4
   firebase_messaging: f27e82019a98ef3ea7e744b5b366fcd6b83e7f86
@@ -180,7 +172,6 @@ SPEC CHECKSUMS:
   Google-Mobile-Ads-SDK: 13e6e98edfd78ad8d8a791edb927658cc260a56f
   google_mobile_ads: dc2b2a5884bef7ab2b4ff30022a513df5373e208
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
-  GoogleMobileAdsMediationFacebook: 03634215ee58e77f39e8c29dc8121840486aebce
   GoogleUserMessagingPlatform: f8d0cdad3ca835406755d0a69aa634f00e76d576
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
   in_app_purchase_storekit: e126ef1b89e4a9fdf07e28f005f82632b4609437
@@ -193,6 +184,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
   webview_flutter_wkwebview: 45a041c7831641076618876de3ba75c712860c6b
 
-PODFILE CHECKSUM: 1361d038bf4a0dbc32134d1b17bb86a51c30975a
+PODFILE CHECKSUM: 7a2e1b5d161ad70158dc3a0c8f2f4538caa42f82
 
 COCOAPODS: 1.16.2

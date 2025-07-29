@@ -99,7 +99,6 @@ class Menu extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const AdFreeAd(),
             Expanded(
               child: LppDrawer(
                   destinations: destinations,
