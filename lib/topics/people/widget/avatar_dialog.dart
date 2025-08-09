@@ -8,6 +8,7 @@ class AvatarDialog extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     var width = size.width * 0.8;
     return Dialog(
+      backgroundColor: Colors.transparent,
         child: SizedBox(
             width: width,
             height: width,
