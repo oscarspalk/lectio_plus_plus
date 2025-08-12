@@ -29,7 +29,7 @@ jobs:
     environment: PRODUCTION
     steps:
       - name: Clone repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Flutter SDK
         uses: flutter-actions/setup-flutter@v4
         with:
@@ -52,7 +52,7 @@ jobs:
         with:
           name: APK
           path: build/app/outputs/flutter-apk/app-production-release.apk
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
   spell-check:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/spell_check.yml@v1
