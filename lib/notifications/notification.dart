@@ -11,8 +11,6 @@ import 'package:lpp/notifications/service.dart';
 const notificationChannelId = 'lpp';
 const notificationId = 0;
 
-const timestampId = "content";
-
 @pragma('vm:entry-point')
 Future<void> callbackDispatcher(RemoteMessage msg) async {
   if (Firebase.apps.isEmpty) {
@@ -21,21 +19,6 @@ Future<void> callbackDispatcher(RemoteMessage msg) async {
   }
 
   debugPrint("Running notification service");
-
-  // if the message was sent a long time ago, then ignore it
-  if (msg.data.containsKey(timestampId)) {
-    var number = int.tryParse(msg.data[timestampId]) ?? 0;
-    var sentAt = DateTime.fromMillisecondsSinceEpoch(number);
-    var now = DateTime.now();
-    var diff = sentAt.difference(now).abs();
-    if (diff.inMinutes > 5) {
-      return;
-    }
-  } else {
-    return;
-  }
-
-  debugPrint("Was in the last 5 minutes");
 
   bool error = false;
   bool newData = false;
