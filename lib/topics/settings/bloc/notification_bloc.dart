@@ -77,10 +77,10 @@ class NotificationBloc extends Cubit<NotificationState> {
     if (state.hasAssignmentStatusNotifications ||
         state.hasEventNotifications ||
         state.hasNewMessageNotifications) {
-      const notifcationTopic = "notifications";
+      const notifcationTopic = "lpp";
 
       await FirebaseMessaging.instance.subscribeToTopic(notifcationTopic);
-      debugPrint("subscribed to notifications");
+      print("subscribed to notifications");
     }
   }
 

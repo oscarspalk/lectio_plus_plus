@@ -91,6 +91,7 @@ class NotificationService {
     WidgetsFlutterBinding.ensureInitialized();
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
+        notifications.add(PendingNotification(id: "434234324", title: "Sup debug"));
     for (var notification in notifications) {
       await flutterLocalNotificationsPlugin.show(
         notificationId,

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/firebase_options.dart';
 import 'package:lpp/notifications/notification.dart';
@@ -18,20 +18,29 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-
-    registerNotifications();
-
-    initializeNotifcations();
   }
+
+  await initializeService();
 
   runApp(const LectioBase());
 }
 
-void registerNotifications() async {
-  var apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-  if (apnsToken != null || Platform.isAndroid) {
-    FirebaseMessaging.onBackgroundMessage(callbackDispatcher);
-  }
+
+Future<void> initializeService() async {
+  final service = FlutterBackgroundService();
+
+  await service.configure(
+    iosConfiguration: IosConfiguration(
+      autoStart: true,
+      onBackground: onIosBackground,
+    ),
+    androidConfiguration: AndroidConfiguration(
+      autoStart: true,
+      onStart: onStart,
+      isForegroundMode: false,
+      autoStartOnBoot: true,
+    ),
+  );
 }
 
 class LectioBase extends StatelessWidget {
