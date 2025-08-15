@@ -1,39 +1,25 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lpp/constants.dart';
 import 'package:lpp/notifications/history/history.dart';
 import 'package:lpp/notifications/service.dart';
+import 'package:workmanager/workmanager.dart';
 
 const notificationChannelId = 'lpp';
 const notificationId = 0;
 
 @pragma('vm:entry-point')
-Future<bool> onIosBackground(ServiceInstance service) async {
-  WidgetsFlutterBinding.ensureInitialized();
-  DartPluginRegistrant.ensureInitialized();
-
-  return true;
-}
-
-@pragma('vm:entry-point')
-void onStart(ServiceInstance service) async {
-  service.on("stop").listen((event) {
-    service.stopSelf();
-    print("background process is now stopped");
+Future<void> callbackDispatcher() async{
+  Workmanager().executeTask((task, inputData) async {
+    handleNotifications();
+    return Future.value(true);
   });
-
-  service.on("start").listen((event) {
-    print("service was started");
-  });
-  Timer.periodic(const Duration(minutes: 20), (_){ handleNotifications();});
 }
-
 
 @pragma('vm:entry-point')
 Future<void> handleNotifications() async {
+  DartPluginRegistrant.ensureInitialized();
   print("Running notification service");
 
   bool error = false;
@@ -41,18 +27,18 @@ Future<void> handleNotifications() async {
   try {
     var notificationService = NotificationService();
     newData = await notificationService.setup();
-    
-      await notificationService.notify();
-    
+
+    await notificationService.notify();
   } catch (e) {
     error = true;
   }
-  
+
   await NotificationHistory().save(error, newData);
+  
   return;
 }
 
-Future<void> initializeNotifcations() async {
+Future<FlutterLocalNotificationsPlugin> initializeNotifcations() async {
   const DarwinInitializationSettings initializationSettingsDarwin =
       DarwinInitializationSettings(
           requestAlertPermission: false,
@@ -88,4 +74,13 @@ Future<void> initializeNotifcations() async {
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
+    return flutterLocalNotificationsPlugin;
+}
+
+Future<void> registerPeriodicTask()async {
+  print("Registered tasks");
+  await Workmanager().registerPeriodicTask("com.oscarspalk.lpp.notification", "Notifications", 
+  frequency: const Duration(minutes: 20), constraints: Constraints(
+    networkType: NetworkType.connected
+  ));
 }

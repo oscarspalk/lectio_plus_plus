@@ -39,7 +39,6 @@ class NotificationBloc extends Cubit<NotificationState> {
           hasNewMessageNotifications: true));
       checkNotifications();
     }
-    registerDeviceAtFirebase();
   }
 
   Future<bool> isGrantedNotfications() async {
@@ -71,17 +70,6 @@ class NotificationBloc extends Cubit<NotificationState> {
           );
     }
     return requestResult ?? false;
-  }
-
-  void registerDeviceAtFirebase() async {
-    if (state.hasAssignmentStatusNotifications ||
-        state.hasEventNotifications ||
-        state.hasNewMessageNotifications) {
-      const notifcationTopic = "lpp";
-
-      await FirebaseMessaging.instance.subscribeToTopic(notifcationTopic);
-      print("subscribed to notifications");
-    }
   }
 
   void checkNotifications() async {

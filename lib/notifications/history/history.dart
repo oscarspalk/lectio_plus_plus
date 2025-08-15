@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:lpp/notifications/history/history_entry.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,6 +19,7 @@ class NotificationHistory {
     }
     await prefs.setStringList(_listKey,
         currentEntries.map((entry) => json.encode(entry.toJson())).toList());
+    debugPrint("wrote notification history");
   }
 
   Future<List<HistoryEntry>> entries() async {

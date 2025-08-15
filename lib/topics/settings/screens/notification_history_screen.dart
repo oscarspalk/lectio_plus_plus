@@ -24,10 +24,11 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
   }
 
   void loadData() async {
+    debugPrint("refreshing");
     entries = await NotificationHistory().entries();
     entries?.sort(
       (a, b) {
-        return a.time.compareTo(b.time);
+        return b.time.compareTo(a.time);
       },
     );
 
@@ -38,14 +39,14 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const LppAppbar(title: "Notifikations historik"),
-      body: entries != null
-          ? entries!.isEmpty
-              ? const EmptyScreen()
-              : RefreshIndicator(
+      body: RefreshIndicator(
                   onRefresh: () async {
                     loadData();
                   },
-                  child: ListView.builder(
+                  child: entries != null
+          ? entries!.isEmpty
+              ? const EmptyScreen()
+              :  ListView.builder(
                     itemCount: entries!.length,
                     itemBuilder: (context, index) {
                       var entry = entries![index];
@@ -56,9 +57,9 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
                             .format(entries![index].time)),
                       );
                     },
-                  ),
-                )
-          : const LoadingScreen(),
-    );
+                  ) : LoadingScreen()
+                
+          
+    ));
   }
 }
