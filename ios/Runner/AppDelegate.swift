@@ -9,7 +9,6 @@ import workmanager_apple
   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
   GeneratedPluginRegistrant.register(with: self)
-  WorkmanagerDebug.setCurrent(NotificationDebugHandler())
       WorkmanagerPlugin.registerPeriodicTask(
         withIdentifier: "com.oscarspalk.lpp.notification",
         frequency: NSNumber(value: 20 * 60)
