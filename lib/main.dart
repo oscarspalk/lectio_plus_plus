@@ -19,7 +19,7 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
-    Workmanager().initialize(callbackDispatcher);
+  Workmanager().initialize(callbackDispatcher);
 
   registerPeriodicTask();
 

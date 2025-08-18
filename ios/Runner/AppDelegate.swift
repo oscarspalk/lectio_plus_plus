@@ -9,11 +9,18 @@ import workmanager_apple
   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
   GeneratedPluginRegistrant.register(with: self)
+  WorkmanagerDebug.setCurrent(NotificationDebugHandler())
       WorkmanagerPlugin.registerPeriodicTask(
         withIdentifier: "com.oscarspalk.lpp.notification",
         frequency: NSNumber(value: 20 * 60)
       )
 
+      WorkmanagerPlugin.setPluginRegistrantCallback { registry in
+              // Registry in this case is the FlutterEngine that is created in Workmanager's
+              // performFetchWithCompletionHandler or BGAppRefreshTask.
+              // This will make other plugins available during a background operation.
+              GeneratedPluginRegistrant.register(with: registry)
+          }
       
   return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

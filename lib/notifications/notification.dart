@@ -10,9 +10,24 @@ const notificationChannelId = 'lpp';
 const notificationId = 0;
 
 @pragma('vm:entry-point')
-Future<void> callbackDispatcher() async{
+Future<void> callbackDispatcher() async {
   Workmanager().executeTask((task, inputData) async {
-    handleNotifications();
+    final startTime = DateTime.now();
+    print('🚀 Task started: $task');
+    print('📊 Input data: $inputData');
+
+    try {
+      await handleNotifications();
+
+      final duration = DateTime.now().difference(startTime);
+      print('✅ Task completed in ${duration.inSeconds}s');
+    } catch (e, stackTrace) {
+      final duration = DateTime.now().difference(startTime);
+      print('❌ Task failed after ${duration.inSeconds}s: $e');
+      print('📋 Stack trace: $stackTrace');
+
+      return false; // Retry
+    }
     return Future.value(true);
   });
 }
@@ -34,7 +49,7 @@ Future<void> handleNotifications() async {
   }
 
   await NotificationHistory().save(error, newData);
-  
+
   return;
 }
 
@@ -74,13 +89,13 @@ Future<FlutterLocalNotificationsPlugin> initializeNotifcations() async {
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
-    return flutterLocalNotificationsPlugin;
+  return flutterLocalNotificationsPlugin;
 }
 
-Future<void> registerPeriodicTask()async {
+Future<void> registerPeriodicTask() async {
   print("Registered tasks");
-  await Workmanager().registerPeriodicTask("com.oscarspalk.lpp.notification", "Notifications", 
-  frequency: const Duration(minutes: 20), constraints: Constraints(
-    networkType: NetworkType.connected
-  ));
+  await Workmanager().registerPeriodicTask(
+      "com.oscarspalk.lpp.notification", "Notifications",
+      frequency: const Duration(minutes: 20),
+      constraints: Constraints(networkType: NetworkType.connected));
 }
