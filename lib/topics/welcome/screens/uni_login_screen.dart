@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -40,9 +39,10 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
             currentUrl = request.url;
           });
           debugPrint("Current url is: ${request.url}");
-          if (request.url.startsWith("https://appswitch.mitid.dk/") && Platform.isAndroid) {
-            
-            await launchUrlString(request.url);
+          if (request.url.startsWith("https://appswitch.mitid.dk/") &&
+              Platform.isAndroid) {
+            await launchUrlString(request.url,
+                mode: LaunchMode.inAppBrowserView);
             return NavigationDecision.prevent;
           } else if (request.url
               .contains("lectio.dk/lectio/integration/unilogin.aspx")) {
