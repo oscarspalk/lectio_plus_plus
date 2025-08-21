@@ -41,6 +41,7 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
           });
           debugPrint("Current url is: ${request.url}");
           if (request.url.startsWith("https://appswitch.mitid.dk/") && Platform.isAndroid) {
+            
             await launchUrlString(request.url);
             return NavigationDecision.prevent;
           } else if (request.url
