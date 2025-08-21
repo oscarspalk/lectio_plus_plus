@@ -42,7 +42,7 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
           if (request.url.startsWith("https://appswitch.mitid.dk/") &&
               Platform.isAndroid) {
             await launchUrlString(request.url,
-                mode: LaunchMode.inAppBrowserView);
+                mode: LaunchMode.externalApplication);
             return NavigationDecision.prevent;
           } else if (request.url
               .contains("lectio.dk/lectio/integration/unilogin.aspx")) {
