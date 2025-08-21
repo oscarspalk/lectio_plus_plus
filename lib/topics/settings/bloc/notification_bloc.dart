@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:disable_battery_optimizations_latest/disable_battery_optimizations_latest.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,6 +40,7 @@ class NotificationBloc extends Cubit<NotificationState> {
           hasNewMessageNotifications: true));
       checkNotifications();
     }
+    await checkBatteryOptimization();
   }
 
   Future<bool> isGrantedNotfications() async {
@@ -59,6 +61,7 @@ class NotificationBloc extends Cubit<NotificationState> {
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()!
           .requestNotificationsPermission();
+      
     } else {
       requestResult = await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
@@ -70,6 +73,16 @@ class NotificationBloc extends Cubit<NotificationState> {
           );
     }
     return requestResult ?? false;
+  }
+
+  Future<void> checkBatteryOptimization() async {
+    if(Platform.isAndroid){
+      bool? isBatteryOptimizationDisabled = await DisableBatteryOptimizationLatest.isBatteryOptimizationDisabled;
+      debugPrint("BATTERY OPTIMIZATION: $isBatteryOptimizationDisabled");
+      if(isBatteryOptimizationDisabled != true){
+         await DisableBatteryOptimizationLatest.showDisableBatteryOptimizationSettings();
+      }
+    }
   }
 
   void checkNotifications() async {

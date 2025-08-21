@@ -39,20 +39,9 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
           setState(() {
             currentUrl = request.url;
           });
+          debugPrint("Current url is: ${request.url}");
           if (request.url.startsWith("intent")) {
-            if (Platform.isIOS) {
-              if (await canLaunchUrlString(request.url)) {
-                await launchUrlString(request.url,
-                    mode: LaunchMode.externalNonBrowserApplication);
-              }
-            }
-            if (Platform.isAndroid) {
-              debugPrint(request.url);
-              var openInNewWindow = request.url
-                  .replaceAll("scheme=", "launchFlags=268435456;scheme=");
-              await AndroidIntent.parseAndLaunch(openInNewWindow);
-              //await AndroidIntent(data: request.url).launchChooser("Mit ID");
-            }
+            
             return NavigationDecision.prevent;
           } else if (request.url
               .contains("lectio.dk/lectio/integration/unilogin.aspx")) {
