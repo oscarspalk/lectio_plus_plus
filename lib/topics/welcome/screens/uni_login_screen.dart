@@ -1,6 +1,6 @@
+
 import 'dart:io';
 
-import 'package:android_intent_plus/android_intent.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,8 +40,8 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
             currentUrl = request.url;
           });
           debugPrint("Current url is: ${request.url}");
-          if (request.url.startsWith("intent")) {
-            
+          if (request.url.startsWith("https://appswitch.mitid.dk/") && Platform.isAndroid) {
+            await launchUrlString(request.url);
             return NavigationDecision.prevent;
           } else if (request.url
               .contains("lectio.dk/lectio/integration/unilogin.aspx")) {
