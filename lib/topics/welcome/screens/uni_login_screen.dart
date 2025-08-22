@@ -39,9 +39,11 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
             currentUrl = request.url;
           });
           debugPrint("Current url is: ${request.url}");
-          if (request.url.startsWith("https://appswitch.mitid.dk/") &&
-              Platform.isAndroid) {
-            await launchUrlString(request.url,
+          if (request.url.startsWith("https://appswitch.mitid.dk/")) {
+            var regPattern = RegExp(r"\&returnUrl=\w+");
+            var customizedUrl = request.url.replaceFirst(regPattern, "");
+            debugPrint("Running this url: ${customizedUrl}");
+            await launchUrlString(customizedUrl,
                 mode: LaunchMode.externalApplication);
             return NavigationDecision.prevent;
           } else if (request.url
