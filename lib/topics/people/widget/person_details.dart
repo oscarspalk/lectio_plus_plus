@@ -59,7 +59,7 @@ class _PersonDetailsState extends State<PersonDetails> {
   @override
   void initState() {
     super.initState();
-    //_loadInterstitialAd();
+    _loadInterstitialAd();
     _initIds();
   }
 

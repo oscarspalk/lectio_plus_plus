@@ -9,7 +9,6 @@ import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/state/loading.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/widgets/layout/appbar.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class UniLoginScreen extends StatefulWidget {
@@ -46,7 +45,6 @@ class _UniLoginScreenState extends State<UniLoginScreen> {
               data: request.url,
               flags: [268435456]
             ).launchChooser("Vælg app");
-            
             return NavigationDecision.prevent;
           } else if (request.url
               .contains("lectio.dk/lectio/integration/unilogin.aspx")) {
