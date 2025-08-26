@@ -1,5 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:lpp/payment/ad_free_ad.dart';
 import 'package:lpp/topics/classes/screens/klasse_screen.dart';
 import 'package:lpp/topics/grades/screens/grade.dart';
 import 'package:lpp/topics/messages/screens/message_screen.dart';
@@ -98,6 +99,7 @@ class Menu extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const AdFreeAd(),
             Expanded(
               child: LppDrawer(
                   destinations: destinations,
