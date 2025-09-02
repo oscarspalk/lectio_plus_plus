@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/firebase_options.dart';
 import 'package:lpp/notifications/notification.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
+import 'package:lpp/widgets/upgrader.dart';
 import 'package:workmanager/workmanager.dart';
 import 'constants.dart';
 import 'logic/app/settings.dart';
@@ -62,11 +63,11 @@ class LectioApp extends StatelessWidget {
         navigatorObservers: [HeroController()],
         debugShowCheckedModeBanner: false,
         locale: const Locale(
-          'dk',
+          'da',
         ),
         title: appName,
         theme: theme,
-        home: const AppRouter(),
+        home: const LppUpgrader(child:  AppRouter()),
       );
     });
   }
