@@ -50,6 +50,8 @@ dependencies:
   disable_battery_optimizations_latest: ^1.0.0
   flutter_custom_tabs: ^2.4.0
   upgrader: ^11.5.0
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:

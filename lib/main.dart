@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lpp/firebase_options.dart';
+import 'package:lpp/l10n/app_localizations.dart';
 import 'package:lpp/notifications/notification.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/widgets/upgrader.dart';
@@ -62,6 +63,9 @@ class LectioApp extends StatelessWidget {
         },
         navigatorObservers: [HeroController()],
         debugShowCheckedModeBanner: false,
+        localizationsDelegates:
+          AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale(
           'da',
         ),

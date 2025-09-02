@@ -6,7 +6,6 @@ import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/topics/welcome/screens/greeting.dart';
 import 'package:lpp/topics/welcome/screens/gym.dart';
 import 'package:lpp/topics/welcome/screens/login_screen.dart';
-import 'package:lpp/topics/welcome/screens/theme.dart';
 
 class WelcomeCarousel extends StatefulWidget {
   const WelcomeCarousel({super.key});
@@ -33,7 +32,7 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
     int initial = 0;
     if (loginBloc.state.password.isNotEmpty &&
         loginBloc.state.username.isNotEmpty) {
-      initial = 3;
+      initial = 2;
     }
     _selected = initial;
     carousel = PageController(initialPage: initial);
@@ -69,7 +68,6 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
             GreetingsScreen(
               next: next,
             ),
-            ThemeScreen(next: next),
             GymScreen(
               next: next,
             ),

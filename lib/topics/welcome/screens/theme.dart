@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lpp/l10n/helper.dart';
 import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
 import 'package:lpp/utils/ad_route.dart';
@@ -21,12 +22,12 @@ class ThemeScreen extends StatelessWidget {
           ),
           PaddedColumn(padding: 4.0, children: [
             Text(
-              "Skræddersyet til dig",
+              context.l10n.welcome_theme_title,
               style: LppTypography.headlineSmall(context),
               textAlign: TextAlign.center,
             ),
             Text(
-              "Lad os få appen til at passe til dig.",
+              context.l10n.welcome_theme_description,
               textAlign: TextAlign.center,
               style: LppTypography.bodySmall(context),
             ),
@@ -39,8 +40,8 @@ class ThemeScreen extends StatelessWidget {
                   onPressed: () {
                     adSheet(ThemeController(), context, ad: false);
                   },
-                  child: const Text("Vælg tema")),
-              FilledButton.tonal(onPressed: next, child: const Text("Videre"))
+                  child:  Text(context.l10n.welcome_theme_chose_theme)),
+              FilledButton.tonal(onPressed: next, child:  Text(context.l10n.welcome_theme_next))
             ],
           )
         ]),

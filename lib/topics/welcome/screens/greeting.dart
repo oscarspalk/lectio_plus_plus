@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/l10n/helper.dart';
 import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
 import 'package:lpp/topics/welcome/widgets/illustration.dart';
@@ -25,12 +26,13 @@ class GreetingsScreen extends StatelessWidget {
               padding: 4.0,
               children: [
                 Text(
-                  "Lectio ved dine fingerspidser",
+                  context.l10n.welcome_greeting_title
+                  ,
                   style: LppTypography.headlineSmall(context),
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  "En lækker Lectio-app, som alle har adgang til.",
+                  context.l10n.welcome_greeting_description,
                   style: LppTypography.bodySmall(context),
                   textAlign: TextAlign.center,
                 ),
@@ -45,7 +47,7 @@ class GreetingsScreen extends StatelessWidget {
                         context.read<StudentBloc>().add(Demologin());
                       },
                       child: const Text("Demo")),
-                  FilledButton(onPressed: next, child: const Text("Gå i gang"))
+                  FilledButton(onPressed: next, child:  Text(context.l10n.welcome_greeting_button))
                 ])
           ],
         ),

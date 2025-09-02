@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lpp/l10n/helper.dart';
 import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
 import 'package:lpp/topics/welcome/screens/gym_select.dart';
@@ -23,12 +24,12 @@ class GymScreen extends StatelessWidget {
             padding: 4.0,
             children: [
               Text(
-                "Næsten færdig",
+                context.l10n.welcome_gym_title,
                 style: LppTypography.headlineSmall(context),
                 textAlign: TextAlign.center,
               ),
               Text(
-                "For at du kan fortsætte, skal du vælge dit gymnasie.",
+                context.l10n.welcome_gym_description,
                 textAlign: TextAlign.center,
                 style: LppTypography.bodySmall(context),
               ),
@@ -40,7 +41,7 @@ class GymScreen extends StatelessWidget {
                   context: context,
                   delegate: SelectGym(context.read<LoginBloc>()));
             },
-            child: const Text("Vælg"),
+            child:  Text(context.l10n.welcome_gym_button),
           ),
         ]),
       ),
