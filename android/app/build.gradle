@@ -72,7 +72,7 @@ android {
     buildTypes {
         release {
             // TODO change back to release
-           signingConfig signingConfigs.debug
+           signingConfig signingConfigs.release
         }
     }
     namespace 'com.oscarspalk.lpp'
