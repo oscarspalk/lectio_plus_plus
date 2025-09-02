@@ -81,7 +81,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     title: const Text("Privatlivspolitik"),
                     subtitle: const Text("Læs privatlivspolitikken"),
                     onTap: () async {
-                      var uri = Uri.parse("https://lpp.oscarspalk.com/privacy");
+                      var uri =
+                          Uri.parse("https://www.oscarspalk.com/lpp/privacy");
                       if (await canLaunchUrl(uri)) {
                         await launchUrl(uri,
                             mode: LaunchMode.externalApplication);
