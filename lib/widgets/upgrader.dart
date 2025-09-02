@@ -9,7 +9,9 @@ const LppUpgrader({super.key, required this.child});
   @override
   Widget build(BuildContext context) {
     return UpgradeAlert(
-      
+      upgrader: Upgrader(
+        messages: UpgraderMessages(code: 'da')
+      ),
       showIgnore: false,
       showReleaseNotes: true,
       dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino : UpgradeDialogStyle.material,
