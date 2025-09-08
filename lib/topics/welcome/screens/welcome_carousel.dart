@@ -20,7 +20,6 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
   final Duration animDuration = const Duration(milliseconds: 500);
   final Curve animCurve = Curves.easeInOut;
 
-  late int _selected;
 
   @override
   void initState() {
@@ -34,21 +33,16 @@ class _WelcomeCarouselState extends State<WelcomeCarousel> {
         loginBloc.state.username.isNotEmpty) {
       initial = 2;
     }
-    _selected = initial;
     carousel = PageController(initialPage: initial);
   }
 
   void next() {
-    setState(() {
-      _selected += 1;
-    });
+    
     carousel.nextPage(duration: animDuration, curve: animCurve);
   }
 
   void back() {
-    setState(() {
-      _selected -= 1;
-    });
+    
     carousel.previousPage(duration: animDuration, curve: animCurve);
   }
 

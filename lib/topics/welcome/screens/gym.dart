@@ -29,7 +29,7 @@ class GymScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               Text(
-                context.l10n.welcome_gym_description,
+                context.l10n.welcome_gym_description, 
                 textAlign: TextAlign.center,
                 style: LppTypography.bodySmall(context),
               ),
