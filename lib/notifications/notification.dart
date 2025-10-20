@@ -25,10 +25,8 @@ Future<void> callbackDispatcher() async {
       final duration = DateTime.now().difference(startTime);
       print('❌ Task failed after ${duration.inSeconds}s: $e');
       print('📋 Stack trace: $stackTrace');
-
-      return false; // Retry
     }
-    return Future.value(true);
+    return true;
   });
 }
 
@@ -43,7 +41,11 @@ Future<void> handleNotifications() async {
     var notificationService = NotificationService();
     newData = await notificationService.setup();
 
-    await notificationService.notify();
+    //await notificationService.notify();
+    // lets replace this one with a call to our server
+    if(newData){
+      
+    }
   } catch (e) {
     error = true;
   }
