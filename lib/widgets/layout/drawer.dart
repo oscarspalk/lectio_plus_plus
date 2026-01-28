@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lectio_wrapper/lectio/basic_info.dart';
 import 'package:lectio_wrapper/utils/dio_image_provider.dart';
+import 'package:lpp/topics/contribute/widgets/help_us_bar.dart';
 import 'package:lpp/utils/ad_route.dart';
 import 'package:lpp/widgets/layout/text_divider.dart';
 import 'package:lpp/widgets/loading/student_bloc_builder.dart';
@@ -149,6 +150,7 @@ class LppDrawer extends StatelessWidget {
               icon: Icon(e.icon),
               label: Text(e.name));
         }),
+        const HelpUsBar(),
         const SizedBox(
           height: 20.0,
         )
