@@ -1,3 +1,4 @@
+[![Codemagic build status](https://api.codemagic.io/apps/646f20f2f2fddc7479e6ed20/646f20f2f2fddc7479e6ed1f/status_badge.svg)](https://codemagic.io/app/646f20f2f2fddc7479e6ed20/646f20f2f2fddc7479e6ed1f/latest_build)
 # Lectio++
 
 Lectio++ er en Lectio mobilapp udgivet i 2023 og har siden haft 3000 gymnasie elever som brugere. Omkring 1000 gennemsnitligt påtværs af Android og iOS 💪🏻
