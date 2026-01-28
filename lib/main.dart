@@ -1,9 +1,5 @@
-import 'dart:io';
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lpp/firebase_options.dart';
 import 'package:lpp/l10n/app_localizations.dart';
 import 'package:lpp/notifications/notification.dart';
 import 'package:lpp/topics/welcome/bloc/login.dart';
@@ -16,11 +12,7 @@ import 'routing/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isAndroid || Platform.isIOS) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  }
+
   Workmanager().initialize(callbackDispatcher);
 
   registerPeriodicTask();
