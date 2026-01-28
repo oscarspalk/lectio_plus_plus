@@ -4,10 +4,7 @@ import 'package:lectio_wrapper/types/class.dart';
 import 'package:lectio_wrapper/types/grades/grade.dart';
 import 'package:lectio_wrapper/types/grades/note.dart';
 import 'package:lectio_wrapper/types/homework/homework.dart';
-import 'package:lpp/payment/ad_free_state.dart';
-import 'package:lpp/payment/owned_bloc.dart';
 import 'package:lpp/topics/absence/bloc/registation.dart';
-import 'package:lpp/topics/ads/interstitial_bloc.dart';
 import 'package:lpp/topics/homework/bloc/homework_bloc.dart';
 import 'package:lpp/topics/messages/bloc/message_bloc.dart';
 import 'package:lpp/topics/messages/bloc/new_message_bloc.dart';
@@ -31,12 +28,7 @@ class LectioProvider extends StatelessWidget {
     var student = studentBloc.state.student!;
 
     return MultiBlocProvider(providers: [
-      BlocProvider(
-        lazy: false,
-        create: (context) {
-          return InterstitialCubit();
-        },
-      ),
+     
       BlocProvider(
         create: (context) => StudentCubit(
           student: student,
@@ -45,11 +37,7 @@ class LectioProvider extends StatelessWidget {
           },
         ),
       ),
-      BlocProvider(
-        lazy: false,
-        create: (context) =>
-            OwnedCubit(AdFreeState(hasAdFree: false, price: null)),
-      ),
+    
       BlocProvider(
         create: (context) => OpgaveDetailsBloc(student),
       ),

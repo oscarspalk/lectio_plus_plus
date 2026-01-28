@@ -1,10 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:lpp/payment/ad_free_state.dart';
-import 'package:lpp/payment/buy_screen.dart';
-import 'package:lpp/payment/owned_bloc.dart';
+
 import 'package:lpp/topics/settings/bloc/term_bloc.dart';
 import 'package:lpp/topics/settings/screens/notification_history_screen.dart';
 import 'package:lpp/utils/ad_route.dart';
@@ -69,14 +66,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     title: const Text("Skift tema"),
                     subtitle: const Text("Tilpasning"),
                   ),
-                  ListTile(
-                    onTap: () {
-                      Navigator.push(context, adRoute(const BuyAdFreeScreen()));
-                    },
-                    trailing: const Icon(EvaIcons.arrowForwardOutline),
-                    title: const Text("Købsmuligheder"),
-                    subtitle: const Text("Reklame Fri"),
-                  ),
+                 
                   ListTile(
                     title: const Text("Privatlivspolitik"),
                     subtitle: const Text("Læs privatlivspolitikken"),
@@ -90,11 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                   ),
                   ListTile(
-                    onLongPress: () {
-                      MobileAds.instance.openAdInspector((error) {
-                        debugPrint(error?.message);
-                      });
-                    },
+                   
                     title: const Text("Hold cache"),
                     subtitle: const Text(
                         "Genopfrisk hold cachen, hvis holdnavne ikke dukker op automatisk"),
@@ -102,17 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       context.read<StudentBloc>().add(RefreshTeams());
                     },
                   ),
-                  BlocBuilder<OwnedCubit, AdFreeState>(
-                      builder: (context, state) {
-                    return CheckboxListTile(
-                      onChanged: (value) {
-                        context.read<OwnedCubit>().enableAds();
-                      },
-                      value: state.hasAdFree,
-                      title: const Text("Reklamer"),
-                      subtitle: const Text("Savner du reklamer, så tryk her."),
-                    );
-                  }),
+                 
                   ListTile(
                     onTap: () {
                       Navigator.push(

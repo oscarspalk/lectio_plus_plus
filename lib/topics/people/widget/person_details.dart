@@ -6,8 +6,6 @@ import 'package:lectio_wrapper/types/context/student.dart';
 import 'package:lectio_wrapper/types/message/meta/meta.dart';
 import 'package:lpp/logic/app/typography.dart';
 import 'package:lpp/logic/student/student_bloc.dart';
-import 'package:lpp/payment/owned_bloc.dart';
-import 'package:lpp/topics/ads/interstitial_bloc.dart';
 import 'package:lpp/topics/calendar/bloc/schema_bloc.dart';
 import 'package:lpp/topics/calendar/screens/schema.dart';
 import 'package:lpp/topics/people/widget/avatar_dialog.dart';
@@ -59,21 +57,10 @@ class _PersonDetailsState extends State<PersonDetails> {
   @override
   void initState() {
     super.initState();
-    _loadInterstitialAd();
     _initIds();
   }
 
-  void _loadInterstitialAd() async {
-    if (context.read<OwnedCubit>().state.hasAdFree) {
-      return;
-    }
-    var interstitialBloc = context.read<InterstitialCubit>();
-    var ad = interstitialBloc.state;
-    interstitialBloc.disposeAd();
-    if (ad != null) {
-      ad.show();
-    }
-  }
+  
 
   @override
   void didUpdateWidget(covariant PersonDetails oldWidget) {

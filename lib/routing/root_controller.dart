@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lpp/routing/primary_activities.dart';
 
-import '../topics/ads/ad_consent_checker.dart';
 
 import 'lectio_provider.dart';
 
@@ -23,8 +22,7 @@ class _RootControllerState extends State<RootController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AdConsentChecker(
-        child: LectioProvider(
+      body:  LectioProvider(
           child: NavigatorPopHandler(
             onPop: () => _navKey.currentState?.pop(),
             child: Navigator(
@@ -43,7 +41,7 @@ class _RootControllerState extends State<RootController> {
             ),
           ),
         ),
-      ),
+      
     );
   }
 
