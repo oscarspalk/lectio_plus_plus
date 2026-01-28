@@ -1,8 +1,15 @@
-# LectioPlusPlus
-A unofficial app for Lectio, which is free for everyone (hopefully forever).
+# Lectio++
 
-## Idea
-It is an oligopol that there are only 2 Lectio apps on Appstore and Google Play, which both cost money. This is unreasonable as Lectio itself is free. Hence is this app a free alternative.
+Lectio++ er en Lectio mobilapp udgivet i 2023 og har siden haft 3000 gymnasie elever som brugere. Omkring 1000 gennemsnitligt påtværs af Android og iOS 💪🏻
 
-## Installation
-LectioPlusPlus will become available for download on Google Play and maybe on Appstore.
+## Opdatering 2026
+
+Lectio++ er nu open-source, så alle kan bidrage og skabe ny funktionalitet. Dette er på grund af tidsmangel, og jeg selv er færdig med gymnasiet 👨🏻‍🎓
+
+## Har du lyst til at udvikle?🛠️
+
+Du kan hurtigt følge en Youtube video for at komme i gang med udviklingen. Klon dette repository og installer Flutter, så skulle du gerne kunne køre appen.
+Eventuelt kan du installere [FVM](https://fvm.app/), så undgår du versionsfejl med forskellige Flutter versioner.
+
+Derefter kan du åbne en pull request, så vil jeg gennemlæse den hurtigst muligt. Lige nu er der meget struktur på den front, lav hvad du har lyst til.
+Hvem ved, hvad den næste sjove funktion kunne være?✨
